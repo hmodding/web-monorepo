@@ -1,4 +1,4 @@
-import app from '../../app';
+import router from '../router';
 import { integerMax, slug } from './_commons';
 
 export const schema = {
@@ -62,7 +62,7 @@ export const uischema = {
   ],
 };
 
-app.get('/forms/addRaftVersion', async (req: any, res: any) => {
+router.get('/forms/addRaftVersion', async (req: any, res: any) => {
   res.status(200).send({
     schema,
     uischema,

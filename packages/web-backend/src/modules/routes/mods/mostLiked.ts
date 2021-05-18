@@ -1,7 +1,13 @@
-import app from '../../app';
 import sequelize from '../../sequelize';
+import router from '../router';
 
-const query = `
+router.get('/mods/mostLiked', async (req: any, res: any) => {
+  const result = await sequelize.query(getQuery());
+  res.status(200).send(result[0]);
+});
+
+function getQuery() {
+  return `
   SELECT *,
          (SELECT COUNT(*)
           FROM "ModLikes"
@@ -9,8 +15,4 @@ const query = `
   FROM "mods"
   ORDER BY likes DESC, "mods".title DESC
   LIMIT 3`;
-
-app.get('/mods/mostLiked', async (req: any, res: any) => {
-  const result = await sequelize.query(query);
-  res.status(200).send(result[0]);
-});
+}

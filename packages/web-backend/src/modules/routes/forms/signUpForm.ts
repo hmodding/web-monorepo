@@ -1,5 +1,4 @@
-import app from '../../app';
-import cfg from '../../cfg';
+import router from '../router';
 import { mail, password, recaptcha, username } from './_commons';
 
 export const schema = {
@@ -56,7 +55,7 @@ export const uischema = {
   ],
 };
 
-app.get('/forms/signUp', async (req: any, res: any) => {
+router.get('/forms/signUp', async (req: any, res: any) => {
   res.status(200).send({
     schema,
     uischema,

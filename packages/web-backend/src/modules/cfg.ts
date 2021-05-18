@@ -1,6 +1,7 @@
 import { config } from 'dotenv';
 
 export interface Cfg {
+  apiBase: string;
   database: {
     uri: string;
     logging: boolean;
@@ -39,6 +40,11 @@ export interface Cfg {
 
 // load environment variables from .env (if it exists)
 config({ path: '../../.env' });
+
+const apiBase = process.env.API_BASE;
+if (!apiBase) {
+  console.warn(`API_BASE is not configured! Using default "/api"`);
+}
 
 const dbUri = process.env.DATABASE_URL;
 if (dbUri === undefined) {
@@ -183,6 +189,7 @@ if (!reCaptchaSecretKey) {
 }
 
 const cfg: Cfg = {
+  apiBase: apiBase || '/api',
   database: {
     uri: dbUri,
     logging: dbLogging,

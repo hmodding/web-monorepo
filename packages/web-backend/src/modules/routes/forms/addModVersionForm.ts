@@ -1,4 +1,4 @@
-import app from '../../app';
+import router from '../router';
 import {
   fileUploadAccept,
   markdownEditor,
@@ -60,7 +60,7 @@ export const uischema = {
   ],
 };
 
-app.get('/forms/addModVersion', async (req: any, res: any) => {
+router.get('/forms/addModVersion', async (req: any, res: any) => {
   res.status(200).send({
     schema: await getSchema(),
     uischema,

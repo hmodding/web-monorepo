@@ -1,13 +1,11 @@
-import app from '../app';
 import pkg from '../../../package.json';
+import { base } from '../rest';
+import './forms';
 import './login';
 import './mods';
-import './forms';
-import './modVersions';
+import router from './router';
 
-import { base } from '../rest';
-
-app.get('/', async (req: any, res: any) => {
+router.get('/', async (req: any, res: any) => {
   res.status(200).send({
     status: 'online',
     version: pkg.version,
@@ -16,3 +14,5 @@ app.get('/', async (req: any, res: any) => {
     },
   });
 });
+
+export default router;

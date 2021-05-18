@@ -1,4 +1,4 @@
-import app from '../../app';
+import router from '../router';
 import { password, username } from './_commons';
 
 export const schema = {
@@ -35,7 +35,7 @@ export const uischema = {
   ],
 };
 
-app.get('/forms/login', async (req: any, res: any) => {
+router.get('/forms/login', async (req: any, res: any) => {
   res.status(200).send({
     schema,
     uischema,

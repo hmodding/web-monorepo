@@ -1,6 +1,6 @@
-import app from '../../app';
 import { ModCategories } from '../../cfg';
+import router from '../router';
 
-app.get('/mods/categories', async (req: any, res: any) => {
+router.get('/mods/categories', async (req: any, res: any) => {
   res.status(200).send(ModCategories);
 });

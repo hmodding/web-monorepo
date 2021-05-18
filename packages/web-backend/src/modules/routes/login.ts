@@ -1,8 +1,8 @@
 import { Session, sessionModel, User, userModel } from '../../models';
-import app from '../app';
 import { generateToken, validatePassword } from '../utils';
+import router from './router';
 
-app.post('/login', async (req: any, res: any) => {
+router.post('/login', async (req: any, res: any) => {
   const { username, password, deviceInfo } = req.body;
   if (username && password) {
     const foundUser = (await userModel.findOne({

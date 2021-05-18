@@ -1,4 +1,4 @@
-import app from '../../app';
+import router from '../router';
 import {
   fileUploadAccept,
   httpS,
@@ -149,7 +149,7 @@ export const uischema = {
   ],
 };
 
-app.get('/forms/addMod', async (req: any, res: any) => {
+router.get('/forms/addMod', async (req: any, res: any) => {
   res.status(200).send({
     schema: await getSchema(),
     uischema,

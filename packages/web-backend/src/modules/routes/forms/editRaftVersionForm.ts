@@ -1,4 +1,4 @@
-import app from '../../app';
+import router from '../router';
 import { disableRule, integerMax, slug } from './_commons';
 
 export const schema = {
@@ -63,7 +63,7 @@ export const uischema = {
   ],
 };
 
-app.get('/forms/editRaftVersion', async (req: any, res: any) => {
+router.get('/forms/editRaftVersion', async (req: any, res: any) => {
   res.status(200).send({
     schema,
     uischema,

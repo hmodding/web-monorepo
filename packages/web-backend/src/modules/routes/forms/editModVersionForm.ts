@@ -1,5 +1,4 @@
-import app from '../../app';
-import cfg from '../../cfg';
+import router from '../router';
 import {
   disableRule,
   fileUploadAccept,
@@ -61,7 +60,7 @@ export const uischema = {
   ],
 };
 
-app.get('/forms/editModVersion', async (req: any, res: any) => {
+router.get('/forms/editModVersion', async (req: any, res: any) => {
   res.status(200).send({
     schema: await getSchema(),
     uischema,

@@ -1,0 +1,21 @@
+{
+  "name": "@raftmodding/web-monorepo",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "start": "npm run build && concurrently --kill-others \"npm run start --workspace=@raftmodding/web-frontend\" \"npm run start --workspace=@raftmodding/web-backend\"",
+    "dev": "concurrently --kill-others \"npm run dev --workspace=@raftmodding/web-frontend\" \"npm run dev --workspace=@raftmodding/web-backend\"",
+    "prettier": "npx prettier --write ."
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "concurrently": "^6.1.0",
+    "lerna": "^4.0.0",
+    "prettier": "^2.2.1",
+    "rimraf": "^2.7.1",
+    "typescript": "^4.2.4"
+  }
+}

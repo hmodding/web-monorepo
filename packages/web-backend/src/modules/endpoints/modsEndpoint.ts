@@ -1,0 +1,135 @@
+import finale from 'finale-rest';
+import {
+  modLikeModel,
+  modModel,
+  modVersionModel,
+  Session,
+  userModel,
+} from '../../models';
+import { getSchema as getAddModSchema } from '../routes/forms/addModForm';
+import {
+  extractSession,
+  validateAndWriteModFile,
+  validateAuthToken,
+  validateModOwnership,
+  validateSchema,
+} from './_commons';
+
+export const modsEndpoint = finale.resource({
+  model: modModel,
+  endpoints: ['/mods', '/mods/:id'],
+  actions: ['read', 'list', 'create', 'update'],
+  associations: true,
+  excludeAttributes: ['deletion'],
+});
+
+modsEndpoint.create.auth(async (req, res, context) => {
+  const session = (await validateAuthToken(req, res)) as Session;
+
+  if (!session) {
+    return;
+  }
+
+  if (!validateSchema(req.body, await getAddModSchema(), res)) {
+    return;
+  }
+
+  return context.continue;
+});
+
+modsEndpoint.read.fetch.before(async (req, res, context) => {
+  const { id } = req.params;
+
+  const mod = await modModel.findOne({
+    where: { id },
+    include: { model: modVersionModel, as: 'versions' },
+  });
+  const likes = await modLikeModel.findAll({ where: { modId: id } });
+
+  mod?.setDataValue('likeCount', likes?.length || 0);
+
+  res.status(200).send(mod);
+  context.stop;
+});
+
+modsEndpoint.create.write.before(async (req, res, context) => {
+  const session = await extractSession(req);
+
+  req.body.author = session?.user?.username;
+
+  //todo: workaround for description & readme notnull
+  const { description, readme } = req.body;
+
+  if (!description) {
+    req.body.description = '';
+  }
+  if (!readme) {
+    req.body.readme = '';
+  }
+
+  if (!(await validateAndWriteModFile(req, res))) {
+    return;
+  }
+
+  return context.continue;
+});
+
+modsEndpoint.create.write.after(async (req, res) => {
+  const modProps = { ...req.body };
+  const {
+    id: modId,
+    version,
+    minRaftVersionId,
+    maxRaftVersionId,
+    definiteMaxRaftVersion,
+    downloadUrl,
+    fileHashes,
+  } = modProps;
+  await modVersionModel.create({
+    modId,
+    version,
+    changelog: 'This is the first version',
+    downloadUrl,
+    downloadCount: 0,
+    minRaftVersionId,
+    maxRaftVersionId,
+    definiteMaxRaftVersion: !!definiteMaxRaftVersion,
+    fileHashes,
+  });
+  const withAssociations = await modModel.findOne({
+    where: {
+      id: modId,
+    },
+    include: {
+      model: modVersionModel,
+      as: 'versions',
+      attributes: { exclude: ['modId', 'id'] },
+    },
+  });
+
+  return res.status(200).send(withAssociations);
+});
+
+modsEndpoint.update.auth(async (req, res, context) => {
+  const mod = await validateModOwnership(req, res);
+
+  if (!mod) {
+    return;
+  }
+
+  const { author } = req.body;
+
+  if (mod.author !== author) {
+    const user = await userModel.findOne({ where: { username: author } });
+
+    if (!user) {
+      return res
+        .status(404)
+        .send({ error: `Provided author "<b>${author}</b>" does not exist!` });
+    }
+  }
+
+  return context.continue;
+});
+
+export default modsEndpoint;

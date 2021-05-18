@@ -1,0 +1,13 @@
+Hi {{ username }},
+
+
+You have requested an account creation on {{ baseUrl }}. 
+Please click (or copy and paste it into a browser) the following link to confirm that this ({{ email }}) is your email address:
+
+        {{ url }}
+
+If you have not requested an account on our site, you can safely ignore and delete this email. 
+Sorry for the inconvenience!
+
+
+Yours, the RaftModding team.

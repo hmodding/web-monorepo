@@ -27,3 +27,6 @@ npm run start
 ```
 npm run dev
 ```
+
+## Disclaimer
+This monorepo might not be strcutured properly and is might be in an unstable state.

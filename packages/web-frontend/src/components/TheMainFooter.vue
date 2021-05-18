@@ -16,7 +16,7 @@
           </div>
           <div class="col-12 col-sm-4 text-md-right">
             <a
-              href="https://github.com/raftmodding/web-frontend/issues"
+              href="https://github.com/raftmodding/web-monorepo/issues"
               target="_blank"
               class="whitespace-nowrap"
               >Submit an issue</a

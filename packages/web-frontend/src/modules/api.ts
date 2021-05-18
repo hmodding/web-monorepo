@@ -8,7 +8,7 @@ import {
   ModVersion,
   RaftVersion,
   ScheduledModDeletion,
-  Session
+  Session,
 } from '../@types';
 import { ModLike } from '../@types/ModLike';
 import { PasswordReset } from '../@types/PasswordReset';

@@ -9,6 +9,10 @@
     "prettier": "npx prettier --write .",
     "clean": "rimraf \"packages/**/lib\" \"packages/**/*.tsbuildinfo\""
   },
+  "engines": {
+    "node": "16.x",
+    "npm": "7.x"
+  },
   "workspaces": [
     "packages/*"
   ],

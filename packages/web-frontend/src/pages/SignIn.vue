@@ -15,13 +15,13 @@
             </form>
             <small class="d-block text-center">or</small>
             <br />
-            <button
-              :disabled="true"
+            <a
+              href="https://discord.com/api/oauth2/authorize?client_id=844498223334031400&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth%2Fdiscord&response_type=code&scope=identify%20email"
               class="d-block btn btn-secondary discord-login w-100"
               title="Sorry, not available yet. We are working on it :)"
             >
               <icon name="discord" type="b" /> Login with <b>Discord</b>
-            </button>
+            </a>
           </div>
         </div>
         <ul class="mt-2">
@@ -83,7 +83,9 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+@import '../assets/styles/variables';
+
 .discord-login {
-  background-color: #7289da;
+  background-color: $discord;
 }
 </style>

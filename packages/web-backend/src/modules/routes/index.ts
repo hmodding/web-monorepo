@@ -1,5 +1,6 @@
 import pkg from '../../../package.json';
 import { base } from '../rest';
+import './auth';
 import './forms';
 import './login';
 import './mods';

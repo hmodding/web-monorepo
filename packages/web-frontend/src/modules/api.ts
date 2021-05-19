@@ -601,6 +601,25 @@ class Api {
 
     return null;
   }
+
+  async discordAuth(code: string): Promise<boolean> {
+    try {
+      const { data }: AxiosResponse = await this.axios.post(`/auth/discord`, {
+        code,
+      });
+      return data;
+    } catch ({ response }) {
+      const {
+        data: { error },
+      } = response;
+
+      if (error) {
+        toaster.error(error);
+      }
+    }
+
+    return false;
+  }
 }
 
 const baseURL: string =

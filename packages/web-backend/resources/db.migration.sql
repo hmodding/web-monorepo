@@ -3,3 +3,5 @@ alter table users
 
 alter table "mod-versions"
 	add "fileHashes" json;
+
+DROP TABLE "discord-account-creations";

@@ -1,6 +1,7 @@
 import { computed, Ref, ref } from 'vue';
 
 export default function (emit) {
+  const formLoading: Ref<boolean> = ref(false);
   const data: any = ref({});
   const errors: any = ref(null);
   const showErrors: Ref<boolean> = ref(false);
@@ -23,6 +24,7 @@ export default function (emit) {
     showErrors,
     ready,
     errorCount,
+    formLoading,
     onFormChange,
   };
 }

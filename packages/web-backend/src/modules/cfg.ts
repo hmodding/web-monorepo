@@ -192,10 +192,10 @@ if (!reCaptchaSecretKey) {
   );
 }
 
-let discordClientId = process.env.DISCORD_CLIENT_ID;
+let discordClientId = process.env.VITE_DISCORD_CLIENT_ID;
 if (!discordClientId) {
   console.warn(
-    `DISCORD_CLIENT_ID is not configured! Discord authentication disabled!!`,
+    `VITE_DISCORD_CLIENT_ID is not configured! Discord authentication disabled!!`,
   );
 }
 let discordClientSecret = process.env.DISCORD_CLIENT_SECRET;

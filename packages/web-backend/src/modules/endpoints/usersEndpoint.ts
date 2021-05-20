@@ -1,8 +1,8 @@
 import finale from 'finale-rest';
-
 import { Session, User, userModel } from '../../models';
-import { validatePassword } from '../utils';
-import { validateAuthToken } from './_commons';
+import { generateToken, validatePassword } from '../utils';
+import { validateAuthToken, validateSchema } from './_commons';
+import { schema as finishAccountSchema } from '../routes/forms/finishAccountForm';
 
 const usersEndpoint = finale.resource({
   model: userModel,
@@ -15,7 +15,11 @@ const usersEndpoint = finale.resource({
 usersEndpoint.update.auth(async (req, res, context) => {
   const session = (await validateAuthToken(req, res)) as Session;
 
-  if (!session) return;
+  if (!session || !session.user) return;
+
+  if (session.user.role !== 'admin' && req.body.role === 'admin') {
+    delete req.body.role; //prevent granting admin role
+  }
 
   const { currentPassword, password, passwordConfirm } = req.body;
   const user: User = session.user!;

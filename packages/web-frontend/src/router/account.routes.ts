@@ -5,6 +5,7 @@ import ResetPassword from '../pages/ResetPassword.vue';
 import SignIn from '../pages/SignIn.vue';
 import SignUp from '../pages/SignUp.vue';
 import User from '../pages/User.vue';
+import FinishAccount from '../pages/FinishAccount.vue';
 
 export default [
   {
@@ -46,5 +47,10 @@ export default [
     name: 'changePassword',
     component: ChangePassword,
     meta: { sessionRequired: true },
+  },
+  {
+    path: '/account/finish',
+    name: 'finishAccount',
+    component: FinishAccount,
   },
 ];

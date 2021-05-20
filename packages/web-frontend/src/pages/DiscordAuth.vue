@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, Ref, ref } from 'vue';
 import { NavigationGuardNext, RouteLocation } from 'vue-router';
 import Icon from '../components/Icon.vue';
 import api from '../modules/api';
@@ -38,7 +38,9 @@ export default defineComponent({
   name: 'DiscordAuth',
   components: { Icon },
   setup() {
+    const loading: Ref<boolean> = ref(false);
     return {
+      loading,
       pleaseWait: 'Please wait...',
     };
   },
@@ -56,10 +58,28 @@ export default defineComponent({
       next();
     }
   },
+  beforeRouteLeave(to, from) {
+    if (this.loading) {
+      return confirm('Are you sure you want to leave this page?');
+    }
+  },
   async mounted() {
-    const { code } = this.$route.query;
+    this.loading = true;
 
-    await api.discordAuth(code);
+    const { code } = this.$route.query;
+    const didLogin = await api.discordAuth(code);
+
+    this.loading = false;
+
+    if (didLogin) {
+      await this.$router.replace({ name: 'home' });
+      toaster.success('Discord login successful');
+    } else {
+      await this.$router.replace({ name: 'login' });
+      toaster.error('discord login failed');
+    }
+
+    this.loading = false;
   },
 });
 </script>

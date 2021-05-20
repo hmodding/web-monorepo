@@ -13,3 +13,5 @@ export const TOAST_PASSWORD_RESET_ALREADY_EXISTS = ` A password reset for your a
 export const TOAST_PASSWORD_RESET_SET_FAILED = `Something went wrong!`;
 
 export const TOAST_PASSWORD_RESET_SET_SUCCESS = `Your new password has been set`;
+
+export const TOAST_ACCOUNT_FINISHED = `Account setup completed`;

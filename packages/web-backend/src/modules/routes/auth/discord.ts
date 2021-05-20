@@ -2,7 +2,7 @@ import discordAuthenticator from '../../authenticators/DiscordAuthenticator';
 import router from '../router';
 
 router.post('/auth/discord', async (req: any, res: any) => {
-  const { code } = req.body;
+  const { code, register } = req.body;
 
   try {
     const authData = await discordAuthenticator.getAuthenticationData(code);
@@ -11,9 +11,15 @@ router.post('/auth/discord', async (req: any, res: any) => {
       authData.access_token,
     );
 
-    return res.status(200).send({ authData, userData }); //TODO: do not send!
+    if (await discordAuthenticator.matchesExistingUser(userData)) {
+      const session = await discordAuthenticator.login(userData);
+      return res.status(200).send(session);
+    } else {
+      const session = await discordAuthenticator.register(userData, authData);
+      return res.status(203).send(session);
+    }
   } catch (e) {
     console.warn('discord auth error: ', e);
-    return res.status(403).send({ error: 'discord authentication failed!', e }); //TODO: do not send e
+    return res.status(403).send({ error: 'discord authentication failed!' });
   }
 });

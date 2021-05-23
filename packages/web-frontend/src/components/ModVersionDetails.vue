@@ -93,7 +93,7 @@ export default defineComponent({
   },
   computed: {
     vReleaseDate(): Date | string {
-      return this.preview ? new Date() : this.releaseDate;
+      return this.preview ? new Date() : this.version.createdAt;
     },
     fullReleaseDateStr(): string {
       return dayjs(this.vReleaseDate).format(DATETIME_FORMAT);

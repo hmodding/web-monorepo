@@ -13,6 +13,7 @@ import {
 import { ModLike } from '../@types/ModLike';
 import { PasswordReset } from '../@types/PasswordReset';
 import { LOCAL_STORAGE_SESSION } from '../const';
+import { sortModVersionsInMod, sortModVersionsInMods } from '../utils';
 import { setSession, state } from './stateManager';
 import toaster from './toaster';
 
@@ -113,6 +114,7 @@ class Api {
       const { data }: AxiosResponse = await this.axios.get(
         '/mods/mostDownloaded',
       );
+      sortModVersionsInMods(data as Mod[]);
       return data;
     } catch (e) {
       toaster.error(`Failed to get "Most Downloaded Mods"`);
@@ -123,6 +125,7 @@ class Api {
   async getMostLikedMods(): Promise<Mod[]> {
     try {
       const { data }: AxiosResponse = await this.axios.get('/mods/mostLiked');
+      sortModVersionsInMods(data as Mod[]);
       return data;
     } catch (e) {
       toaster.error(`Failed to get "Most Liked Mods"`);
@@ -275,6 +278,7 @@ class Api {
       const { data }: AxiosResponse = await this.axios.get(`/rest/mods`, {
         params,
       });
+      sortModVersionsInMods(data as Mod[])
       return data;
     } catch (e) {
       toaster.error('Failed to get mods');
@@ -285,6 +289,7 @@ class Api {
   async getMod(id: string): Promise<Mod> {
     try {
       const { data }: AxiosResponse = await this.axios.get(`/rest/mods/${id}`);
+      sortModVersionsInMod(data as Mod);
       return data;
     } catch ({ response }) {
       const {
@@ -302,6 +307,7 @@ class Api {
   async addMod(mod: Mod): Promise<Mod> {
     try {
       const { data } = await this.axios.post('/rest/mods', mod);
+      sortModVersionsInMod(data as Mod);
       return data;
     } catch ({ response }) {
       const {
@@ -317,6 +323,7 @@ class Api {
   async updateMod(mod: Mod): Promise<Mod> {
     try {
       const { data } = await this.axios.put(`/rest/mods/${mod.id}`, mod);
+      sortModVersionsInMod(data as Mod);
       return data;
     } catch ({ response }) {
       const {

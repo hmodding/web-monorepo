@@ -50,7 +50,7 @@ export const uischema = {
     {
       type: 'Control',
       scope: '#/properties/recaptcha',
-      ...recaptcha.uischema.options,
+      ...recaptcha.uischema,
     },
   ],
 };

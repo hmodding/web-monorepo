@@ -47,3 +47,15 @@ export function handleAdminOnly(
     return next();
   }
 }
+
+export function handleUnfinishedUser(
+  to: RouteLocation,
+  from: RouteLocation,
+  next: NavigationGuardNext,
+): void {
+  if (to.name !== 'finishAccount') {
+    return next({ name: 'finishAccount' });
+  }
+
+  return next();
+}

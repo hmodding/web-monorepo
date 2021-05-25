@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import { isSessionExpired } from '../modules/stateManager';
+import { isSessionExpired, state } from '../modules/stateManager';
 import Download from '../pages/Download.vue';
 import Home from '../pages/Home.vue';
 import NotFound from '../pages/NotFound.vue';
@@ -14,8 +14,10 @@ import {
   handleAdminOnly,
   handleExistingSession,
   handleMissingSession,
+  handleUnfinishedUser,
 } from './routerHandlers';
 import redirectsRoutes from './redirects.routes';
+import { ROLE_UNFINISHED } from '../const';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -54,12 +56,18 @@ router.beforeEach((to, from, next) => {
     setDocumentTitle(import.meta.env.VITE_TITLE_DEFAULT as string, null);
   }
 
-  if (to.meta.sessionRequired && isSessionExpired()) {
-    return handleMissingSession(to, from, next);
-  } else if (to.meta.prohibitSession && !isSessionExpired()) {
-    return handleExistingSession(to, from, next);
-  } else if (to.meta.adminOnly) {
-    return handleAdminOnly(to, from, next);
+  if (isSessionExpired()) {
+    if (to.meta.sessionRequired) {
+      return handleMissingSession(to, from, next);
+    }
+  } else {
+    if (to.meta.prohibitSession) {
+      return handleExistingSession(to, from, next);
+    } else if (to.meta.adminOnly) {
+      return handleAdminOnly(to, from, next);
+    } else if (state.session.user.role === ROLE_UNFINISHED) {
+     return handleUnfinishedUser(to, from, next); 
+    }
   }
 
   return next();

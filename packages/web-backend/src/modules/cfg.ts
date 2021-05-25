@@ -36,6 +36,10 @@ export interface Cfg {
     siteKey: string;
     secretKey: string;
   };
+  discord: {
+    clientId?: string;
+    clientSecret?: string;
+  };
 }
 
 // load environment variables from .env (if it exists)
@@ -188,6 +192,19 @@ if (!reCaptchaSecretKey) {
   );
 }
 
+let discordClientId = process.env.VITE_DISCORD_CLIENT_ID;
+if (!discordClientId) {
+  console.warn(
+    `VITE_DISCORD_CLIENT_ID is not configured! Discord authentication disabled!!`,
+  );
+}
+let discordClientSecret = process.env.DISCORD_CLIENT_SECRET;
+if (!discordClientSecret) {
+  console.warn(
+    `DISCORD_CLIENT_SECRET is not configured! Discord authentication disabled!!`,
+  );
+}
+
 const cfg: Cfg = {
   apiBase: apiBase || '/api',
   database: {
@@ -223,6 +240,10 @@ const cfg: Cfg = {
   reCaptcha: {
     siteKey: reCaptchaSiteKey,
     secretKey: reCaptchaSecretKey,
+  },
+  discord: {
+    clientId: discordClientId,
+    clientSecret: discordClientSecret,
   },
 };
 

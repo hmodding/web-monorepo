@@ -2,11 +2,10 @@
   "configurations": [
     {
       "name": "dev",
+      "type": "node-terminal",
       "request": "launch",
-      "runtimeArgs": ["run-script", "dev"],
-      "runtimeExecutable": "npm",
-      "skipFiles": ["<node_internals>/**"],
-      "type": "pwa-node"
-    }
+      "command": "npm run dev",
+      "cwd": "${workspaceFolder}"
+    },
   ]
 }

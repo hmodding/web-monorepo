@@ -84,6 +84,40 @@ class Api {
     return false;
   }
 
+  async discordAuth(code: string): Promise<boolean> {
+    try {
+      const { data: session }: AxiosResponse = await this.axios.post(
+        `/auth/discord`,
+        {
+          code,
+        },
+      );
+      await setSession(session);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  async finishAccount(
+    username: string,
+    email: string,
+  ): Promise<boolean | string> {
+    try {
+      const { data: session }: AxiosResponse = await this.axios.post(
+        `/account/finish`,
+        {
+          username,
+          email,
+        },
+      );
+      setSession(session);
+      return true;
+    } catch ({ response }) {
+      return response?.data?.error ? response.data.error : false;
+    }
+  }
+
   async changePassword(
     currentPassword: string,
     password: string,

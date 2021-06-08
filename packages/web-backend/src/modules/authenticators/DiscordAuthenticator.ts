@@ -1,7 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
 import {
-  DiscordAccountCreation,
-  discordAccountCreationModel,
   DiscordSignOn,
   discordSignOnModel,
   Session,
@@ -27,7 +25,7 @@ export interface DiscordAuthenticationData {
   expires_in: number;
   refresh_token: string;
   scope: DiscordAuthenticationScope;
-  token_type: string;
+  token_type: 'Bearer';
 }
 
 export interface DiscordUserData {

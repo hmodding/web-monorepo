@@ -2,7 +2,7 @@ import discordAuthenticator from '../../authenticators/DiscordAuthenticator';
 import router from '../router';
 
 router.post('/auth/discord', async (req: any, res: any) => {
-  const { code, register } = req.body;
+  const { code } = req.body;
 
   try {
     const authData = await discordAuthenticator.getAuthenticationData(code);

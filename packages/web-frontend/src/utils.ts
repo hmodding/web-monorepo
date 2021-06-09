@@ -73,34 +73,3 @@ export function setDocumentTitle(
 ): void {
   document.title = title + (append ? append : '');
 }
-
-/**
- * Sorts an array of mod versions in the usual order (latest releases first).
- * @param versions the array to sort.
- * @returns a sorted shallow copy of the array.
- */
-export function sortModVersions(versions: ModVersion[]): ModVersion[] {
-  if (!versions) return versions;
-
-  return versions.sort((a, b) => {
-    return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-  })
-}
-
-/**
- * Sorts the versions of a mod. The versions array of the mod will be replaced.
- * @param mod the mod whose versions to sort.
- */
-export function sortModVersionsInMod(mod: Mod): void {
-  mod.versions = sortModVersions(mod.versions);
-}
-
-/**
- * Sorts the versions of an array of mods.
- * @param mods the mods whose versions will be sorted.
- */
-export function sortModVersionsInMods(mods: Mod[]): void {
-  for (const mod of mods) {
-    sortModVersionsInMod(mod);
-  }
-}

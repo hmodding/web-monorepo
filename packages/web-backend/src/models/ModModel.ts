@@ -1,7 +1,7 @@
-import { DataTypes, Model } from 'sequelize';
+import { DataTypes, FindOptions, Model } from 'sequelize';
 
 import sequelize from '../modules/sequelize';
-import { ModVersion } from './ModVersionModel';
+import { ModVersion, modVersionModel } from './ModVersionModel';
 import { User } from './UserModel';
 import { ScheduledModDeletion } from './ScheduledModDeletionModel';
 
@@ -64,6 +64,9 @@ export const modModel = sequelize.define(
   },
   {
     hooks: {
+      beforeFind(findOptions: FindOptions): void {
+        findOptions.order = [['versions', 'createdAt', 'desc']];
+      },
       beforeCreate({ dataValues: mod }: any) {
         //todo: workaround for description & readme notnull
         const { description, readme } = mod;

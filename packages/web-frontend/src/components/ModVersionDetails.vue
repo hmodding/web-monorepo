@@ -14,7 +14,7 @@
               <raft-version-matching-badge :mod-version="version" />
             </small>
           </h5>
-          <div class="col-md-6 d-flex justify-content-end my-3 my-md-0">
+          <div class="col-md-6 d-flex justify-content-end my-3 my-md-0 action-buttons">
             <router-link
               :to="
                 preview
@@ -93,7 +93,7 @@ export default defineComponent({
   },
   computed: {
     vReleaseDate(): Date | string {
-      return this.preview ? new Date() : this.releaseDate;
+      return this.preview ? new Date() : this.version.createdAt;
     },
     fullReleaseDateStr(): string {
       return dayjs(this.vReleaseDate).format(DATETIME_FORMAT);
@@ -108,3 +108,9 @@ export default defineComponent({
   },
 });
 </script>
+
+<style lang="scss" scoped>
+.action-buttons {
+  max-height: 32px;
+}
+</style>

@@ -70,5 +70,5 @@ export function setDocumentTitle(
   title: string,
   append: string = defaultTitleAppend,
 ): void {
-  document.title = title + (append ? append : '');
+  // document.title = title + (append ? append : '');
 }

@@ -1,4 +1,18 @@
 <template>
+  <metainfo>
+    <template v-slot:base="{ content }">
+      {{ content }}
+    </template>
+    <template v-slot:title="{ content }">
+      {{ content }}
+    </template>
+    <template v-slot:og(title)="{ content }">
+      {{ content }}
+    </template>
+    <template v-slot:meta(title)="{ content }">
+      {{ content }}
+    </template>
+  </metainfo>
   <transition name="fade">
     <cookie-consent-modal />
   </transition>
@@ -11,14 +25,17 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-
-import TheMainNav from './components/TheMainNav.vue';
-import TheMainFooter from './components/TheMainFooter.vue';
 import CookieConsentModal from './components/modals/CookieConsentModal.vue';
+import TheMainFooter from './components/TheMainFooter.vue';
+import TheMainNav from './components/TheMainNav.vue';
+import { useGeneralMetaTags } from './compositions';
 
 export default defineComponent({
   name: 'App',
   components: { CookieConsentModal, TheMainFooter, TheMainNav },
+  setup() {
+    useGeneralMetaTags();
+  },
   mounted() {
     setTimeout(() => {
       document.body.classList.remove('no-transition');

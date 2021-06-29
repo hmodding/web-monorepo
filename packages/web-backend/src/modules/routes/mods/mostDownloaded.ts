@@ -20,6 +20,7 @@ router.get('/mods/mostDownloaded', async (req: any, res: any) => {
         ...mod,
         versions: await modVersionModel.findAll({
           where: { modId: mod.id },
+          order: [['createdAt', 'desc']],
           limit: 1,
         }),
       };

@@ -16,7 +16,7 @@ function useMod(props: any) {
   });
 
   const currentVersion: Ref<ModVersion> = computed(() => {
-    return (versions.value?.[versions.value.length - 1] || []) as ModVersion;
+    return (versions.value?.[0] || []) as ModVersion;
   });
 
   const currentVersionDownloads: Ref<number> = computed({

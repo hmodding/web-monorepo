@@ -14,4 +14,12 @@ export default interface ModVersion {
   fileHashes?: { [key: string]: string };
   mod?: Mod;
   containingModBundles?: ModBundle[];
+  /**
+   * Timestamp of the release.
+   */
+  createdAt: string;
+  /**
+   * Timestamp of the latest edit.
+   */
+  updatedAt: string;
 }

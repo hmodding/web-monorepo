@@ -21,6 +21,13 @@ export const modsEndpoint = finale.resource({
   actions: ['read', 'list', 'create', 'update'],
   associations: true,
   excludeAttributes: ['deletion'],
+  include: [
+    {
+      model: modVersionModel,
+      as: 'versions',
+      order: [['createdAt', 'desc']],
+    },
+  ],
 });
 
 modsEndpoint.create.auth(async (req, res, context) => {

@@ -20,7 +20,7 @@ export const schema = {
       description: `Upload a file.`,
     },
   },
-  required: ['version', 'changelog', 'downloadUrl'],
+  required: ['version', 'changelog', 'file'],
 };
 
 export const uischema = {

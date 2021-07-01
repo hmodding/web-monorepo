@@ -1,6 +1,8 @@
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
+import { LauncherVersion, LoaderVersion, Mod, ModVersion } from 'src/models';
 import { v1 } from 'uuid';
+import cfg from './cfg';
 
 export function validatePassword(given: string, expected: string): boolean {
   return bcrypt.compareSync(given, expected);
@@ -23,3 +25,49 @@ export function generateToken(data: string | null = null, length: number = -1) {
 
   return length > 0 ? token.substr(0, length) : token;
 }
+
+/**
+ * Builds the publicly accessible WWW URL for a mod page.
+ * @param mod a mod instance to build a URL for.
+ * @returns the URL.
+ */
+export function getModUrl(mod: Mod): string {
+  return `${cfg.frontendBaseUrl}mods/${mod.id}`;
+}
+
+/**
+ * Builds the publicly accessible WWW URL for a loader version page.
+ * @param version a loader version instance to build a URL for.
+ * @returns the URL.
+ */
+export function getLoaderVersionUrl(version: LoaderVersion): string {
+  return `${cfg.frontendBaseUrl}loader/${version.rmlVersion}`;
+}
+
+/**
+ * Builds the publicly accessible WWW URL for a launcher version page.
+ * @param version a launcher version instance to build a URL for.
+ * @returns the URL.
+ */
+export function getLauncherVersionUrl(version: LauncherVersion): string {
+  return `${cfg.frontendBaseUrl}launcher/${version.version}`;
+}
+
+/**
+ * Builds the publicly accessible WWW URL for a user page.
+ * @param username name of the user to build a URL for.
+ * @returns the URL.
+ */
+export function getUserUrlForUsername(username: string): string {
+  return `${cfg.frontendBaseUrl}user/${encodeURIComponent(username)}`;
+}
+
+/**
+ * Publicly accessible WWW URL for the mod loader download page.
+ */
+export const softwareDownloadUrl = `${cfg.frontendBaseUrl}download`;
+
+/**
+ * Publicly accessible WWW URL of a mod loader logo image.
+ */
+export const logoUrl = `${cfg.frontendBaseUrl}logo.png`;

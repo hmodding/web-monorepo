@@ -1,5 +1,40 @@
 import { config } from 'dotenv';
 
+/**
+ * Configuration data for loader, launcher and mod release notifications to
+ * Discord webhooks.
+ */
+export interface DiscordNotificationsCfg {
+  /**
+   * Minimum time distance between role pings in milliseconds.
+   */
+  pingCooldown: number;
+  /**
+   * Discord webhook URL to send loader version release notifications to.
+   */
+  loaderWebhook: string;
+  /**
+   * ID of the Discord role to ping in loader version release notifications.
+   */
+  loaderRoleId: string;
+  /**
+   * Discord webhook URL to send launcher version release notifications to.
+   */
+  launcherWebhook: string;
+  /**
+   * ID of the Discord role to ping in launcher version release notifications.
+   */
+  launcherRoleId: string;
+  /**
+   * Discord webhook URL to send mod version release notifications to.
+   */
+  modWebhook: string;
+  /**
+   * ID of the Discord role to ping in mod version release notifications.
+   */
+  modRoleId: string;
+}
+
 export interface Cfg {
   apiBase: string;
   database: {
@@ -40,6 +75,11 @@ export interface Cfg {
     clientId?: string;
     clientSecret?: string;
   };
+  /**
+   * Configuration data for loader, launcher and mod release notifications to
+   * Discord webhooks.
+   */
+  discordNotifications: DiscordNotificationsCfg;
 }
 
 // load environment variables from .env (if it exists)
@@ -205,6 +245,71 @@ if (!discordClientSecret) {
   );
 }
 
+function readDiscordNotificationCfg(): DiscordNotificationsCfg {
+  const dnCooldownString = process.env.DN_COOLDOWN;
+  let dnCooldown;
+  if (!dnCooldownString) {
+    dnCooldown = 7200000;
+    console.warn(
+      'DN_COOLDOWN is not configured! Using default value 7200000 (2 hours).',
+    );
+  } else {
+    dnCooldown = parseInt(dnCooldownString, 10);
+  }
+
+  const dnLauncherWebhook = process.env.DN_LAUNCHER_WEBHOOK;
+  if (!dnLauncherWebhook) {
+    console.warn(
+      'DN_LAUNCHER_WEBHOOK is not configured! Launcher update Discord notifications will not work!',
+    );
+  }
+
+  const dnLauncherRoleId = process.env.DN_LAUNCHER_ROLE_ID;
+  if (!dnLauncherRoleId) {
+    console.warn(
+      "DN_LAUNCHER_ROLE_ID is not configured! Launcher update Discord notifications won't ping anyone!",
+    );
+  }
+
+  const dnLoaderWebhook = process.env.DN_LOADER_WEBHOOK;
+  if (!dnLoaderWebhook) {
+    console.warn(
+      'DN_LOADER_WEBHOOK is not configured! Loader update Discord notifications will not work!',
+    );
+  }
+
+  const dnLoaderRoleId = process.env.DN_LOADER_ROLE_ID;
+  if (!dnLoaderRoleId) {
+    console.warn(
+      "DN_LOADER_ROLE_ID is not configured! Loader update Discord notifications won't ping anyone!",
+    );
+  }
+
+  const dnModWebhook = process.env.DN_MOD_WEBHOOK;
+  if (!dnModWebhook) {
+    console.warn(
+      'DN_MOD_WEBHOOK is not configured! Mod update Discord notifications will not work!',
+    );
+  }
+
+  const dnModRoleId = process.env.DN_MOD_ROLE_ID;
+  if (!dnModRoleId) {
+    console.warn(
+      "DN_MOD_ROLE_ID is not configured! Mod update Discord notifications won't ping anyone!",
+    );
+  }
+
+  return {
+    pingCooldown: dnCooldown,
+    launcherWebhook: dnLauncherWebhook || '',
+    launcherRoleId: dnLauncherRoleId || '',
+    loaderWebhook: dnLoaderWebhook || '',
+    loaderRoleId: dnLoaderRoleId || '',
+    modWebhook: dnModWebhook || '',
+    modRoleId: dnModRoleId || '',
+  };
+}
+
 const cfg: Cfg = {
   apiBase: apiBase || '/api',
   database: {
@@ -245,6 +350,7 @@ const cfg: Cfg = {
     clientId: discordClientId,
     clientSecret: discordClientSecret,
   },
+  discordNotifications: readDiscordNotificationCfg(),
 };
 
 export default cfg;

@@ -1,8 +1,9 @@
 import finale from 'finale-rest';
-import { launcherVersionModel } from '../../models';
+import { LauncherVersion, launcherVersionModel } from '../../models';
 import cfg from '../cfg';
 import { FileManager } from '../FileManager';
 import { validateAdminPrivileges as validateAdminPrivileges } from './_commons';
+import notifier from '../notfier/DiscordNotifier';
 
 const fileManager = new FileManager(cfg);
 
@@ -34,5 +35,11 @@ launcherVersionsEndpoint.create.write.before(async (req, res, context) => {
 
   req.body.downloadUrl = upload.url;
 
+  return context.continue;
+});
+
+launcherVersionsEndpoint.create.write.after(async (req, res, context) => {
+  const newLauncherVersion: LauncherVersion = (context as any).instance;
+  notifier.sendLauncherVersionReleaseNotification(newLauncherVersion);
   return context.continue;
 });

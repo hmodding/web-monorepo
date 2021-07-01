@@ -2,6 +2,7 @@ import finale from 'finale-rest';
 import {
   modLikeModel,
   modModel,
+  ModVersion,
   modVersionModel,
   Session,
   userModel,
@@ -14,6 +15,7 @@ import {
   validateModOwnership,
   validateSchema,
 } from './_commons';
+import notifier from '../notfier/DiscordNotifier';
 
 export const modsEndpoint = finale.resource({
   model: modModel,
@@ -92,7 +94,7 @@ modsEndpoint.create.write.after(async (req, res) => {
     downloadUrl,
     fileHashes,
   } = modProps;
-  await modVersionModel.create({
+  const newModVersion: ModVersion = (await modVersionModel.create({
     modId,
     version,
     changelog: 'This is the first version',
@@ -102,7 +104,19 @@ modsEndpoint.create.write.after(async (req, res) => {
     maxRaftVersionId,
     definiteMaxRaftVersion: !!definiteMaxRaftVersion,
     fileHashes,
-  });
+  })) as ModVersion;
+
+  const newModVersionWithAssociations: ModVersion = (await modVersionModel.findOne(
+    {
+      where: { id: newModVersion.id },
+      include: [modModel],
+    },
+  )) as ModVersion;
+  notifier.sendModVersionReleaseNotification(
+    newModVersionWithAssociations,
+    true,
+  );
+
   const withAssociations = await modModel.findOne({
     where: {
       id: modId,

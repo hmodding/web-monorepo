@@ -6,6 +6,7 @@ import { ModBundle, RaftVersion } from './index';
 import { Json } from 'sequelize/types/lib/utils';
 
 export interface ModVersion extends Model {
+  id: number;
   modId: string;
   version: string;
   changelog: string;

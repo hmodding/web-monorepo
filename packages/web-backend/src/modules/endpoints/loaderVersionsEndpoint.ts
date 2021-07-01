@@ -1,6 +1,7 @@
 import finale from 'finale-rest';
-import { loaderVersionModel } from '../../models';
+import { LoaderVersion, loaderVersionModel } from '../../models';
 import { validateAdminPrivileges } from './_commons';
+import notifier from '../notfier/DiscordNotifier';
 
 export const loaderVersionsEndpoint = finale.resource({
   model: loaderVersionModel,
@@ -20,5 +21,11 @@ loaderVersionsEndpoint.create.auth(async (req, res, context) => {
 loaderVersionsEndpoint.create.write.before(async (req, res, context) => {
   req.body.timestamp = new Date();
 
+  return context.continue;
+});
+
+loaderVersionsEndpoint.create.write.after(async (req, res, context) => {
+  const created: LoaderVersion = (context as any).instance;
+  notifier.sendLoaderVersionReleaseNotification(created);
   return context.continue;
 });

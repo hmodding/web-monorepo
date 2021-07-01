@@ -1,6 +1,7 @@
 import finale from 'finale-rest';
-import { modVersionModel } from '../../models';
+import { modModel, ModVersion, modVersionModel } from '../../models';
 import { validateAndWriteModFile, validateModOwnership } from './_commons';
+import notifier from '../notfier/DiscordNotifier';
 
 export const modVersionsEndpoint = finale.resource({
   model: modVersionModel,
@@ -27,6 +28,22 @@ modVersionsEndpoint.create.write.before(async (req, res, context) => {
   if (await validateAndWriteModFile(req, res)) {
     return context.continue;
   }
+});
+
+modVersionsEndpoint.create.write.after(async (req, res, context) => {
+  const newModVersion: ModVersion = (context as any).instance;
+  const newModVersionWithAssociations: ModVersion = (await modVersionModel.findOne(
+    {
+      where: { id: newModVersion.id },
+      include: [modModel],
+    },
+  )) as ModVersion;
+
+  notifier.sendModVersionReleaseNotification(
+    newModVersionWithAssociations,
+    false,
+  );
+  return context.continue;
 });
 
 modVersionsEndpoint.update.auth(async (req, res, context) => {

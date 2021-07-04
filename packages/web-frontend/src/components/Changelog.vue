@@ -27,7 +27,7 @@
               <i class="fas fa-clock"></i> Released on
               <b>{{ releaseDateStr }}</b>
             </li>
-            <li class="list-group-item download">
+            <li v-if="downloadUrl" class="list-group-item download">
               <i class="fas fa-arrow-alt-circle-down mr-2"></i>
               <b>
                 <a :href="preview ? '#preview' : downloadUrl">Download</a>
@@ -35,8 +35,20 @@
             </li>
           </ul>
           <ul class="list-group my-4">
+            <li class="list-group-item bg-success">
+              <icon name="download" type="s" size="lg" class="mr-2 text-white" />
+              <b>
+                <router-link
+                  :to="{ name: 'download' }"
+                  class="text-white stretched-link"
+                >Download launcher
+                </router-link>
+              </b>
+            </li>
+          </ul>
+          <ul class="list-group my-4">
             <li class="list-group-item bg-primary">
-              <i class="far fa-question-circle fa-lg mr-2 text-white"></i>
+              <icon name="question-circle" type="r" size="lg" class="mr-2 text-white" />
               <b>
                 <a
                   :href="preview ? '#preview' : '/discord'"
@@ -65,10 +77,11 @@ import VueMarkdownIt from 'vue3-markdown-it';
 import { DATE_FORMAT, DATETIME_FORMAT } from '../const';
 import { changelog } from '../_legacy';
 import TheSupportLabelModal from './modals/TheSupportLabelModal.vue';
+import Icon from './Icon.vue';
 
 export default defineComponent({
   name: 'Changelog',
-  components: { TheSupportLabelModal, VueMarkdownIt },
+  components: { TheSupportLabelModal, VueMarkdownIt, Icon },
   props: {
     version: String,
     readme: String,

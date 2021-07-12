@@ -66,7 +66,7 @@ router.beforeEach((to, from, next) => {
     } else if (to.meta.adminOnly) {
       return handleAdminOnly(to, from, next);
     } else if (state.session.user.role === ROLE_UNFINISHED) {
-     return handleUnfinishedUser(to, from, next); 
+      return handleUnfinishedUser(to, from, next);
     }
   }
 

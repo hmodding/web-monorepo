@@ -28,6 +28,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { useActiveMeta } from 'vue-meta';
 import ApiProvidedForm from '../components/ApiProvidedForm.vue';
 import { useForm } from '../compositions';
 import { TOAST_FORM_INVALID, TOAST_SIGNUP_MAIL_SENT } from '../const';
@@ -39,6 +40,10 @@ export default defineComponent({
   name: 'SignUpPage',
   components: { ApiProvidedForm },
   setup(props, { emit }) {
+    const meta = useActiveMeta();
+
+    meta.title = 'Sign up';
+
     return {
       ...useForm(emit),
     };

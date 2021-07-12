@@ -5,14 +5,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, Ref, ref, watch } from 'vue';
+import { defineComponent, Ref, ref } from 'vue';
+import { useActiveMeta } from 'vue-meta';
 import { useRoute, useRouter } from 'vue-router';
 import { Mod } from '../@types';
 import ModDetails from '../components/ModDetails.vue';
 import { useLikes } from '../compositions';
 import api from '../modules/api';
 import toaster from '../modules/toaster';
-import { setDocumentTitle } from '../utils';
 
 export default defineComponent({
   name: 'ModPage',
@@ -21,6 +21,7 @@ export default defineComponent({
   },
   setup() {
     const mod: Ref<Mod> = ref(null);
+    const meta = useActiveMeta();
 
     (async () => {
       const route = useRoute();
@@ -32,14 +33,13 @@ export default defineComponent({
         await router.replace({ name: 'mods' });
         toaster.error(`Mod ${modId} not found`);
       }
-    })();
 
-    watch(
-      () => mod.value?.title,
-      (title: string) => {
-        setDocumentTitle(title);
-      },
-    );
+      meta.title = mod.value.title;
+      meta.og.title = meta.titleTemplate(meta.title);
+      meta.description = mod.value.description;
+      meta.og.description = meta.description;
+      meta.og.url = window.location.href;
+    })();
 
     return {
       mod,

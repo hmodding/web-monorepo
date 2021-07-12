@@ -69,6 +69,7 @@ import { Mod } from '../@types';
 import api from '../modules/api';
 
 import ModsCardDeck from '../components/ModsCardDeck.vue';
+import { useActiveMeta } from 'vue-meta';
 
 interface ModCollection {
   mostDownloaded: Mod[];
@@ -79,6 +80,7 @@ export default defineComponent({
   name: 'HomePage',
   components: { ModsCardDeck },
   setup() {
+    const meta = useActiveMeta();
     const mods: ModCollection = reactive({
       mostDownloaded: [],
       mostLiked: [],
@@ -88,6 +90,8 @@ export default defineComponent({
       mods.mostDownloaded = await api.getMostDownloadedMods();
       mods.mostLiked = await api.getMostLikedMods();
     })();
+
+    meta.og.url = window.location.href;
 
     return {
       mods,

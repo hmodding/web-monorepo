@@ -1,8 +1,15 @@
+import { computed } from 'vue';
 import { useMeta } from 'vue-meta';
 import logoPng from '../../assets/images/logo.png';
 
-export function useGeneralMetaTags() {
-  useMeta({
+const {
+  VITE_TITLE_DEFAULT,
+  VITE_TITLE_APPEND,
+  VITE_META_BASE_URL,
+} = import.meta.env;
+
+export function useGeneralMeta() {
+  const generalMeta = computed(() => ({
     htmlAttrs: {
       lang: 'en',
       amp: false,
@@ -10,38 +17,42 @@ export function useGeneralMetaTags() {
     base: {
       href: baseUrl,
     },
-    title,
+    title: VITE_TITLE_DEFAULT as string,
+    titleTemplate(chunk: string = null) {
+      if (chunk !== VITE_TITLE_DEFAULT) {
+        return `${chunk}${VITE_TITLE_APPEND}`;
+      }
+      return chunk;
+    },
     description,
     meta: [
-      { property: 'author', content: authors },
-      {
-        property: 'publisher',
-        content: authors,
-      },
-      { property: 'category', content: tags },
-      { property: 'distribution', content: 'global' },
-      { property: 'keywords', content: tags },
-      { property: 'identifier-url', content: baseUrl },
-      { property: 'content-language', content: 'en' },
-      { property: 'revisit-after', content: '1 days' },
+      { name: 'author', content: authors },
+      { name: 'publisher', content: authors },
+      { name: 'category', content: tags },
+      { name: 'distribution', content: 'global' },
+      { name: 'keywords', content: tags },
+      { name: 'identifier-url', content: baseUrl },
+      { 'http-equiv': 'content-language', content: 'en' },
+      { name: 'revisit-after', content: '1 days' },
+      { name: 'language', content: 'English' },
+      { name: 'copyright', content: 'RaftModding' },
+      { name: 'reply-to', content: 'contact@raftmodding.com' },
     ],
     og: {
-      title,
+      url: window.location.href,
+      type: 'website',
       description,
+      title: VITE_TITLE_DEFAULT as string,
       tags,
       keywords: tags,
       image: baseUrl + logoPng,
     },
-    twitter: {
-      title,
-    },
-  });
+  }));
+
+  useMeta(generalMeta);
 }
 
-const baseUrl = 'http://localhost:3000';
-
-const title =
-  'RaftModding - The largest community for mods, scripts and utilities for Raft!';
+const baseUrl = VITE_META_BASE_URL;
 
 const description = `Welcome to RaftModding! The largest community for mods, scripts and utilities for Raft!
 
@@ -81,4 +92,4 @@ const tags = [
 
 const authors = ['traxram', 'zer0', 'TeKGameR'].join(', ');
 
-export default useGeneralMetaTags;
+export default useGeneralMeta;

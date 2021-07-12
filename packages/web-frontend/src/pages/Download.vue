@@ -266,14 +266,17 @@ import api from '../modules/api';
 
 import Icon from '../components/Icon.vue';
 import { RouteLocation } from 'vue-router';
+import { useActiveMeta } from 'vue-meta';
 
 export default defineComponent({
   name: 'DownloadPage',
   components: { Icon },
   setup() {
-    //useDocumentTitle('Download');
+    const meta = useActiveMeta();
     const launcherVersions: Ref<LauncherVersion[]> = ref([]);
     const loaderVersions: Ref<LoaderVersion[]> = ref([]);
+
+    meta.title = 'Download';
 
     (async () => {
       launcherVersions.value = await api.getLauncherVersions();

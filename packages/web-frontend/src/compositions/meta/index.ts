@@ -1,1 +1,1 @@
-export { default as useGeneralMetaTags } from './useGeneralMetaTags';
+export { default as useGeneralMeta } from './useGeneralMeta';

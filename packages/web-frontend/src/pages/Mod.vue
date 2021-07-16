@@ -35,10 +35,7 @@ export default defineComponent({
       }
 
       meta.title = mod.value.title;
-      meta.og.title = meta.titleTemplate(meta.title);
       meta.description = mod.value.description;
-      meta.og.description = meta.description;
-      meta.og.url = window.location.href;
     })();
 
     return {

@@ -1,4 +1,5 @@
 import { computed, Ref, ref, watch } from 'vue';
+import { useActiveMeta } from 'vue-meta';
 import { useRoute } from 'vue-router';
 import { Mod } from '../@types';
 import api from '../modules/api';
@@ -12,6 +13,7 @@ export interface ExtendedMod extends Mod {
 }
 
 export default function (create = false) {
+  const meta = useActiveMeta();
   const routeLeaveConfirm = useRouteLeaveConfirm();
   const route = useRoute();
   const ready: Ref<boolean> = ref(false);
@@ -49,6 +51,7 @@ export default function (create = false) {
       }
     }
 
+    meta.title = `Edit ${mod.value.title}`;
     ready.value = true;
   })();
 

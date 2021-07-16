@@ -50,8 +50,13 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { useActiveMeta } from 'vue-meta';
 
 export default defineComponent({
-  name: 'Terms',
+  setup() {
+    const meta = useActiveMeta();
+
+    meta.title = `Terms of Service`
+  }
 });
 </script>

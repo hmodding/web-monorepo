@@ -88,10 +88,15 @@ import { Session, User } from '../@types';
 import { tooltip } from '../_legacy';
 
 import { state } from '../modules/stateManager';
-import { setDocumentTitle } from '../utils';
+import { useActiveMeta } from 'vue-meta';
 
 export default defineComponent({
   name: 'AccountPage',
+  setup() {
+    const meta = useActiveMeta();
+
+    meta.title = 'Account';
+  },
   computed: {
     session(): Session {
       return state.session;
@@ -99,9 +104,6 @@ export default defineComponent({
     user(): User {
       return state.session?.user || ({} as User);
     },
-  },
-  beforeRouteEnter() {
-    setDocumentTitle('Account');
   },
   mounted() {
     tooltip();

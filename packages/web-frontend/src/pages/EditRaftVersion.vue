@@ -75,9 +75,6 @@ export default defineComponent({
       ...useEditRaftVersion(emit),
     };
   },
-  beforeRouteEnter() {
-    setDocumentTitle('Edit Raft version');
-  },
   methods: {
     async onSubmit(): Promise<void> {
       if (!this.loadig) {

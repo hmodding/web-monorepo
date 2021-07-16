@@ -55,14 +55,14 @@
 <script lang="ts">
 import dayjs from 'dayjs';
 import { defineComponent } from 'vue';
+import { useActiveMeta } from 'vue-meta';
 import ApiProvidedForm from '../components/ApiProvidedForm.vue';
 import Icon from '../components/Icon.vue';
 import ConfirmModal from '../components/modals/ConfirmModal.vue';
 import { useEditRaftVersion } from '../compositions';
 import {
   DATE_FORMAT,
-  TOAST_FORM_INVALID,
-  TOAST_GENERIC_SERVER_ERROR,
+  TOAST_FORM_INVALID
 } from '../const';
 import api from '../modules/api';
 import toaster from '../modules/toaster';
@@ -76,6 +76,10 @@ export default defineComponent({
     ConfirmModal,
   },
   setup(props, { emit }) {
+    const meta = useActiveMeta();
+
+    meta.title = 'Add Raft version';
+
     return {
       ...useEditRaftVersion(emit),
     };

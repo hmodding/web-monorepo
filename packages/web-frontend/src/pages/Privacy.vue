@@ -103,8 +103,13 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { useActiveMeta } from 'vue-meta';
 
 export default defineComponent({
-  name: 'Privacy',
+  setup() {
+    const meta = useActiveMeta();
+
+    meta.title = 'Privacy policy';
+  },
 });
 </script>

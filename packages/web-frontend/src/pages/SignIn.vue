@@ -67,9 +67,6 @@ export default defineComponent({
       },
     };
   },
-  beforeRouteEnter() {
-    setDocumentTitle('Sign in');
-  },
   methods: {
     async login() {
       const { username, password } = this.data;

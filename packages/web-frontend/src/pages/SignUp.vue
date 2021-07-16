@@ -34,7 +34,6 @@ import { useForm } from '../compositions';
 import { TOAST_FORM_INVALID, TOAST_SIGNUP_MAIL_SENT } from '../const';
 import api from '../modules/api';
 import toaster from '../modules/toaster';
-import { setDocumentTitle } from '../utils';
 
 export default defineComponent({
   name: 'SignUpPage',
@@ -50,11 +49,6 @@ export default defineComponent({
   },
   async beforeRouteEnter(to) {
     const { token } = to.query;
-
-    if (token === null || token === undefined) {
-      setDocumentTitle('Sign up');
-      return true;
-    }
 
     if (token) {
       await api.deleteAccountCreation(token as string);

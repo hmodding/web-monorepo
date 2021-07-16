@@ -29,8 +29,8 @@ export function useGeneralMeta() {
       { name: 'author', content: authors },
       { name: 'publisher', content: authors },
       { name: 'category', content: tags },
-      { name: 'distribution', content: 'global' },
       { name: 'keywords', content: tags },
+      { name: 'distribution', content: 'global' },
       { name: 'identifier-url', content: baseUrl },
       { 'http-equiv': 'content-language', content: 'en' },
       { name: 'revisit-after', content: '1 days' },
@@ -41,8 +41,6 @@ export function useGeneralMeta() {
     og: {
       url: window.location.href,
       type: 'website',
-      description,
-      title: VITE_TITLE_DEFAULT as string,
       tags,
       keywords: tags,
       image: baseUrl + logoPng,

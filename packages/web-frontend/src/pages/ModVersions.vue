@@ -19,15 +19,14 @@
 
 <script lang="ts">
 import { defineComponent, Ref, ref } from 'vue';
+import { useActiveMeta } from 'vue-meta';
 import { useRoute } from 'vue-router';
 import { Mod } from '../@types';
 import ModDetails from '../components/ModDetails.vue';
 import ModHeader from '../components/ModHeader.vue';
 import ModRightTable from '../components/ModRightTable.vue';
 import ModVersionDetails from '../components/ModVersionDetails.vue';
-import useModHeader from '../compositions/useLikes';
 import api from '../modules/api';
-import { setDocumentTitle } from '../utils';
 
 export default defineComponent({
   name: 'ModVersionsPage',
@@ -38,20 +37,18 @@ export default defineComponent({
     ModDetails,
   },
   setup() {
+    const meta = useActiveMeta();
     const mod: Ref<Mod> = ref(null);
 
     (async () => {
       const route = useRoute();
       mod.value = await api.getMod(route.params.id as string);
+      meta.title = `${mod.value.title} versions`;
     })();
 
     return {
       mod,
-      ...useModHeader(mod),
     };
-  },
-  beforeRouteEnter(to) {
-    setDocumentTitle(to.params.id as string);
   },
 });
 </script>

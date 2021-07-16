@@ -104,9 +104,6 @@ export default defineComponent({
       ...useAddModVersion(),
     };
   },
-  beforeRouteEnter(to) {
-    setDocumentTitle('Add mod version');
-  },
   methods: {
     async onSubmit(): Promise<void> {
       if (!this.loading) {

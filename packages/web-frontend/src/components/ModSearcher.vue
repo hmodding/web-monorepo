@@ -44,7 +44,7 @@
 import { defineComponent } from 'vue';
 
 import useApiQuerying from '../compositions/useApiQuerying';
-import Icon from '../components/Icon.vue';
+import Icon from './Icon.vue';
 
 export default defineComponent({
   name: 'ModSearcher',

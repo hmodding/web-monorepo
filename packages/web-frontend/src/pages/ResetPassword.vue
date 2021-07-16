@@ -23,6 +23,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, Ref } from 'vue';
+import { useActiveMeta } from 'vue-meta';
 import { useRoute } from 'vue-router';
 import ApiProvidedForm from '../components/ApiProvidedForm.vue';
 import PerformPasswordReset from '../components/PerformPasswordReset.vue';
@@ -37,19 +38,16 @@ export default defineComponent({
   setup(props: any, { emit }) {
     const route = useRoute();
     const token: Ref<string> = ref((route.query.token as string) || null);
+    const meta = useActiveMeta();
+
+    meta.title = 'Forgot password';
 
     return {
       token,
     };
   },
-  async beforeRouteEnter(to, from) {
+  async beforeRouteEnter(to) {
     const { token } = to.query;
-
-    if (token === null || token === undefined) {
-      setDocumentTitle('Forgot password');
-      return true;
-    }
-
     const passwordReset = await api.getPasswordReset(token as string);
 
     if (!passwordReset) {

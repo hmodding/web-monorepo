@@ -26,9 +26,14 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { useActiveMeta } from 'vue-meta';
 
 export default defineComponent({
-  name: 'NotFoundPage',
+  setup() {
+    const meta = useActiveMeta();
+
+    meta.title = 'Page not found'
+  }
 });
 </script>
 

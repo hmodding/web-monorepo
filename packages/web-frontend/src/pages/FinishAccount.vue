@@ -31,6 +31,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+import { useActiveMeta } from 'vue-meta';
 import ApiProvidedForm from '../components/ApiProvidedForm.vue';
 import Icon from '../components/Icon.vue';
 import { useForm } from '../compositions';
@@ -42,20 +43,21 @@ import {
 import api from '../modules/api';
 import { isSessionExpired, state } from '../modules/stateManager';
 import toaster from '../modules/toaster';
-import { setDocumentTitle } from '../utils';
 
 export default defineComponent({
   name: 'FinishAccountPage',
   components: { ApiProvidedForm, Icon },
   setup(props, { emit }) {
+    const meta = useActiveMeta();
+
+    meta.title = 'Finish account setup';
+
     return {
       ...useForm(emit),
       animation: ref('animate__zoomInDown'),
     };
   },
   async beforeRouteEnter(to, from, next) {
-    setDocumentTitle('Finish account');
-
     if (!isSessionExpired() && state.session.user.role !== ROLE_UNFINISHED) {
       await next({ name: 'home' });
       toaster.success('Your account is already complete');

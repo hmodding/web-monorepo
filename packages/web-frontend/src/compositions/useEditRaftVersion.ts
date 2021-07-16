@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
-import { data } from 'jquery';
+import { __metadata } from 'tslib';
 import { Ref, ref, watch } from 'vue';
+import { useActiveMeta } from 'vue-meta';
 import { useRoute } from 'vue-router';
 import { Mod, RaftVersion } from '../@types';
 import { DATE_FORMAT } from '../const';
@@ -15,6 +16,7 @@ export interface ExtendedMod extends Mod {
 }
 
 export default function (emit) {
+  const meta = useActiveMeta();
   const form = useForm(emit);
   const routeLeaveConfirm = useRouteLeaveConfirm();
   const route = useRoute();
@@ -30,6 +32,8 @@ export default function (emit) {
         DATE_FORMAT,
       );
     }
+
+    meta.title = `Edit Raft version v${form.data.value.version}`;
     ready.value = true;
   })();
 

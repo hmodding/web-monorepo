@@ -79,6 +79,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { useActiveMeta } from 'vue-meta';
 import ApiProvidedForm from '../components/ApiProvidedForm.vue';
 import Changelog from '../components/Changelog.vue';
 import Icon from '../components/Icon.vue';
@@ -87,7 +88,6 @@ import { useAddLauncherVersion } from '../compositions';
 import { TOAST_FORM_INVALID, TOAST_GENERIC_SERVER_ERROR } from '../const';
 import api from '../modules/api';
 import toaster from '../modules/toaster';
-import { setDocumentTitle } from '../utils';
 
 export default defineComponent({
   name: 'AddLoaderVersionPage',
@@ -98,12 +98,13 @@ export default defineComponent({
     Changelog,
   },
   setup(props, { emit }) {
+    const meta = useActiveMeta();
+
+    meta.title = 'Add launcher version';
+
     return {
       ...useAddLauncherVersion(emit),
     };
-  },
-  beforeRouteEnter() {
-    setDocumentTitle('Add launcher version');
   },
   methods: {
     async onSubmit(): Promise<void> {

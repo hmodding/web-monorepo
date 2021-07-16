@@ -76,6 +76,9 @@ interface ModCollection {
   mostLiked: Mod[];
 }
 
+//@ts-ignore
+const {VITE_TITLE_DEFAULT} = import.meta.env;
+
 export default defineComponent({
   name: 'HomePage',
   components: { ModsCardDeck },
@@ -86,12 +89,12 @@ export default defineComponent({
       mostLiked: [],
     });
 
+    meta.title = VITE_TITLE_DEFAULT;
+
     (async () => {
       mods.mostDownloaded = await api.getMostDownloadedMods();
       mods.mostLiked = await api.getMostLikedMods();
     })();
-
-    meta.og.url = window.location.href;
 
     return {
       mods,

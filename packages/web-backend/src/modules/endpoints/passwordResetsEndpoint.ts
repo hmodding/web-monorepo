@@ -1,7 +1,6 @@
 import finale from 'finale-rest';
-
-import { PasswordReset, passwordResetModel } from '../../models/';
 import { User, userModel } from '../../models';
+import { PasswordReset, passwordResetModel } from '../../models/';
 import mailer from '../mailer';
 import reCaptchaClient from '../ReCaptchaClient';
 

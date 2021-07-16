@@ -1,8 +1,7 @@
 import finale from 'finale-rest';
 import { Session, User, userModel } from '../../models';
-import { generateToken, validatePassword } from '../utils';
-import { validateAuthToken, validateSchema } from './_commons';
-import { schema as finishAccountSchema } from '../routes/forms/finishAccountForm';
+import { validatePassword } from '../utils';
+import { validateAuthToken } from './_commons';
 
 const usersEndpoint = finale.resource({
   model: userModel,

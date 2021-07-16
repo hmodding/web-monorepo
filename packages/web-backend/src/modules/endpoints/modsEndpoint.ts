@@ -7,6 +7,7 @@ import {
   Session,
   userModel,
 } from '../../models';
+import notifier from '../notfier/DiscordNotifier';
 import { getSchema as getAddModSchema } from '../routes/forms/addModForm';
 import {
   extractSession,
@@ -15,7 +16,6 @@ import {
   validateModOwnership,
   validateSchema,
 } from './_commons';
-import notifier from '../notfier/DiscordNotifier';
 
 export const modsEndpoint = finale.resource({
   model: modModel,
@@ -106,12 +106,11 @@ modsEndpoint.create.write.after(async (req, res) => {
     fileHashes,
   })) as ModVersion;
 
-  const newModVersionWithAssociations: ModVersion = (await modVersionModel.findOne(
-    {
+  const newModVersionWithAssociations: ModVersion =
+    (await modVersionModel.findOne({
       where: { id: newModVersion.id },
       include: [modModel],
-    },
-  )) as ModVersion;
+    })) as ModVersion;
   notifier.sendModVersionReleaseNotification(
     newModVersionWithAssociations,
     true,

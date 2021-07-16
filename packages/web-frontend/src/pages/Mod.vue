@@ -36,6 +36,7 @@ export default defineComponent({
 
       meta.title = mod.value.title;
       meta.description = mod.value.description;
+      meta.og.image = mod.value.bannerImageUrl || "https://raftmodding.com/images/raftmodding.png";
     })();
 
     return {

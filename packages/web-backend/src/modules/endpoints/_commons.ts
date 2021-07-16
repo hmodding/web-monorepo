@@ -8,7 +8,7 @@ import {
   userModel,
 } from '../../models';
 import ajv from '../ajv';
-import cfg from '../cfg';
+import cfg, { Role } from '../cfg';
 import { FileManager, ObjectMeta } from '../FileManager';
 
 const fileManger = new FileManager(cfg);
@@ -35,7 +35,12 @@ export async function validateAuthToken(
   try {
     const session = await extractSession(req);
 
-    if (session && session.token === authtoken && session.user) {
+    if (
+      session &&
+      session.token === authtoken &&
+      session.user &&
+      session.user.role !== Role.UNFINISHED
+    ) {
       return session;
     }
   } catch (e) {}

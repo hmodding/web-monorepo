@@ -88,6 +88,6 @@ const tags = [
   'Survival',
 ].join(', ');
 
-const authors = ['traxram', 'zer0', 'TeKGameR'].join(', ');
+const authors = ['traxam', 'zer0', 'TeKGameR'].join(', ');
 
 export default useGeneralMeta;

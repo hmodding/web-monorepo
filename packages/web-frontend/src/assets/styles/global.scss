@@ -516,3 +516,9 @@ div.g-recaptcha.g-recaptcha-disabled {
   background-image: url('data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7');
   transition: background-image 0.25s ease-in-out, box-shadow 0.25s ease-in-out !important;
 }
+
+.notyf {
+  .notyf__toast--lower {
+    margin-right: 20px;
+  }
+}

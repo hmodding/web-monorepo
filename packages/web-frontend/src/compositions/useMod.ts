@@ -3,12 +3,17 @@ import { ModVersion } from '../@types';
 import { computed, Ref } from 'vue';
 import useRandom from './useRandom';
 import { ModLike } from '../@types/ModLike';
+import { ROLE_ADMIN } from '../const';
 
 function useMod(props: any) {
   const { randomNumber } = useRandom();
 
   const isAuthor: Ref<boolean> = computed(() => {
     return state?.session?.user?.username === props.mod?.author;
+  });
+
+  const isAdmin = computed(() => {
+    return state?.session?.user?.role === ROLE_ADMIN;
   });
 
   const versions: Ref<ModVersion[]> = computed(() => {
@@ -54,6 +59,7 @@ function useMod(props: any) {
 
   return {
     isAuthor,
+    isAdmin,
     versions,
     currentVersion,
     currentVersionDownloads,

@@ -51,7 +51,7 @@
           </small>
         </a>
       </li>
-      <template v-if="isAuthor">
+      <template v-if="isAuthor || isAdmin">
         <li class="list-group-item">
           <icon name="pencil-alt" />
           <router-link
@@ -60,8 +60,9 @@
             "
             >Edit this mod</router-link
           >
+          <admin-usage-info v-if="isAdmin" />
         </li>
-        <li class="list-group-item">
+        <li v-if="isAuthor || isAdmin" class="list-group-item">
           <icon name="plus" />
           <router-link
             :to="
@@ -71,6 +72,7 @@
             "
             >Add a new version</router-link
           >
+          <admin-usage-info v-if="isAdmin" />
         </li>
       </template>
       <li class="list-group-item">
@@ -136,15 +138,14 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-
 import { useMod } from '../compositions';
 import { modDetails } from '../_legacy';
-
+import AdminUsageInfo from './AdminUsageInfo.vue';
 import Icon from './Icon.vue';
-import TheInstallLabelModal from './modals/TheInstallLabelModal.vue';
-import TheSupportLabelModal from './modals/TheSupportLabelModal.vue';
 import TheDownloadThanksModal from './modals/TheDownloadThanksModal.vue';
 import TheDownloadWarningModal from './modals/TheDownloadWarningModal.vue';
+import TheInstallLabelModal from './modals/TheInstallLabelModal.vue';
+import TheSupportLabelModal from './modals/TheSupportLabelModal.vue';
 
 export default defineComponent({
   name: 'ModRightTable',
@@ -154,6 +155,7 @@ export default defineComponent({
     TheSupportLabelModal,
     TheDownloadThanksModal,
     TheDownloadWarningModal,
+    AdminUsageInfo,
   },
   props: {
     mod: Object,

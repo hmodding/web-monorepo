@@ -8,7 +8,7 @@ import {
   userModel,
 } from '../../models';
 import ajv from '../ajv';
-import cfg from '../cfg';
+import cfg, { Role } from '../cfg';
 import { FileManager, ObjectMeta } from '../FileManager';
 
 const fileManger = new FileManager(cfg);
@@ -57,15 +57,23 @@ export async function validateModOwnership(
   if (!foundSession) return null;
 
   try {
-    const { username: author } = foundSession.user!;
+    const { username: author, role } = foundSession.user!;
     const { [modIdParamKey]: id } = req.params;
+    let foundMod;
 
-    let foundMod = (await modModel.findOne({ where: { id, author } })) as Mod;
+    console.log('########', role, id);
+    if (role === Role.ADMIN) {
+      foundMod = (await modModel.findOne({ where: { id } })) as Mod;
+    } else {
+      foundMod = (await modModel.findOne({ where: { id, author } })) as Mod;
+    }
 
-    if (!!foundMod) {
+    if (foundMod) {
       return foundMod;
     }
-  } catch (e) {}
+  } catch (e) {
+    console.error('error during mod ownership validation:', e);
+  }
 
   res.status(403).send({ error: 'You are not the owner of the mod!' });
   return null;

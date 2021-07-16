@@ -1,4 +1,4 @@
-import { DataTypes, FindOptions, Model } from 'sequelize';
+import { DataTypes, FindOptions, Model, ModelDefined } from 'sequelize';
 
 import sequelize from '../modules/sequelize';
 import { ModVersion, modVersionModel } from './ModVersionModel';
@@ -65,7 +65,17 @@ export const modModel = sequelize.define(
   {
     hooks: {
       beforeFind(findOptions: FindOptions): void {
-        findOptions.order = [['versions', 'createdAt', 'desc']];
+        const versionsInclude =
+          //@ts-ignore
+          findOptions.include?.find(
+            (include: any) => include.as === 'versions',
+          ) || null;
+
+        if (versionsInclude) {
+          findOptions.order = [['versions', 'createdAt', 'desc']];
+        } else {
+          findOptions.order = [['createdAt', 'desc']];
+        }
       },
       beforeCreate({ dataValues: mod }: any) {
         //todo: workaround for description & readme notnull

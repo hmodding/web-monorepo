@@ -2,6 +2,7 @@
   <i
     class="icon mx-1"
     :class="[`fa${type}`, `fa-${name}`, size ? `fa-${size}` : null]"
+    :title="title"
   ></i>
 </template>
 
@@ -41,6 +42,7 @@ export default defineComponent({
       },
     },
     size: String,
+    title: String,
   },
 });
 </script>

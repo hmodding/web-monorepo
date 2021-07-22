@@ -2,7 +2,7 @@ import { INotyfOptions } from 'notyf/notyf.options';
 import { Notyf, NotyfNotification } from 'notyf';
 
 const defaultConfig: Partial<INotyfOptions> = {
-  position: { x: 'center', y: 'top' },
+  position: { x: 'right', y: 'bottom' },
   dismissible: true,
   duration: 3000,
 };

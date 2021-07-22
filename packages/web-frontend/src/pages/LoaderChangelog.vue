@@ -17,16 +17,22 @@ import { LoaderVersion } from '../@types';
 import api from '../modules/api';
 
 import Changelog from '../components/Changelog.vue';
+import { useActiveMeta } from 'vue-meta';
 
 export default defineComponent({
   name: 'LoaderChangelogPage',
   components: { Changelog },
   setup() {
-    const loaderVersion: Ref<LoaderVersion> = ref({});
+    const meta = useActiveMeta();
+    const loaderVersion: Ref<LoaderVersion> = ref({} as LoaderVersion);
 
     (async () => {
       const route: RouteLocationNormalizedLoaded = useRoute();
-      loaderVersion.value = await api.getLoaderVersion(route.params.version);
+      loaderVersion.value = await api.getLoaderVersion(
+        route.params.version as string,
+      );
+
+      meta.title = `RML v${loaderVersion.value.rmlVersion}`;
     })();
 
     return {

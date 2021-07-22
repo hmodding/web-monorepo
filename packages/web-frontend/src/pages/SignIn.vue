@@ -44,25 +44,27 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { useActiveMeta } from 'vue-meta';
 import ApiProvidedForm from '../components/ApiProvidedForm.vue';
 import Icon from '../components/Icon.vue';
 import { useForm } from '../compositions';
 import api from '../modules/api';
-import { setDocumentTitle } from '../utils';
 
 export default defineComponent({
   name: 'SignInPage',
   components: { ApiProvidedForm, Icon },
   setup(props, { emit }) {
+    const meta = useActiveMeta();
+
+    meta.title = `Sign in`;
+
     return {
       ...useForm(emit),
       discord: {
+        //@ts-ignore
         clientId: import.meta.env.VITE_DISCORD_CLIENT_ID,
       },
     };
-  },
-  beforeRouteEnter() {
-    setDocumentTitle('Sign in');
   },
   methods: {
     async login() {

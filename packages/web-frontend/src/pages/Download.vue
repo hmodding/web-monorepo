@@ -261,19 +261,22 @@
 import { defineComponent, ref, Ref } from 'vue';
 
 import { LauncherVersion, LoaderVersion } from '../@types';
-import { setDocumentTitle, toDateStr } from '../utils';
+import { toDateStr } from '../utils';
 import api from '../modules/api';
 
 import Icon from '../components/Icon.vue';
 import { RouteLocation } from 'vue-router';
+import { useActiveMeta } from 'vue-meta';
 
 export default defineComponent({
   name: 'DownloadPage',
   components: { Icon },
   setup() {
-    //useDocumentTitle('Download');
+    const meta = useActiveMeta();
     const launcherVersions: Ref<LauncherVersion[]> = ref([]);
     const loaderVersions: Ref<LoaderVersion[]> = ref([]);
+
+    meta.title = 'Download';
 
     (async () => {
       launcherVersions.value = await api.getLauncherVersions();
@@ -284,9 +287,6 @@ export default defineComponent({
       launcherVersions,
       loaderVersions,
     };
-  },
-  beforeRouteEnter(to: RouteLocation, from: RouteLocation) {
-    setDocumentTitle('Download');
   },
   computed: {
     latestLauncherVersion(): LauncherVersion {

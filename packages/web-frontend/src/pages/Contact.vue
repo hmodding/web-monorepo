@@ -68,8 +68,14 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { useActiveMeta } from 'vue-meta';
 
 export default defineComponent({
   name: 'ContactPage',
+  setup() {
+    const meta = useActiveMeta();
+
+    meta.title = 'Contact';
+  },
 });
 </script>

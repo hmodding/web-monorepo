@@ -109,7 +109,6 @@ import ApiProvidedForm from '../components/ApiProvidedForm.vue';
 import ModDetails from '../components/ModDetails.vue';
 import ConfirmModal from '../components/modals/ConfirmModal.vue';
 import ModDangerZone from '../components/ModDangerZoner.vue';
-import { setDocumentTitle } from '../utils';
 
 export default defineComponent({
   name: 'EditModPage',
@@ -124,9 +123,6 @@ export default defineComponent({
     return {
       ...useModEditing(),
     };
-  },
-  beforeRouteEnter(to) {
-    setDocumentTitle(`Edit ${to.params.id as string}`);
   },
   methods: {
     async onSubmit(): Promise<void> {

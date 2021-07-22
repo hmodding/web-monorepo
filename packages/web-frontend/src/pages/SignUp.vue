@@ -28,28 +28,27 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { useActiveMeta } from 'vue-meta';
 import ApiProvidedForm from '../components/ApiProvidedForm.vue';
 import { useForm } from '../compositions';
 import { TOAST_FORM_INVALID, TOAST_SIGNUP_MAIL_SENT } from '../const';
 import api from '../modules/api';
 import toaster from '../modules/toaster';
-import { setDocumentTitle } from '../utils';
 
 export default defineComponent({
   name: 'SignUpPage',
   components: { ApiProvidedForm },
   setup(props, { emit }) {
+    const meta = useActiveMeta();
+
+    meta.title = 'Sign up';
+
     return {
       ...useForm(emit),
     };
   },
   async beforeRouteEnter(to) {
     const { token } = to.query;
-
-    if (token === null || token === undefined) {
-      setDocumentTitle('Sign up');
-      return true;
-    }
 
     if (token) {
       await api.deleteAccountCreation(token as string);

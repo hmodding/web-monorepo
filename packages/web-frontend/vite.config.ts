@@ -10,9 +10,5 @@ export default defineConfig(() => {
     publicDir:
       process.env.NODE_ENV === 'production' ? './public' : './public/_dev',
     plugins: [vue()],
-    define: {
-      'process.platform': null,
-      'global.setImmediate': null,
-    },
   };
 });

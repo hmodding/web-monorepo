@@ -67,9 +67,6 @@ export function emptyToNull(shallowObj: object) {
 
 const defaultTitleAppend: string = import.meta.env.VITE_TITLE_APPEND as string;
 
-export function setDocumentTitle(
-  title: string,
-  append: string = defaultTitleAppend,
-): void {
-  document.title = title + (append ? append : '');
+export function getTitle(title: string, append: string = defaultTitleAppend) {
+  return title + (append ? append : '');
 }

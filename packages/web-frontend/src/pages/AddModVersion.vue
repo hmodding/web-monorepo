@@ -93,18 +93,19 @@ import Icon from '../components/Icon.vue';
 import ApiProvidedForm from '../components/ApiProvidedForm.vue';
 import ConfirmModal from '../components/modals/ConfirmModal.vue';
 import ModVersionDetails from '../components/ModVersionDetails.vue';
-import { setDocumentTitle } from '../utils';
+import { useActiveMeta } from 'vue-meta';
 
 export default defineComponent({
   name: 'AddModVersionPage',
   components: { ModVersionDetails, Icon, ApiProvidedForm, ConfirmModal },
   setup() {
+    const meta = useActiveMeta();
+
+    meta.title = 'Add mod version';
+
     return {
       ...useAddModVersion(),
     };
-  },
-  beforeRouteEnter(to) {
-    setDocumentTitle('Add mod version');
   },
   methods: {
     async onSubmit(): Promise<void> {

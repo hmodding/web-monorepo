@@ -29,24 +29,25 @@ import { useMods } from '../compositions';
 import ModsCardDeck from '../components/ModsCardDeck.vue';
 import Icon from '../components/Icon.vue';
 import LoadingSpinner from '../components/LoadingSpinner.vue';
-import ModSearcher from './ModSearcher.vue';
-import { setDocumentTitle } from '../utils';
+import ModSearcher from '../components/ModSearcher.vue';
+import { useActiveMeta } from 'vue-meta';
 
 export default defineComponent({
   name: 'ModsPage',
   components: { ModSearcher, LoadingSpinner, Icon, ModsCardDeck },
   setup() {
+    const meta = useActiveMeta();
     const defaultQuery = {
       sort: '-createdAt',
     };
+
+    meta.title = 'Mods';
+    meta.ogTitle = meta.titleTemplate('Mods');
 
     return {
       defaultQuery,
       ...useMods(defaultQuery),
     };
-  },
-  beforeRouteEnter() {
-    setDocumentTitle('Mods');
   },
 });
 </script>

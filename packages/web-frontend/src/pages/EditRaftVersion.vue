@@ -61,7 +61,6 @@ import { useEditRaftVersion } from '../compositions';
 import { DATE_FORMAT, TOAST_FORM_INVALID } from '../const';
 import api from '../modules/api';
 import toaster from '../modules/toaster';
-import { setDocumentTitle } from '../utils';
 
 export default defineComponent({
   name: 'EditRaftVersionPage',
@@ -74,9 +73,6 @@ export default defineComponent({
     return {
       ...useEditRaftVersion(emit),
     };
-  },
-  beforeRouteEnter() {
-    setDocumentTitle('Edit Raft version');
   },
   methods: {
     async onSubmit(): Promise<void> {

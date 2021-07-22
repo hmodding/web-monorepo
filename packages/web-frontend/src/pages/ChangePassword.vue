@@ -31,25 +31,24 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-
-import { passwordValidator } from '../_legacy';
-import api from '../modules/api';
-import toaster from '../modules/toaster';
-import { killSession } from '../modules/stateManager';
-
-import Icon from '../components/Icon.vue';
+import { useActiveMeta } from 'vue-meta';
 import ApiProvidedForm from '../components/ApiProvidedForm.vue';
+import Icon from '../components/Icon.vue';
 import { useForm } from '../compositions';
-import { setDocumentTitle } from '../utils';
+import api from '../modules/api';
+import { killSession } from '../modules/stateManager';
+import toaster from '../modules/toaster';
+import { passwordValidator } from '../_legacy';
 
 export default defineComponent({
   name: 'ChangePasswordPage',
   components: { ApiProvidedForm, Icon },
   setup(props, { emit }) {
+    const meta = useActiveMeta();
+
+    meta.title = 'Change your password';
+
     return useForm(emit);
-  },
-  beforeRouteEnter() {
-    setDocumentTitle('Change your password');
   },
   mounted() {
     passwordValidator();

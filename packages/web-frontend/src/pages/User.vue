@@ -9,29 +9,29 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+import { useActiveMeta } from 'vue-meta';
 import { useRoute } from 'vue-router';
 import ModsCardDeck from '../components/ModsCardDeck.vue';
 import { useMods } from '../compositions';
-import { setDocumentTitle } from '../utils';
 
 export default defineComponent({
   name: 'UserPage',
   components: { ModsCardDeck },
   setup() {
+    const meta = useActiveMeta();
     const route = useRoute();
     const username = ref(route.params.username);
     const defaultQuery = {
       author: username.value,
     };
 
+    meta.title = username.value;
+
     return {
       username,
       defaultQuery,
       ...useMods(defaultQuery),
     };
-  },
-  beforeRouteEnter(to) {
-    setDocumentTitle(to.params.username as string);
   },
 });
 </script>

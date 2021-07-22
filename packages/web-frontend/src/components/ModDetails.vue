@@ -9,7 +9,7 @@
     <div class="row">
       <div class="col-sm-9 my-3">
         <div class="card">
-          <div class="mod-banner" :style="modBannerStyle" />
+          <div class="mod-banner" :style="{backgroundImage: `url('${mod.bannerImageUrl || defaultBanner}')`}" />
           <div class="card-body">
             <div class="card-text mod-readme">
               <vue-markdown-it :source="mod.readme" />
@@ -60,21 +60,9 @@ export default defineComponent({
   },
   emits: ['like'],
   setup(props) {
-    const modBannerStyle = reactive({
-      backgroundImage: `url('${defaultBanner}')`,
-    });
-
-    watch(
-      () => props.mod.bannerImageUrl,
-      (image) => {
-        modBannerStyle.backgroundImage = `url('${image}')`;
-      },
-    );
-
     return {
-      ...props,
       ...useMod(props),
-      modBannerStyle,
+      defaultBanner,
     };
   },
   async mounted() {

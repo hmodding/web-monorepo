@@ -69,20 +69,27 @@ import { Mod } from '../@types';
 import api from '../modules/api';
 
 import ModsCardDeck from '../components/ModsCardDeck.vue';
+import { useActiveMeta } from 'vue-meta';
 
 interface ModCollection {
   mostDownloaded: Mod[];
   mostLiked: Mod[];
 }
 
+//@ts-ignore
+const {VITE_TITLE_DEFAULT} = import.meta.env;
+
 export default defineComponent({
   name: 'HomePage',
   components: { ModsCardDeck },
   setup() {
+    const meta = useActiveMeta();
     const mods: ModCollection = reactive({
       mostDownloaded: [],
       mostLiked: [],
     });
+
+    meta.title = VITE_TITLE_DEFAULT;
 
     (async () => {
       mods.mostDownloaded = await api.getMostDownloadedMods();

@@ -49,7 +49,6 @@ import ApiProvidedForm from '../components/ApiProvidedForm.vue';
 import Icon from '../components/Icon.vue';
 import { useForm } from '../compositions';
 import api from '../modules/api';
-import { setDocumentTitle } from '../utils';
 
 export default defineComponent({
   name: 'SignInPage',

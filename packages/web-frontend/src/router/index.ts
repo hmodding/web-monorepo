@@ -5,7 +5,6 @@ import Home from '../pages/Home.vue';
 import NotFound from '../pages/NotFound.vue';
 import LoaderChangelog from '../pages/LoaderChangelog.vue';
 import LauncherChangelog from '../pages/LauncherChangelog.vue';
-import { setDocumentTitle } from '../utils';
 import accountRoutes from './account.routes';
 import adminRoutes from './admin.routes';
 import legalRoutes from './legal.routes';
@@ -51,10 +50,6 @@ export default router;
 
 router.beforeEach((to, from, next) => {
   document.body.setAttribute('data-route', to.matched[0].name as string);
-
-  if (document.title !== import.meta.env.VITE_TITLE_DEFAULT) {
-    setDocumentTitle(import.meta.env.VITE_TITLE_DEFAULT as string, null);
-  }
 
   if (isSessionExpired()) {
     if (to.meta.sessionRequired) {

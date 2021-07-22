@@ -30,7 +30,6 @@ import ModsCardDeck from '../components/ModsCardDeck.vue';
 import Icon from '../components/Icon.vue';
 import LoadingSpinner from '../components/LoadingSpinner.vue';
 import ModSearcher from '../components/ModSearcher.vue';
-import { setDocumentTitle } from '../utils';
 import { useActiveMeta } from 'vue-meta';
 
 export default defineComponent({
@@ -49,9 +48,6 @@ export default defineComponent({
       defaultQuery,
       ...useMods(defaultQuery),
     };
-  },
-  beforeRouteEnter() {
-    setDocumentTitle('Mods');
   },
 });
 </script>

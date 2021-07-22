@@ -38,7 +38,6 @@ import { useForm } from '../compositions';
 import api from '../modules/api';
 import { killSession } from '../modules/stateManager';
 import toaster from '../modules/toaster';
-import { setDocumentTitle } from '../utils';
 import { passwordValidator } from '../_legacy';
 
 export default defineComponent({

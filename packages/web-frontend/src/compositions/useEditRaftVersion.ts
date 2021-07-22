@@ -6,7 +6,6 @@ import { useRoute } from 'vue-router';
 import { Mod, RaftVersion } from '../@types';
 import { DATE_FORMAT } from '../const';
 import api from '../modules/api';
-import { setDocumentTitle } from '../utils';
 import useForm from './useForm';
 import useRouteLeaveConfirm from './useRouteLeaveConfirm';
 
@@ -48,7 +47,7 @@ export default function (emit) {
   watch(
     () => form.data.value.version,
     (version) => {
-      setDocumentTitle(`Edit Raft version ${version}`);
+      meta.title = `Edit Raft version ${version}`;
     },
   );
 

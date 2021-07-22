@@ -13,7 +13,6 @@ import { useActiveMeta } from 'vue-meta';
 import { useRoute } from 'vue-router';
 import ModsCardDeck from '../components/ModsCardDeck.vue';
 import { useMods } from '../compositions';
-import { setDocumentTitle } from '../utils';
 
 export default defineComponent({
   name: 'UserPage',

@@ -94,7 +94,6 @@ import ModVersionDetails from '../components/ModVersionDetails.vue';
 import { useAddModVersion } from '../compositions';
 import api from '../modules/api';
 import toaster from '../modules/toaster';
-import { setDocumentTitle } from '../utils';
 
 export default defineComponent({
   name: 'EditModVersionPage',

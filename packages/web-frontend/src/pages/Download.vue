@@ -261,7 +261,7 @@
 import { defineComponent, ref, Ref } from 'vue';
 
 import { LauncherVersion, LoaderVersion } from '../@types';
-import { setDocumentTitle, toDateStr } from '../utils';
+import { toDateStr } from '../utils';
 import api from '../modules/api';
 
 import Icon from '../components/Icon.vue';
@@ -287,9 +287,6 @@ export default defineComponent({
       launcherVersions,
       loaderVersions,
     };
-  },
-  beforeRouteEnter(to: RouteLocation, from: RouteLocation) {
-    setDocumentTitle('Download');
   },
   computed: {
     latestLauncherVersion(): LauncherVersion {

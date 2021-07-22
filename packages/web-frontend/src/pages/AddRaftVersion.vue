@@ -66,7 +66,6 @@ import {
 } from '../const';
 import api from '../modules/api';
 import toaster from '../modules/toaster';
-import { setDocumentTitle } from '../utils';
 
 export default defineComponent({
   name: 'AddRaftVersionPage',
@@ -83,9 +82,6 @@ export default defineComponent({
     return {
       ...useEditRaftVersion(emit),
     };
-  },
-  beforeRouteEnter() {
-    setDocumentTitle('Add Raft version');
   },
   methods: {
     async onSubmit(): Promise<void> {

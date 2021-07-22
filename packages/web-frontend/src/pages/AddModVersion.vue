@@ -93,7 +93,6 @@ import Icon from '../components/Icon.vue';
 import ApiProvidedForm from '../components/ApiProvidedForm.vue';
 import ConfirmModal from '../components/modals/ConfirmModal.vue';
 import ModVersionDetails from '../components/ModVersionDetails.vue';
-import { setDocumentTitle } from '../utils';
 import { useActiveMeta } from 'vue-meta';
 
 export default defineComponent({

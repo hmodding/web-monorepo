@@ -14,6 +14,9 @@ import { useLikes } from '../compositions';
 import api from '../modules/api';
 import toaster from '../modules/toaster';
 
+//@ts-ignore
+const { VITE_META_BANNER } = import.meta.env;
+
 export default defineComponent({
   name: 'ModPage',
   components: {
@@ -36,7 +39,7 @@ export default defineComponent({
 
       meta.title = mod.value.title;
       meta.description = mod.value.description;
-      meta.og.image = mod.value.bannerImageUrl || "https://raftmodding.com/images/raftmodding.png";
+      meta.og.image = mod.value.bannerImageUrl || VITE_META_BANNER;
     })();
 
     return {

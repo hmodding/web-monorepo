@@ -69,8 +69,3 @@ const defaultTitleAppend: string = import.meta.env.VITE_TITLE_APPEND as string;
 export function getTitle(title: string, append: string = defaultTitleAppend) {
   return title + (append ? append : '');
 }
-
-//TODO: remove
-export function setDocumentTitle(...args) {
-  return;
-}

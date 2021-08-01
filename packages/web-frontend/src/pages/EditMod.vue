@@ -43,7 +43,6 @@
                 aria-controls="preview"
               >
                 <icon name="eye" />
-                <icon name="eye" />
                 show preview
               </button>
               <button

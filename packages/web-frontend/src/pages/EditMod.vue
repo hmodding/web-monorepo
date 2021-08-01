@@ -49,7 +49,7 @@
                 class="btn btn-outline-danger m-2"
                 :class="{ disabled: loading }"
                 :disabled="loading"
-                @click="$router.go(-1)"
+                @click.prevent="$router.go(-1)"
               >
                 <icon name="times" />
                 Discard changes

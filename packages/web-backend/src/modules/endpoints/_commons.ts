@@ -66,7 +66,6 @@ export async function validateModOwnership(
     const { [modIdParamKey]: id } = req.params;
     let foundMod;
 
-    console.log('########', role, id);
     if (role === Role.ADMIN) {
       foundMod = (await modModel.findOne({ where: { id } })) as Mod;
     } else {

@@ -165,7 +165,7 @@ class Api {
   }
 
   async getLauncherVersions(
-    params = { sort: '-version' },
+    params = { sort: '-createdAt' },
   ): Promise<LauncherVersion[]> {
     try {
       const { data }: AxiosResponse = await this.axios.get(
@@ -217,7 +217,7 @@ class Api {
   }
 
   async getLoaderVersions(
-    params = { sort: '-rmlVersion' },
+    params = { sort: '-createdAt' },
   ): Promise<LoaderVersion[]> {
     try {
       const { data }: AxiosResponse = await this.axios.get(

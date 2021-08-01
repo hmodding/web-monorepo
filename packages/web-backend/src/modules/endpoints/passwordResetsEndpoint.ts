@@ -1,7 +1,7 @@
 import finale from 'finale-rest';
-
-import { PasswordReset, passwordResetModel } from '../../models/';
 import { User, userModel } from '../../models';
+import { PasswordReset, passwordResetModel } from '../../models/';
+import { Role } from '../cfg';
 import mailer from '../mailer';
 import reCaptchaClient from '../ReCaptchaClient';
 
@@ -22,8 +22,8 @@ passwordResetsEndpoint.create.auth(async (req, res, context) => {
 
   const user = (await userModel.findOne({ where: { email } })) as User;
 
-  if (!user) {
-    // do nothing! we don't want people to find existing email with this form! (dont just trust captchass)
+  if (!user || user.role === Role.UNFINISHED) {
+    // do nothing! we don't want people to find existing email with this form! (dont just trust captcha)
     return res.status(200).send();
   }
 

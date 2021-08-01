@@ -1,7 +1,7 @@
 import finale from 'finale-rest';
 import { modModel, ModVersion, modVersionModel } from '../../models';
-import { validateAndWriteModFile, validateModOwnership } from './_commons';
 import notifier from '../notfier/DiscordNotifier';
+import { validateAndWriteModFile, validateModOwnership } from './_commons';
 
 export const modVersionsEndpoint = finale.resource({
   model: modVersionModel,

@@ -1,5 +1,4 @@
 import finale from 'finale-rest';
-
 import { sessionModel } from '../../models';
 
 const sessionsEndpoint = finale.resource({

@@ -35,7 +35,12 @@ export async function validateAuthToken(
   try {
     const session = await extractSession(req);
 
-    if (session && session.token === authtoken && session.user) {
+    if (
+      session &&
+      session.token === authtoken &&
+      session.user &&
+      session.user.role !== Role.UNFINISHED
+    ) {
       return session;
     }
   } catch (e) {}

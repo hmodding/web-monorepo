@@ -1,7 +1,7 @@
 import finale from 'finale-rest';
 import { LoaderVersion, loaderVersionModel } from '../../models';
-import { validateAdminPrivileges } from './_commons';
 import notifier from '../notfier/DiscordNotifier';
+import { validateAdminPrivileges } from './_commons';
 
 export const loaderVersionsEndpoint = finale.resource({
   model: loaderVersionModel,

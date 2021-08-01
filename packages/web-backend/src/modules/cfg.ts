@@ -357,6 +357,7 @@ export default cfg;
 
 export const Role = {
   ADMIN: 'admin',
+  UNFINISHED: 'UNFINISHED',
 };
 
 export const ModCategories: string[] = [

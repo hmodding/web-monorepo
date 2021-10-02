@@ -5,3 +5,6 @@ alter table "mod-versions"
 	add "fileHashes" json;
 
 DROP TABLE "discord-account-creations";
+
+ALTER TABLE "loader-versions"
+	DROP COLUMN "downloadUrl";

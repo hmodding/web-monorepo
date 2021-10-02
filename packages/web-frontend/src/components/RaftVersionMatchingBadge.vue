@@ -5,8 +5,8 @@
     class="badge badge-pill mx-1"
     :class="{
       'badge-success': isUpToDate,
-      'badge-warning': isUntested,
-      'badge-danger': !isUntested,
+      'badge-warning': !isUpToDate && isUntested,
+      'badge-danger': !isUpToDate && !isUntested,
     }"
     :title="vTitle"
   >

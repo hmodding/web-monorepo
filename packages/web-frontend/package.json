@@ -16,7 +16,7 @@
     "@types/multer": "^1.4.5",
     "ajv-errors": "^1.0.1",
     "animate.css": "^4.1.1",
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "bootstrap": "^4.6.0",
     "dayjs": "^1.10.4",
     "dotenv": "^9.0.2",

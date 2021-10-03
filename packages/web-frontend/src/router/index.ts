@@ -17,6 +17,7 @@ import {
 } from './routerHandlers';
 import redirectsRoutes from './redirects.routes';
 import { ROLE_UNFINISHED } from '../const';
+import { setGlobalBlank } from '../compositions';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -49,6 +50,7 @@ const router = createRouter({
 export default router;
 
 router.beforeEach((to, from, next) => {
+  setGlobalBlank(false);
   document.body.setAttribute('data-route', to.matched[0].name as string);
 
   if (isSessionExpired()) {

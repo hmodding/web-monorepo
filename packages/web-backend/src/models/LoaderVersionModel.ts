@@ -7,7 +7,6 @@ export interface LoaderVersion extends Model {
   rmlVersion: string;
   raftVersionId: number;
   timestamp: Date;
-  downloadUrl?: string;
   readme?: string;
   raftVersion?: RaftVersion;
 }
@@ -30,10 +29,6 @@ export const loaderVersionModel = sequelize.define('loader-versions', {
   timestamp: {
     type: DataTypes.DATE,
     allowNull: false,
-  },
-  downloadUrl: {
-    type: DataTypes.TEXT,
-    allowNull: true,
   },
   readme: {
     type: DataTypes.TEXT,

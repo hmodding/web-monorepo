@@ -5,7 +5,6 @@
     :release-date="loaderVersion.timestamp"
     :last-update="loaderVersion.updatedAt"
     software-name="RML LOADER"
-    :download-url="loaderVersion.downloadUrl"
   />
 </template>
 

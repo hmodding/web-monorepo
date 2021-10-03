@@ -21,13 +21,8 @@ export const getSchema = async () => {
         title: 'Readme',
         description: `A changelog for this version.`,
       },
-      downloadUrl: {
-        type: 'string',
-        title: 'Release file',
-        description: `Upload a file.`,
-      },
     },
-    required: ['rmlVersion', 'raftVersionId', 'readme', 'downloadUrl'],
+    required: ['rmlVersion', 'raftVersionId', 'readme'],
   };
 };
 
@@ -55,14 +50,6 @@ export const uischema = {
       options: {
         placeholder: `# Changelog for RaftModLoader version A.B.C\n\n* Explain what has changed.`,
         ...markdownEditor.uischema.options,
-      },
-    },
-    {
-      type: 'Control',
-      scope: '#/properties/downloadUrl',
-      options: {
-        file: true,
-        placeholder: 'Select file...',
       },
     },
   ],

@@ -24,6 +24,7 @@
         </router-link>
       </div>
     </template>
+    <slot></slot>
   </div>
 </template>
 

@@ -8,3 +8,5 @@ DROP TABLE "discord-account-creations";
 
 ALTER TABLE "loader-versions"
 	DROP COLUMN "downloadUrl";
+
+DROP TABLE "Sessions";

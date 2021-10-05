@@ -12,3 +12,4 @@ export { default as useModEditing } from './useModEditing';
 export { default as useMods } from './useMods';
 export { default as useRouteLeaveConfirm } from './useRouteLeaveConfirm';
 export * from './meta';
+export * from './useGlobalBlank';

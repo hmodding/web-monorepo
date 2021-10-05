@@ -1,17 +1,19 @@
 <template>
-  <metainfo>
-    <template v-slot:title="{ metainfo }">{{
-      metainfo.titleTemplate(metainfo.title)
-    }}</template>
-  </metainfo>
-  <transition name="fade">
-    <cookie-consent-modal />
-  </transition>
-  <the-main-nav />
-  <div id="scrollable-content">
-    <router-view />
-    <the-main-footer />
-  </div>
+  <template v-if="!blank">
+    <metainfo>
+      <template v-slot:title="{ metainfo }">{{
+        metainfo.titleTemplate(metainfo.title)
+      }}</template>
+    </metainfo>
+    <transition name="fade">
+      <cookie-consent-modal />
+    </transition>
+    <the-main-nav />
+    <div id="scrollable-content">
+      <router-view />
+      <the-main-footer />
+    </div>
+  </template>
 </template>
 
 <script lang="ts">
@@ -19,13 +21,21 @@ import { defineComponent } from 'vue';
 import CookieConsentModal from './components/modals/CookieConsentModal.vue';
 import TheMainFooter from './components/TheMainFooter.vue';
 import TheMainNav from './components/TheMainNav.vue';
-import { useGeneralMeta, useMetaAutoMatcher } from './compositions';
+import {
+  useGeneralMeta,
+  useGlobalBlank,
+  useMetaAutoMatcher,
+} from './compositions';
 
 export default defineComponent({
   components: { CookieConsentModal, TheMainFooter, TheMainNav },
   setup() {
     useGeneralMeta();
     useMetaAutoMatcher();
+
+    return {
+      ...useGlobalBlank(),
+    };
   },
   mounted() {
     setTimeout(() => {

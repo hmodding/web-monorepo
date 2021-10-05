@@ -339,7 +339,7 @@ const cfg: Cfg = {
       user: mailAuthUser,
       pass: mailAuthPass,
     },
-    secure: Boolean(mailSecure) || true,
+    secure: mailSecure !== 'false',
   },
   frontendBaseUrl: frontendBaseUrl || 'http://localhost:3000',
   reCaptcha: {

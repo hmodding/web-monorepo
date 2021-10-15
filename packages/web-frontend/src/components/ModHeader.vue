@@ -81,9 +81,10 @@ export default defineComponent({
       }
 
       if (!this.isLiked) {
-        this.$emit('like', true);
-        await api.likeMod(this.mod.id);
-        toaster.success(`You liked <b>${this.mod.title}</b>`);
+        if (await api.likeMod(this.mod.id)) {
+          this.$emit('like', true);
+          toaster.success(`You liked <b>${this.mod.title}</b>`);
+        }
       } else {
         this.$emit('like', false);
         await api.unlikeMod(this.mod.id);
@@ -117,7 +118,7 @@ export default defineComponent({
   &.active {
     color: #e74c3c;
     animation-name: beating-heart;
-    animation-duration: 1s;
+    animation-duration: 750ms;
     animation-iteration-count: infinite;
     animation-direction: alternate;
   }

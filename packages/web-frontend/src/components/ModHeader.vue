@@ -87,8 +87,10 @@ export default defineComponent({
         }
       } else {
         this.$emit('like', false);
-        await api.unlikeMod(this.mod.id);
-        toaster.success(`You <u>no longer</u> like <b>${this.mod.title}</b>`);
+        if (await api.unlikeMod(this.mod.id)) {
+          this.$emit('like', false);
+          toaster.success(`You <u>no longer</u> like <b>${this.mod.title}</b>`);
+        }
       }
 
       this.disabled = true;

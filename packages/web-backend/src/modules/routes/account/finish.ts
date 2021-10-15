@@ -5,7 +5,7 @@ import { schema as finishAccountSchema } from '../forms/finishAccountForm';
 import router from '../router';
 
 router.post('/account/finish', async (req: any, res: any) => {
-  const session = (await validateAuthToken(req, res)) as Session;
+  const session = (await validateAuthToken(req, res, true)) as Session;
 
   if (!session || !session.user) return;
 

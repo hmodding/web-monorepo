@@ -1,7 +1,11 @@
 import dayjs from 'dayjs';
 import { reactive } from 'vue';
 import { Session, State, Theme } from '../@types';
-import { LOCAL_STORAGE_SESSION, LOCAL_STORAGE_THEME } from '../const';
+import {
+  LOCAL_STORAGE_SESSION,
+  LOCAL_STORAGE_THEME,
+  ROLE_UNFINISHED,
+} from '../const';
 import api from './api';
 
 export const state: State = reactive({
@@ -34,7 +38,12 @@ export async function initSession(): Promise<void> {
   if (token) {
     state.session = await api.getSession(token);
     api.setAuthToken(state.session.token);
-    state.likes = (await api.getModLikes()).map(({ modId }) => modId);
+
+    if (state.session.user.role === ROLE_UNFINISHED) {
+      state.likes = [];
+    } else {
+      state.likes = (await api.getModLikes()).map(({ modId }) => modId);
+    }
   }
   state.latestRaftVersion = (
     await api.getRaftVersions({ sort: '-releasedAt', count: 1 })

@@ -29,19 +29,17 @@ export async function extractSession(req: any): Promise<Session | null> {
 export async function validateAuthToken(
   req: any,
   res: any,
+  allowUnfinished: boolean = false,
 ): Promise<Session | null> {
   const { authtoken } = req.headers;
 
   try {
     const session = await extractSession(req);
 
-    if (
-      session &&
-      session.token === authtoken &&
-      session.user &&
-      session.user.role !== Role.UNFINISHED
-    ) {
-      return session;
+    if (session && session.token === authtoken && session.user) {
+      if (allowUnfinished || session.user.role !== Role.UNFINISHED) {
+        return session;
+      }
     }
   } catch (e) {}
 

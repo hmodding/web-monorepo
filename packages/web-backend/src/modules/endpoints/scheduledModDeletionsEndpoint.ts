@@ -6,7 +6,7 @@ import { validateModOwnership } from './_commons';
 
 export const scheduledModDeletionsEndpoint = finale.resource({
   model: scheduledModDeletionModel,
-  endpoints: ['/scheduledModDeletions', '/scheduledModDeletions/:id'],
+  endpoints: ['/scheduledModDeletions'],
   actions: ['create'],
 });
 

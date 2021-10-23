@@ -15,12 +15,21 @@ usersEndpoint.update.auth(async (req, res, context) => {
 
   if (!session || !session.user) return;
 
+  if (session.user.username !== req.params.username) {
+    return res.status(403).send({
+      error: 'You can not modify other users!',
+    });
+  }
+
   if (session.user.role !== 'admin' && req.body.role === 'admin') {
     delete req.body.role; //prevent granting admin role
   }
 
   const { currentPassword, password, passwordConfirm } = req.body;
-  const user: User = session.user!;
+  const user: User = (await userModel.findOne({
+    where: { id: session.userId },
+    attributes: ['password'],
+  })) as User; // we know that the user exists since we checked the session
 
   if (!validatePassword(currentPassword || '', user.password)) {
     return res.status(403).send({

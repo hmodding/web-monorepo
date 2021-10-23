@@ -8,7 +8,6 @@ const raftVersionsEndpoint = finale.resource({
   model: raftVersionModel,
   endpoints: ['/raftVersions', '/raftVersions/:id'],
   actions: ['read', 'list', 'update', 'create'],
-  associations: true,
 });
 
 export default raftVersionsEndpoint;

@@ -6,9 +6,8 @@ import { validateAuthToken } from './_commons';
 const usersEndpoint = finale.resource({
   model: userModel,
   endpoints: ['/users', '/users/:username'],
-  associations: true,
-  actions: ['read', 'list', 'update'],
-  excludeAttributes: ['password'],
+  actions: ['update'],
+  excludeAttributes: ['password', 'email', 'role'],
 });
 
 usersEndpoint.update.auth(async (req, res, context) => {

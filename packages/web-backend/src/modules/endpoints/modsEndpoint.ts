@@ -21,8 +21,6 @@ export const modsEndpoint = finale.resource({
   model: modModel,
   endpoints: ['/mods', '/mods/:id'],
   actions: ['read', 'list', 'create', 'update'],
-  associations: true,
-  excludeAttributes: ['deletion'],
   include: [
     {
       model: modVersionModel,

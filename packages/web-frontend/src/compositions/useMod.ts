@@ -2,7 +2,6 @@ import { state } from '../modules/stateManager';
 import { ModVersion } from '../@types';
 import { computed, Ref } from 'vue';
 import useRandom from './useRandom';
-import { ModLike } from '../@types/ModLike';
 import { ROLE_ADMIN } from '../const';
 
 function useMod(props: any) {
@@ -45,18 +44,6 @@ function useMod(props: any) {
     }
   });
 
-  const like: Ref<ModLike> = computed(() => {
-    if (props.preview) {
-      return null;
-    } else {
-      return (
-        props.mod?.likes?.find(
-          (like: ModLike) => like.userId === state.session.user.id,
-        ) || null
-      );
-    }
-  });
-
   return {
     isAuthor,
     isAdmin,
@@ -64,7 +51,6 @@ function useMod(props: any) {
     currentVersion,
     currentVersionDownloads,
     totalDownloads,
-    like,
   };
 }
 

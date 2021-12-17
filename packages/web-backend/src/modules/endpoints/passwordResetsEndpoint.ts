@@ -33,6 +33,11 @@ passwordResetsEndpoint.create.auth(async (req, res, context) => {
 passwordResetsEndpoint.create.write.before(async (req, res, context) => {
   const { email } = req.body;
   const user = (await userModel.findOne({ where: { email } })) as User;
+  const passwordResetItem = await passwordResetModel.findOne({
+    where: { userId: user.id },
+  });
+
+  passwordResetItem?.destroy();
 
   req.body.userId = user.id;
   req.body.token = '[[ WILL BE GENERATED! ]]';

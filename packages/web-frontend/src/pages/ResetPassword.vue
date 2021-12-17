@@ -47,16 +47,19 @@ export default defineComponent({
   },
   async beforeRouteEnter(to) {
     const { token } = to.query;
-    const passwordReset = await api.getPasswordReset(token as string);
 
-    if (!passwordReset) {
-      toaster.error({
-        message: TOAST_PASSWORD_RESET_INVALID_TOKEN,
-        duration: 30 * 1000,
-      });
-      return { name: 'signIn' };
+    if (token) {
+      const passwordReset = await api.getPasswordReset(token as string);
+
+      if (!passwordReset) {
+        toaster.error({
+          message: TOAST_PASSWORD_RESET_INVALID_TOKEN,
+          duration: 30 * 1000,
+        });
+        return { name: 'signIn' };
+      }
     }
-
+    
     return true;
   },
 });

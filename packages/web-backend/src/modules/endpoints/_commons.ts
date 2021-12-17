@@ -91,17 +91,22 @@ export async function validateAndWriteModFile(
 
   if (fileType && cfg.validMimeTypes.includes(fileType.mime)) {
     const filename = `${id}-${version}.rmod`;
-    const upload: ObjectMeta = await fileManger.createModVersionFile(
-      id,
-      version,
-      filename,
-      buffer,
-    );
+    try {
+      const upload: ObjectMeta = await fileManger.createModVersionFile(
+        id,
+        version,
+        filename,
+        buffer,
+      );
 
-    req.body.downloadUrl = upload.url;
-    req.body.fileHashes = { md5: upload.md5, sha256: upload.sha256 };
+      req.body.downloadUrl = upload.url;
+      req.body.fileHashes = { md5: upload.md5, sha256: upload.sha256 };
 
-    return true;
+      return true;
+    } catch (err) {
+      res.status(500).send({ error: 'file upload failed! (sorry)' });
+      return false;
+    }
   }
 
   res.status(403).send({ error: 'file-type is not allowed!' });

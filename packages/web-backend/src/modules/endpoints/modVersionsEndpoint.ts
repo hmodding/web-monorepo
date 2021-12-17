@@ -1,7 +1,12 @@
 import finale from 'finale-rest';
 import { modModel, ModVersion, modVersionModel } from '../../models';
 import notifier from '../notfier/DiscordNotifier';
-import { validateAndWriteModFile, validateModOwnership } from './_commons';
+import { getSchema as getModVersionSchema } from '../routes/forms/addModVersionForm';
+import {
+  validateAndWriteModFile,
+  validateModOwnership,
+  validateSchema,
+} from './_commons';
 
 export const modVersionsEndpoint = finale.resource({
   model: modVersionModel,
@@ -13,7 +18,9 @@ export default modVersionsEndpoint;
 
 modVersionsEndpoint.create.auth(async (req, res, context) => {
   if (await validateModOwnership(req, res, 'modId')) {
-    return context.continue;
+    if (await validateSchema(req.body, await getModVersionSchema(), res)) {
+      return context.continue;
+    }
   }
 
   return;

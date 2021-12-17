@@ -27,7 +27,7 @@ export const getSchema = async (): Promise<any> => ({
       description: `Upload your mod file. If your mod needs to ship with multiple files, please follow our guide on <a href="https://api.raftmodding.com/website/mods-with-multiple-files" target="_blank">structuring your mod</a>.`,
     },
   },
-  required: ['version', 'minRaftVersionId', 'maxRaftVersionId', 'modFile'],
+  required: ['version', 'minRaftVersionId', 'maxRaftVersionId', 'file'],
 });
 
 export const uischema = {

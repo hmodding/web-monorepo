@@ -135,7 +135,7 @@ export default defineComponent({
       position: relative;
       .validation-feedback {
         position: absolute;
-        bottom: 29px;
+        bottom: 10px;
         left: 5px;
       }
     }

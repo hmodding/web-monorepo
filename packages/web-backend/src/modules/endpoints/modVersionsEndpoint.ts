@@ -66,6 +66,9 @@ modVersionsEndpoint.update.write.before(async (req, res, context) => {
 
   req.body.modId = req.params.modId;
   req.body.definiteMaxRaftVersion = !!definiteMaxRaftVersion;
+  delete req.body.downloadUrl;
+  delete req.body.fileHashes;
+  delete req.body.downloadCount;
 
   return context.continue;
 });

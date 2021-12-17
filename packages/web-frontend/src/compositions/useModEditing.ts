@@ -51,7 +51,12 @@ export default function (create = false) {
       }
     }
 
-    meta.title = `Edit ${mod.value.title}`;
+    if (create) {
+      meta.title = `Create new mod`;
+    } else {
+      meta.title = `Edit ${mod.value.title || 'MISSING_TITLE'}"`;
+    }
+
     ready.value = true;
   })();
 
@@ -62,6 +67,7 @@ export default function (create = false) {
         if (!ready.value) return;
 
         mod.value.id = title ? slugify(title) : undefined;
+        meta.title = `Edit ${mod.value.title || ''}`;
       },
     );
   }

@@ -4,6 +4,8 @@ import { PasswordReset, passwordResetModel } from '../../models/';
 import { Role } from '../cfg';
 import mailer from '../mailer';
 import reCaptchaClient from '../ReCaptchaClient';
+import { schema as resetPasswordSchema } from '../routes/forms/resetPasswordForm';
+import { validateSchema } from './_commons';
 
 const passwordResetsEndpoint = finale.resource({
   model: passwordResetModel,
@@ -27,7 +29,9 @@ passwordResetsEndpoint.create.auth(async (req, res, context) => {
     return res.status(200).send();
   }
 
-  return context.continue;
+  if (await validateSchema(req.body, resetPasswordSchema, res)) {
+    return context.continue;
+  }
 });
 
 passwordResetsEndpoint.create.write.before(async (req, res, context) => {

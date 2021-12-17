@@ -67,13 +67,6 @@ modsEndpoint.create.write.before(async (req, res, context) => {
   //todo: workaround for description & readme notnull
   const { description, readme } = req.body;
 
-  if (!description) {
-    req.body.description = '';
-  }
-  if (!readme) {
-    req.body.readme = '';
-  }
-
   if (!(await validateAndWriteModFile(req, res))) {
     return;
   }
@@ -104,11 +97,12 @@ modsEndpoint.create.write.after(async (req, res) => {
     fileHashes,
   })) as ModVersion;
 
-  const newModVersionWithAssociations: ModVersion =
-    (await modVersionModel.findOne({
+  const newModVersionWithAssociations: ModVersion = (await modVersionModel.findOne(
+    {
       where: { id: newModVersion.id },
       include: [modModel],
-    })) as ModVersion;
+    },
+  )) as ModVersion;
   notifier.sendModVersionReleaseNotification(
     newModVersionWithAssociations,
     true,

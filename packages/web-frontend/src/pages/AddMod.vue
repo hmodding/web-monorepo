@@ -106,18 +106,23 @@ export default defineComponent({
   },
   methods: {
     async onSubmit(): Promise<void> {
-      if (!this.loading && this.errorCount <= 0) {
-        this.loading = true;
+      console.log('submit');
+      if (!this.loading) {
         this.showErrors = true;
-        const newMod = await api.addMod(this.mod);
-        if (!!newMod) {
-          this.hasUnsavedChanges = false;
-          await this.$router.push({ name: 'mod', params: { id: newMod.id } });
-          toaster.success(
-            `Your new mod <b>"${newMod.title}"</b> has been created!`,
-          );
+        console.log('showErrors:', this.showErrors)
+
+        if (this.errorCount <= 0) {
+          this.loading = true;
+          const newMod = await api.addMod(this.mod);
+          if (!!newMod) {
+            this.hasUnsavedChanges = false;
+            await this.$router.push({ name: 'mod', params: { id: newMod.id } });
+            toaster.success(
+              `Your new mod <b>"${newMod.title}"</b> has been created!`,
+            );
+          }
+          this.loading = false;
         }
-        this.loading = false;
       } else {
         if (this.errorCount > 0) {
           toaster.error(TOAST_FORM_INVALID);

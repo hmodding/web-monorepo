@@ -78,6 +78,8 @@ export const getSchema = async (): Promise<any> => ({
     'title',
     'id',
     'category',
+    'description',
+    'readme',
     ...(await getModVersionSchema()).required,
   ],
 });

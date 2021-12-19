@@ -1,12 +1,9 @@
-import { DataTypes, FindOptions, Model, ModelDefined, Op } from 'sequelize';
-
-import sequelize from '../modules/sequelize';
-import { ModVersion, modVersionModel } from './ModVersionModel';
-import { User } from './UserModel';
-import { ScheduledModDeletion } from './ScheduledModDeletionModel';
-import { canTreatArrayAsAnd } from 'sequelize/dist/lib/utils';
+import { DataTypes, FindOptions, Model, Op } from 'sequelize';
 import { scheduledModDeletionModel } from '.';
-import { HookReturn } from 'sequelize/dist/lib/hooks';
+import sequelize from '../modules/sequelize';
+import { ModVersion } from './ModVersionModel';
+import { ScheduledModDeletion } from './ScheduledModDeletionModel';
+import { User } from './UserModel';
 
 export interface Mod extends Model {
   id: string;
@@ -76,36 +73,16 @@ export const modModel = sequelize.define(
           id: { [Op.notIn]: excludedIds },
         };
 
+        const includes = Array.isArray(findOptions.include)
+          ? findOptions.include
+          : [findOptions.include];
         const versionsInclude =
-          //@ts-ignore
-          findOptions.include?.find(
-            (include: any) => include.as === 'versions',
-          ) || null;
+          includes.find((include: any) => include.as === 'versions') || null;
 
         if (versionsInclude) {
           findOptions.order = [['versions', 'createdAt', 'desc']];
         } else {
           findOptions.order = [['createdAt', 'desc']];
-        }
-      },
-      beforeCreate({ dataValues: mod }: any) {
-        //todo: workaround for description & readme notnull
-        const { description, readme } = mod;
-        if (!description) {
-          mod.description = '';
-        }
-        if (!readme) {
-          mod.readme = '';
-        }
-      },
-      beforeUpdate({ dataValues: mod }: any) {
-        //todo: workaround for description & readme notnull
-        const { description, readme } = mod;
-        if (!description) {
-          mod.description = '';
-        }
-        if (!readme) {
-          mod.readme = '';
         }
       },
     },

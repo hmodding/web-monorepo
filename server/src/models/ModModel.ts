@@ -1,9 +1,12 @@
-import { DataTypes, FindOptions, Model, ModelDefined } from 'sequelize';
+import { DataTypes, FindOptions, Model, ModelDefined, Op } from 'sequelize';
 
 import sequelize from '../modules/sequelize';
 import { ModVersion, modVersionModel } from './ModVersionModel';
 import { User } from './UserModel';
 import { ScheduledModDeletion } from './ScheduledModDeletionModel';
+import { canTreatArrayAsAnd } from 'sequelize/dist/lib/utils';
+import { scheduledModDeletionModel } from '.';
+import { HookReturn } from 'sequelize/dist/lib/hooks';
 
 export interface Mod extends Model {
   id: string;
@@ -64,7 +67,15 @@ export const modModel = sequelize.define(
   },
   {
     hooks: {
-      beforeFind(findOptions: FindOptions): void {
+      async beforeFind(findOptions: FindOptions): Promise<void> {
+        const modsToDelete = (await scheduledModDeletionModel.findAll()) as ScheduledModDeletion[];
+        const excludedIds = modsToDelete.map(({ modId }) => modId);
+
+        findOptions.where = {
+          ...findOptions.where,
+          id: { [Op.notIn]: excludedIds },
+        };
+
         const versionsInclude =
           //@ts-ignore
           findOptions.include?.find(

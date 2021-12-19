@@ -1,4 +1,4 @@
-import finale, { Context } from 'finale-rest';
+import finale from 'finale-rest';
 import {
   modLikeModel,
   modModel,
@@ -63,9 +63,6 @@ modsEndpoint.create.write.before(async (req, res, context) => {
   const session = await extractSession(req);
 
   req.body.author = session?.user?.username;
-
-  //todo: workaround for description & readme notnull
-  const { description, readme } = req.body;
 
   if (!(await validateAndWriteModFile(req, res))) {
     return;
@@ -140,12 +137,6 @@ modsEndpoint.update.auth(async (req, res, context) => {
         .send({ error: `Provided author "<b>${author}</b>" does not exist!` });
     }
   }
-
-  return context.continue;
-});
-
-modsEndpoint.list.fetch.after(async (req, res, context) => {
-  console.log('res', res);
 
   return context.continue;
 });

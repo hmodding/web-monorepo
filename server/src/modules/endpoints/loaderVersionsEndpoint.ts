@@ -1,13 +1,33 @@
 import finale from 'finale-rest';
-import { LoaderVersion, loaderVersionModel } from '../../models';
+import {
+  LoaderVersion,
+  loaderVersionModel,
+  raftVersionModel,
+} from '../../models';
 import notifier from '../notfier/DiscordNotifier';
 import { validateAdminPrivileges } from './_commons';
 
 export const loaderVersionsEndpoint = finale.resource({
   model: loaderVersionModel,
   endpoints: ['/loaderVersions', '/loaderVersions/:rmlVersion'],
-  associations: true,
   actions: ['read', 'list', 'create'],
+  include: [
+    {
+      model: raftVersionModel,
+      as: 'raftVersion',
+      attributes: {
+        include: [
+          'id',
+          'version',
+          'buildId',
+          'title',
+          'releasedAt',
+          'createdAt',
+          'updatedAt',
+        ],
+      },
+    },
+  ],
 });
 
 export default loaderVersionsEndpoint;

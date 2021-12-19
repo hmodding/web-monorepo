@@ -10,7 +10,6 @@ import {
   scheduledPluginDeletionModel,
   sessionModel,
   userModel,
-  passwordResetModel,
 } from '../models';
 
 modModel.hasMany(modVersionModel, {

@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
-import { LauncherVersion, LoaderVersion, Mod, ModVersion } from 'src/models';
 import { v1 } from 'uuid';
+import { LauncherVersion, LoaderVersion, Mod } from '../models';
 import cfg from './cfg';
 
 export function validatePassword(given: string, expected: string): boolean {
@@ -12,7 +12,7 @@ export function capitalize(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-export function generateToken(data: string | null = null, length: number = -1) {
+export function generateToken(data: string | null = null, length = -1) {
   if (data === null) {
     data = v1();
   }

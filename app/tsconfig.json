@@ -1,12 +1,19 @@
 {
+  /* APP */
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "module": "esnext",
-    "strict": false,
-    "esModuleInterop": true,
+    "isolatedModules": true,
+    "useDefineForClassFields": true,
     "outDir": "dist",
-    "types": ["node", "vite/client"],
-    "typeRoots": ["./node_modules/@types", "./src/@types/*"]
+    "baseUrl": ".",
+    "paths": {
+      "*": [
+        "node_modules/*",
+        "src/types/*"
+      ]
+    }
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"]
+  "include": [
+    "src/**/*"
+  ]
 }

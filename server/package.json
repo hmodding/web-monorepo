@@ -6,7 +6,7 @@
     "dev": "nodemon ./src/main.ts",
     "build": "npx tsc --build",
     "clean": "npx tsc --clean",
-    "start": "node ./build/main.js",
+    "start": "node ./dist/src/main.js",
     "format": "npx prettier --write ."
   },
   "author": "raftmodding.com",

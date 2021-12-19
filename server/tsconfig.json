@@ -1,18 +1,17 @@
 {
+  /* SERVER */
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "module": "commonjs",
-    "strict": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "outDir": "build",
-    "allowJs": true,
-    "typeRoots": ["./node_modules/@types", "./src/@types"],
-    "types": ["node"],
+    "outDir": "dist",
     "baseUrl": ".",
     "paths": {
-      "*": ["./src/@types/*", "*"]
+      "*": [
+        "node_modules/*",
+        "src/types/*"
+      ]
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx"]
+  "include": [
+    "src/**/*"
+  ]
 }

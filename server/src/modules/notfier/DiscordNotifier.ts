@@ -14,6 +14,7 @@ import {
   softwareDownloadUrl,
 } from '../utils';
 import cfg, { DiscordNotificationsCfg } from '../cfg';
+import { AxiosError } from 'axios';
 
 /**
  * Allows sending {launcher, loader, mod} version release notifications to
@@ -200,8 +201,8 @@ export class DiscordNotifier {
     }
     try {
       await client.sendMessage(message);
-    } catch (err) {
-      console.error(err.response);
+    } catch (err: unknown) {
+      console.error((err as AxiosError).response);
     }
   }
 }

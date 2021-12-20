@@ -48,9 +48,13 @@ accountCreationsEndpoint.create.write.after(async (req, res) => {
     where: { username, email },
   });
 
-  mailer.sendAccountCreationMail(accountCreation); // don't await!
+  if (accountCreation) {
+    mailer.sendAccountCreationMail(accountCreation); // don't await!
 
-  return res.status(204).send();
+    return res.status(204).send();
+  }
+
+  return res.status(500).send({ error: 'Failed to create account!' });
 });
 
 accountCreationsEndpoint.create.write.after(async (req, res) => {
@@ -60,9 +64,13 @@ accountCreationsEndpoint.create.write.after(async (req, res) => {
     where: { username, email },
   });
 
-  mailer.sendAccountCreationMail(accountCreation); // don't await!
+  if (accountCreation) {
+    mailer.sendAccountCreationMail(accountCreation); // don't await!
 
-  return res.status(204).send();
+    return res.status(204).send();
+  }
+
+  return res.status(500).send({ error: 'Failed to create account!' });
 });
 
 accountCreationsEndpoint.delete.auth(async (req, res, context) => {

@@ -26,12 +26,12 @@ usersEndpoint.update.auth(async (req, res, context) => {
   }
 
   const { currentPassword, password, passwordConfirm } = req.body;
-  const user: User = await userModel.findOne({
+  const user = await userModel.findOne({
     where: { id: session.userId },
     attributes: ['password'],
   }); // we know that the user exists since we checked the session
 
-  if (!validatePassword(currentPassword || '', user.password)) {
+  if (user && !validatePassword(currentPassword || '', user.password)) {
     return res.status(403).send({
       error: 'Your current password was incorrect!',
     });

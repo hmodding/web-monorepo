@@ -43,7 +43,9 @@ export async function validateAuthToken(
         return session;
       }
     }
-  } catch (e) {}
+  } catch (e) {
+    console.warn('could not validate auth token', req);
+  }
 
   res.status(403).send({
     error: 'You are missing authorization!',

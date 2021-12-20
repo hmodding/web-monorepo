@@ -5,6 +5,7 @@ import { Role } from '../cfg';
 import mailer from '../mailer';
 import reCaptchaClient from '../ReCaptchaClient';
 import { schema as resetPasswordSchema } from '../routes/forms/resetPasswordForm';
+import { password } from '../routes/forms/_commons';
 import { validateSchema } from './_commons';
 
 const passwordResetsEndpoint = finale.resource({
@@ -37,27 +38,41 @@ passwordResetsEndpoint.create.auth(async (req, res, context) => {
 passwordResetsEndpoint.create.write.before(async (req, res, context) => {
   const { email } = req.body;
   const user = await userModel.findOne({ where: { email } });
-  const passwordResetItem = await passwordResetModel.findOne({
-    where: { userId: user.id },
-  });
 
-  passwordResetItem?.destroy();
+  if (user) {
+    const passwordResetItem = await passwordResetModel.findOne({
+      where: { userId: user.id },
+    });
 
-  req.body.userId = user.id;
-  req.body.token = '[[ WILL BE GENERATED! ]]';
+    passwordResetItem?.destroy();
 
-  return context.continue;
+    req.body.userId = user.id;
+    req.body.token = '[[ WILL BE GENERATED! ]]';
+
+    return context.continue;
+  } else {
+    res.status(400).send({ error: 'password reset failed' });
+  }
 });
 
 passwordResetsEndpoint.create.write.after(async (req, res) => {
   const { email } = req.body;
   const user = await userModel.findOne({ where: { email } });
-  const { token } = await passwordResetModel.findOne({
+
+  if (!user) {
+    return res.status(400).send({ error: 'password reset failed' });
+  }
+
+  const passwordReset = await passwordResetModel.findOne({
     where: { userId: user.id },
   });
 
-  mailer.sendPasswordResetMail(user, token); //don't await!
-  //prevent any data response! we don't want the tosken to be leaked!
+  if (!passwordReset) {
+    return res.status(400).send({ error: 'password reset failed' });
+  }
+
+  mailer.sendPasswordResetMail(user, passwordReset.token); // don't wait!
+  //prevent any data response! we don't want the token to be leaked!
   return res.status(200).send();
 });
 
@@ -85,6 +100,10 @@ passwordResetsEndpoint.delete.auth(async (req, res, context) => {
 passwordResetsEndpoint.delete.write.after(async (req, res, context) => {
   const { id, password } = req.body;
   const user = await userModel.findOne({ where: { id } });
+
+  if (!user) {
+    return res.status(500).send('password reset failed!');
+  }
 
   await user.update({
     password,

@@ -93,16 +93,21 @@ modsEndpoint.create.write.after(async (req, res) => {
     fileHashes,
   });
 
-  const newModVersionWithAssociations: ModVersion = await modVersionModel.findOne(
-    {
-      where: { id: newModVersion.id },
-      include: [modModel],
-    },
-  );
-  notifier.sendModVersionReleaseNotification(
-    newModVersionWithAssociations,
-    true,
-  );
+  const newModVersionWithAssociations = await modVersionModel.findOne({
+    where: { id: newModVersion.id },
+    include: [modModel],
+  });
+
+  if (newModVersionWithAssociations) {
+    notifier.sendModVersionReleaseNotification(
+      newModVersionWithAssociations,
+      true,
+    );
+  } else {
+    console.warn('could not find new mod version with associations!', {
+      id: newModVersion.id,
+    });
+  }
 
   const withAssociations = await modModel.findOne({
     where: {

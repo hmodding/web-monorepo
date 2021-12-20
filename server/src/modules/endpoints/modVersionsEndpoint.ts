@@ -38,7 +38,9 @@ modVersionsEndpoint.create.write.before(async (req, res, context) => {
 });
 
 modVersionsEndpoint.create.write.after(async (req, res, context) => {
-  const newModVersion: ModVersion = (context as any).instance;
+  const newModVersion = ((context as unknown) as {
+    instance: ModVersion;
+  }).instance;
   const newModVersionWithAssociations = await modVersionModel.findOne({
     where: { id: newModVersion.id },
     include: [modModel],

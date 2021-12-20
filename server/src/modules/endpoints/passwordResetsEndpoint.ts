@@ -5,7 +5,6 @@ import { Role } from '../cfg';
 import mailer from '../mailer';
 import reCaptchaClient from '../ReCaptchaClient';
 import { schema as resetPasswordSchema } from '../routes/forms/resetPasswordForm';
-import { password } from '../routes/forms/_commons';
 import { validateSchema } from './_commons';
 
 const passwordResetsEndpoint = finale.resource({

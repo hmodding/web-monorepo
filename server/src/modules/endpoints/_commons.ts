@@ -1,3 +1,4 @@
+import { Request, Response } from 'express';
 import FileType from 'file-type';
 import {
   Mod,
@@ -13,7 +14,7 @@ import { FileManager, ObjectMeta } from '../FileManager';
 
 const fileManger = new FileManager(cfg);
 
-export async function extractSession(req: any): Promise<Session | null> {
+export async function extractSession(req: Request): Promise<Session | null> {
   try {
     const { authtoken } = req.headers;
 
@@ -29,8 +30,8 @@ export async function extractSession(req: any): Promise<Session | null> {
 }
 
 export async function validateAuthToken(
-  req: any,
-  res: any,
+  req: Request,
+  res: Response,
   allowUnfinished = false,
 ): Promise<Session | null> {
   const { authtoken } = req.headers;
@@ -55,16 +56,16 @@ export async function validateAuthToken(
 }
 
 export async function validateModOwnership(
-  req: any,
-  res: any,
+  req: Request,
+  res: Response,
   modIdParamKey = 'id',
 ): Promise<Mod | null> {
   const foundSession = await validateAuthToken(req, res);
 
-  if (!foundSession) return null;
+  if (!foundSession || !foundSession.user) return null;
 
   try {
-    const { username: author, role } = foundSession.user!;
+    const { username: author, role } = foundSession.user;
     const { [modIdParamKey]: id } = req.params;
     let foundMod;
 
@@ -86,8 +87,8 @@ export async function validateModOwnership(
 }
 
 export async function validateAndWriteModFile(
-  req: any,
-  res: any,
+  req: Request,
+  res: Response,
 ): Promise<boolean> {
   const { file, id, version } = req.body;
   const buffer = Buffer.from(file.base64, 'base64');
@@ -118,9 +119,9 @@ export async function validateAndWriteModFile(
 }
 
 export async function validateAdminPrivileges(
-  req: any,
-  res: any,
-): Promise<User> {
+  req: Request,
+  res: Response,
+): Promise<User | Response> {
   const session = await validateAuthToken(req, res);
 
   if (session && session.user && session.user.isAdmin()) {
@@ -131,9 +132,9 @@ export async function validateAdminPrivileges(
 }
 
 export async function validateSchema(
-  data: any,
-  schema: any,
-  res: any,
+  data: Request,
+  schema: object,
+  res: Response,
 ): Promise<boolean> {
   const validate = ajv.compile(schema);
 

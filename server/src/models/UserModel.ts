@@ -48,7 +48,7 @@ export const userModel = sequelize.define<User>(
       beforeCreate: () => {
         // passwords are already hashed in AccountCreation.beforeCreate
       },
-      beforeUpdate: (user: any) => {
+      beforeUpdate: (user: User) => {
         const salt = bcrypt.genSaltSync();
         user.password = bcrypt.hashSync(user.password, salt);
       },

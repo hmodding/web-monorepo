@@ -1,5 +1,5 @@
 import finale from 'finale-rest';
-import { User, userModel } from '../../models';
+import { userModel } from '../../models';
 import { validatePassword } from '../utils';
 import { validateAuthToken } from './_commons';
 

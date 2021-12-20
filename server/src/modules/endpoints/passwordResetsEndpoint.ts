@@ -1,6 +1,6 @@
 import finale from 'finale-rest';
-import { User, userModel } from '../../models';
-import { PasswordReset, passwordResetModel } from '../../models/';
+import { userModel } from '../../models';
+import { passwordResetModel } from '../../models/';
 import { Role } from '../cfg';
 import mailer from '../mailer';
 import reCaptchaClient from '../ReCaptchaClient';
@@ -22,7 +22,7 @@ passwordResetsEndpoint.create.auth(async (req, res, context) => {
     return res.status(403).send({ error: 'Invalid CAPTCHA!' });
   }
 
-  const user = (await userModel.findOne({ where: { email } })) as User;
+  const user = await userModel.findOne({ where: { email } });
 
   if (!user || user.role === Role.UNFINISHED) {
     // do nothing! we don't want people to find existing email with this form! (dont just trust captcha)
@@ -36,7 +36,7 @@ passwordResetsEndpoint.create.auth(async (req, res, context) => {
 
 passwordResetsEndpoint.create.write.before(async (req, res, context) => {
   const { email } = req.body;
-  const user = (await userModel.findOne({ where: { email } })) as User;
+  const user = await userModel.findOne({ where: { email } });
   const passwordResetItem = await passwordResetModel.findOne({
     where: { userId: user.id },
   });
@@ -49,12 +49,12 @@ passwordResetsEndpoint.create.write.before(async (req, res, context) => {
   return context.continue;
 });
 
-passwordResetsEndpoint.create.write.after(async (req, res, context) => {
+passwordResetsEndpoint.create.write.after(async (req, res) => {
   const { email } = req.body;
-  const user = (await userModel.findOne({ where: { email } })) as User;
-  const { token } = (await passwordResetModel.findOne({
+  const user = await userModel.findOne({ where: { email } });
+  const { token } = await passwordResetModel.findOne({
     where: { userId: user.id },
-  })) as PasswordReset;
+  });
 
   mailer.sendPasswordResetMail(user, token); //don't await!
   //prevent any data response! we don't want the tosken to be leaked!
@@ -66,9 +66,9 @@ passwordResetsEndpoint.delete.auth(async (req, res, context) => {
   const { password, passwordConfirm } = req.query;
 
   if (password && passwordConfirm && password === passwordConfirm) {
-    const passwordReset = (await passwordResetModel.findOne({
+    const passwordReset = await passwordResetModel.findOne({
       where: { token },
-    })) as PasswordReset;
+    });
 
     if (passwordReset) {
       req.body = { id: passwordReset.userId, password, passwordConfirm };
@@ -84,7 +84,7 @@ passwordResetsEndpoint.delete.auth(async (req, res, context) => {
 
 passwordResetsEndpoint.delete.write.after(async (req, res, context) => {
   const { id, password } = req.body;
-  const user = (await userModel.findOne({ where: { id } })) as User;
+  const user = await userModel.findOne({ where: { id } });
 
   await user.update({
     password,

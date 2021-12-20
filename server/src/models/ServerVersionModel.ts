@@ -10,27 +10,30 @@ export interface ServerVersion extends Model {
   changelog?: string;
 }
 
-export const serverVersionModel = sequelize.define('server-versions', {
-  version: {
-    type: DataTypes.STRING,
-    unique: true,
-    allowNull: false,
-    primaryKey: true,
+export const serverVersionModel = sequelize.define<ServerVersion>(
+  'server-versions',
+  {
+    version: {
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull: false,
+      primaryKey: true,
+    },
+    raftVersion: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    timestamp: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    downloadUrl: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    changelog: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
   },
-  raftVersion: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  timestamp: {
-    type: DataTypes.DATE,
-    allowNull: false,
-  },
-  downloadUrl: {
-    type: DataTypes.TEXT,
-    allowNull: false,
-  },
-  changelog: {
-    type: DataTypes.TEXT,
-    allowNull: true,
-  },
-});
+);

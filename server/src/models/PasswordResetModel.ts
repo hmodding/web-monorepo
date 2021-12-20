@@ -10,7 +10,7 @@ export interface PasswordReset extends Model {
   user?: User;
 }
 
-export const passwordResetModel = sequelize.define(
+export const passwordResetModel = sequelize.define<PasswordReset>(
   'password-reset',
   {
     userId: {
@@ -30,7 +30,7 @@ export const passwordResetModel = sequelize.define(
   },
   {
     hooks: {
-      beforeCreate({ dataValues: passwordReset }: any) {
+      beforeCreate(passwordReset: PasswordReset) {
         passwordReset.token = generateToken();
       },
     },

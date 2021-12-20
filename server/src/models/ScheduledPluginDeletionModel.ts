@@ -9,7 +9,7 @@ export interface ScheduledPluginDeletion extends Model {
   plugin?: Plugin;
 }
 
-export const scheduledPluginDeletionModel = sequelize.define(
+export const scheduledPluginDeletionModel = sequelize.define<ScheduledPluginDeletion>(
   'scheduled-plugin-deletions',
   {
     pluginId: {

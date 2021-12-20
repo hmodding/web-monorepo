@@ -9,7 +9,7 @@ export interface ScheduledModDeletion extends Model {
   mod?: Mod;
 }
 
-export const scheduledModDeletionModel = sequelize.define(
+export const scheduledModDeletionModel = sequelize.define<ScheduledModDeletion>(
   'scheduled-mod-deletion',
   {
     modId: {

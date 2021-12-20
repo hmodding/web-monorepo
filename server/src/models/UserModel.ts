@@ -15,10 +15,10 @@ export interface User extends Model {
   plugins?: Plugin[];
   modBundles?: ModBundle[];
   likedMods?: Mod[];
-  isAdmin: Function;
+  isAdmin: () => boolean;
 }
 
-export const userModel = sequelize.define(
+export const userModel = sequelize.define<User>(
   'users',
   {
     username: {

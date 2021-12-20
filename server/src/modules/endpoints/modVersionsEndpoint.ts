@@ -39,12 +39,12 @@ modVersionsEndpoint.create.write.before(async (req, res, context) => {
 
 modVersionsEndpoint.create.write.after(async (req, res, context) => {
   const newModVersion: ModVersion = (context as any).instance;
-  const newModVersionWithAssociations: ModVersion = (await modVersionModel.findOne(
+  const newModVersionWithAssociations: ModVersion = await modVersionModel.findOne(
     {
       where: { id: newModVersion.id },
       include: [modModel],
     },
-  )) as ModVersion;
+  );
 
   notifier.sendModVersionReleaseNotification(
     newModVersionWithAssociations,

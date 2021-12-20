@@ -17,11 +17,13 @@ export async function extractSession(req: any): Promise<Session | null> {
   try {
     const { authtoken } = req.headers;
 
-    return (await sessionModel.findOne({
+    return await sessionModel.findOne({
       where: { token: authtoken },
       include: { model: userModel, as: 'user' },
-    })) as Session;
-  } catch (e) {}
+    });
+  } catch (e) {
+    console.warn('failed to extract session!', req);
+  }
 
   return null;
 }
@@ -29,7 +31,7 @@ export async function extractSession(req: any): Promise<Session | null> {
 export async function validateAuthToken(
   req: any,
   res: any,
-  allowUnfinished: boolean = false,
+  allowUnfinished = false,
 ): Promise<Session | null> {
   const { authtoken } = req.headers;
 
@@ -53,7 +55,7 @@ export async function validateAuthToken(
 export async function validateModOwnership(
   req: any,
   res: any,
-  modIdParamKey: string = 'id',
+  modIdParamKey = 'id',
 ): Promise<Mod | null> {
   const foundSession = await validateAuthToken(req, res);
 
@@ -65,9 +67,9 @@ export async function validateModOwnership(
     let foundMod;
 
     if (role === Role.ADMIN) {
-      foundMod = (await modModel.findOne({ where: { id } })) as Mod;
+      foundMod = await modModel.findOne({ where: { id } });
     } else {
-      foundMod = (await modModel.findOne({ where: { id, author } })) as Mod;
+      foundMod = await modModel.findOne({ where: { id, author } });
     }
 
     if (foundMod) {

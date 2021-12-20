@@ -1,4 +1,4 @@
-import { DataTypes, FindOptions, Model, Op } from 'sequelize';
+import { Association, DataTypes, FindOptions, Model, Op } from 'sequelize';
 import { scheduledModDeletionModel } from '.';
 import sequelize from '../modules/sequelize';
 import { ModVersion } from './ModVersionModel';
@@ -20,7 +20,7 @@ export interface Mod extends Model {
   deletion?: ScheduledModDeletion;
 }
 
-export const modModel = sequelize.define(
+export const modModel = sequelize.define<Mod>(
   'mods',
   {
     id: {
@@ -65,7 +65,7 @@ export const modModel = sequelize.define(
   {
     hooks: {
       async beforeFind(findOptions: FindOptions): Promise<void> {
-        const modsToDelete = (await scheduledModDeletionModel.findAll()) as ScheduledModDeletion[];
+        const modsToDelete = await scheduledModDeletionModel.findAll();
         const excludedIds = modsToDelete.map(({ modId }) => modId);
 
         findOptions.where = {
@@ -77,7 +77,9 @@ export const modModel = sequelize.define(
           ? findOptions.include
           : [findOptions.include];
         const versionsInclude =
-          includes.find((include: any) => include.as === 'versions') || null;
+          includes.find(
+            (include) => (include as Association).as === 'versions',
+          ) || null;
 
         if (versionsInclude) {
           findOptions.order = [['versions', 'createdAt', 'desc']];

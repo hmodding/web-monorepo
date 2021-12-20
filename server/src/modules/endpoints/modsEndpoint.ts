@@ -4,7 +4,6 @@ import {
   modModel,
   ModVersion,
   modVersionModel,
-  Session,
   userModel,
 } from '../../models';
 import notifier from '../notfier/DiscordNotifier';
@@ -31,7 +30,7 @@ export const modsEndpoint = finale.resource({
 });
 
 modsEndpoint.create.auth(async (req, res, context) => {
-  const session = (await validateAuthToken(req, res)) as Session;
+  const session = await validateAuthToken(req, res);
 
   if (!session) {
     return;
@@ -82,7 +81,7 @@ modsEndpoint.create.write.after(async (req, res) => {
     downloadUrl,
     fileHashes,
   } = modProps;
-  const newModVersion: ModVersion = (await modVersionModel.create({
+  const newModVersion: ModVersion = await modVersionModel.create({
     modId,
     version,
     changelog: 'This is the first version',
@@ -92,14 +91,14 @@ modsEndpoint.create.write.after(async (req, res) => {
     maxRaftVersionId,
     definiteMaxRaftVersion: !!definiteMaxRaftVersion,
     fileHashes,
-  })) as ModVersion;
+  });
 
-  const newModVersionWithAssociations: ModVersion = (await modVersionModel.findOne(
+  const newModVersionWithAssociations: ModVersion = await modVersionModel.findOne(
     {
       where: { id: newModVersion.id },
       include: [modModel],
     },
-  )) as ModVersion;
+  );
   notifier.sendModVersionReleaseNotification(
     newModVersionWithAssociations,
     true,

@@ -1,5 +1,5 @@
 import finale from 'finale-rest';
-import { Session, User, userModel } from '../../models';
+import { User, userModel } from '../../models';
 import { validatePassword } from '../utils';
 import { validateAuthToken } from './_commons';
 
@@ -11,7 +11,7 @@ const usersEndpoint = finale.resource({
 });
 
 usersEndpoint.update.auth(async (req, res, context) => {
-  const session = (await validateAuthToken(req, res)) as Session;
+  const session = await validateAuthToken(req, res);
 
   if (!session || !session.user) return;
 
@@ -26,10 +26,10 @@ usersEndpoint.update.auth(async (req, res, context) => {
   }
 
   const { currentPassword, password, passwordConfirm } = req.body;
-  const user: User = (await userModel.findOne({
+  const user: User = await userModel.findOne({
     where: { id: session.userId },
     attributes: ['password'],
-  })) as User; // we know that the user exists since we checked the session
+  }); // we know that the user exists since we checked the session
 
   if (!validatePassword(currentPassword || '', user.password)) {
     return res.status(403).send({

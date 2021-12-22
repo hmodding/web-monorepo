@@ -65,7 +65,7 @@ modLikesEndpoint.delete.auth(async (req, res, context) => {
   return context.continue;
 });
 
-modLikesEndpoint.delete.write.before(async (req, res, context) => {
+modLikesEndpoint.delete.write.before(async (req, res) => {
   const { userId } = req.body;
   const modLike = await modLikeModel.findOne({ where: { userId } });
 
@@ -75,5 +75,5 @@ modLikesEndpoint.delete.write.before(async (req, res, context) => {
 
   await modLike.destroy();
 
-  return res.status(200).send();
+  return res.status(200).send({ success: true });
 });

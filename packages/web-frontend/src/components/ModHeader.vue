@@ -35,7 +35,7 @@
 import { defineComponent, Ref, ref } from 'vue';
 import { useMod } from '../compositions';
 import api from '../modules/api';
-import { state } from '../modules/stateManager';
+import { isSessionExpired, state } from '../modules/stateManager';
 import toaster from '../modules/toaster';
 import Icon from './Icon.vue';
 
@@ -70,6 +70,18 @@ export default defineComponent({
         toaster.success(
           'Nice try 😁<br/><b>Finish creating your mod first.</b>',
         );
+        return;
+      }
+
+      if (isSessionExpired()) {
+        toaster.error(`You have to login to like a mod! `);
+        this.$router.push({
+          name: 'signIn',
+          query: {
+            redirect: this.$route.name,
+            paramsStr: JSON.stringify(this.$route.params),
+          },
+        });
         return;
       }
 

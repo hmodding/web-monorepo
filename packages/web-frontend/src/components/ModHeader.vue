@@ -98,7 +98,6 @@ export default defineComponent({
           toaster.success(`You liked <b>${this.mod.title}</b>`);
         }
       } else {
-        this.$emit('like', false);
         if (await api.unlikeMod(this.mod.id)) {
           this.$emit('like', false);
           toaster.success(`You <u>no longer</u> like <b>${this.mod.title}</b>`);

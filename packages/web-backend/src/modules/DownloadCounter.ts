@@ -71,7 +71,7 @@ const TRACKING_DURATION = 1000 * 60; // 1 hour
  */
 export class DownloadCounter {
   private cfg: Cfg;
-  private client: Client;
+  private client: Client | null;
   private modNotificationEmitter?: EventEmitter;
   private removalTask?: NodeJS.Timeout;
 
@@ -82,17 +82,29 @@ export class DownloadCounter {
    */
   public constructor(cfg: Cfg) {
     this.cfg = cfg;
-    this.client = new Client({
-      accessKey: cfg.storage.accessKey,
-      secretKey: cfg.storage.secretKey,
-      endPoint: cfg.storage.endPoint,
-    });
+
+    const { accessKey, secretKey, endPoint } = cfg.storage;
+
+    if (accessKey && secretKey && !endPoint) {
+      this.client = new Client({
+        accessKey: cfg.storage.accessKey,
+        secretKey: cfg.storage.secretKey,
+        endPoint: cfg.storage.endPoint,
+      });
+    } else {
+      console.log('MISSING STORAGE CLIENT CONFIG! Upload not supported!');
+      this.client = null;
+    }
   }
 
   /**
    * Starts to listen for download events.
    */
   public startListening(): void {
+    if (!this.client) {
+      return console.log('No storage client configured! Nothing was uploaded!');
+    }
+
     this.modNotificationEmitter = this.client.listenBucketNotification(
       this.cfg.storage.publicBucket,
       '',

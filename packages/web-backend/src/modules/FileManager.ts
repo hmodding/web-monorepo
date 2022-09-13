@@ -25,7 +25,7 @@ export interface ObjectMeta {
  */
 export class FileManager {
   private cfg: Cfg;
-  private client: Client;
+  private client: Client | null;
 
   /**
    * Instantiates the file manager.
@@ -34,11 +34,18 @@ export class FileManager {
   public constructor(cfg: Cfg) {
     this.cfg = cfg;
 
-    this.client = new Client({
-      accessKey: cfg.storage.accessKey,
-      secretKey: cfg.storage.secretKey,
-      endPoint: cfg.storage.endPoint,
-    });
+    const { accessKey, secretKey, endPoint } = cfg.storage;
+
+    if (accessKey && secretKey && !endPoint) {
+      this.client = new Client({
+        accessKey: cfg.storage.accessKey,
+        secretKey: cfg.storage.secretKey,
+        endPoint: cfg.storage.endPoint,
+      });
+    } else {
+      console.warn('MISSING STORAGE CLIENT CONFIG! Upload not supported!');
+      this.client = null;
+    }
   }
 
   /**
@@ -92,12 +99,16 @@ export class FileManager {
     fileContents: Buffer,
   ): Promise<ObjectMeta> {
     const bucket = this.cfg.storage.publicBucket;
-
     const sha256 = this.hashSha256(fileContents);
+    let md5 = '';
 
-    const md5 = (
-      await this.client.putObject(bucket, filePath, fileContents)
-    ).toString();
+    if (this.client) {
+      md5 = (
+        await this.client.putObject(bucket, filePath, fileContents)
+      ).toString();
+    } else {
+      console.warn('No storage client configured! Nothing was uploaded!');
+    }
 
     return {
       url: `https://${this.cfg.storage.endPoint}/${bucket}/${filePath}`,
@@ -172,6 +183,12 @@ export class FileManager {
   private async moveDir(srcBucket: string, destBucket: string, dir: string) {
     const fileKeys = await this.listObjectsRecursively(srcBucket, dir);
 
+    if (!this.client) {
+      return console.warn(
+        'No storage client configured! Nothing was uploaded!',
+      );
+    }
+
     for (let fileKey of fileKeys) {
       const fileContent = await this.client.getObject(srcBucket, fileKey);
       await this.client.putObject(destBucket, fileKey, fileContent);
@@ -187,6 +204,11 @@ export class FileManager {
   public async deleteModFiles(modSlug: string): Promise<void> {
     const prefix = `mods/${modSlug}/`;
 
+    if (!this.client) {
+      return console.warn(
+        'No storage client configured! Nothing was uploaded!',
+      );
+    }
     const objects = await this.listObjectsRecursively(
       this.cfg.storage.publicBucket,
       prefix,
@@ -211,7 +233,7 @@ export class FileManager {
   ): Promise<string[]> {
     return await new Promise<string[]>((resolve, reject) => {
       const names: string[] = [];
-      const stream = this.client.listObjectsV2(bucket, dir, true);
+      const stream = this.client!.listObjectsV2(bucket, dir, true);
       stream.on('data', (item) => names.push(item.name));
       stream.on('error', (err) => reject(err));
       stream.on('end', () => resolve(names));

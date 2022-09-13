@@ -3,6 +3,7 @@ import { LauncherVersion, LoaderVersion, Mod, ModVersion } from '../../models';
 import {
   DiscordWebhookClient,
   Embed,
+  EmbedField,
   WebhookMessage,
 } from './DiscordWebhookClient';
 import {
@@ -14,6 +15,7 @@ import {
   softwareDownloadUrl,
 } from '../utils';
 import cfg, { DiscordNotificationsCfg } from '../cfg';
+import { AxiosError, AxiosResponse } from 'axios';
 
 /**
  * Allows sending {launcher, loader, mod} version release notifications to
@@ -175,16 +177,62 @@ export class DiscordNotifier {
     this.notify(this.loaderVersionWebhookClient, this.cfg.loaderRoleId, embed);
   }
 
+  private trimEmbed(embed: Embed): Embed {
+    return {
+      ...embed,
+      title: this.trimEmbedTitle(embed.title),
+      description: this.trimEmbedDescription(embed.description),
+      fields: this.trimEmbedFields(embed.fields),
+    };
+  }
+
+  private trimEmbedTitle(title?: string) {
+    if (!title) return '';
+    if (title.length > 256) return title.substring(0, 252) + '...';
+    return title;
+  }
+
+  private trimEmbedDescription(description?: string) {
+    if (!description) return '';
+    if (description.length > 4096)
+      return description.substring(0, 4092) + '...';
+    return description;
+  }
+
+  private trimEmbedFields(fields?: EmbedField[]) {
+    if (!fields || fields.length <= 0) return [];
+
+    let trimmedFields = [...fields];
+
+    if (fields.length > 25) {
+      trimmedFields = trimmedFields.slice(0, 24);
+    }
+
+    return trimmedFields.map((field) => ({
+      ...field,
+      name:
+        field.name && field.name.length > 256
+          ? field.name.substring(0, 252) + '...'
+          : field.name,
+      value:
+        field.value && field.value.length > 1024
+          ? field.value.substring(0, 1020) + '...'
+          : field.value,
+    }));
+  }
+
   private async notify(
     client: DiscordWebhookClient,
     roleId: string,
     embed: Embed,
   ): Promise<void> {
     let message: WebhookMessage;
+    const trimmedEmbed = this.trimEmbed(embed);
+
     if (roleId && this.pingRateLimiter.canPing(roleId)) {
       message = {
         content: formatRoleMention(roleId),
-        embeds: [embed],
+        embeds: [trimmedEmbed],
         allowed_mentions: {
           roles: [roleId],
         },
@@ -192,7 +240,7 @@ export class DiscordNotifier {
       this.pingRateLimiter.ping(roleId);
     } else {
       message = {
-        embeds: [embed],
+        embeds: [trimmedEmbed],
         allowed_mentions: {
           parse: [],
         },
@@ -201,7 +249,7 @@ export class DiscordNotifier {
     try {
       await client.sendMessage(message);
     } catch (err) {
-      console.error(err.response);
+      console.error((err as AxiosError).response);
     }
   }
 }

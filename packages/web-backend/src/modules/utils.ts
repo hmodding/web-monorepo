@@ -1,8 +1,9 @@
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
-import { LauncherVersion, LoaderVersion, Mod, ModVersion } from 'src/models';
+import { LauncherVersion, LoaderVersion, Mod } from '../models';
 import { v1 } from 'uuid';
 import cfg from './cfg';
+import { initDbData } from '../../resources/initDbData';
 
 export function validatePassword(given: string, expected: string): boolean {
   return bcrypt.compareSync(given, expected);
@@ -61,6 +62,11 @@ export function getLauncherVersionUrl(version: LauncherVersion): string {
 export function getUserUrlForUsername(username: string): string {
   return `${cfg.frontendBaseUrl}user/${encodeURIComponent(username)}`;
 }
+
+/**
+ * puts example data into the database (prevents duplicates!)
+ */
+export const insertDatabaseExampleData = initDbData;
 
 /**
  * Publicly accessible WWW URL for the mod loader download page.

@@ -11,27 +11,30 @@ export interface LoaderVersion extends Model {
   raftVersion?: RaftVersion;
 }
 
-export const loaderVersionModel = sequelize.define('loader-versions', {
-  rmlVersion: {
-    type: DataTypes.STRING,
-    unique: true,
-    allowNull: false,
-    primaryKey: true,
-  },
-  raftVersionId: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    references: {
-      model: 'raft-versions',
-      key: 'id',
+export const loaderVersionModel = sequelize.define<LoaderVersion>(
+  'loader-versions',
+  {
+    rmlVersion: {
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull: false,
+      primaryKey: true,
+    },
+    raftVersionId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'raft-versions',
+        key: 'id',
+      },
+    },
+    timestamp: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    readme: {
+      type: DataTypes.TEXT,
+      allowNull: true,
     },
   },
-  timestamp: {
-    type: DataTypes.DATE,
-    allowNull: false,
-  },
-  readme: {
-    type: DataTypes.TEXT,
-    allowNull: true,
-  },
-});
+);

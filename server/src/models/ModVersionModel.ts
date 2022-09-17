@@ -22,7 +22,7 @@ export interface ModVersion extends Model {
   fileHashes?: Json;
 }
 
-export const modVersionModel = sequelize.define(
+export const modVersionModel = sequelize.define<ModVersion>(
   'mod-versions',
   {
     modId: {

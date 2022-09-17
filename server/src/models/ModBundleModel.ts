@@ -14,7 +14,7 @@ export interface ModBundle extends Model {
   modContents?: ModVersion[];
 }
 
-export const modBundleModel = sequelize.define('mod-bundles', {
+export const modBundleModel = sequelize.define<ModBundle>('mod-bundles', {
   title: {
     type: DataTypes.STRING(100),
     allowNull: false,

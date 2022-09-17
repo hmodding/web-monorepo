@@ -1,6 +1,5 @@
 import bcrypt from 'bcryptjs';
-import { DataTypes, Model, ModelDefined, Optional } from 'sequelize';
-
+import { DataTypes, Model } from 'sequelize';
 import sequelize from '../modules/sequelize';
 import { generateToken } from '../modules/utils';
 
@@ -11,7 +10,7 @@ export interface AccountCreation extends Model {
   token: string;
 }
 
-export const accountCreationModel = sequelize.define(
+export const accountCreationModel = sequelize.define<AccountCreation>(
   'account-creation',
   {
     username: {
@@ -36,7 +35,7 @@ export const accountCreationModel = sequelize.define(
   },
   {
     hooks: {
-      beforeCreate: ({ dataValues: accountCreation }: any) => {
+      beforeCreate: (accountCreation: AccountCreation) => {
         const salt = bcrypt.genSaltSync();
 
         accountCreation.password = bcrypt.hashSync(

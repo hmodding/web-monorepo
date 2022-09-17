@@ -1,3 +1,4 @@
+import { Request, Response } from 'express';
 import FileType from 'file-type';
 import {
   Mod,
@@ -13,23 +14,25 @@ import { FileManager, ObjectMeta } from '../FileManager';
 
 const fileManger = new FileManager(cfg);
 
-export async function extractSession(req: any): Promise<Session | null> {
+export async function extractSession(req: Request): Promise<Session | null> {
   try {
     const { authtoken } = req.headers;
 
-    return (await sessionModel.findOne({
+    return await sessionModel.findOne({
       where: { token: authtoken },
       include: { model: userModel, as: 'user' },
-    })) as Session;
-  } catch (e) {}
+    });
+  } catch (e) {
+    console.warn('failed to extract session!', req);
+  }
 
   return null;
 }
 
 export async function validateAuthToken(
-  req: any,
-  res: any,
-  allowUnfinished: boolean = false,
+  req: Request,
+  res: Response,
+  allowUnfinished = false,
 ): Promise<Session | null> {
   const { authtoken } = req.headers;
 
@@ -41,7 +44,9 @@ export async function validateAuthToken(
         return session;
       }
     }
-  } catch (e) {}
+  } catch (e) {
+    console.warn('could not validate auth token', req);
+  }
 
   res.status(403).send({
     error: 'You are missing authorization!',
@@ -51,23 +56,23 @@ export async function validateAuthToken(
 }
 
 export async function validateModOwnership(
-  req: any,
-  res: any,
-  modIdParamKey: string = 'id',
+  req: Request,
+  res: Response,
+  modIdParamKey = 'id',
 ): Promise<Mod | null> {
   const foundSession = await validateAuthToken(req, res);
 
-  if (!foundSession) return null;
+  if (!foundSession || !foundSession.user) return null;
 
   try {
-    const { username: author, role } = foundSession.user!;
+    const { username: author, role } = foundSession.user;
     const { [modIdParamKey]: id } = req.params;
     let foundMod;
 
     if (role === Role.ADMIN) {
-      foundMod = (await modModel.findOne({ where: { id } })) as Mod;
+      foundMod = await modModel.findOne({ where: { id } });
     } else {
-      foundMod = (await modModel.findOne({ where: { id, author } })) as Mod;
+      foundMod = await modModel.findOne({ where: { id, author } });
     }
 
     if (foundMod) {
@@ -82,8 +87,8 @@ export async function validateModOwnership(
 }
 
 export async function validateAndWriteModFile(
-  req: any,
-  res: any,
+  req: Request,
+  res: Response,
 ): Promise<boolean> {
   const { file, id, version } = req.body;
   const buffer = Buffer.from(file.base64, 'base64');
@@ -114,9 +119,9 @@ export async function validateAndWriteModFile(
 }
 
 export async function validateAdminPrivileges(
-  req: any,
-  res: any,
-): Promise<User> {
+  req: Request,
+  res: Response,
+): Promise<User | Response> {
   const session = await validateAuthToken(req, res);
 
   if (session && session.user && session.user.isAdmin()) {
@@ -127,9 +132,9 @@ export async function validateAdminPrivileges(
 }
 
 export async function validateSchema(
-  data: any,
-  schema: any,
-  res: any,
+  data: Request,
+  schema: object,
+  res: Response,
 ): Promise<boolean> {
   const validate = ajv.compile(schema);
 

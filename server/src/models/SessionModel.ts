@@ -20,7 +20,7 @@ export interface SessionDeviceInfo {
   vendor?: string;
 }
 
-export const sessionModel = sequelize.define(
+export const sessionModel = sequelize.define<Session>(
   'sessions',
   {
     token: {
@@ -47,10 +47,10 @@ export const sessionModel = sequelize.define(
       { unique: false, fields: ['userId'] },
     ],
     hooks: {
-      beforeCreate({ dataValues: session }: any) {
+      beforeCreate(session: Session) {
         session.token = generateToken(null, 36);
       },
-      beforeUpdate({ dataValues: session }: any) {
+      beforeUpdate(session: Session) {
         session.token = generateToken(null, 36);
       },
     },

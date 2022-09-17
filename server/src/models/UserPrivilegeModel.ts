@@ -1,5 +1,4 @@
 import { DataTypes, Model } from 'sequelize';
-
 import sequelize from '../modules/sequelize';
 
 export interface UserPrivilege extends Model {
@@ -7,15 +6,18 @@ export interface UserPrivilege extends Model {
   role: string;
 }
 
-export const userPrivilegeModel = sequelize.define('user-privileges', {
-  username: {
-    type: DataTypes.STRING,
-    unique: true,
-    allowNull: false,
+export const userPrivilegeModel = sequelize.define<UserPrivilege>(
+  'user-privileges',
+  {
+    username: {
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull: false,
+    },
+    role: {
+      type: DataTypes.STRING,
+      unique: false,
+      allowNull: false,
+    },
   },
-  role: {
-    type: DataTypes.STRING,
-    unique: false,
-    allowNull: false,
-  },
-});
+);

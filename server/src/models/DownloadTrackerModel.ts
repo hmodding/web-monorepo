@@ -8,7 +8,7 @@ export interface DownloadTracker extends Model {
   expiresAt: Date;
 }
 
-export const downloadTrackerModel = sequelize.define(
+export const downloadTrackerModel = sequelize.define<DownloadTracker>(
   'download-tracker',
   {
     ipHash: {

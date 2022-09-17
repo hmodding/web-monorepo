@@ -38,18 +38,25 @@ modVersionsEndpoint.create.write.before(async (req, res, context) => {
 });
 
 modVersionsEndpoint.create.write.after(async (req, res, context) => {
-  const newModVersion: ModVersion = (context as any).instance;
-  const newModVersionWithAssociations: ModVersion = (await modVersionModel.findOne(
-    {
-      where: { id: newModVersion.id },
-      include: [modModel],
-    },
-  )) as ModVersion;
+  const newModVersion = ((context as unknown) as {
+    instance: ModVersion;
+  }).instance;
+  const newModVersionWithAssociations = await modVersionModel.findOne({
+    where: { id: newModVersion.id },
+    include: [modModel],
+  });
 
-  notifier.sendModVersionReleaseNotification(
-    newModVersionWithAssociations,
-    false,
-  );
+  if (newModVersionWithAssociations) {
+    notifier.sendModVersionReleaseNotification(
+      newModVersionWithAssociations,
+      false,
+    );
+  } else {
+    console.warn('could not get new mod version with associations: ', {
+      id: newModVersion.id,
+    });
+  }
+
   return context.continue;
 });
 

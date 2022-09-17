@@ -11,7 +11,7 @@ export interface ModLike extends Model {
   mod?: Mod;
 }
 
-export const modLikeModel = sequelize.define('ModLikes', {
+export const modLikeModel = sequelize.define<ModLike>('ModLikes', {
   userId: {
     type: DataTypes.INTEGER,
     unique: true,

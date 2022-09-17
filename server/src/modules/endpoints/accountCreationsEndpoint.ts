@@ -1,11 +1,6 @@
 import finale from 'finale-rest';
 import { Op } from 'sequelize';
-import {
-  AccountCreation,
-  accountCreationModel,
-  User,
-  userModel,
-} from '../../models';
+import { accountCreationModel, userModel } from '../../models';
 import mailer from '../mailer';
 import reCaptchaClient from '../ReCaptchaClient';
 
@@ -24,12 +19,12 @@ accountCreationsEndpoint.create.auth(async (req, res, context) => {
     return res.status(403).send({ error: 'Invalid CAPTCHA!' });
   }
 
-  const user = (await userModel.findOne({
+  const user = await userModel.findOne({
     where: { [Op.or]: [{ username }, { email }] },
-  })) as User;
-  const accountCreation = (await accountCreationModel.findOne({
+  });
+  const accountCreation = await accountCreationModel.findOne({
     where: { [Op.or]: [{ username }, { email }] },
-  })) as AccountCreation;
+  });
 
   if (user || accountCreation) {
     return res
@@ -49,33 +44,41 @@ accountCreationsEndpoint.create.write.before(async (req, res, context) => {
 accountCreationsEndpoint.create.write.after(async (req, res) => {
   //prevent sending data. we don't want to leak the token!
   const { username, email } = req.body;
-  const accountCreation = (await accountCreationModel.findOne({
+  const accountCreation = await accountCreationModel.findOne({
     where: { username, email },
-  })) as AccountCreation;
+  });
 
-  mailer.sendAccountCreationMail(accountCreation); // don't await!
+  if (accountCreation) {
+    mailer.sendAccountCreationMail(accountCreation); // don't await!
 
-  return res.status(204).send();
+    return res.status(204).send();
+  }
+
+  return res.status(500).send({ error: 'Failed to create account!' });
 });
 
 accountCreationsEndpoint.create.write.after(async (req, res) => {
   //prevent sending data. we don't want to leak the token!
   const { username, email } = req.body;
-  const accountCreation = (await accountCreationModel.findOne({
+  const accountCreation = await accountCreationModel.findOne({
     where: { username, email },
-  })) as AccountCreation;
+  });
 
-  mailer.sendAccountCreationMail(accountCreation); // don't await!
+  if (accountCreation) {
+    mailer.sendAccountCreationMail(accountCreation); // don't await!
 
-  return res.status(204).send();
+    return res.status(204).send();
+  }
+
+  return res.status(500).send({ error: 'Failed to create account!' });
 });
 
 accountCreationsEndpoint.delete.auth(async (req, res, context) => {
   const { token } = req.params;
 
-  const accountCreation = (await accountCreationModel.findOne({
+  const accountCreation = await accountCreationModel.findOne({
     where: { token },
-  })) as AccountCreation;
+  });
 
   if (accountCreation) {
     req.body = accountCreation;
@@ -88,11 +91,11 @@ accountCreationsEndpoint.delete.auth(async (req, res, context) => {
 
 accountCreationsEndpoint.delete.write.after(async (req, res) => {
   const { username, email, password } = req.body;
-  const user = (await userModel.create({
+  const user = await userModel.create({
     username,
     email,
     password,
-  })) as User;
+  });
 
   if (user) {
     return res.status(204).send(user);

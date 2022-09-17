@@ -10,28 +10,31 @@ export interface LauncherVersion extends Model {
   changelog: string;
 }
 
-export const launcherVersionModel = sequelize.define('launcher-versions', {
-  version: {
-    type: DataTypes.STRING,
-    unique: true,
-    allowNull: false,
-    primaryKey: true,
+export const launcherVersionModel = sequelize.define<LauncherVersion>(
+  'launcher-versions',
+  {
+    version: {
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull: false,
+      primaryKey: true,
+    },
+    timestamp: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    downloadUrl: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    downloadCount: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
+    },
+    changelog: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
   },
-  timestamp: {
-    type: DataTypes.DATE,
-    allowNull: false,
-  },
-  downloadUrl: {
-    type: DataTypes.TEXT,
-    allowNull: false,
-  },
-  downloadCount: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    defaultValue: 0,
-  },
-  changelog: {
-    type: DataTypes.TEXT,
-    allowNull: false,
-  },
-});
+);

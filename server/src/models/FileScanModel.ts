@@ -8,7 +8,7 @@ export interface FileScan extends Model {
   scanResult?: object;
 }
 
-export const fileScanModel = sequelize.define('file-scans', {
+export const fileScanModel = sequelize.define<FileScan>('file-scans', {
   fileUrl: {
     type: DataTypes.TEXT,
     unique: true,

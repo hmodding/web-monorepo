@@ -18,7 +18,7 @@ export interface Plugin extends Model {
   deletion?: ScheduledPluginDeletion;
 }
 
-export const pluginModel = sequelize.define('plugins', {
+export const pluginModel = sequelize.define<Plugin>('plugins', {
   slug: {
     type: DataTypes.STRING(64),
     unique: true,

@@ -15,10 +15,10 @@ export interface User extends Model {
   plugins?: Plugin[];
   modBundles?: ModBundle[];
   likedMods?: Mod[];
-  isAdmin: Function;
+  isAdmin: () => boolean;
 }
 
-export const userModel = sequelize.define(
+export const userModel = sequelize.define<User>(
   'users',
   {
     username: {
@@ -48,7 +48,7 @@ export const userModel = sequelize.define(
       beforeCreate: () => {
         // passwords are already hashed in AccountCreation.beforeCreate
       },
-      beforeUpdate: (user: any) => {
+      beforeUpdate: (user: User) => {
         const salt = bcrypt.genSaltSync();
         user.password = bcrypt.hashSync(user.password, salt);
       },

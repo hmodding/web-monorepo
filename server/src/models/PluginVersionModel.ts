@@ -14,7 +14,7 @@ export interface PluginVersion extends Model {
   plugin?: Plugin;
 }
 
-export const pluginVersionModel = sequelize.define(
+export const pluginVersionModel = sequelize.define<PluginVersion>(
   'plugin-versions',
   {
     pluginId: {

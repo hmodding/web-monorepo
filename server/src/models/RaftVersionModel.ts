@@ -10,7 +10,7 @@ export interface RaftVersion extends Model {
   releasedAt: Date;
 }
 
-export const raftVersionModel = sequelize.define('raft-versions', {
+export const raftVersionModel = sequelize.define<RaftVersion>('raft-versions', {
   version: {
     type: DataTypes.STRING,
     unique: true,

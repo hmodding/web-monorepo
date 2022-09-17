@@ -1,6 +1,5 @@
 import { Sequelize } from 'sequelize';
-import { userModel } from 'src/models';
-import cfg, { Role } from './cfg';
+import cfg from './cfg';
 
 const { uri, logging, ssl } = cfg.database;
 
@@ -19,4 +18,3 @@ export default new Sequelize(uri, {
   ssl,
   ...(ssl ? dialectOptions : {}),
 });
-

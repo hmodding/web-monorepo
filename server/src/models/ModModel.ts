@@ -78,7 +78,7 @@ export const modModel = sequelize.define<Mod>(
           : [findOptions.include];
         const versionsInclude =
           includes.find(
-            (include) => (include as Association).as === 'versions',
+            (include) => (include as Association)?.as === 'versions',
           ) || null;
 
         if (versionsInclude) {

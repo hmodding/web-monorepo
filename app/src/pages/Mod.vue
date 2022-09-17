@@ -8,7 +8,7 @@
 import { defineComponent, Ref, ref } from 'vue';
 import { useActiveMeta } from 'vue-meta';
 import { useRoute, useRouter } from 'vue-router';
-import { Mod } from '../@types';
+import { Mod } from '../types';
 import ModDetails from '../components/ModDetails.vue';
 import { useLikes } from '../compositions';
 import api from '../modules/api';

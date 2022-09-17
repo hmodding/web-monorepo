@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { Mod, ModVersion } from './@types';
+import { Mod, ModVersion } from './types';
 import { DATE_FORMAT } from './const';
 
 export function slugify(str: string): string {

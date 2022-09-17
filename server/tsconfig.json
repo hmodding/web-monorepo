@@ -4,6 +4,7 @@
   "compilerOptions": {
     "outDir": "dist",
     "baseUrl": ".",
+    "jsx": "preserve",
     "paths": {
       "*": [
         "node_modules/*",

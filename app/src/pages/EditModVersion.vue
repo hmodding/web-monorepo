@@ -86,7 +86,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { ModVersion } from '../@types';
+import { ModVersion } from '../types';
 import ApiProvidedForm from '../components/ApiProvidedForm.vue';
 import Icon from '../components/Icon.vue';
 import ConfirmModal from '../components/modals/ConfirmModal.vue';

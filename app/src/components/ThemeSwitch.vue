@@ -9,6 +9,7 @@
 </template>
 
 <script lang="ts">
+import { Theme } from 'State';
 import { defineComponent } from 'vue';
 
 import { setTheme, state } from '../modules/stateManager';
@@ -21,10 +22,10 @@ export default defineComponent({
     };
   },
   computed: {
-    theme() {
+    theme(): Theme {
       return state.theme;
     },
-    isLightTheme() {
+    isLightTheme(): boolean {
       return this.theme === 'light';
     },
   },

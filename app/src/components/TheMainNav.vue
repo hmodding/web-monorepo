@@ -218,7 +218,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { Session, User } from '../@types';
+import { Session, User } from '../types';
 import { ROLE_ADMIN } from '../const';
 import { isSessionExpired, killSession, state } from '../modules/stateManager';
 import toaster from '../modules/toaster';

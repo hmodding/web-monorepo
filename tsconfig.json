@@ -12,5 +12,6 @@
     "noImplicitAny": true,
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
+    "jsx": "preserve"
   },
 }

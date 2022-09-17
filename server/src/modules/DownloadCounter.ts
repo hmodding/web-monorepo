@@ -212,7 +212,7 @@ export class DownloadCounter {
     versionSlug: string,
   ): Promise<void> {
     try {
-      const [affected, _] = await modVersionModel.update(
+      const [affected] = await modVersionModel.update(
         {
           downloadCount: literal('"downloadCount" + 1'),
         },
@@ -241,7 +241,7 @@ export class DownloadCounter {
     versionSlug: string,
   ): Promise<void> {
     try {
-      const [affected, _] = await launcherVersionModel.update(
+      const [affected] = await launcherVersionModel.update(
         {
           downloadCount: literal('"downloadCount" + 1'),
         },

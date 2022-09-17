@@ -1,6 +1,6 @@
 import { ref, Ref } from 'vue';
 
-import { Mod } from '../@types';
+import { Mod } from '../types';
 import api from '../modules/api';
 import { MIN_LOADING_DURATION } from '../const';
 

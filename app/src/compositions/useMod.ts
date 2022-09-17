@@ -1,5 +1,5 @@
 import { state } from '../modules/stateManager';
-import { ModVersion } from '../@types';
+import { ModVersion } from '../types';
 import { computed, Ref } from 'vue';
 import useRandom from './useRandom';
 import { ROLE_ADMIN } from '../const';

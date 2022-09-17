@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "raftmodding database rest api",
   "scripts": {
-    "dev": "nodemon ./src/main.ts",
+    "dev": "nodemon ./src/main.ts --inspect",
     "build": "npx tsc --build",
     "clean": "npx tsc --clean",
     "start": "node ./dist/src/main.js",

@@ -6,9 +6,14 @@ import './modules/endpoints';
 import './modules/routes';
 import server from './modules/server';
 import { DownloadCounter } from './modules/DownloadCounter';
+import { insertDatabaseExampleData } from './modules/utils';
 
 (async () => {
   await sequelize.sync({ force: false });
+
+  if (process.env.NODE_ENV === 'develop') {
+    insertDatabaseExampleData();
+  }
 
   const port = cfg.server.port;
 

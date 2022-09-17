@@ -47,7 +47,7 @@
 <script lang="ts">
 import { defineComponent, ref, Ref } from 'vue';
 import { useActiveMeta } from 'vue-meta';
-import { RaftVersion } from '../@types';
+import { RaftVersion } from '../types';
 import Icon from '../components/Icon.vue';
 import api from '../modules/api';
 import { toDateStr } from '../utils';

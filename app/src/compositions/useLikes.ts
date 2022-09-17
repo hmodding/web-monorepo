@@ -1,5 +1,5 @@
 import { Ref } from 'vue';
-import { Mod } from '../@types';
+import { Mod } from '../types';
 
 const useLikes = (mod: Ref<Mod>) => {
   function onToggleLike(isLiked: boolean) {

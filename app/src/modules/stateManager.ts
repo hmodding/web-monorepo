@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { reactive } from 'vue';
-import { Session, State, Theme } from '../@types';
+import { Session, State, Theme } from '../types';
 import {
   LOCAL_STORAGE_SESSION,
   LOCAL_STORAGE_THEME,
@@ -39,7 +39,7 @@ export async function initSession(): Promise<void> {
     state.session = await api.getSession(token);
     api.setAuthToken(state.session.token);
 
-    if (state.session.user.role === ROLE_UNFINISHED) {
+    if (state.session?.user?.role === ROLE_UNFINISHED) {
       state.likes = [];
     } else {
       state.likes = (await api.getModLikes()).map(({ modId }) => modId);

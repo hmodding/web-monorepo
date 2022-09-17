@@ -1,7 +1,7 @@
 import { Ref, ref } from 'vue';
 import { useActiveMeta } from 'vue-meta';
 import { useRoute } from 'vue-router';
-import { Mod, ModVersion } from '../@types';
+import { Mod, ModVersion } from '../types';
 import api from '../modules/api';
 import useRouteLeaveConfirm from './useRouteLeaveConfirm';
 

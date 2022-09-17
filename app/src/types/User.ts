@@ -1,3 +1,4 @@
+import { Plugin } from 'Plugin';
 import Mod from './Mod';
 import ModBundle from './ModBundle';
 import { ModLike } from './ModLike';

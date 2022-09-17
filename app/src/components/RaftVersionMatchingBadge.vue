@@ -29,10 +29,10 @@ export default defineComponent({
       return this.to ? 'router-link' : 'span';
     },
     isUpToDate(): boolean {
-      return this.modVersion.maxRaftVersionId === state.latestRaftVersion.id;
+      return this.modVersion?.maxRaftVersionId === state.latestRaftVersion.id;
     },
     isUntested(): boolean {
-      return !this.isUpToDate && !this.modVersion.definiteMaxRaftVersion;
+      return !this.isUpToDate && !this.modVersion?.definiteMaxRaftVersion;
     },
     vLabel(): string {
       if (this.isUpToDate) {

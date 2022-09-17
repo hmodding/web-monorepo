@@ -22,18 +22,20 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, Ref } from 'vue';
+import { defineComponent, PropType, ref, Ref } from 'vue';
 import { Theme } from '../types';
 
 interface ReCaptchaRenderParameters {
   sitekey: string;
   theme?: Theme;
-  size?: 'compact' | 'normal';
+  size?: ReCaptchaSize;
   tabindex?: number;
   callback?: (responseToken: string) => void;
   'expired-callback'?: () => void;
   'error-callback'?: () => void;
 }
+
+type ReCaptchaSize = 'compact' | 'normal';
 
 interface ReCaptchaGlobal {
   /**
@@ -65,14 +67,19 @@ export default defineComponent({
       required: true,
     },
     size: {
-      type: String,
+      type: String as PropType<ReCaptchaSize>,
       required: false,
       default: 'normal',
     },
     theme: {
-      type: String,
+      type: String as PropType<Theme>,
       required: false,
       default: 'light',
+    },
+    tabindex: {
+      type: Number,
+      required: false,
+      default: -1,
     },
   },
   emits: {
@@ -85,8 +92,8 @@ export default defineComponent({
       key: 0,
     };
   },
-  setup(props) {
-    const recaptcha: Ref<string> = ref(null);
+  setup(_props) {
+    const recaptcha: Ref<string | undefined> = ref();
 
     return {
       recaptcha,
@@ -103,18 +110,21 @@ export default defineComponent({
   },
   methods: {
     renderRecaptcha() {
-      this.recaptcha = window.grecaptcha.render(this.$refs.recaptcha, {
-        sitekey: this.siteKey,
-        theme: this.theme,
-        size: this.size,
-        tabindex: this.tabindex,
-        callback: (responseToken) => this.$emit('verify', responseToken),
-        'expired-callback': () => this.$emit('expire'),
-        'error-callback': () => this.$emit('fail'),
-      });
+      this.recaptcha = window.grecaptcha!.render(
+        this.$refs.recaptcha as string,
+        {
+          sitekey: this.siteKey,
+          theme: this.theme,
+          size: this.size,
+          tabindex: this.tabindex,
+          callback: (responseToken) => this.$emit('verify', responseToken),
+          'expired-callback': () => this.$emit('expire'),
+          'error-callback': () => this.$emit('fail'),
+        },
+      );
     },
     reset() {
-      window.grecaptcha.reset(this.recaptcha);
+      window.grecaptcha!.reset(this.recaptcha);
     },
   },
   mounted() {

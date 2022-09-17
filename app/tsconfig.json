@@ -4,6 +4,7 @@
   "compilerOptions": {
     "isolatedModules": true,
     "useDefineForClassFields": true,
+    "jsx": "preserve",
     "outDir": "dist",
     "baseUrl": ".",
     "paths": {

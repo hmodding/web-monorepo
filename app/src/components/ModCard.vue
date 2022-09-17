@@ -41,7 +41,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { ModVersion } from '../@types';
+import { ModVersion } from '../types';
 import defaultBanner from '../assets/images/banner-default.jpg';
 import RaftVersionMatchingBadge from './RaftVersionMatchingBadge.vue';
 

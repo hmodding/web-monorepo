@@ -12,7 +12,7 @@
 import { defineComponent, Ref, ref } from 'vue';
 import { RouteLocationNormalizedLoaded, useRoute } from 'vue-router';
 
-import { LoaderVersion } from '../@types';
+import { LoaderVersion } from '../types';
 import api from '../modules/api';
 
 import Changelog from '../components/Changelog.vue';

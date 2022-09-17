@@ -3,7 +3,7 @@ import { __metadata } from 'tslib';
 import { Ref, ref, watch } from 'vue';
 import { useActiveMeta } from 'vue-meta';
 import { useRoute } from 'vue-router';
-import { Mod, RaftVersion } from '../@types';
+import { Mod, RaftVersion } from '../types';
 import { DATE_FORMAT } from '../const';
 import api from '../modules/api';
 import useForm from './useForm';

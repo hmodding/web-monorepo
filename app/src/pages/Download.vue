@@ -260,7 +260,7 @@
 <script lang="ts">
 import { defineComponent, ref, Ref } from 'vue';
 
-import { LauncherVersion, LoaderVersion } from '../@types';
+import { LauncherVersion, LoaderVersion } from '../types';
 import { toDateStr } from '../utils';
 import api from '../modules/api';
 

@@ -88,7 +88,7 @@ import { useModalAnswer } from '../compositions';
 import api from '../modules/api';
 import { DATETIME_FORMAT } from '../const';
 import dayjs from 'dayjs';
-import { Mod } from '../@types';
+import { Mod } from '../types';
 
 import DangerZoneModal from './modals/DangerZoneModal.vue';
 

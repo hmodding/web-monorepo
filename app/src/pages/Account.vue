@@ -84,7 +84,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import { Session, User } from '../@types';
+import { Session, User } from '../types';
 import { tooltip } from '../_legacy';
 
 import { state } from '../modules/stateManager';

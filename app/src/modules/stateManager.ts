@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { reactive } from 'vue';
-import { Session, State, Theme } from '../@types';
+import { Session, State, Theme } from '../types';
 import {
   LOCAL_STORAGE_SESSION,
   LOCAL_STORAGE_THEME,

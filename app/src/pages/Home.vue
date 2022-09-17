@@ -65,7 +65,7 @@
 <script lang="ts">
 import { defineComponent, reactive } from 'vue';
 
-import { Mod } from '../@types';
+import { Mod } from '../types';
 import api from '../modules/api';
 
 import ModsCardDeck from '../components/ModsCardDeck.vue';

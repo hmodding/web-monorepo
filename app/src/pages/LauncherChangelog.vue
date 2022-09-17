@@ -14,7 +14,7 @@
 import { defineComponent, Ref, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
-import { LauncherVersion } from '../@types';
+import { LauncherVersion } from '../types';
 import api from '../modules/api';
 
 import Changelog from '../components/Changelog.vue';

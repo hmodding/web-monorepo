@@ -108,7 +108,7 @@ export default defineComponent({
   },
   methods: {
     async onSubmit(): Promise<void> {
-      if (!this.loadig) {
+      if (!this.loading) {
         this.showErrors = true;
 
         if (this.errorCount > 0) {

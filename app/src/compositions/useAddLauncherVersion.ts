@@ -1,5 +1,5 @@
 import { Ref, ref } from 'vue';
-import { LoaderVersion } from '../@types';
+import { LoaderVersion } from '../types';
 import useForm from './useForm';
 import useRouteLeaveConfirm from './useRouteLeaveConfirm';
 

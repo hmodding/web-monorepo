@@ -1,9 +1,7 @@
-import { DataTypes, Model } from 'sequelize';
-
+import { AbstractDataTypeConstructor, DataTypes, Model } from 'sequelize';
 import sequelize from '../modules/sequelize';
 import { Mod } from './ModModel';
 import { ModBundle, RaftVersion } from './index';
-import { Json } from 'sequelize/types/lib/utils';
 
 export interface ModVersion extends Model {
   id: number;
@@ -19,7 +17,7 @@ export interface ModVersion extends Model {
   minRaftVersion?: RaftVersion;
   maxRaftVersion?: RaftVersion;
   containingModBundles?: ModBundle[];
-  fileHashes?: Json;
+  fileHashes?: AbstractDataTypeConstructor;
 }
 
 export const modVersionModel = sequelize.define<ModVersion>(

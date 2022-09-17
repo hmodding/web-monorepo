@@ -21,7 +21,7 @@
 import { defineComponent, Ref, ref } from 'vue';
 import { useActiveMeta } from 'vue-meta';
 import { useRoute } from 'vue-router';
-import { Mod } from '../@types';
+import { Mod } from '../types';
 import ModDetails from '../components/ModDetails.vue';
 import ModHeader from '../components/ModHeader.vue';
 import ModRightTable from '../components/ModRightTable.vue';

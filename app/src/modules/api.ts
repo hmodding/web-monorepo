@@ -9,9 +9,9 @@ import {
   RaftVersion,
   ScheduledModDeletion,
   Session,
-} from '../@types';
-import { ModLike } from '../@types/ModLike';
-import { PasswordReset } from '../@types/PasswordReset';
+} from '../types';
+import { ModLike } from '../types/ModLike';
+import { PasswordReset } from '../types/PasswordReset';
 import { LOCAL_STORAGE_SESSION } from '../const';
 import { setSession, state } from './stateManager';
 import toaster from './toaster';

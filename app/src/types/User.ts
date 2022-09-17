@@ -1,5 +1,4 @@
 import { Plugin } from 'Plugin';
-import Mod from './Mod';
 import ModBundle from './ModBundle';
 import { ModLike } from './ModLike';
 
@@ -8,7 +7,7 @@ export default interface User {
   username: string;
   email: string;
   password?: string;
-  role?: string;
+  role?: string; //not downwards compatible with old DB
   plugins?: Plugin[];
   modBundles?: ModBundle[];
   likedMods?: ModLike[];

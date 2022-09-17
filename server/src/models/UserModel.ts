@@ -5,6 +5,7 @@ import sequelize from '../modules/sequelize';
 import { ModBundle } from './ModBundleModel';
 import { Mod } from './ModModel';
 import { Plugin } from './PluginModel';
+import { UserPrivilege } from './UserPrivilegeModel';
 
 export interface User extends Model {
   id: number;
@@ -12,6 +13,7 @@ export interface User extends Model {
   email: string;
   password: string;
   role: string;
+  privileges: UserPrivilege[];
   plugins?: Plugin[];
   modBundles?: ModBundle[];
   likedMods?: Mod[];

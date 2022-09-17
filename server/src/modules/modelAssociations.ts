@@ -10,6 +10,7 @@ import {
   scheduledPluginDeletionModel,
   sessionModel,
   userModel,
+  userPrivilegeModel,
 } from '../models';
 
 modModel.hasMany(modVersionModel, {
@@ -84,6 +85,11 @@ scheduledPluginDeletionModel.belongsTo(pluginModel, {
   foreignKey: 'pluginId',
 });
 
+userModel.hasMany(userPrivilegeModel, {
+  as: 'privileges',
+  foreignKey: 'username',
+  sourceKey: 'username',
+});
 userModel.hasMany(pluginModel, {
   foreignKey: 'maintainerId',
 });

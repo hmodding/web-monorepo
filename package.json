@@ -8,7 +8,8 @@
     "dev": "concurrently --kill-others \"npm run dev --workspace=@raftmodding/app\" \"npm run dev --workspace=@raftmodding/server\"",
     "prettier": "npx prettier --write .",
     "clean": "rimraf \"**/build\" \"**/dist\" \"**/*.tsbuildinfo\"",
-    "lint": ""
+    "lint": "",
+    "db:setup": "cd ./docker && docker compose up -d"
   },
   "engines": {
     "node": "16.x",

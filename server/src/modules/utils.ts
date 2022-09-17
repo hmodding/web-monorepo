@@ -1,6 +1,5 @@
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
-import { LauncherVersion, LoaderVersion, Mod, ModVersion } from 'src/models';
 import { v1 } from 'uuid';
 import { LauncherVersion, LoaderVersion, Mod } from '../models';
 import cfg from './cfg';

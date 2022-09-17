@@ -11,23 +11,29 @@ In the following, these placeholders shall be replaced:
 - `MINIO_HOST` with the hostname / domain of the MinIO server
 - `PUBLIC_PATH` with a path to the `public/` folder of the old website
 
-1.  Migrate all SQL data:
+1. Migrate all SQL data:
+
     ```bash
     # export from the old database
     pg_dump OLD_DB > db_export.sql
     # import into the new
     psql -f db_export.sql NEW_DB
     ```
-2.  Run the database migration SQL script:
+
+2. Run the database migration SQL script:
+
     ```bash
     psql -f db.migration.sql NEW_DB
     ```
-3.  Set up the MinIO server as described in `minio.sh`.
-4.  Migrate files:
+
+3. Set up the MinIO server as described in `minio.sh`.
+4. Migrate files:
+
     ```bash
     mc cp -r PUBLIC_PATH ALIAS/raftmodding-public
     ```
-5.  Update download URLs:
+
+5. Update download URLs:
 
     ```sql
     update "mod-versions"

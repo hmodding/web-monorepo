@@ -1,7 +1,7 @@
 import dayjs, { UnitTypeShort } from 'dayjs';
 import finale from 'finale-rest';
 import { scheduledModDeletionModel } from '../../models';
-import cfg from '../cfg';
+import cfg from '../../cfg';
 import { validateModOwnership } from './_commons';
 
 export const scheduledModDeletionsEndpoint = finale.resource({

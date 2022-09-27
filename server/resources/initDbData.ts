@@ -7,7 +7,7 @@ import {
   launcherVersionModel,
   modModel,
 } from '../src/models';
-import { Role } from '../src/modules/cfg';
+import { Role } from '../src/cfg';
 
 export const initDbData = async () => {
   userModel.findOrCreate({

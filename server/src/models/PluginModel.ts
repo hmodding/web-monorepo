@@ -1,6 +1,6 @@
 import { DataTypes, Model } from 'sequelize';
 
-import sequelize from '../modules/sequelize';
+import sequelize from '../sequelize';
 import { PluginVersion } from './PluginVersionModel';
 import { User } from './UserModel';
 import { ScheduledPluginDeletion } from './ScheduledPluginDeletionModel';

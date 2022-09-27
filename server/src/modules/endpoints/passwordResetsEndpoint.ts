@@ -1,10 +1,10 @@
 import finale from 'finale-rest';
+import { Role } from '../../cfg';
+import { mailer } from '../../mailer/mailer';
 import { userModel } from '../../models';
 import { passwordResetModel } from '../../models/';
-import { Role } from '../cfg';
-import mailer from '../mailer';
-import reCaptchaClient from '../ReCaptchaClient';
-import { schema as resetPasswordSchema } from '../routes/forms/resetPasswordForm';
+import reCaptchaClient from '../../ReCaptchaClient';
+import { schema as resetPasswordSchema } from '../../router/routes/forms/resetPasswordForm';
 import { validateSchema } from './_commons';
 
 const passwordResetsEndpoint = finale.resource({

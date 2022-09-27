@@ -1,6 +1,6 @@
 import finale from 'finale-rest';
 import { userModel } from '../../models';
-import { validatePassword } from '../utils';
+import { validatePassword } from '../../utils';
 import { validateAuthToken } from './_commons';
 
 const usersEndpoint = finale.resource({

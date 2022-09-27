@@ -1,7 +1,7 @@
 import finale from 'finale-rest';
 import { raftVersionModel } from '../../models';
-import { schema as addRaftVersionSchema } from '../routes/forms/addRaftVersionForm';
-import { schema as editRaftVersionSchema } from '../routes/forms/editRaftVersionForm';
+import { schema as addRaftVersionSchema } from '../../router/routes/forms/addRaftVersionForm';
+import { schema as editRaftVersionSchema } from '../../router/routes/forms/editRaftVersionForm';
 import { validateAdminPrivileges, validateSchema } from './_commons';
 
 const raftVersionsEndpoint = finale.resource({

@@ -1,5 +1,5 @@
 import { DataTypes, Model } from 'sequelize';
-import sequelize from '../modules/sequelize';
+import sequelize from '../sequelize';
 
 export interface UserPrivilege extends Model {
   username: string;

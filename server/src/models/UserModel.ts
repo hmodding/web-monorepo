@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import { DataTypes, Model } from 'sequelize';
-import { Role } from '../modules/cfg';
-import sequelize from '../modules/sequelize';
+import { Role } from '../cfg';
+import sequelize from '../sequelize';
 import { ModBundle } from './ModBundleModel';
 import { Mod } from './ModModel';
 import { Plugin } from './PluginModel';

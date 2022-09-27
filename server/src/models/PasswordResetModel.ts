@@ -1,7 +1,7 @@
 import { DataTypes, Model } from 'sequelize';
 
-import sequelize from '../modules/sequelize';
-import { generateToken } from '../modules/utils';
+import sequelize from '../sequelize';
+import { generateToken } from '../utils';
 import { User } from './UserModel';
 
 export interface PasswordReset extends Model {

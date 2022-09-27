@@ -1,0 +1,27 @@
+{
+  "entryFile": "src/app.ts",
+  "noImplicitAdditionalProperties": "throw-on-extras",
+  "controllerPathGlobs": [
+    "src/controllers/*Controller.ts"
+  ],
+  "spec": {
+    "outputDirectory": "dist",
+    "specVersion": 3,
+    "securityDefinitions": {
+      "user": {
+        "type": "apiKey",
+        "name": "authtoken",
+        "in": "header"
+      },
+      "admin": {
+        "type": "apiKey",
+        "name": "authtoken",
+        "in": "header"
+      }
+    }
+  },
+  "routes": {
+    "routesDir": "dist",
+    "authenticationModule": "src/authenticators/restAuthenticator.ts"
+  }
+}

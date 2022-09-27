@@ -1,6 +1,6 @@
 import { DataTypes, Model } from 'sequelize';
 
-import sequelize from '../modules/sequelize';
+import sequelize from '../sequelize';
 import { Plugin } from './PluginModel';
 
 export interface ScheduledPluginDeletion extends Model {

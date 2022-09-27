@@ -1,5 +1,5 @@
 import { AbstractDataTypeConstructor, DataTypes, Model } from 'sequelize';
-import sequelize from '../modules/sequelize';
+import sequelize from '../sequelize';
 import { Mod } from './ModModel';
 import { ModBundle, RaftVersion } from './index';
 

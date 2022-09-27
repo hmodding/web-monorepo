@@ -1,8 +1,8 @@
 import { DataTypes, Model } from 'sequelize';
 
-import sequelize from '../modules/sequelize';
+import sequelize from '../sequelize';
 import { User } from './UserModel';
-import { generateToken } from '../modules/utils';
+import { generateToken } from '../utils';
 
 export interface Session extends Model {
   token: string;

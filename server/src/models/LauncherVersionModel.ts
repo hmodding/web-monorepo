@@ -1,6 +1,6 @@
 import { DataTypes, Model } from 'sequelize';
 
-import sequelize from '../modules/sequelize';
+import sequelize from '../sequelize';
 
 export interface LauncherVersion extends Model {
   version: string;

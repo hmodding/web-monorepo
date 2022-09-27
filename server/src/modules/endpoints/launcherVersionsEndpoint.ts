@@ -1,8 +1,8 @@
 import finale from 'finale-rest';
 import { LauncherVersion, launcherVersionModel } from '../../models';
-import cfg from '../cfg';
-import { FileManager } from '../FileManager';
-import notifier from '../notfier/DiscordNotifier';
+import cfg from '../../cfg';
+import { FileManager } from '../../FileManager';
+import notifier from '../../discord/DiscordNotifier';
 import { validateAdminPrivileges as validateAdminPrivileges } from './_commons';
 
 const fileManager = new FileManager(cfg);

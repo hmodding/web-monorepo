@@ -1,10 +1,10 @@
 import finale from 'finale-rest';
+import notifier from '../../discord/DiscordNotifier';
 import {
   LoaderVersion,
   loaderVersionModel,
   raftVersionModel,
 } from '../../models';
-import notifier from '../notfier/DiscordNotifier';
 import { validateAdminPrivileges } from './_commons';
 
 export const loaderVersionsEndpoint = finale.resource({

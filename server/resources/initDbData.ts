@@ -1,13 +1,13 @@
 import bcrypt from 'bcryptjs';
+import { Role } from '../src/cfg';
 import {
+  launcherVersionModel,
+  loaderVersionModel,
+  modModel,
+  raftVersionModel,
   userModel,
   userPrivilegeModel,
-  raftVersionModel,
-  loaderVersionModel,
-  launcherVersionModel,
-  modModel,
 } from '../src/models';
-import { Role } from '../src/cfg';
 
 export const initDbData = async () => {
   userModel.findOrCreate({
@@ -16,7 +16,7 @@ export const initDbData = async () => {
       username: 'admin',
       password: bcrypt.hashSync('admin'),
       email: 'admin@raftmodding.com',
-      role: Role.ADMIN,
+      role: Role.Admin,
     },
   });
 
@@ -24,7 +24,7 @@ export const initDbData = async () => {
     where: { username: 'admin' },
     defaults: {
       username: 'admin',
-      role: Role.ADMIN,
+      role: Role.Admin,
     },
   });
 

@@ -1,6 +1,5 @@
-import { Body, Controller, Delete, Path, Post, Route } from 'tsoa';
+import { Body, Controller, Delete, Path, Post, Route, Security } from 'tsoa';
 import { AccountCreation } from '../entities/AccountCreation';
-import reCaptchaClient from '../ReCaptchaClient';
 import { AccountCreationService } from '../services/AccountCreationService';
 
 export interface AccountCreationCreateData
@@ -11,14 +10,9 @@ export interface AccountCreationCreateData
 @Route('/accountCreations')
 export class AccountCreationController extends Controller {
   @Post()
+  @Security('captcha')
   public async create(@Body() data: AccountCreationCreateData) {
-    const { username, email, recaptcha } = data;
-    const isValidCaptcha = await reCaptchaClient.verifyResponseToken(recaptcha);
-
-    if (!isValidCaptcha) {
-      this.setStatus(403);
-      return { error: 'Invalid CAPTCHA' };
-    }
+    const { username, email } = data;
 
     if (await AccountCreationService.alreadyExists(username, email)) {
       this.setStatus(400);

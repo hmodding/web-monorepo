@@ -356,8 +356,8 @@ export const cfg: Cfg = {
 export default cfg;
 
 export const Role = {
-  ADMIN: 'admin',
-  UNFINISHED: 'UNFINISHED',
+  Admin: 'admin',
+  Unfinished: 'UNFINISHED',
 };
 
 export type UserRole = 'admin' | 'UNFINISHED';

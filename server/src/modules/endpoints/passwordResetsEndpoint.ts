@@ -24,7 +24,7 @@ passwordResetsEndpoint.create.auth(async (req, res, context) => {
 
   const user = await userModel.findOne({ where: { email } });
 
-  if (!user || user.role === Role.UNFINISHED) {
+  if (!user || user.role === Role.Unfinished) {
     // do nothing! we don't want people to find existing email with this form! (dont just trust captcha)
     return res.status(200).send();
   }

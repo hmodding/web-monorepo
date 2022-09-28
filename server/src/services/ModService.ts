@@ -28,6 +28,10 @@ export class ModService extends AbstractService {
     return user.isAdmin || (await this.ownsMod(modId, user.username));
   }
 
+  static async isDeleteAllowed(modId: string, user: User) {
+    return user.isAdmin || (await this.ownsMod(modId, user.username));
+  }
+
   static async ownsMod(modId: string, username: string) {
     const mod = await Mod.findOneBy({ id: modId });
 

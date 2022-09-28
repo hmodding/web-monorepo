@@ -59,5 +59,5 @@ export const userModel = sequelize.define<User>(
 );
 
 userModel.prototype.isAdmin = function (): boolean {
-  return this.getDataValue('role') === Role.ADMIN;
+  return this.getDataValue('role') === Role.Admin;
 };

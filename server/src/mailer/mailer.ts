@@ -5,7 +5,8 @@ import path from 'path';
 
 import cfg from '../cfg';
 import { AccountCreation } from '../entities/AccountCreation';
-import { User } from '../models';
+import { User } from '../entities/User';
+import { User as UserModel } from '../models';
 
 export interface Replaces {
   [key: string]: string;
@@ -25,7 +26,10 @@ export class Mailer {
    * @param user User
    * @param token string
    */
-  async sendPasswordResetMail(user: User, token: string): Promise<void> {
+  async sendPasswordResetMail(
+    user: UserModel | User,
+    token: string,
+  ): Promise<void> {
     const { email, username } = user;
     const baseUrl = cfg.frontendBaseUrl;
     const url = `${baseUrl}forgotpassword?token=${token}`;

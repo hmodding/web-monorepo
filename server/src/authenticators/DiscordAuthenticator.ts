@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
+import cfg, { Role } from '../cfg';
 import {
   DiscordSignOn,
   discordSignOnModel,
@@ -7,7 +8,6 @@ import {
   User,
   userModel,
 } from '../models';
-import cfg, { Role } from '../cfg';
 import { generateToken } from '../utils';
 
 export type DiscordAuthenticationScope = 'identify' | 'email'; // https://discord.com/developers/docs/topics/oauth2#shared-resources-oauth2-scopes
@@ -119,7 +119,7 @@ export class DiscordAuthenticator {
       username: `discord-user-${discordUserId}`,
       email: generateToken(discordUserId, 255),
       password: generateToken(null, 255),
-      role: Role.UNFINISHED,
+      role: Role.Unfinished,
     })) as User;
 
     const discordLogin = await discordSignOnModel.create({

@@ -40,7 +40,7 @@ export async function validateAuthToken(
     const session = await extractSession(req);
 
     if (session && session.token === authtoken && session.user) {
-      if (allowUnfinished || session.user.role !== Role.UNFINISHED) {
+      if (allowUnfinished || session.user.role !== Role.Unfinished) {
         return session;
       }
     }
@@ -69,7 +69,7 @@ export async function validateModOwnership(
     const { [modIdParamKey]: id } = req.params;
     let foundMod;
 
-    if (role === Role.ADMIN) {
+    if (role === Role.Admin) {
       foundMod = await modModel.findOne({ where: { id } });
     } else {
       foundMod = await modModel.findOne({ where: { id, author } });

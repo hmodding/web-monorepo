@@ -11,7 +11,7 @@ import {
   sessionModel,
   userModel,
   userPrivilegeModel,
-} from './models';
+} from './_legacy/models';
 
 modModel.hasMany(modVersionModel, {
   as: 'versions',

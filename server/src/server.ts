@@ -1,5 +1,9 @@
-import http from 'http';
+import { app } from './app';
 
-import app from './app';
+const port = process.env.PORT || 3000;
 
-export default http.createServer(app);
+export const startServer = () => {
+  app.listen(port, () => {
+    console.log('listening at http://%s:%s', 'localhost', port);
+  });
+};

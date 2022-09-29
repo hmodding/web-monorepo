@@ -1,5 +1,5 @@
-import { Session, sessionModel, User, userModel } from '../../../models';
-import { validateAuthToken, validateSchema } from '../../../modules/endpoints/_commons';
+import { Session, sessionModel, User, userModel } from '../../../_legacy/models';
+import { validateAuthToken, validateSchema } from '../../../_legacy/modules/endpoints/_commons';
 import { generateToken } from '../../../utils';
 import { schema as finishAccountSchema } from '../../../forms/finishAccountForm';
 import router from '../../router';

@@ -7,7 +7,7 @@ import {
   LauncherVersion as LauncherVersionModel,
   LoaderVersion as LoaderVersionModel,
   ModVersion as ModVersionModel,
-} from '../models';
+} from '../_legacy/models';
 import {
   getLauncherVersionUrl,
   getLoaderVersionUrl,

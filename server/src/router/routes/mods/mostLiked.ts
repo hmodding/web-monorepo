@@ -1,4 +1,4 @@
-import { modVersionModel } from '../../../models';
+import { modVersionModel } from '../../../_legacy/models';
 import sequelize from '../../../sequelize';
 import router from '../../router';
 

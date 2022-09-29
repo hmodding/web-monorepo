@@ -6,7 +6,10 @@ import path from 'path';
 import cfg from '../cfg';
 import { AccountCreation } from '../entities/AccountCreation';
 import { User } from '../entities/User';
-import { User as UserModel } from '../models';
+import {
+  AccountCreation as AccountCreationModel,
+  User as UserModel,
+} from '../_legacy/models';
 
 export interface Replaces {
   [key: string]: string;
@@ -49,7 +52,7 @@ export class Mailer {
   }
 
   async sendAccountCreationMail(
-    accountCreation: AccountCreation,
+    accountCreation: AccountCreationModel | AccountCreation,
   ): Promise<void> {
     const { token, username, email } = accountCreation;
     const baseUrl = cfg.frontendBaseUrl;

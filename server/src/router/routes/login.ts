@@ -1,4 +1,4 @@
-import { Session, sessionModel, User, userModel } from '../../models';
+import { Session, sessionModel, User, userModel } from '../../_legacy/models';
 import { generateToken, validatePassword } from '../../utils';
 import router from '..';
 

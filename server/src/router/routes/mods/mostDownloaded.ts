@@ -2,7 +2,7 @@ import {
   modVersionModel,
   RaftVersion,
   raftVersionModel,
-} from '../../../models';
+} from '../../../_legacy/models';
 import sequelize from '../../../sequelize';
 import router from '../../router';
 

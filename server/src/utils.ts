@@ -11,7 +11,7 @@ import {
   LauncherVersion as LauncherVersionModel,
   LoaderVersion as LoaderVersionModel,
   Mod as ModModel,
-} from './models';
+} from './_legacy/models';
 
 export function validatePassword(given: string, expected: string): boolean {
   return bcrypt.compareSync(given, expected);

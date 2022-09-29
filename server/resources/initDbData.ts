@@ -7,7 +7,7 @@ import {
   raftVersionModel,
   userModel,
   userPrivilegeModel,
-} from '../src/models';
+} from '../src/_legacy/models';
 
 export const initDbData = async () => {
   userModel.findOrCreate({

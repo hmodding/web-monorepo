@@ -6,7 +6,7 @@ import {
   downloadTrackerModel,
   launcherVersionModel,
   modVersionModel,
-} from './models';
+} from './_legacy/models';
 import { literal, Op } from 'sequelize';
 import { createHash } from 'crypto';
 

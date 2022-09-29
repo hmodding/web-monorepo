@@ -7,7 +7,7 @@ import {
   sessionModel,
   User,
   userModel,
-} from '../models';
+} from '../_legacy/models';
 import { generateToken } from '../utils';
 
 export type DiscordAuthenticationScope = 'identify' | 'email'; // https://discord.com/developers/docs/topics/oauth2#shared-resources-oauth2-scopes

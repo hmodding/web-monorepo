@@ -1,19 +1,15 @@
 import pkg from '../../package.json';
-import { base } from '../rest';
-import './routes/auth';
 import '../forms';
+import router from './router';
+import './routes/account';
+import './routes/auth';
 import './routes/login';
 import './routes/mods';
-import './routes/account';
-import router from './router';
 
 router.get('/', async (req: any, res: any) => {
   res.status(200).send({
     status: 'online',
     version: pkg.version,
-    rest: {
-      base,
-    },
   });
 });
 

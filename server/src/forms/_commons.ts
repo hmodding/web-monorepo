@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { RaftVersion, raftVersionModel } from '../models';
+import { RaftVersion, raftVersionModel } from '../_legacy/models';
 import cfg, { ModCategories } from '../cfg';
 import { capitalize } from '../utils';
 

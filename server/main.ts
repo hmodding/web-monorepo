@@ -1,30 +1,29 @@
 import 'reflect-metadata';
+import { cfg } from './src/cfg';
 import { AppDataSource } from './src/dataSource';
-import cfg from './src/cfg';
 import { DownloadCounter } from './src/DownloadCounter';
-import './src/modules/endpoints';
-import './src/modelAssociations';
-import './src/rest';
-import './src/router';
-import server from './src/server';
-import { insertDatabaseExampleData } from './src/utils';
+import { startServer } from './src/server';
+import { tsoaSetup } from './src/tsoaSetup';
 
 (async () => {
+  console.log(
+    '\n##################################\n' +
+      '##\t\t\t\t##\n' +
+      '##\t STARTING SERVER \t##\n' +
+      '##\t\t\t\t##\n' +
+      '##################################\n',
+  );
   // await sequelize.sync({ force: false }); //legacy
   await AppDataSource.initialize(); //new
+  console.log('AppDataSource initialized!');
 
   if (process.env.NODE_ENV === 'develop') {
-    insertDatabaseExampleData();
+    //TODO: insertDatabaseExampleData();
+    console.log('[DEV]: database example data inserted!');
   }
 
-  const port = cfg.server.port;
-
-  server.listen(port);
-  server.on('error', console.error);
-  server.on('listening', () => {
-    // noinspection HttpUrlsUsage
-    console.log('listening at http://%s:%s', 'localhost', port);
-  });
-
+  startServer();
+  tsoaSetup();
   new DownloadCounter(cfg).startListening();
+  console.log('download-counter starting to listen!');
 })();

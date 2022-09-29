@@ -4,7 +4,7 @@ import { mailer } from '../../mailer/mailer';
 import { userModel } from '../../models';
 import { passwordResetModel } from '../../models/';
 import reCaptchaClient from '../../ReCaptchaClient';
-import { schema as resetPasswordSchema } from '../../router/routes/forms/resetPasswordForm';
+import { schema as resetPasswordSchema } from '../../forms/resetPasswordForm';
 import { validateSchema } from './_commons';
 
 const passwordResetsEndpoint = finale.resource({

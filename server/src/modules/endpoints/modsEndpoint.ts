@@ -7,7 +7,7 @@ import {
   userModel,
 } from '../../models';
 import notifier from '../../discord/DiscordNotifier';
-import { getSchema as getAddModSchema } from '../../router/routes/forms/addModForm';
+import { getSchema as getAddModSchema } from '../../forms/addModForm';
 import {
   extractSession,
   validateAndWriteModFile,

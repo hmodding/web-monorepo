@@ -1,4 +1,4 @@
-import router from '../../router';
+import router from '../router/router';
 import { integerMax, slug } from './_commons';
 
 export const schema = {

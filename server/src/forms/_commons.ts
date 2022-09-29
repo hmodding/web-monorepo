@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
-import { RaftVersion, raftVersionModel } from '../../../models';
-import cfg, { ModCategories } from '../../../cfg';
-import { capitalize } from '../../../utils';
+import { RaftVersion, raftVersionModel } from '../models';
+import cfg, { ModCategories } from '../cfg';
+import { capitalize } from '../utils';
 
 export const slug = {
   schema: {

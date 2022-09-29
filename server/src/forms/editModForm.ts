@@ -1,5 +1,5 @@
-import { ModCategories } from '../../../cfg';
-import router from '../../router';
+import { ModCategories } from '../cfg';
+import router from '../router/router';
 import { disableRule, httpS, slug } from './_commons';
 
 export const schema = {

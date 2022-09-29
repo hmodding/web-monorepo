@@ -2,7 +2,7 @@ import { DeepPartial } from 'typeorm';
 import { PasswordReset } from '../entities/PasswordReset';
 import { User } from '../entities/User';
 import { ApiError } from '../errors/ApiError';
-import { schema as resetPasswordSchema } from '../router/routes/forms/resetPasswordForm';
+import { schema as resetPasswordSchema } from '../forms/resetPasswordForm';
 import { HttpStatusCode } from '../types/HttpStatusCode';
 import { validateData } from '../utils';
 import { AbstractService } from './AbstractService';

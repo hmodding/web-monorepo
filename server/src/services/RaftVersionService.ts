@@ -1,7 +1,7 @@
 import { RaftVersion } from '../entities/RaftVersion';
 import { ApiError } from '../errors/ApiError';
-import { schema as addRaftVersionSchema } from '../router/routes/forms/addRaftVersionForm';
-import { schema as editRaftVersionSchema } from '../router/routes/forms/editRaftVersionForm';
+import { schema as addRaftVersionSchema } from '../forms/addRaftVersionForm';
+import { schema as editRaftVersionSchema } from '../forms/editRaftVersionForm';
 import { HttpStatusCode } from '../types/HttpStatusCode';
 import { validateData } from '../utils';
 import { AbstractService } from './AbstractService';

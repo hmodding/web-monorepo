@@ -6,7 +6,7 @@ import { Mod } from '../entities/Mod';
 import { User } from '../entities/User';
 import { ApiError } from '../errors/ApiError';
 import { fileManager, ObjectMeta } from '../FileManager';
-import { getSchema } from '../router/routes/forms/addModForm';
+import { getSchema } from '../forms/addModForm';
 import { HttpStatusCode } from '../types/HttpStatusCode';
 import { validateData } from '../utils';
 import { AbstractService } from './AbstractService';

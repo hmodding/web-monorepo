@@ -1,4 +1,4 @@
-import router from '../../router';
+import router from '../router/router';
 import { getRaftVersionsSchema, markdownEditor, slug } from './_commons';
 
 export const getSchema = async () => {

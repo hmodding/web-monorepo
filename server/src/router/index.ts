@@ -1,7 +1,7 @@
 import pkg from '../../package.json';
 import { base } from '../rest';
 import './routes/auth';
-import './routes/forms';
+import '../forms';
 import './routes/login';
 import './routes/mods';
 import './routes/account';

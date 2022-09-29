@@ -1,7 +1,7 @@
 import { Session, sessionModel, User, userModel } from '../../../models';
 import { validateAuthToken, validateSchema } from '../../../modules/endpoints/_commons';
 import { generateToken } from '../../../utils';
-import { schema as finishAccountSchema } from '../forms/finishAccountForm';
+import { schema as finishAccountSchema } from '../../../forms/finishAccountForm';
 import router from '../../router';
 
 router.post('/account/finish', async (req: any, res: any) => {

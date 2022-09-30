@@ -1,8 +1,19 @@
-import express from 'express';
+import { json, urlencoded } from 'body-parser';
+import cors from 'cors';
+import express, { RequestHandler } from 'express';
 import { generateRoutes, generateSpec } from 'tsoa';
+import { cfg } from './cfg';
 import { tsoaRouteOptions, tsoaSpecOptions } from './tsoaConfig';
 
 export const server = express();
+
+server.use(
+  json({
+    limit: cfg.requestSizeLimit,
+  }) as RequestHandler,
+);
+server.use(urlencoded({ extended: false }) as RequestHandler);
+server.use(cors());
 
 export const startServer = async () => {
   const port = process.env.PORT || 3000;

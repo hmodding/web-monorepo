@@ -1,6 +1,6 @@
 import { DataTypes, Model } from 'sequelize';
 
-import sequelize from '../../sequelize';
+import { sequelize } from '../../sequelize';
 
 export interface PluginVersion extends Model {
   pluginId: number;

@@ -1,6 +1,6 @@
 import { notifier } from '../discord/DiscordNotifier';
 import { LauncherVersion } from '../entities/LauncherVersion';
-import { fileManager } from '../FileManager';
+import { fileManager } from './FileManagerService';
 import { AbstractService } from './AbstractService';
 
 export interface UploadFile {

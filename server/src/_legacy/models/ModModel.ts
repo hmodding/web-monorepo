@@ -1,6 +1,6 @@
 import { Association, DataTypes, FindOptions, Model, Op } from 'sequelize';
 import { scheduledModDeletionModel } from '.';
-import sequelize from '../../sequelize';
+import { sequelize } from '../../sequelize';
 import { ModVersion } from './ModVersionModel';
 import { ScheduledModDeletion } from './ScheduledModDeletionModel';
 import { User } from './UserModel';

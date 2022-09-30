@@ -1,4 +1,4 @@
-import router from '../router/router';
+import { router } from '../router/router';
 import { mail, recaptcha } from './_commons';
 
 export const schema = {

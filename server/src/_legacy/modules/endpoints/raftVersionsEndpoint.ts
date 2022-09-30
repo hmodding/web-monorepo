@@ -1,16 +1,14 @@
 import finale from 'finale-rest';
-import { raftVersionModel } from '../../models';
 import { schema as addRaftVersionSchema } from '../../../forms/addRaftVersionForm';
 import { schema as editRaftVersionSchema } from '../../../forms/editRaftVersionForm';
+import { raftVersionModel } from '../../models';
 import { validateAdminPrivileges, validateSchema } from './_commons';
 
-const raftVersionsEndpoint = finale.resource({
+export const raftVersionsEndpoint = finale.resource({
   model: raftVersionModel,
   endpoints: ['/raftVersions', '/raftVersions/:id'],
   actions: ['read', 'list', 'update', 'create'],
 });
-
-export default raftVersionsEndpoint;
 
 raftVersionsEndpoint.read.auth(async (req, res, context) => {
   if (await validateAdminPrivileges(req, res)) {

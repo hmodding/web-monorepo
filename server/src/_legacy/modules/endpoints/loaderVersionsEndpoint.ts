@@ -1,5 +1,5 @@
 import finale from 'finale-rest';
-import notifier from '../../../discord/DiscordNotifier';
+import { notifier } from '../../../discord/DiscordNotifier';
 import {
   LoaderVersion,
   loaderVersionModel,
@@ -29,8 +29,6 @@ export const loaderVersionsEndpoint = finale.resource({
     },
   ],
 });
-
-export default loaderVersionsEndpoint;
 
 loaderVersionsEndpoint.create.auth(async (req, res, context) => {
   if (await validateAdminPrivileges(req, res)) {

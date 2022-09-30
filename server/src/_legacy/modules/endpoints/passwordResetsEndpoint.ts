@@ -1,24 +1,21 @@
 import finale from 'finale-rest';
 import { Role } from '../../../cfg';
-import { mailer } from '../../../mailer/mailer';
-import { userModel } from '../../models';
-import { passwordResetModel } from '../../models';
-import reCaptchaClient from '../../../ReCaptchaClient';
 import { schema as resetPasswordSchema } from '../../../forms/resetPasswordForm';
+import { mailer } from '../../../mailer/mailer';
+import { reCaptchaService } from '../../../services/ReCaptchaService';
+import { passwordResetModel, userModel } from '../../models';
 import { validateSchema } from './_commons';
 
-const passwordResetsEndpoint = finale.resource({
+export const passwordResetsEndpoint = finale.resource({
   model: passwordResetModel,
   endpoints: ['/passwordResets', '/passwordResets/:token'],
   actions: ['create', 'read', 'delete'],
 });
 
-export default passwordResetsEndpoint;
-
 passwordResetsEndpoint.create.auth(async (req, res, context) => {
   const { email, recaptcha } = req.body;
 
-  if (!(await reCaptchaClient.verifyResponseToken(recaptcha))) {
+  if (!(await reCaptchaService.verifyResponseToken(recaptcha))) {
     return res.status(403).send({ error: 'Invalid CAPTCHA!' });
   }
 

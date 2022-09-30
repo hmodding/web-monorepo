@@ -1,6 +1,6 @@
 import { DataTypes, Model } from 'sequelize';
 
-import sequelize from '../../sequelize';
+import { sequelize } from '../../sequelize';
 
 export interface ServerVersion extends Model {
   version: string;

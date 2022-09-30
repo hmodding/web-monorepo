@@ -1,5 +1,5 @@
 import { Sequelize } from 'sequelize';
-import cfg from './cfg';
+import { cfg } from './cfg';
 
 const { uri, logging, ssl } = cfg.database;
 
@@ -12,7 +12,7 @@ const dialectOptions = {
   },
 };
 
-export default new Sequelize(uri, {
+export const sequelize = new Sequelize(uri, {
   dialect: 'postgres',
   logging,
   ssl,

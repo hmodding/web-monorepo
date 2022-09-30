@@ -1,6 +1,6 @@
 import pkg from '../../package.json';
 import '../forms';
-import router from './router';
+import { router } from './router';
 import './routes/account';
 import './routes/auth';
 import './routes/login';
@@ -12,5 +12,3 @@ router.get('/', async (req: any, res: any) => {
     version: pkg.version,
   });
 });
-
-export default router;

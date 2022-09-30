@@ -2,13 +2,11 @@ import finale from 'finale-rest';
 import { modLikeModel } from '../../models';
 import { validateAuthToken } from './_commons';
 
-const modLikesEndpoint = finale.resource({
+export const modLikesEndpoint = finale.resource({
   model: modLikeModel,
   endpoints: ['/modLikes', '/modLikes/:modId'],
   actions: ['list', 'create', 'delete'],
 });
-
-export default modLikesEndpoint;
 
 modLikesEndpoint.list.auth(async (req, res, context) => {
   const session = await validateAuthToken(req, res);

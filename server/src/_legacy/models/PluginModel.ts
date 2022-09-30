@@ -1,9 +1,9 @@
 import { DataTypes, Model } from 'sequelize';
 
-import sequelize from '../../sequelize';
+import { sequelize } from '../../sequelize';
 import { PluginVersion } from './PluginVersionModel';
-import { User } from './UserModel';
 import { ScheduledPluginDeletion } from './ScheduledPluginDeletionModel';
+import { User } from './UserModel';
 
 export interface Plugin extends Model {
   slug: string;

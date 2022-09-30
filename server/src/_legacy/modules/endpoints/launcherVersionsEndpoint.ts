@@ -1,19 +1,17 @@
 import finale from 'finale-rest';
+import { cfg } from '../../../cfg';
+import { notifier } from '../../../discord/DiscordNotifier';
+import { FileManagerService } from '../../../services/FileManagerService';
 import { LauncherVersion, launcherVersionModel } from '../../models';
-import cfg from '../../../cfg';
-import { FileManager } from '../../../FileManager';
-import notifier from '../../../discord/DiscordNotifier';
-import { validateAdminPrivileges as validateAdminPrivileges } from './_commons';
+import { validateAdminPrivileges } from './_commons';
 
-const fileManager = new FileManager(cfg);
+const fileManager = new FileManagerService(cfg);
 
 export const launcherVersionsEndpoint = finale.resource({
   model: launcherVersionModel,
   endpoints: ['/launcherVersions', '/launcherVersions/:version'],
   actions: ['read', 'list', 'create'],
 });
-
-export default launcherVersionsEndpoint;
 
 launcherVersionsEndpoint.create.auth(async (req, res, context) => {
   if (await validateAdminPrivileges(req, res)) {

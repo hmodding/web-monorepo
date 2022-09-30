@@ -1,6 +1,6 @@
 import finale from 'finale-rest';
-import { userModel } from '../../models';
 import { validatePassword } from '../../../utils';
+import { userModel } from '../../models';
 import { validateAuthToken } from './_commons';
 
 const usersEndpoint = finale.resource({
@@ -46,5 +46,3 @@ usersEndpoint.update.auth(async (req, res, context) => {
   req.body = { password };
   return context.continue;
 });
-
-export default usersEndpoint;

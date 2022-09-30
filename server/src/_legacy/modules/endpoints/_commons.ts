@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import FileType from 'file-type';
 import ajv from '../../../ajv';
 import cfg, { Role } from '../../../cfg';
-import { FileManager, ObjectMeta } from '../../../FileManager';
+import { FileManagerService, ObjectMeta } from '../../../services/FileManagerService';
 import {
   Mod,
   modModel,
@@ -12,7 +12,7 @@ import {
   userModel,
 } from '../../models';
 
-const fileManger = new FileManager(cfg);
+const fileManger = new FileManagerService(cfg);
 
 export async function extractSession(req: Request): Promise<Session | null> {
   try {

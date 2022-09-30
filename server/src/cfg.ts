@@ -353,8 +353,6 @@ export const cfg: Cfg = {
   discordNotifications: readDiscordNotificationCfg(),
 };
 
-export default cfg;
-
 export const Role = {
   Admin: 'admin',
   Unfinished: 'UNFINISHED',

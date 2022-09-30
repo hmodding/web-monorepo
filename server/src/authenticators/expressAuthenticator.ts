@@ -1,9 +1,20 @@
 import { Request } from 'express';
 import { Role } from '../cfg';
-import { reCaptchaClient } from '../ReCaptchaClient';
+import { reCaptchaService } from '../services/ReCaptchaService';
 import { SessionService } from '../services/SessionService';
 
-export const RestAuthenticator = async (req: Request, securityName: string) => {
+/**
+ *
+ * @param req `Express.Request`
+ * @param securityName custom name of security method
+ * @param _scopes unused (e.g. OAUTH2 needs this )
+ * {@link https://tsoa-community.github.io/docs/authentication.html}
+ */
+export const expressAuthentication = async (
+  req: Request,
+  securityName: string,
+  _scopes?: string[],
+) => {
   switch (securityName) {
     case 'captcha':
       validateCaptcha(req);
@@ -23,11 +34,13 @@ export const RestAuthenticator = async (req: Request, securityName: string) => {
 
 /**
  * validation for captcha (e.g. password reset & account creation)
- * @param req
+ * @param req `Express.Request`
  */
 const validateCaptcha = async (req: Request) => {
   const { recaptcha } = req.body;
-  const isValidRecaptcha = await reCaptchaClient.verifyResponseToken(recaptcha);
+  const isValidRecaptcha = await reCaptchaService.verifyResponseToken(
+    recaptcha,
+  );
 
   if (!isValidRecaptcha) {
     throw new Error('Invalid CAPTCHA!');
@@ -36,7 +49,7 @@ const validateCaptcha = async (req: Request) => {
 
 /**
  * validation for the basic logged in users who provide an authtoken header
- * @param req
+ * @param req `Express.Request`
  */
 const validateAuthToken = async (req: Request) => {
   const { authtoken } = req.headers;
@@ -58,7 +71,7 @@ const validateAuthToken = async (req: Request) => {
 
 /**
  * validation for admin by checking their session role based on the provided authtoken header
- * @param req
+ * @param req `Express.Request`
  */
 const validateAdminPrivileges = async (req: Request) => {
   const session = await validateAuthToken(req);

@@ -1,7 +1,7 @@
 import dayjs, { UnitTypeShort } from 'dayjs';
 import finale from 'finale-rest';
+import { cfg } from '../../../cfg';
 import { scheduledModDeletionModel } from '../../models';
-import cfg from '../../../cfg';
 import { validateModOwnership } from './_commons';
 
 export const scheduledModDeletionsEndpoint = finale.resource({
@@ -9,8 +9,6 @@ export const scheduledModDeletionsEndpoint = finale.resource({
   endpoints: ['/scheduledModDeletions'],
   actions: ['create'],
 });
-
-export default scheduledModDeletionsEndpoint;
 
 scheduledModDeletionsEndpoint.create.auth(async (req, res, context) => {
   const { modId } = req.body;

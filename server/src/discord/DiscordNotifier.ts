@@ -1,13 +1,8 @@
 import { AxiosError } from 'axios';
-import cfg, { DiscordNotificationsCfg } from '../cfg';
+import { cfg, DiscordNotificationsCfg } from '../cfg';
 import { LauncherVersion } from '../entities/LauncherVersion';
 import { LoaderVersion } from '../entities/LoaderVersion';
 import { ModVersion } from '../entities/ModVersion';
-import {
-  LauncherVersion as LauncherVersionModel,
-  LoaderVersion as LoaderVersionModel,
-  ModVersion as ModVersionModel,
-} from '../_legacy/models';
 import {
   getLauncherVersionUrl,
   getLoaderVersionUrl,
@@ -16,6 +11,11 @@ import {
   logoUrl,
   softwareDownloadUrl,
 } from '../utils';
+import {
+  LauncherVersion as LauncherVersionModel,
+  LoaderVersion as LoaderVersionModel,
+  ModVersion as ModVersionModel,
+} from '../_legacy/models';
 import {
   DiscordWebhookClient,
   Embed,
@@ -223,5 +223,3 @@ function formatRoleMention(roleId: string) {
  */
 
 export const notifier = new DiscordNotifier(cfg.discordNotifications);
-
-export default notifier;

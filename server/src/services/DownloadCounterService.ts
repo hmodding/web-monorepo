@@ -1,14 +1,14 @@
-import { Client } from 'minio';
-import { Cfg } from './cfg';
+import { createHash } from 'crypto';
 import { EventEmitter } from 'events';
+import { Client } from 'minio';
+import { literal, Op } from 'sequelize';
+import { Cfg } from '../cfg';
 import {
   DownloadTracker,
   downloadTrackerModel,
   launcherVersionModel,
   modVersionModel,
-} from './_legacy/models';
-import { literal, Op } from 'sequelize';
-import { createHash } from 'crypto';
+} from '../_legacy/models';
 
 /**
  * Type definition for MinIO `s3:ObjectAccessed:Get` notifications that contains
@@ -69,7 +69,7 @@ const TRACKING_DURATION = 1000 * 60; // 1 hour
  * Listens for download events from the MinIO object storage and updates
  * download count variables accordingly.
  */
-export class DownloadCounter {
+export class DownloadCounterService {
   private cfg: Cfg;
   private client: Client | null;
   private modNotificationEmitter?: EventEmitter;

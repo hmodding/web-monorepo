@@ -1,8 +1,8 @@
 import { DataTypes, Model } from 'sequelize';
 
-import sequelize from '../../sequelize';
-import { User } from './UserModel';
+import { sequelize } from '../../sequelize';
 import { ModVersion } from './ModVersionModel';
+import { User } from './UserModel';
 
 export interface ModBundle extends Model {
   title: string;

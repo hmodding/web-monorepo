@@ -1,4 +1,6 @@
 import finale from 'finale-rest';
+import notifier from '../../../discord/DiscordNotifier';
+import { getSchema as getAddModSchema } from '../../../forms/addModForm';
 import {
   modLikeModel,
   modModel,
@@ -6,8 +8,6 @@ import {
   modVersionModel,
   userModel,
 } from '../../models';
-import notifier from '../../../discord/DiscordNotifier';
-import { getSchema as getAddModSchema } from '../../../forms/addModForm';
 import {
   extractSession,
   validateAndWriteModFile,
@@ -144,5 +144,3 @@ modsEndpoint.update.auth(async (req, res, context) => {
 
   return context.continue;
 });
-
-export default modsEndpoint;

@@ -3,7 +3,7 @@ import nodemailer, { Transporter } from 'nodemailer';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
 import path from 'path';
 
-import cfg from '../cfg';
+import { cfg } from '../cfg';
 import { AccountCreation } from '../entities/AccountCreation';
 import { User } from '../entities/User';
 import {

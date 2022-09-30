@@ -1,6 +1,6 @@
-import { Session, sessionModel, User, userModel } from '../../_legacy/models';
 import { generateToken, validatePassword } from '../../utils';
-import router from '..';
+import { Session, sessionModel, User, userModel } from '../../_legacy/models';
+import { router } from '../router';
 
 router.post('/login', async (req: any, res: any) => {
   const { username, password, deviceInfo } = req.body;

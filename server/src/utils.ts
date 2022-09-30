@@ -1,9 +1,10 @@
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 import { v1 } from 'uuid';
-import { initDbData } from '../resources/initDbData';
-import ajv from './ajv';
-import cfg from './cfg';
+
+import { initDbData } from '../resources/exampleDbData';
+import { ajv } from './ajv';
+import { cfg } from './cfg';
 import { LauncherVersion } from './entities/LauncherVersion';
 import { LoaderVersion } from './entities/LoaderVersion';
 import { Mod } from './entities/Mod';

@@ -1,7 +1,7 @@
 import { AbstractDataTypeConstructor, DataTypes, Model } from 'sequelize';
-import sequelize from '../../sequelize';
-import { Mod } from './ModModel';
+import { sequelize } from '../../sequelize';
 import { ModBundle, RaftVersion } from './index';
+import { Mod } from './ModModel';
 
 export interface ModVersion extends Model {
   id: number;

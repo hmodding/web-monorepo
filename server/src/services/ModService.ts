@@ -5,7 +5,7 @@ import { ModCreateData } from '../controllers/ModController';
 import { Mod } from '../entities/Mod';
 import { User } from '../entities/User';
 import { ApiError } from '../errors/ApiError';
-import { fileManager, ObjectMeta } from '../FileManager';
+import { fileManager, ObjectMeta } from './FileManagerService';
 import { getSchema } from '../forms/addModForm';
 import { HttpStatusCode } from '../types/HttpStatusCode';
 import { validateData } from '../utils';

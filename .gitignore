@@ -1,19 +1,30 @@
+
+# gitingore & eslintignore (simlink)
+
+# tsoa generated files
+server/src/router/routes.ts
+server/public/swagger.json
+
+# npm/yarn
 node_modules
-
-.DS_Store
-
-dist
-dist-ssr
-
-*.local
-.idea
-
-cfg.json
-
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# build
+dist
+dist-ssr
+
+# IDE
 .vscode/*
 !.vscode/launch.json
+.idea
 
+# OSX
+.DS_Store
+
+# misc
+*.local
+
+# unused????
+cfg.json

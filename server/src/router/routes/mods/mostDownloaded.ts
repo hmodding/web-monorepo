@@ -1,10 +1,10 @@
+import { sequelize } from '../../../sequelize';
 import {
   modVersionModel,
   RaftVersion,
   raftVersionModel,
 } from '../../../_legacy/models';
-import sequelize from '../../../sequelize';
-import router from '../../router';
+import { router } from '../../router';
 
 router.get('/mods/mostDownloaded', async (req: any, res: any) => {
   const latestRaftVersion: RaftVersion = (

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import cfg from './cfg';
+import { cfg } from '../cfg';
 
 /**
  * The format of ReCaptcha API responses.
@@ -19,7 +19,7 @@ const reCaptchaEndpoint = 'https://www.google.com/recaptcha/api/siteverify';
 /**
  * Client for the Google ReCaptcha response token validation API.
  */
-export class ReCaptchaClient {
+export class ReCaptchaService {
   private readonly secretKey: string;
 
   /**
@@ -54,6 +54,4 @@ export class ReCaptchaClient {
 /**
  * ReCaptcha client with credentials from the app config.
  */
-export const reCaptchaClient = new ReCaptchaClient(cfg.reCaptcha.secretKey);
-
-export default reCaptchaClient;
+export const reCaptchaService = new ReCaptchaService(cfg.reCaptcha.secretKey);

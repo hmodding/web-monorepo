@@ -54,7 +54,7 @@ import {
 import { HttpStatusCode } from '../types/HttpStatusCode';
 
 @Route('/forms')
-export class AccountCreationController extends Controller {
+export class FormController extends Controller {
   @Get('/addLauncherVersion')
   @Security('admin')
   public async addLauncherVersion() {

@@ -1,21 +1,19 @@
 import finale from 'finale-rest';
 import { Op } from 'sequelize';
 import { mailer } from '../../../mailer/mailer';
-import { reCaptchaClient } from '../../../ReCaptchaClient';
+import { reCaptchaService } from '../../../services/ReCaptchaService';
 import { accountCreationModel, userModel } from '../../models';
 
-const accountCreationsEndpoint = finale.resource({
+export const accountCreationsEndpoint = finale.resource({
   model: accountCreationModel,
   endpoints: ['/accountCreations', '/accountCreations/:token'],
   actions: ['create', 'delete'],
 });
 
-export default accountCreationsEndpoint;
-
 accountCreationsEndpoint.create.auth(async (req, res, context) => {
   const { username, email, recaptcha } = req.body;
 
-  if (!(await reCaptchaClient.verifyResponseToken(recaptcha))) {
+  if (!(await reCaptchaService.verifyResponseToken(recaptcha))) {
     return res.status(403).send({ error: 'Invalid CAPTCHA!' });
   }
 

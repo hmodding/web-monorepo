@@ -1,7 +1,7 @@
 import finale from 'finale-rest';
 import { sessionModel, userModel } from '../../models';
 
-const sessionsEndpoint = finale.resource({
+export const sessionsEndpoint = finale.resource({
   model: sessionModel,
   endpoints: ['/sessions', '/sessions/:token'],
   associations: true,
@@ -16,5 +16,3 @@ const sessionsEndpoint = finale.resource({
     },
   ],
 });
-
-export default sessionsEndpoint;

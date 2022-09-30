@@ -1,6 +1,6 @@
+import { sequelize } from '../../../sequelize';
 import { modVersionModel } from '../../../_legacy/models';
-import sequelize from '../../../sequelize';
-import router from '../../router';
+import { router } from '../../router';
 
 router.get('/mods/mostLiked', async (req: any, res: any) => {
   const result = await sequelize.query(getQuery());

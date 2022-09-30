@@ -1,6 +1,6 @@
 import { createHash } from 'crypto';
 import { Client } from 'minio';
-import { cfg, Cfg } from './cfg';
+import { cfg, Cfg } from '../cfg';
 
 /**
  * Relevant metadata for an uploaded object (file).
@@ -24,7 +24,7 @@ export interface ObjectMeta {
 /**
  * Used to upload and delete mod files on an external storage server.
  */
-export class FileManager {
+export class FileManagerService {
   private cfg: Cfg;
   private client: Client | null;
 
@@ -242,4 +242,4 @@ export class FileManager {
   }
 }
 
-export const fileManager = new FileManager(cfg);
+export const fileManager = new FileManagerService(cfg);

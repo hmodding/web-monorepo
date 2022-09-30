@@ -1,5 +1,4 @@
 {
-  /* SERVER */
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "outDir": "dist",
@@ -13,6 +12,7 @@
     }
   },
   "include": [
-    "src/**/*"
-, "main.ts", "src/tsoaSetup.ts"  ]
+    "src/**/*",
+    "main.ts",
+  ]
 }

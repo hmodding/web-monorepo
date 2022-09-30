@@ -6,6 +6,6 @@
   "ext": "ts,json,js,env",
   "ignore": [
     "src/**/*.spec.ts",
-    "src/**/generated/*"
+    "src/router/routes.ts"
   ]
 }

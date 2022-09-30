@@ -14,8 +14,6 @@ export const modVersionsEndpoint = finale.resource({
   actions: ['create', 'update'],
 });
 
-export default modVersionsEndpoint;
-
 modVersionsEndpoint.create.auth(async (req, res, context) => {
   if (await validateModOwnership(req, res, 'modId')) {
     if (await validateSchema(req.body, await getModVersionSchema(), res)) {

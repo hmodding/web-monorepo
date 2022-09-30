@@ -1,6 +1,6 @@
 import { DataTypes, Model } from 'sequelize';
 
-import sequelize from '../../sequelize';
+import { sequelize } from '../../sequelize';
 import { generateToken } from '../../utils';
 import { User } from './UserModel';
 

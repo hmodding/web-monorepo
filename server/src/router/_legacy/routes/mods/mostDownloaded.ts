@@ -1,12 +1,12 @@
-import { sequelize } from '../../../sequelize';
+import { sequelize } from '../../../../sequelize';
 import {
   modVersionModel,
   RaftVersion,
   raftVersionModel,
-} from '../../../_legacy/models';
+} from '../../../../_legacy/models';
 import { router } from '../../router';
 
-router.get('/mods/mostDownloaded', async (req: any, res: any) => {
+router.head('/mods/mostDownloaded', async (req: any, res: any) => {
   const latestRaftVersion: RaftVersion = (
     await raftVersionModel.findAll({
       order: [['releasedAt', 'DESC']],

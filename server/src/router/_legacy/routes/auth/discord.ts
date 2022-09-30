@@ -1,4 +1,4 @@
-import discordAuthenticator from '../../../authenticators/DiscordAuthenticator';
+import discordAuthenticator from '../../../../authenticators/DiscordAuthenticator';
 import router from '../../router';
 
 router.post('/auth/discord', async (req: any, res: any) => {

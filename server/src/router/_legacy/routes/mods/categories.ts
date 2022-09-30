@@ -1,4 +1,4 @@
-import { ModCategories } from '../../../cfg';
+import { ModCategories } from '../../../../cfg';
 import {router} from '../../router';
 
 router.get('/mods/categories', async (req: any, res: any) => {

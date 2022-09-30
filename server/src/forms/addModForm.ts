@@ -1,4 +1,4 @@
-import { router } from '../router/router';
+import { router } from '../router/_legacy/router';
 import {
   fileUploadAccept,
   httpS,

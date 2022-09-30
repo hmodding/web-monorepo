@@ -5,11 +5,11 @@ import { ModCreateData } from '../controllers/ModController';
 import { Mod } from '../entities/Mod';
 import { User } from '../entities/User';
 import { ApiError } from '../errors/ApiError';
-import { fileManager, ObjectMeta } from './FileManagerService';
 import { getSchema } from '../forms/addModForm';
 import { HttpStatusCode } from '../types/HttpStatusCode';
 import { validateData } from '../utils';
 import { AbstractService } from './AbstractService';
+import { fileManager, ObjectMeta } from './FileManagerService';
 import { ModVersionService } from './ModVersionService';
 
 export class ModService extends AbstractService {
@@ -22,6 +22,10 @@ export class ModService extends AbstractService {
       where: { id },
       relations: ['versions', 'likes'],
     });
+  }
+
+  static async getMostLiked(limit: number = 3) {
+    return await Mod.query(MOST_LIKED_MOD_QUERY, [limit]);
   }
 
   static async isUpdateAllowed(modId: string, user: User) {
@@ -99,3 +103,11 @@ export class ModService extends AbstractService {
     return validateData(data, addModSchema);
   }
 }
+
+const MOST_LIKED_MOD_QUERY = `
+  SELECT 
+    *, 
+    (SELECT COUNT(*) FROM "ModLikes" WHERE "ModLikes"."modId" = "mods"."id")::int AS likes
+  FROM "mods"
+  ORDER BY likes DESC, "mods".title DESC
+  LIMIT $1`;

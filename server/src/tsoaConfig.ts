@@ -8,7 +8,7 @@ const controllerPathGlobs = [`${__dirname}/controllers/**/*Controller.ts`];
 
 /**
  * DO NOT tamper with unless you know what you are doing!
- * {@link https://tsoa-community.github.io/reference/interfaces/extendedroutesconfig.html}
+ * {@link: https://tsoa-community.github.io/reference/interfaces/extendedroutesconfig.html}
  */
 export const tsoaRouteOptions: ExtendedRoutesConfig = {
   entryFile,
@@ -22,7 +22,7 @@ export const tsoaRouteOptions: ExtendedRoutesConfig = {
 
 /**
  * DO NOT tamper with unless you know what you are doing!
- * {@link https://tsoa-community.github.io/reference/interfaces/extendedspecconfig.html}
+ * {@link: https://tsoa-community.github.io/reference/interfaces/extendedspecconfig.html}
  */
 export const tsoaSpecOptions: ExtendedSpecConfig = {
   entryFile,

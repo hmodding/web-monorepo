@@ -54,19 +54,24 @@ export class ModController extends Controller {
     return await ModService.getAll();
   }
 
-  @Get('/{id}')
+  @Get('/mostLiked')
   @Security('everyone')
-  public async read(@Path() id: string) {
-    const mod = await ModService.getById(id);
-    const likeCount = mod?.likes;
-
-    return {
-      ...mod,
-      likeCount,
-    };
+  public async listMostLiked() {
+    this.setStatus(200);
+    return await ModService.getMostLiked();
   }
 
-  
+  // @Get('/{id}')
+  // @Security('everyone')
+  // public async read(@Path() id: string) {
+  //   const mod = await ModService.getById(id);
+  //   const likeCount = mod?.likes;
+
+  //   return {
+  //     ...mod,
+  //     likeCount,
+  //   };
+  // }
 
   @Post()
   @Security('user')

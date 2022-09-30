@@ -1,4 +1,4 @@
-import { router } from '../router/router';
+import { router } from '../router/_legacy/router';
 import { mail, password, recaptcha, username } from './_commons';
 
 export const schema = {

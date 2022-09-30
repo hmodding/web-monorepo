@@ -1,7 +1,7 @@
-import { Session, sessionModel, User, userModel } from '../../../_legacy/models';
-import { validateAuthToken, validateSchema } from '../../../_legacy/modules/endpoints/_commons';
-import { generateToken } from '../../../utils';
-import { schema as finishAccountSchema } from '../../../forms/finishAccountForm';
+import { Session, sessionModel, User, userModel } from '../../../../_legacy/models';
+import { validateAuthToken, validateSchema } from '../../../../_legacy/modules/endpoints/_commons';
+import { generateToken } from '../../../../utils';
+import { schema as finishAccountSchema } from '../../../../forms/finishAccountForm';
 import router from '../../router';
 
 router.post('/account/finish', async (req: any, res: any) => {

@@ -1,5 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { NotyfEvent } from 'notyf';
+import { LOCAL_STORAGE_SESSION } from '../const';
 import {
   FormResponse,
   LauncherVersion,
@@ -12,7 +13,6 @@ import {
 } from '../types';
 import { ModLike } from '../types/ModLike';
 import { PasswordReset } from '../types/PasswordReset';
-import { LOCAL_STORAGE_SESSION } from '../const';
 import { setSession, state } from './stateManager';
 import toaster from './toaster';
 

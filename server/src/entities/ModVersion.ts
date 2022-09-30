@@ -2,7 +2,6 @@ import {
   Column,
   Entity,
   Index,
-  JoinTable,
   ManyToMany,
   ManyToOne,
   OneToOne,
@@ -52,6 +51,5 @@ export class ModVersion extends AbstractEntityWithGeneratedId {
   maxRaftVersion?: RaftVersion;
 
   @ManyToMany(() => ModBundle, (bundle) => bundle.modContents)
-  @JoinTable()
   bundles?: ModBundle[];
 }

@@ -66,6 +66,8 @@ export class ModController extends Controller {
     };
   }
 
+  
+
   @Post()
   @Security('user')
   public async create(@Body() data: ModCreateData) {

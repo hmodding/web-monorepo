@@ -1,7 +1,6 @@
 import {
   Column,
   Entity,
-  JoinColumn,
   JoinTable,
   ManyToMany,
   OneToMany,
@@ -46,11 +45,20 @@ export class Mod extends AbstractEntity {
   versions?: ModVersion[];
 
   @OneToOne(() => ScheduledModDeletion)
-  @JoinColumn()
   deletion?: ScheduledModDeletion;
 
   @ManyToMany(() => User, (user) => user.likedMods)
-  @JoinTable()
+  @JoinTable({
+    name: 'ModLikes',
+    joinColumn: {
+      name: 'modId',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'userId',
+      referencedColumnName: 'id',
+    },
+  })
   likes?: User[];
 
   //hooks

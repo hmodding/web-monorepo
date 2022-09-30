@@ -32,6 +32,16 @@ export class ModBundle extends AbstractEntityWithGeneratedId {
   maintainer?: User;
 
   @ManyToMany(() => ModVersion, (version) => version.bundles)
-  @JoinTable()
+  @JoinTable({
+    name: 'ModBundleContents',
+    joinColumn: {
+      name: 'modBundleId',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'modVersionId',
+      referencedColumnName: 'id',
+    },
+  })
   modContents?: ModVersion[];
 }

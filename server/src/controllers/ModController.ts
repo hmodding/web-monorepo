@@ -14,6 +14,7 @@ import { ApiError } from '../errors/ApiError';
 import { UploadFile } from '../services/LauncherVersionService';
 import { ModService } from '../services/ModService';
 import { SessionService } from '../services/SessionService';
+import { HttpStatusCode } from '../types/HttpStatusCode';
 
 type ModUpdateKeys =
   | 'title'
@@ -54,6 +55,10 @@ export class ModController extends Controller {
     return await ModService.getAll();
   }
 
+  /**
+   * MUST be defined before /{id} otherwise it won't work
+   * @returns list of most liked mods
+   */
   @Get('/mostLiked')
   @Security('everyone')
   public async listMostLiked() {
@@ -61,17 +66,34 @@ export class ModController extends Controller {
     return await ModService.getMostLiked();
   }
 
-  // @Get('/{id}')
-  // @Security('everyone')
-  // public async read(@Path() id: string) {
-  //   const mod = await ModService.getById(id);
-  //   const likeCount = mod?.likes;
+  /**
+   * MUST be defined before /{id} otherwise it won't work
+   * @returns list of most downloaded mods
+   */
+  @Get('/mostDownloaded')
+  @Security('everyone')
+  public async listMostDownloaded() {
+    this.setStatus(200);
+    return await ModService.getMostDownloaded();
+  }
 
-  //   return {
-  //     ...mod,
-  //     likeCount,
-  //   };
-  // }
+  @Get('/{id}')
+  @Security('everyone')
+  public async read(@Path() id: string) {
+    const mod = await ModService.getById(id);
+
+    if (!mod) {
+      this.setStatus(HttpStatusCode.NotFound);
+      return;
+    }
+
+    const likeCount = mod?.likes;
+
+    return {
+      ...mod,
+      likeCount,
+    };
+  }
 
   @Post()
   @Security('user')

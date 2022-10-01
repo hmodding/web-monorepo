@@ -25,7 +25,13 @@ export class ModService extends AbstractService {
   }
 
   static async getMostLiked(limit: number = 3) {
-    return await Mod.query(MOST_LIKED_MOD_QUERY, [limit]);
+    console.log('get most liked mods');
+    return await Mod.query(MOST_LIKED_MODS_QUERY, [limit]);
+  }
+
+  static async getMostDownloaded(limit: number = 3) {
+    console.log('get most downloaded mods');
+    return await Mod.query(MOST_DOWNLOADED_MODS_QUERY, [limit]);
   }
 
   static async isUpdateAllowed(modId: string, user: User) {
@@ -104,10 +110,33 @@ export class ModService extends AbstractService {
   }
 }
 
-const MOST_LIKED_MOD_QUERY = `
+const MOST_LIKED_MODS_QUERY = `
   SELECT 
     *, 
     (SELECT COUNT(*) FROM "ModLikes" WHERE "ModLikes"."modId" = "mods"."id")::int AS likes
   FROM "mods"
   ORDER BY likes DESC, "mods".title DESC
+  LIMIT $1`;
+
+const MOST_DOWNLOADED_MODS_QUERY = `
+    SELECT *,
+    (
+        CASE
+            WHEN (
+                SELECT SUM("downloadCount")
+                from "mod-versions"
+                WHERE "mod-versions"."modId" = "mods"."id"
+                    AND "mod-versions"."downloadCount" IS NOT NULL
+            ) IS NOT NULL THEN (
+                SELECT SUM("downloadCount")
+                from "mod-versions"
+                WHERE "mod-versions"."modId" = "mods"."id"
+                    AND "mod-versions"."downloadCount" IS NOT NULL
+            )
+            ELSE 0
+        END
+    ) AS "totalDownloads"
+  FROM "mods"
+  GROUP BY id
+  ORDER BY "totalDownloads" DESC
   LIMIT $1`;

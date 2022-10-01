@@ -20,12 +20,12 @@ export const startServer = async () => {
 
   await generateSpec(tsoaSpecOptions); // generates {@link: router/routes.ts}
   await generateRoutes(tsoaRouteOptions); //generates {@link: ../public/swagger.json}
-  require('./router/routes').RegisterRoutes(server); //lazy-load because its a generated file otherwise and compilation error would occur
+  require('./router/routes').RegisterRoutes(server); //lazy-load because its a generated file otherwise an compilation error would be thrown
 
-  // DO NOT use error handlers before registering routes!s
+  // DO NOT use error handlers before registering routes!
   server.use(notFoundHandler);
 
   server.listen(port, () => {
     console.log('listening at http://%s:%s', 'localhost', port);
   });
-};;;;;
+};

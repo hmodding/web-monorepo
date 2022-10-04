@@ -14,8 +14,10 @@ interface RaftVersionCreateData
 interface RaftVersionUpdateData extends RaftVersionCreateData {}
 
 export class RaftVersionService extends AbstractService {
-  static async getAll() {
-    return RaftVersion.find();
+  static async getAll(sort?: string) {
+    return RaftVersion.find({
+      order: this.parseSort(sort),
+    });
   }
 
   static async getById(id: number) {

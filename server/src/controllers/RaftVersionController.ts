@@ -1,4 +1,14 @@
-import { Body, Controller, Get, Path, Post, Put, Route, Security } from 'tsoa';
+import {
+  Body,
+  Controller,
+  Get,
+  Path,
+  Post,
+  Put,
+  Query,
+  Route,
+  Security,
+} from 'tsoa';
 import { RaftVersion } from '../entities/RaftVersion';
 import { RaftVersionService } from '../services/RaftVersionService';
 import { HttpStatusCode } from '../types/HttpStatusCode';
@@ -14,9 +24,9 @@ interface RaftVersionUpdateBody extends RaftVersionCreateBody {}
 export class RaftVersionController extends Controller {
   @Get()
   @Security('everyone')
-  public async list() {
+  public async list(@Query('sort') sort?: string) {
     this.setStatus(HttpStatusCode.Ok);
-    return RaftVersionService.getAll();
+    return RaftVersionService.getAll(sort);
   }
 
   @Get('/{id}')

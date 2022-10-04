@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Path, Post, Route, Security } from 'tsoa';
+import {
+  Body,
+  Controller,
+  Get,
+  Path,
+  Post,
+  Query,
+  Route,
+  Security,
+} from 'tsoa';
 import { LauncherVersion } from '../entities/LauncherVersion';
 import {
   LauncherVersionService,
@@ -14,8 +23,8 @@ interface LauncherVersionCreateData
 export class LauncherVersionController extends Controller {
   @Get()
   @Security('everyone')
-  public async list() {
-    return LauncherVersionService.getAll();
+  public async list(@Query('sort') sort?: string) {
+    return LauncherVersionService.getAll(sort);
   }
 
   @Get('/{version}')

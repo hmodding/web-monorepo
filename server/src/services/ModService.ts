@@ -13,11 +13,13 @@ import { fileManager, ObjectMeta } from './FileManagerService';
 import { ModVersionService } from './ModVersionService';
 
 export class ModService extends AbstractService {
-  static async getAll() {
-    return await Mod.find();
+  static async getAll(sort?: string) {
+    return await Mod.find({
+      order: this.parseSort(sort),
+    });
   }
 
-  static async getById(id: string) {
+  static async getById(id: string, sort?: string) {
     return await Mod.findOne({
       where: { id },
       relations: ['versions', 'likes'],

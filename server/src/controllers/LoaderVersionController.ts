@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Path, Post, Route, Security } from 'tsoa';
+import {
+  Body,
+  Controller,
+  Get,
+  Path,
+  Post,
+  Query,
+  Route,
+  Security,
+} from 'tsoa';
 import { LoaderVersion } from '../entities/LoaderVersion';
 import { LoaderVersionService } from '../services/LoaderVersionService';
 
@@ -9,8 +18,8 @@ export interface LoaderVersionCreateData
 export class LoaderVersionController extends Controller {
   @Get()
   @Security('everyone')
-  public async list() {
-    return LoaderVersionService.getAll();
+  public async list(@Query('sort') sort?: string) {
+    return LoaderVersionService.getAll(sort);
   }
 
   @Get('/{rmlVersion}')

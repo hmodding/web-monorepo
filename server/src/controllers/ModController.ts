@@ -6,6 +6,7 @@ import {
   Path,
   Post,
   Put,
+  Query,
   Route,
   Security,
 } from 'tsoa';
@@ -51,8 +52,8 @@ export interface ModCreateData
 export class ModController extends Controller {
   @Get()
   @Security('everyone')
-  public async list() {
-    return await ModService.getAll();
+  public async list(@Query('sort') sort?: string) {
+    return await ModService.getAll(sort);
   }
 
   /**

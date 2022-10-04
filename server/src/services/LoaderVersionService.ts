@@ -5,8 +5,9 @@ import { AbstractService } from './AbstractService';
 const REQUIRED_RELATIONS = ['raftVersion'];
 
 export class LoaderVersionService extends AbstractService {
-  static getAll() {
-    const loaderVersions = LoaderVersion.find({
+  static getAll(sort?: string) {
+    return LoaderVersion.find({
+      order: this.parseSort(sort),
       relations: [...REQUIRED_RELATIONS],
     });
   }

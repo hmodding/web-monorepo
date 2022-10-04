@@ -97,7 +97,10 @@ export const logoUrl = `${cfg.frontendBaseUrl}logo.png`;
  * @param schema json-schema
  * @returns true/false
  */
-export const validateData = (data: any, schema: object) => {
+export const validateData = (
+  data: Record<string, any>,
+  schema: Record<string, any>,
+) => {
   const validate = ajv.compile(schema);
 
   return validate(data);

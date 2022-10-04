@@ -13,14 +13,14 @@ interface RaftVersionUpdateBody extends RaftVersionCreateBody {}
 @Route('/raftVersions')
 export class RaftVersionController extends Controller {
   @Get()
-  @Security('admin')
+  @Security('everyone')
   public async list() {
     this.setStatus(HttpStatusCode.Ok);
     return RaftVersionService.getAll();
   }
 
   @Get('/{id}')
-  @Security('admin')
+  @Security('everyone')
   public async read(@Path() id: number) {
     this.setStatus(HttpStatusCode.Accepted);
     return RaftVersionService.getById(id);

@@ -1,4 +1,10 @@
-import { BaseEntity, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import {
+  BaseEntity,
+  BeforeInsert,
+  BeforeUpdate,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 export abstract class AbstractEntity extends BaseEntity {
   @CreateDateColumn({ nullable: false })
@@ -6,4 +12,17 @@ export abstract class AbstractEntity extends BaseEntity {
 
   @UpdateDateColumn({ nullable: false })
   updatedAt?: Date;
+
+  //hooks
+
+  @BeforeInsert()
+  setCreatedAt() {
+    this.createdAt = new Date();
+  }
+
+  @BeforeInsert()
+  @BeforeUpdate()
+  setUpdatedAt() {
+    this.updatedAt = new Date();
+  }
 }

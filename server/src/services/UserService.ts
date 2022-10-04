@@ -1,5 +1,7 @@
+import bcrypt from 'bcryptjs';
 import { DeepPartial } from 'typeorm';
 import { PasswordReset } from '../entities/PasswordReset';
+import { Session } from '../entities/Session';
 import { User } from '../entities/User';
 import { ApiError } from '../errors/ApiError';
 import { schema as resetPasswordSchema } from '../forms/resetPasswordForm';
@@ -65,6 +67,34 @@ export class UserService extends AbstractService {
     const user = await User.save({ password });
 
     return user;
+  }
+
+  static async login(
+    username: string,
+    password: string,
+    deviceInfo: Record<string, string> | undefined,
+  ) {
+    const foundUser = await User.findOne({
+      where: { username },
+      select: ['id', 'password', 'username'],
+    });
+
+    if (!foundUser || !bcrypt.compareSync(password, foundUser.password)) {
+      throw new ApiError(
+        HttpStatusCode.Unauthorized,
+        'Invalid username or password',
+      );
+    }
+
+    const session = Session.create({
+      userId: foundUser.id,
+      expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), //1 Month
+      deviceInfo,
+    });
+    const savedSession = await Session.save(session);
+    savedSession.user = foundUser;
+
+    return savedSession;
   }
 }
 

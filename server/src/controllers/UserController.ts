@@ -9,15 +9,18 @@ import {
   Post,
   Put,
   Query,
+  Request,
   Route,
   Security,
 } from 'tsoa';
 import { Role } from '../cfg';
 import { User } from '../entities/User';
+import { ApiError } from '../errors/ApiError';
 import { mailer } from '../mailer/mailer';
 import { SessionService } from '../services/SessionService';
 import { UserService } from '../services/UserService';
 import { HttpStatusCode } from '../types/HttpStatusCode';
+import { generateToken } from '../utils';
 
 interface UserUpdateData extends Pick<User, 'password'> {
   currentPassword: string;
@@ -27,6 +30,12 @@ interface UserUpdateData extends Pick<User, 'password'> {
 interface ResetPasswordCreateData {
   recaptcha: string;
   email: string;
+}
+
+interface LoginBody {
+  username: string;
+  password: string;
+  deviceInfo?: { [key: string]: any }; // Record<string, any> doesn't work
 }
 
 @Route('/users')
@@ -134,5 +143,27 @@ export class UserController extends Controller {
 
     this.setStatus(HttpStatusCode.Ok);
     return { successful: true };
+  }
+
+  @Post('/login')
+  @Security('everyone')
+  public async login(
+    @Request() request: any, // express is not exposing the type :(
+    @Body() { username, password, deviceInfo = {} }: LoginBody,
+  ) {
+    try {
+      const session = UserService.login(username, password, {
+        ...deviceInfo,
+        ipHash: generateToken(request.socket.remoteAddress),
+      });
+
+      this.setStatus(HttpStatusCode.Ok);
+      return session;
+    } catch (err) {
+      const apiErr = err as ApiError;
+
+      this.setStatus(apiErr.status);
+      return { error: apiErr.message };
+    }
   }
 }

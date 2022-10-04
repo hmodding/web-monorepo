@@ -27,7 +27,7 @@ export class Session extends AbstractEntityWithGeneratedId {
   token!: string;
 
   @Column()
-  expires!: string;
+  expires!: Date;
 
   @Column()
   userId!: number;

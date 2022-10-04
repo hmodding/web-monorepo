@@ -59,7 +59,7 @@ class Api {
   async login(username: string, password: string): Promise<boolean> {
     try {
       const { data: session }: AxiosResponse = await this.axios.post(
-        '/login/',
+        '/users/login',
         {
           username,
           password,

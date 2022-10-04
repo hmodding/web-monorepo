@@ -1,7 +1,8 @@
 import 'reflect-metadata';
-import { startServer } from './src/server';
+import { saveExampleDbData } from './resources/example/dbData.example';
 import { cfg } from './src/cfg';
 import { AppDataSource } from './src/db/dataSource';
+import { startServer } from './src/server';
 import { DownloadCounterService } from './src/services/DownloadCounterService';
 
 (async () => {
@@ -16,7 +17,8 @@ import { DownloadCounterService } from './src/services/DownloadCounterService';
   console.log('AppDataSource initialized!');
 
   if (process.env.NODE_ENV === 'develop') {
-    //TODO: insertDatabaseExampleData();
+    await saveExampleDbData();
+    console.log('Example data saved!');
   }
 
   await startServer();

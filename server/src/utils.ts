@@ -1,8 +1,8 @@
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
+import { BaseEntity } from 'typeorm';
 import { v1 } from 'uuid';
 
-import { initDbData } from '../resources/exampleDbData';
 import { ajv } from './ajv';
 import { cfg } from './cfg';
 import { LauncherVersion } from './entities/LauncherVersion';
@@ -77,11 +77,6 @@ export function getUserUrlForUsername(username: string): string {
 }
 
 /**
- * puts example data into the database (prevents duplicates!)
- */
-export const insertDatabaseExampleData = initDbData;
-
-/**
  * Publicly accessible WWW URL for the mod loader download page.
  */
 export const softwareDownloadUrl = `${cfg.frontendBaseUrl}download`;
@@ -104,4 +99,20 @@ export const validateData = (
   const validate = ajv.compile(schema);
 
   return validate(data);
+};
+
+/**
+ * checks if an entry exists and if not saves it
+ * @param data a raw entity data
+ * @param Entity an entity class providing a repository
+ */
+export const saveIfNotExists = async (
+  Entity: typeof BaseEntity,
+  data: Record<string, any>,
+) => {
+  try {
+    await Entity.findOneByOrFail(data);
+  } catch (err) {
+    await Entity.save(Entity.create(data));
+  }
 };

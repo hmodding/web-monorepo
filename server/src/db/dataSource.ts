@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-default-export
 import { DataSource } from 'typeorm';
 import { cfg } from '../cfg';
 import { AccountCreation } from '../entities/AccountCreation';
@@ -22,7 +23,7 @@ import { Session } from '../entities/Session';
 import { User } from '../entities/User';
 import { UserPrivilege } from '../entities/UserPrivilege';
 
-const { uri, logging, ssl } = cfg.database;
+const { uri, ssl } = cfg.database;
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
@@ -30,7 +31,7 @@ export const AppDataSource = new DataSource({
   port: 5432,
   url: uri,
   ssl,
-  logging,
+  logging: false,
   synchronize: false,
   entities: [
     AccountCreation,

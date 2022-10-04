@@ -1,8 +1,11 @@
 import { Request, Response } from 'express';
 import FileType from 'file-type';
-import ajv from '../../../ajv';
-import cfg, { Role } from '../../../cfg';
-import { FileManagerService, ObjectMeta } from '../../../services/FileManagerService';
+import { ajv } from '../../../ajv';
+import { cfg, Role } from '../../../cfg';
+import {
+  FileManagerService,
+  ObjectMeta,
+} from '../../../services/FileManagerService';
 import {
   Mod,
   modModel,
@@ -133,7 +136,7 @@ export async function validateAdminPrivileges(
 
 export async function validateSchema(
   data: Request,
-  schema: object,
+  schema: Record<string, any>,
   res: Response,
 ): Promise<boolean> {
   const validate = ajv.compile(schema);

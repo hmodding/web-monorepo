@@ -39,7 +39,7 @@ export class ModVersion extends AbstractEntityWithGeneratedId {
   definiteMaxRaftVersion!: boolean;
 
   @Column({ type: 'json' })
-  fileHashes?: object;
+  fileHashes?: Record<string, any>;
 
   @ManyToOne(() => Mod, (mod) => mod.versions)
   mod?: Mod;

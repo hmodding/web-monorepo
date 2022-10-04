@@ -5,7 +5,7 @@ import { sequelize } from '../../sequelize';
 export interface FileScan extends Model {
   fileUrl: string;
   scanId?: string;
-  scanResult?: object;
+  scanResult?: Record<string, any>;
 }
 
 export const fileScanModel = sequelize.define<FileScan>('file-scans', {

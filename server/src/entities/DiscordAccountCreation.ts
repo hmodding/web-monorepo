@@ -16,5 +16,5 @@ export class DiscordAccountCreation extends AbstractEntityWithGeneratedId {
   token!: string;
 
   @Column({ type: 'json' })
-  discordUserObject!: object;
+  discordUserObject!: Record<string, any>;
 }

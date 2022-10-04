@@ -10,5 +10,5 @@ export class FileScan extends AbstractEntity {
   scanId?: string;
 
   @Column({ nullable: true, type: 'json' })
-  scanResult?: object;
+  scanResult?: Record<string, any>;
 }

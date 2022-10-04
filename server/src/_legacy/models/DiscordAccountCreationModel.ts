@@ -7,7 +7,7 @@ export interface DiscordAccountCreation extends Model {
   accessToken: string;
   refreshToken: string;
   token: string;
-  discordUserObject: object;
+  discordUserObject: Record<string, any>;
 }
 
 export const discordAccountCreationModel = sequelize.define<DiscordAccountCreation>(

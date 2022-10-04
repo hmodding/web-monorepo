@@ -7,7 +7,7 @@ import { User } from './UserModel';
 export interface Session extends Model {
   token: string;
   expires: string;
-  deviceInfo?: object;
+  deviceInfo?: Record<string, any>;
   user?: User;
   userId: number;
 }

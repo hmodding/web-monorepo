@@ -18,7 +18,7 @@ export interface LoaderVersionCreateData
 export class LoaderVersionController extends Controller {
   @Get()
   @Security('everyone')
-  public async list(@Query('sort') sort?: string) {
+  public async list(@Query() sort?: string) {
     return LoaderVersionService.getAll(sort);
   }
 

@@ -20,8 +20,8 @@ interface ModLikeCreateData extends Pick<ModLike, 'modId'> {}
 export class ModLikeController extends Controller {
   @Get()
   @Security('user')
-  public async list(@Header('authtoken') authToken: string) {
-    const session = await SessionService.getByToken(authToken);
+  public async list(@Header() authtoken: string) {
+    const session = await SessionService.getByToken(authtoken);
 
     if (!session?.user) {
       this.setStatus(HttpStatusCode.Unauthorized);
@@ -34,10 +34,10 @@ export class ModLikeController extends Controller {
   @Post()
   @Security('user')
   public async create(
-    @Header('authtoken') authToken: string,
+    @Header() authtoken: string,
     @Body() { modId }: ModLikeCreateData,
   ) {
-    const session = await SessionService.getByToken(authToken);
+    const session = await SessionService.getByToken(authtoken);
     const modLike = ModLikeService.create(modId, session!.user!.id);
 
     this.setStatus(201);

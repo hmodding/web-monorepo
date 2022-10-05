@@ -39,10 +39,10 @@ export class ModVersionController extends Controller {
   @Post()
   @Security('user')
   public async create(
-    @Header('authtoken') authToken: string,
+    @Header() authtoken: string,
     @Body() data: ModVersionCreateData,
   ) {
-    const session = await SessionService.getByToken(authToken);
+    const session = await SessionService.getByToken(authtoken);
     const isCreateAllowed = await ModVersionService.isCreateAllowed(
       data.modId,
       session!.user!,
@@ -62,11 +62,11 @@ export class ModVersionController extends Controller {
   @Put('/{id}')
   @Security('user')
   public async update(
-    @Header('authtoken') authToken: string,
+    @Header() authtoken: string,
     @Path() id: number,
     @Body() data: ModVersionUpdateData,
   ) {
-    const session = await SessionService.getByToken(authToken);
+    const session = await SessionService.getByToken(authtoken);
     const isUpdateAllowed = await ModVersionService.isUpdateAllowed(
       id,
       session!.user!,

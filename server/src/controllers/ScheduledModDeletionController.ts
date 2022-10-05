@@ -16,10 +16,10 @@ export class ScheduledModDeletionController extends Controller {
   @Post()
   @Security('admin')
   public async create(
-    @Header('authtoken') authToken: string,
+    @Header() authtoken: string,
     @Body() body: ScheduledModDeletionCreateBody,
   ) {
-    const session = await SessionService.getByToken(authToken);
+    const session = await SessionService.getByToken(authtoken);
     const isDeleteAllowed = await ModService.isDeleteAllowed(
       body.modId,
       session!.user!,

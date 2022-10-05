@@ -24,7 +24,7 @@ interface RaftVersionUpdateBody extends RaftVersionCreateBody {}
 export class RaftVersionController extends Controller {
   @Get()
   @Security('everyone')
-  public async list(@Query('sort') sort?: string) {
+public async list(@Query() sort?: string) {
     this.setStatus(HttpStatusCode.Ok);
     return RaftVersionService.getAll(sort);
   }

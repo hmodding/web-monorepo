@@ -52,7 +52,7 @@ export interface ModCreateData
 export class ModController extends Controller {
   @Get()
   @Security('everyone')
-  public async list(@Query('sort') sort?: string) {
+  public async list(@Query() sort?: string) {
     return await ModService.getAll(sort);
   }
 
@@ -118,11 +118,11 @@ export class ModController extends Controller {
   @Put('/{id}')
   @Security('user')
   public async update(
-    @Header('authtoken') authToken: string,
+    @Header() authtoken: string,
     @Path() id: string,
     @Body() data: ModUpdateData,
   ) {
-    const session = (await SessionService.getByToken(authToken))!;
+    const session = (await SessionService.getByToken(authtoken))!;
 
     if (!(await ModService.isUpdateAllowed(id, session.user!))) {
       this.setStatus(403);

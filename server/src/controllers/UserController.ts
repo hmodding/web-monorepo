@@ -43,10 +43,10 @@ export class UserController extends Controller {
   @Put()
   @Security('user')
   public async update(
-    @Header('authtoken') authToken: string,
+    @Header() authtoken: string,
     @Body() data: UserUpdateData,
   ) {
-    const session = await SessionService.getByToken(authToken);
+    const session = await SessionService.getByToken(authtoken);
 
     if (!session || !session.user) {
       this.setStatus(403);
@@ -117,8 +117,8 @@ export class UserController extends Controller {
   @Security('anyone')
   public async deletePasswordResetToken(
     @Path() token: string,
-    @Query('password') password: string,
-    @Query('passwordConfirm') passwordConfirm: string,
+    @Query() password: string,
+    @Query() passwordConfirm: string,
   ) {
     if (!password || !passwordConfirm || password !== passwordConfirm) {
       this.setStatus(HttpStatusCode.BadRequest);

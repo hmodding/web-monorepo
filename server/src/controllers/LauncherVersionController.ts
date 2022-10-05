@@ -23,7 +23,7 @@ interface LauncherVersionCreateData
 export class LauncherVersionController extends Controller {
   @Get()
   @Security('everyone')
-  public async list(@Query('sort') sort?: string) {
+  public async list(@Query() sort?: string) {
     return LauncherVersionService.getAll(sort);
   }
 

@@ -1,5 +1,5 @@
 import FileType from 'file-type';
-import { DeepPartial } from 'typeorm';
+import { DeepPartial, FindOptionsWhere } from 'typeorm';
 import { cfg } from '../cfg';
 import { ModCreateData } from '../controllers/ModController';
 import { Mod } from '../entities/Mod';
@@ -13,9 +13,10 @@ import { fileManager, ObjectMeta } from './FileManagerService';
 import { ModVersionService } from './ModVersionService';
 
 export class ModService extends AbstractService {
-  static async getAll(sort?: string) {
+  static async getAll(where?: FindOptionsWhere<Mod>, sort?: string) {
     return await Mod.find({
       order: this.parseSort(sort),
+      where,
     });
   }
 

@@ -52,8 +52,8 @@ export interface ModCreateData
 export class ModController extends Controller {
   @Get()
   @Security('everyone')
-  public async list(@Query() sort?: string) {
-    return await ModService.getAll(sort);
+  public async list(@Query() author?: string, @Query() sort?: string) {
+    return await ModService.getAll({ author }, sort);
   }
 
   /**

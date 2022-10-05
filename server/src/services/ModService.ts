@@ -1,6 +1,6 @@
 import FileType from 'file-type';
 import { DeepPartial, FindOptionsWhere } from 'typeorm';
-import { cfg } from '../cfg';
+import { cfg, ModCategories } from '../cfg';
 import { ModCreateData } from '../controllers/ModController';
 import { Mod } from '../entities/Mod';
 import { User } from '../entities/User';
@@ -35,6 +35,10 @@ export class ModService extends AbstractService {
   static async getMostDownloaded(limit: number = 3) {
     console.log('get most downloaded mods');
     return await Mod.query(MOST_DOWNLOADED_MODS_QUERY, [limit]);
+  }
+
+  static getCategories() {
+    return ModCategories;
   }
 
   static async isUpdateAllowed(modId: string, user: User) {

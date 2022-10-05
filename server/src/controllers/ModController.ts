@@ -78,6 +78,16 @@ export class ModController extends Controller {
     return await ModService.getMostDownloaded();
   }
 
+  /**
+   * MUST be defined before /{id} otherwise it won't work
+   * @returns mod-categories
+   */
+  @Get('/categories')
+  @Security('everyone')
+  public async listModCategories() {
+    return ModService.getCategories();
+  }
+
   @Get('/{id}')
   @Security('everyone')
   public async read(@Path() id: string) {

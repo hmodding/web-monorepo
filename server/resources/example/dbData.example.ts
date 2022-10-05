@@ -1,4 +1,4 @@
-import bcrypt from 'bcryptjs';
+import {hashSync} from 'bcryptjs';
 import { Role } from '../../src/cfg';
 import { LauncherVersion } from '../../src/entities/LauncherVersion';
 import { LoaderVersion } from '../../src/entities/LoaderVersion';
@@ -10,7 +10,7 @@ import { UserPrivilege } from '../../src/entities/UserPrivilege';
 export const saveExampleDbData = async () => {
   const user1 = {
     username: 'admin',
-    password: bcrypt.hashSync('admin'),
+    password: hashSync('admin'),
     email: 'admin@raftmodding.com',
     role: Role.Admin,
   };

@@ -67,6 +67,12 @@ export class UserController extends Controller {
       this.setStatus(400);
       return { error: 'New passwords do not match!' };
     }
+
+    const userToUpdate = User.create({
+      id: session.user.id,
+      password: passwordConfirm,
+    });
+    await User.save(userToUpdate);
   }
 
   @Get('/resetPassword/{token}')
@@ -152,7 +158,7 @@ export class UserController extends Controller {
     @Body() { username, password, deviceInfo = {} }: LoginBody,
   ) {
     try {
-      const session = UserService.login(username, password, {
+      const session = await UserService.login(username, password, {
         ...deviceInfo,
         ipHash: generateToken(request.socket.remoteAddress),
       });

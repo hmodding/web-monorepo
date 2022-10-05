@@ -1,4 +1,4 @@
-import bcrypt from 'bcryptjs';
+import { compareSync } from 'bcryptjs';
 import crypto from 'crypto';
 import { BaseEntity } from 'typeorm';
 import { v1 } from 'uuid';
@@ -15,7 +15,7 @@ import {
 } from './_legacy/models';
 
 export function validatePassword(given: string, expected: string): boolean {
-  return bcrypt.compareSync(given, expected);
+  return compareSync(given, expected);
 }
 
 export function capitalize(str: string): string {

@@ -124,7 +124,7 @@ class Api {
     passwordConfirm: string,
   ): Promise<boolean> {
     try {
-      await this.axios.put(`/users/${state.session.user.username}`, {
+      await this.axios.put(`/users`, {
         currentPassword,
         password,
         passwordConfirm,

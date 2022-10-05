@@ -15,20 +15,24 @@ export const expressAuthentication = async (
   securityName: string,
   _scopes?: string[],
 ) => {
-  switch (securityName) {
-    case 'captcha':
-      validateCaptcha(req);
-      break;
-    case 'user':
-      validateAuthToken(req);
-      break;
-    case 'admin':
-      validateAdminPrivileges(req);
-      break;
-    case 'everyone':
-    default:
-      // OPEN THE GATES
-      break;
+  try {
+    switch (securityName) {
+      case 'captcha':
+        await validateCaptcha(req);
+        break;
+      case 'user':
+        await validateAuthToken(req);
+        break;
+      case 'admin':
+        await validateAdminPrivileges(req);
+        break;
+      case 'everyone':
+      default:
+        // OPEN THE GATES
+        break;
+    }
+  } catch (err) {
+    //return Promise.reject(err);
   }
 };
 

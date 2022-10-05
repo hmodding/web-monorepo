@@ -12,6 +12,7 @@ import {
 import { ModLike } from '../entities/ModLike';
 import { ModLikeService } from '../services/ModLikeService';
 import { SessionService } from '../services/SessionService';
+import { HttpStatusCode } from '../types/HttpStatusCode';
 
 interface ModLikeCreateData extends Pick<ModLike, 'modId'> {}
 
@@ -22,7 +23,12 @@ export class ModLikeController extends Controller {
   public async list(@Header('authtoken') authToken: string) {
     const session = await SessionService.getByToken(authToken);
 
-    return ModLikeService.getAllByUserId(session!.user!.id);
+    if (!session?.user) {
+      this.setStatus(HttpStatusCode.Unauthorized);
+      return { error: 'Invalid session!' };
+    }
+
+    return ModLikeService.getAllByUserId(session.user.id);
   }
 
   @Post()

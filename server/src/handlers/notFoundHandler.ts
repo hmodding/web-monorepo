@@ -1,9 +1,11 @@
 import { Request, Response } from 'express';
+import { HttpStatusCode } from '../types/HttpStatusCode';
 
 export const notFoundHandler = (req: Request, res: Response) => {
-  console.log('### 404 NOT FOUND:');
+  const status = HttpStatusCode.NotFound;
+  console.log(`### ${status} NOT FOUND:`);
   console.log(req.url, req.body);
-  res.status(404).send({
+  res.status(status).send({
     message: 'Not Found',
   });
 };

@@ -8,7 +8,7 @@ type ScheduledModDeletionCreateKeys = 'modId';
 interface ScheduledModDeletionCreateBody
   extends Pick<ScheduledModDeletion, ScheduledModDeletionCreateKeys> {}
 
-@Route('/session')
+@Route('/sessions')
 export class SessionController extends Controller {
   @Get('/{token}')
   @Security('everyone')

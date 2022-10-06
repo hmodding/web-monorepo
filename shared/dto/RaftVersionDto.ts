@@ -1,6 +1,6 @@
 export interface RaftVersionDto {
   version: string;
-  buildId: string;
+  buildId: number;
   title: string;
   releasedAt: string;
 }

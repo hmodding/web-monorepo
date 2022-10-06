@@ -7,7 +7,7 @@ export class RaftVersion extends AbstractEntityWithGeneratedId {
   version!: string;
 
   @Column()
-  buildId!: string;
+  buildId!: number;
 
   @Column({ nullable: true })
   title?: string;

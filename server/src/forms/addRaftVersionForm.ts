@@ -1,4 +1,4 @@
-import { slug } from './_commons';
+import { integerMax, slug } from './_commons';
 
 export const schema = {
   type: 'object',
@@ -9,8 +9,10 @@ export const schema = {
       title: 'Raft version number',
     },
     buildId: {
-      type: 'string',
+      type: 'number',
       title: 'Build ID',
+      minimum: 0,
+      ...integerMax,
     },
     title: {
       type: 'string',

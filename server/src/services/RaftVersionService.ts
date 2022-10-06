@@ -23,7 +23,7 @@ export class RaftVersionService extends AbstractService {
   }
 
   static async getById(id: number) {
-    return RaftVersion.findBy({ id });
+    return RaftVersion.findOneBy({ id });
   }
 
   static async create(data: RaftVersionDto) {

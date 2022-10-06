@@ -8,8 +8,11 @@ import {
   Route,
   Security,
 } from 'tsoa';
+import { LoaderVersionDto } from '../../../shared/dto/LoaderVersionDto';
 import { LoaderVersion } from '../entities/LoaderVersion';
+import { ApiError } from '../errors/ApiError';
 import { LoaderVersionService } from '../services/LoaderVersionService';
+import { HttpStatusCode } from '../types/HttpStatusCode';
 
 export interface LoaderVersionCreateData
   extends Pick<LoaderVersion, 'rmlVersion' | 'readme'> {}
@@ -30,7 +33,15 @@ export class LoaderVersionController extends Controller {
 
   @Post()
   @Security('admin')
-  public async create(@Body() { rmlVersion, readme }: LoaderVersionCreateData) {
-    LoaderVersionService.releaseNew(rmlVersion, readme);
+  public async create(@Body() body: LoaderVersionDto) {
+    try {
+      const newLoaderVersion = await LoaderVersionService.releaseNew(body);
+      this.setStatus(HttpStatusCode.Created);
+      return newLoaderVersion;
+    } catch (err) {
+      const { status, message } = err as ApiError;
+      this.setStatus(status);
+      return { error: message };
+    }
   }
 }

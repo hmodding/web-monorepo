@@ -1,5 +1,8 @@
+import { LoaderVersionDto } from '../../../shared/dto/LoaderVersionDto';
 import { notifier } from '../discord/DiscordNotifier';
 import { LoaderVersion } from '../entities/LoaderVersion';
+import { ApiError } from '../errors/ApiError';
+import { HttpStatusCode } from '../types/HttpStatusCode';
 import { AbstractService } from './AbstractService';
 
 const REQUIRED_RELATIONS = ['raftVersion'];
@@ -21,16 +24,28 @@ export class LoaderVersionService extends AbstractService {
 
   /**
    * create a new loader version and send a notification
-   * @param rmlVersion
-   * @param readme
+   * @param dto
    */
-  static async releaseNew(rmlVersion: string, readme?: string) {
-    const newLoaderVersion = new LoaderVersion();
-    newLoaderVersion.rmlVersion = rmlVersion;
-    newLoaderVersion.readme = readme;
-    newLoaderVersion.timestamp = new Date();
+  static async releaseNew(dto: LoaderVersionDto) {
+    try {
+      const newLoaderVersion = LoaderVersion.create(dto);
+      newLoaderVersion.timestamp = new Date();
 
-    const releasedLoaderVersion = await newLoaderVersion.save();
-    notifier.sendLoaderVersionReleaseNotification(releasedLoaderVersion);
+      const savedLoaderVersion = await LoaderVersion.save(newLoaderVersion);
+      const dbLoaderVersion = await LoaderVersion.findOne({
+        where: { rmlVersion: savedLoaderVersion.rmlVersion },
+        relations: ['raftVersion'],
+      });
+      if (dbLoaderVersion) {
+        notifier.sendLoaderVersionReleaseNotification(dbLoaderVersion);
+      } else {
+        console.warn('❗ Failed to grab loader version from db!');
+      }
+
+      return savedLoaderVersion;
+    } catch (err) {
+      const { message } = err as Error;
+      throw new ApiError(HttpStatusCode.InternalServerError, message);
+    }
   }
 }

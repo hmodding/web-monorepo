@@ -1,4 +1,3 @@
-import { router } from '../router/_legacy/router';
 import { getRaftVersionsSchema, markdownEditor, slug } from './_commons';
 
 export const getSchema = async () => {
@@ -54,10 +53,3 @@ export const uischema = {
     },
   ],
 };
-
-router.get('/forms/addLoaderVersion', async (req: any, res: any) => {
-  res.status(200).send({
-    schema: await getSchema(),
-    uischema,
-  });
-});

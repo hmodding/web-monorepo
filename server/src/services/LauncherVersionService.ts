@@ -1,3 +1,4 @@
+import { LauncherVersionDto } from '../../../shared/dto/LauncherVersionDto';
 import { notifier } from '../discord/DiscordNotifier';
 import { LauncherVersion } from '../entities/LauncherVersion';
 import { AbstractService } from './AbstractService';
@@ -23,25 +24,23 @@ export class LauncherVersionService extends AbstractService {
     return LauncherVersion.findOneBy({ version });
   }
 
-  static async releaseNew(
-    version: string,
-    changelog: string,
-    file: UploadFile,
-  ) {
-    const buffer = Buffer.from(file.base64, 'base64');
+  static async releaseNew(dto: LauncherVersionDto) {
+    const buffer = Buffer.from(dto.file!.base64, 'base64');
     const upload = await fileManager.createLauncherVersionFile(
-      version,
-      file.name,
+      dto.version,
+      dto.file!.name,
       buffer,
     );
 
-    const newLauncherVersion = new LauncherVersion();
-    newLauncherVersion.version = version;
-    newLauncherVersion.changelog = changelog;
+    const newLauncherVersion = LauncherVersion.create(dto);
     newLauncherVersion.downloadUrl = upload.url;
     newLauncherVersion.timestamp = new Date();
+    const releasedLauncherVersion = await LauncherVersion.save(
+      newLauncherVersion,
+    );
 
-    const releasedLauncherVersion = await newLauncherVersion.save();
     notifier.sendLauncherVersionReleaseNotification(releasedLauncherVersion);
+
+    return releasedLauncherVersion;
   }
 }

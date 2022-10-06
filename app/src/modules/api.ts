@@ -1,5 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { NotyfEvent } from 'notyf';
+import { LoaderVersionDto } from '../../../shared/dto/LoaderVersionDto';
 import { LOCAL_STORAGE_SESSION } from '../const';
 import {
   FormResponse,
@@ -218,7 +219,7 @@ class Api {
 
   async getLoaderVersions(
     params = { sort: '-createdAt' },
-  ): Promise<LoaderVersion[]> {
+  ): Promise<LoaderVersion[] | LoaderVersionDto[]> {
     try {
       const { data }: AxiosResponse = await this.axios.get('/loaderVersions', {
         params,

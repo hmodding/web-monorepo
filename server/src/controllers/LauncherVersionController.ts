@@ -8,16 +8,9 @@ import {
   Route,
   Security,
 } from 'tsoa';
-import { LauncherVersion } from '../entities/LauncherVersion';
-import {
-  LauncherVersionService,
-  UploadFile,
-} from '../services/LauncherVersionService';
-
-interface LauncherVersionCreateData
-  extends Pick<LauncherVersion, 'version' | 'changelog'> {
-  file: UploadFile;
-}
+import { LauncherVersionDto } from '../../../shared/dto/LauncherVersionDto';
+import { LauncherVersionService } from '../services/LauncherVersionService';
+import { HttpStatusCode } from '../types/HttpStatusCode';
 
 @Route('/launcherVersions')
 export class LauncherVersionController extends Controller {
@@ -35,9 +28,10 @@ export class LauncherVersionController extends Controller {
 
   @Post()
   @Security('admin')
-  public async create(
-    @Body() { version, changelog, file }: LauncherVersionCreateData,
-  ) {
-    LauncherVersionService.releaseNew(version, changelog, file);
+  public async create(@Body() body: LauncherVersionDto) {
+    const newLauncherVersion = await LauncherVersionService.releaseNew(body);
+
+    this.setStatus(HttpStatusCode.Created);
+    return newLauncherVersion;
   }
 }

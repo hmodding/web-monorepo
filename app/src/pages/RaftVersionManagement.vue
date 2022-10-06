@@ -22,7 +22,7 @@
             <tr
               v-for="(version, i) in versions"
               :key="`version-${i}`"
-              :class="{ 'table-success': i === 0 }"
+              :class="{ 'table-success': i === 0, 'border border-primary': selectedVersion === version.version }"
             >
               <th scope="row">{{ version.version }}</th>
               <td>{{ version.buildId }}</td>
@@ -47,9 +47,10 @@
 <script lang="ts">
 import { defineComponent, ref, Ref } from 'vue';
 import { useActiveMeta } from 'vue-meta';
-import { RaftVersion } from '../types';
+import { useRoute } from 'vue-router';
 import Icon from '../components/Icon.vue';
 import api from '../modules/api';
+import { RaftVersion } from '../types';
 import { toDateStr } from '../utils';
 
 export default defineComponent({
@@ -57,6 +58,7 @@ export default defineComponent({
   name: 'RaftVersionManagementPage',
   setup() {
     const meta = useActiveMeta();
+    const route = useRoute();
     const versions: Ref<RaftVersion[]> = ref([]);
 
     meta.title = 'Raft versionm anagement';
@@ -67,6 +69,7 @@ export default defineComponent({
 
     return {
       versions,
+      selectedVersion: route.hash?.substring(1) || ''
     };
   },
   methods: {

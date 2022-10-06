@@ -199,12 +199,26 @@
                 class="dropdown-menu dropdown-menu-right mb-2"
                 aria-labelledby="navbarAdminDropdown"
               >
+              <router-link
+                  :to="{ name: 'launcherVersionManagement' }"
+                  class="dropdown-item"
+                >
+                  <i class="fas fa-desktop mr-1" style="width: 20px"></i> 
+                  Launcher version management
+                </router-link>
+                <router-link
+                  :to="{ name: 'loaderVersionManagement' }"
+                  class="dropdown-item"
+                >
+                  <i class="fas fa-bolt mr-1" style="width: 20px"></i> 
+                  Loader version management
+                </router-link>
                 <router-link
                   :to="{ name: 'raftVersionManagement' }"
                   class="dropdown-item"
                 >
-                  <i class="fas fa-anchor mr-1" style="width: 20px"></i> Raft
-                  version management
+                  <i class="fas fa-anchor mr-1" style="width: 20px"></i> 
+                  Raft version management
                 </router-link>
               </div>
             </li>
@@ -218,10 +232,10 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { Session, User } from '../types';
 import { ROLE_ADMIN } from '../const';
 import { isSessionExpired, killSession, state } from '../modules/stateManager';
 import toaster from '../modules/toaster';
+import { Session, User } from '../types';
 import Icon from './Icon.vue';
 import TheDonationModal from './modals/TheDonationModal.vue';
 

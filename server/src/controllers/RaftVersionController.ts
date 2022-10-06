@@ -9,6 +9,7 @@ import {
   Route,
   Security,
 } from 'tsoa';
+import { ajv } from '../ajv';
 import { RaftVersion } from '../entities/RaftVersion';
 import { RaftVersionService } from '../services/RaftVersionService';
 import { HttpStatusCode } from '../types/HttpStatusCode';
@@ -24,7 +25,7 @@ interface RaftVersionUpdateBody extends RaftVersionCreateBody {}
 export class RaftVersionController extends Controller {
   @Get()
   @Security('everyone')
-public async list(@Query() sort?: string) {
+  public async list(@Query() sort?: string) {
     this.setStatus(HttpStatusCode.Ok);
     return RaftVersionService.getAll(sort);
   }
@@ -39,11 +40,13 @@ public async list(@Query() sort?: string) {
   @Post()
   @Security('admin')
   public async create(@Body() body: RaftVersionCreateBody) {
+    console.log('##### raft-version post', body);
     const isValidCreateData = RaftVersionService.isValidCreateData(body);
 
     if (!isValidCreateData) {
       this.setStatus(HttpStatusCode.BadRequest);
-      return { error: 'Invalid form' };
+      // return { error: 'Invalid form' };
+      return ajv.errors;
     }
 
     this.setStatus(HttpStatusCode.Created);

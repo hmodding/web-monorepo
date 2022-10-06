@@ -31,8 +31,11 @@ export const expressAuthentication = async (
         // OPEN THE GATES
         break;
     }
+    console.log('✅ authentication successful!');
+    return Promise.resolve({ success: true });
   } catch (err) {
-    //return Promise.reject(err);
+    console.error('❌ authentication failed:', err);
+    return Promise.reject(err);
   }
 };
 
@@ -67,7 +70,7 @@ const validateAuthToken = async (req: Request) => {
       }
     }
   } catch (e) {
-    console.warn('could not validate auth token', req);
+    console.warn('❗ could not validate auth token', req);
   }
 
   throw Error('You are missing authorization!');

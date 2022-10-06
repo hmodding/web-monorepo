@@ -9,6 +9,7 @@ import {
   Route,
   Security,
 } from 'tsoa';
+import { RaftVersionDto } from '../../../shared/dto/RaftVersionDto';
 import { ajv } from '../ajv';
 import { RaftVersion } from '../entities/RaftVersion';
 import { RaftVersionService } from '../services/RaftVersionService';
@@ -39,13 +40,11 @@ export class RaftVersionController extends Controller {
 
   @Post()
   @Security('admin')
-  public async create(@Body() body: RaftVersionCreateBody) {
-    console.log('##### raft-version post', body);
-    const isValidCreateData = RaftVersionService.isValidCreateData(body);
+  public async create(@Body() body: RaftVersionDto) {
+    const isValidCreateData = await RaftVersionService.isValidCreateData(body);
 
     if (!isValidCreateData) {
       this.setStatus(HttpStatusCode.BadRequest);
-      // return { error: 'Invalid form' };
       return ajv.errors;
     }
 

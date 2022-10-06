@@ -92,13 +92,15 @@ export const logoUrl = `${cfg.frontendBaseUrl}logo.png`;
  * @param schema json-schema
  * @returns true/false
  */
-export const validateData = (
+export const validateData = async (
   data: Record<string, any>,
   schema: Record<string, any>,
 ) => {
-  const validate = ajv.compile(schema);
-
-  return validate(data);
+  const isValid = ajv.validate(schema, data);
+  if (!isValid) {
+    console.warn('❗ validation failed: \n  errors:', ajv.errors);
+  }
+  return isValid;
 };
 
 /**

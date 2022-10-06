@@ -1,5 +1,4 @@
-import { router } from '../router/_legacy/router';
-import { integerMax, slug } from './_commons';
+import { slug } from './_commons';
 
 export const schema = {
   type: 'object',
@@ -10,10 +9,8 @@ export const schema = {
       title: 'Raft version number',
     },
     buildId: {
-      type: 'number',
+      type: 'string',
       title: 'Build ID',
-      minimum: 0,
-      ...integerMax,
     },
     title: {
       type: 'string',
@@ -61,10 +58,3 @@ export const uischema = {
     },
   ],
 };
-
-router.get('/forms/addRaftVersion', async (req: any, res: any) => {
-  res.status(200).send({
-    schema,
-    uischema,
-  });
-});

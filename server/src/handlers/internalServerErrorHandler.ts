@@ -5,10 +5,17 @@ export const internalServerErrorHandler = (
   err: any,
   req: Request,
   res: Response,
-  next: NextFunction,
+  _next: NextFunction,
 ) => {
-  console.error(err.stack);
-  res
-    .status(HttpStatusCode.InternalServerError)
-    .send({ error: 'Something went wrong! Sorry' });
+  const status = HttpStatusCode.InternalServerError;
+  console.warn(
+    `❗ ${status} INTERNAL SERVER ERROR:`,
+    '\n  url:',
+    req.url,
+    '\n  body:',
+    req.body,
+    '\n  error:',
+    err,
+  );
+  res.status(status).send({ error: 'Something went wrong! Sorry' });
 };

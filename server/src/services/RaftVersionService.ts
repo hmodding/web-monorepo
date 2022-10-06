@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+import { RaftVersionDto } from '../../../shared/dto/RaftVersionDto';
 import { RaftVersion } from '../entities/RaftVersion';
 import { ApiError } from '../errors/ApiError';
 import { schema as addRaftVersionSchema } from '../forms/addRaftVersionForm';
@@ -24,12 +26,12 @@ export class RaftVersionService extends AbstractService {
     return RaftVersion.findBy({ id });
   }
 
-  static async create(data: RaftVersionCreateData) {
+  static async create(data: RaftVersionDto) {
     const raftVersionToCreate = new RaftVersion();
     raftVersionToCreate.version = data.version;
     raftVersionToCreate.buildId = data.buildId;
     raftVersionToCreate.title = data.title;
-    raftVersionToCreate.releasedAt = data.releasedAt;
+    raftVersionToCreate.releasedAt = dayjs(data.releasedAt).toDate();
 
     const createdRaftVersion = await raftVersionToCreate.save();
 

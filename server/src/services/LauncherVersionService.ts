@@ -1,5 +1,5 @@
 import { LauncherVersionDto } from '../../../shared/dto/LauncherVersionDto';
-import { notifier } from './discord/DiscordNotifier';
+import { notifier } from './discord/DiscordNotifierService';
 import { LauncherVersion } from '../entities/LauncherVersion';
 import { AbstractService } from './AbstractService';
 import { fileManager } from './FileManagerService';

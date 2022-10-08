@@ -1,5 +1,5 @@
 import finale from 'finale-rest';
-import notifier from '../../../services/discord/DiscordNotifier';
+import notifier from '../../../services/discord/DiscordNotifierService';
 import { getSchema as getAddModSchema } from '../../../../resources/schemas/mod/addModSchema';
 import {
   modLikeModel,

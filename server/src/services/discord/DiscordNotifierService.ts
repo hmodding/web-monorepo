@@ -27,7 +27,7 @@ import { PingRateLimiter } from './PingRateLimiter';
  * Allows sending {launcher, loader, mod} version release notifications to
  * Discord.
  */
-export class DiscordNotifier {
+export class DiscordNotifierService {
   private pingRateLimiter: PingRateLimiter;
 
   private cfg: DiscordNotificationsCfg;
@@ -222,4 +222,4 @@ function formatRoleMention(roleId: string) {
  * Discord Notifier configured with the application configuration.
  */
 
-export const notifier = new DiscordNotifier(cfg.discordNotifications);
+export const notifier = new DiscordNotifierService(cfg.discordNotifications);

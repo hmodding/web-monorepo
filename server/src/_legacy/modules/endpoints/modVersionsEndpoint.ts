@@ -1,6 +1,6 @@
 import finale from 'finale-rest';
 import { modModel, ModVersion, modVersionModel } from '../../models';
-import notifier from '../../../services/discord/DiscordNotifier';
+import notifier from '../../../services/discord/DiscordNotifierService';
 import { getSchema as getModVersionSchema } from '../../../../resources/schemas/modVersion/addModVersionSchema';
 import {
   validateAndWriteModFile,

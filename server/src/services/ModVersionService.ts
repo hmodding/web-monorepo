@@ -2,7 +2,7 @@ import { ModVersionDto } from '../../../shared/dto/ModVersionDto';
 import { ModVersion } from '../entities/ModVersion';
 import { User } from '../entities/User';
 import { AbstractService } from './AbstractService';
-import { notifier } from './discord/DiscordNotifier';
+import { notifier } from './discord/DiscordNotifierService';
 import { ModService } from './ModService';
 
 export class ModVersionService extends AbstractService {
@@ -16,16 +16,9 @@ export class ModVersionService extends AbstractService {
   }
 
   static async create(data: ModVersionDto) {
-    const modVersionToCreate = new ModVersion();
-    modVersionToCreate.modId = data.modId!;
-    modVersionToCreate.version = data.version!;
+    const modVersionToCreate = ModVersion.create(data);
     modVersionToCreate.changelog = 'This is the first version';
-    modVersionToCreate.downloadUrl = data.downloadUrl!;
     modVersionToCreate.downloadCount = 0;
-    modVersionToCreate.minRaftVersionId = data.minRaftVersionId;
-    modVersionToCreate.maxRaftVersionId = data.maxRaftVersionId;
-    modVersionToCreate.definiteMaxRaftVersion = data.definiteMaxRaftVersion!;
-    modVersionToCreate.fileHashes = data.fileHashes;
 
     const createdModVersion = await modVersionToCreate.save();
     const newModVersion = await ModVersion.findOne({

@@ -12,11 +12,6 @@ import {
   softwareDownloadUrl,
 } from '../../utils';
 import {
-  LauncherVersion as LauncherVersionModel,
-  LoaderVersion as LoaderVersionModel,
-  ModVersion as ModVersionModel,
-} from '../../_legacy/models';
-import {
   DiscordWebhookClient,
   Embed,
   WebhookMessage,
@@ -60,7 +55,7 @@ export class DiscordNotifierService {
    * @remarks DiscordAPIErrors will be logged but not thrown.
    */
   public async sendModVersionReleaseNotification(
-    version: ModVersionModel | ModVersion,
+    version: ModVersion,
     initial: boolean,
   ): Promise<void> {
     if (!version.mod) {
@@ -109,7 +104,7 @@ export class DiscordNotifierService {
    * @remarks DiscordAPIErrors will be logged but not thrown.
    */
   public async sendLauncherVersionReleaseNotification(
-    version: LauncherVersionModel | LauncherVersion,
+    version: LauncherVersion,
   ): Promise<void> {
     const embed: Embed = {
       title: 'RML Launcher',
@@ -145,7 +140,7 @@ export class DiscordNotifierService {
    * @remarks DiscordAPIErrors will be logged but not thrown.
    */
   public async sendLoaderVersionReleaseNotification(
-    version: LoaderVersionModel | LoaderVersion,
+    version: LoaderVersion,
   ): Promise<void> {
     if (!version.raftVersion) {
       throw new Error(

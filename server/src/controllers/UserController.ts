@@ -18,7 +18,7 @@ import { LoginDto } from '../../../shared/dto/LoginDto';
 import { ResetPasswordDto } from '../../../shared/dto/ResetPasswordDto';
 import { User } from '../entities/User';
 import { ApiError } from '../errors/ApiError';
-import { mailer } from '../mailer/mailer';
+import { mailer } from '../services/MailerService';
 import { SessionService } from '../services/SessionService';
 import { UserService } from '../services/UserService';
 import { HttpStatusCode } from '../types/HttpStatusCode';

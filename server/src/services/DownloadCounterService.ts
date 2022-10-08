@@ -1,14 +1,11 @@
 import { createHash } from 'crypto';
 import { EventEmitter } from 'events';
 import { Client } from 'minio';
-import { literal, Op } from 'sequelize';
+import { MoreThan } from 'typeorm';
 import { Cfg } from '../cfg';
-import {
-  DownloadTracker,
-  downloadTrackerModel,
-  launcherVersionModel,
-  modVersionModel,
-} from '../_legacy/models';
+import { DownloadTracker } from '../entities/DownloadTracker';
+import { LauncherVersion } from '../entities/LauncherVersion';
+import { ModVersion } from '../entities/ModVersion';
 
 /**
  * Type definition for MinIO `s3:ObjectAccessed:Get` notifications that contains
@@ -138,27 +135,20 @@ export class DownloadCounterService {
     const newExpiry = new Date();
     newExpiry.setTime(newExpiry.getTime() + TRACKING_DURATION);
 
-    const tracker = await downloadTrackerModel.findOne({
-      where: {
-        path,
-        ipHash,
-      },
+    const tracker = await DownloadTracker.findOne({
+      where: { path, ipHash },
     });
 
     if (tracker === null) {
-      await downloadTrackerModel.create({
-        ipHash,
-        path,
-        expiresAt: newExpiry,
-      });
+      await DownloadTracker.save(
+        DownloadTracker.create({ ipHash, path, expiresAt: newExpiry }),
+      );
       await this.countDownload(notif);
     } else {
-      const expired =
-        (tracker as DownloadTracker).expiresAt.getTime() < new Date().getTime();
+      const expired = tracker.expiresAt.getTime() < new Date().getTime();
 
-      await tracker.update({
-        expiresAt: newExpiry,
-      });
+      tracker.expiresAt = newExpiry;
+      DownloadTracker.save(tracker);
 
       if (expired) {
         await this.countDownload(notif);
@@ -168,12 +158,8 @@ export class DownloadCounterService {
 
   private async removeExpiredTrackers(): Promise<void> {
     try {
-      await downloadTrackerModel.destroy({
-        where: {
-          expiresAt: {
-            [Op.lt]: new Date(),
-          },
-        },
+      await DownloadTracker.find({
+        where: { expiresAt: MoreThan(new Date()) },
       });
     } catch (err) {
       console.error('Error while removing expired download trackers.', err);
@@ -212,22 +198,20 @@ export class DownloadCounterService {
     versionSlug: string,
   ): Promise<void> {
     try {
-      const [affected] = await modVersionModel.update(
-        {
-          downloadCount: literal('"downloadCount" + 1'),
-        },
-        {
-          where: {
-            modId: modSlug,
-            version: versionSlug,
-          },
-        },
-      );
+      const modVersions = await ModVersion.findBy({
+        modId: modSlug,
+        version: versionSlug,
+      });
 
-      if (affected <= 0) {
+      if (!modVersions || modVersions.length <= 0) {
         console.error(
           `Received download event for nonexistant mod ${modSlug} version ${versionSlug}!`,
         );
+
+        modVersions.forEach((modVersion) => {
+          modVersion.downloadCount++;
+          ModVersion.save(modVersion);
+        });
       }
     } catch (err) {
       console.error(
@@ -241,21 +225,19 @@ export class DownloadCounterService {
     versionSlug: string,
   ): Promise<void> {
     try {
-      const [affected] = await launcherVersionModel.update(
-        {
-          downloadCount: literal('"downloadCount" + 1'),
-        },
-        {
-          where: {
-            version: versionSlug,
-          },
-        },
-      );
+      const launcherVersions = await LauncherVersion.findBy({
+        version: versionSlug,
+      });
 
-      if (affected <= 0) {
+      if (!launcherVersions || (await launcherVersions).length <= 0) {
         console.error(
           `Received download event for nonexistant launcher version ${versionSlug}!`,
         );
+
+        launcherVersions.forEach((launcherVersion) => {
+          launcherVersion.downloadCount++;
+          LauncherVersion.save(launcherVersion);
+        });
       }
     } catch (err) {
       console.error(

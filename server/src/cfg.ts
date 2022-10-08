@@ -352,10 +352,3 @@ export const cfg: Cfg = {
   },
   discordNotifications: readDiscordNotificationCfg(),
 };
-
-export const ModCategories: string[] = [
-  `utility`,
-  `optimization`,
-  `content`,
-  `fun`,
-];

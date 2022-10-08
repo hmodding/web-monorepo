@@ -1,6 +1,6 @@
 import { AccountCreationDto } from '../../../shared/dto/AccountCreationDto';
 import { AccountCreation } from '../entities/AccountCreation';
-import { mailer } from '../mailer/mailer';
+import { mailer } from './MailerService';
 import { AbstractService } from './AbstractService';
 import { UserService } from './UserService';
 

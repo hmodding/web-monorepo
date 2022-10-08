@@ -1,44 +1,16 @@
 import axios, { AxiosResponse } from 'axios';
-import cfg from '../cfg';
-import { generateToken } from '../utils';
 import {
-  DiscordSignOn,
-  discordSignOnModel,
-  Session,
-  sessionModel,
-  User,
-  userModel,
-} from '../_legacy/models';
-
-export type DiscordAuthenticationScope = 'identify' | 'email'; // https://discord.com/developers/docs/topics/oauth2#shared-resources-oauth2-scopes
-
-export interface DiscordAuthenticationConfig {
-  clientId: string;
-  clientSecret: string;
-  redirectUri: string;
-  scope?: DiscordAuthenticationScope;
-  grantType?: 'authorization_code';
-}
-
-export interface DiscordAuthenticationData {
-  access_token: string;
-  expires_in: number;
-  refresh_token: string;
-  scope: DiscordAuthenticationScope;
-  token_type: 'Bearer';
-}
-
-export interface DiscordUserData {
-  avatar: string;
-  discriminator: string;
-  flags: number;
-  id: string;
-  locale: string;
-  mfa_enabled: boolean;
-  public_flags: number;
-  username: string;
-  verified: boolean;
-}
+  DiscordAuthenticationConfig,
+  DiscordAuthenticationData,
+  DiscordAuthenticationScope,
+  DiscordUserData,
+} from '../../../shared/types/Discord';
+import { cfg } from '../cfg';
+import { DiscordSignOn } from '../entities/DiscordSignOn';
+import { Session } from '../entities/Session';
+import { User } from '../entities/User';
+import { SessionService } from '../services/SessionService';
+import { generateToken } from '../utils';
 
 export class DiscordAuthenticator {
   private readonly clientId: string;
@@ -98,11 +70,11 @@ export class DiscordAuthenticator {
     try {
       const { id: discordUserId } = userData;
 
-      const discordLogin = await discordSignOnModel.findOne({
+      const discordLogin = await DiscordSignOn.count({
         where: { discordUserId },
       });
 
-      return !!discordLogin;
+      return discordLogin > 0;
     } catch (e) {
       return false;
     }
@@ -115,57 +87,53 @@ export class DiscordAuthenticator {
     const { id: discordUserId } = userData;
     const { access_token: accessToken, refresh_token: refreshToken } = authData;
 
-    const user: User = (await userModel.create({
+    const user = User.create({
       username: `discord-user-${discordUserId}`,
       email: generateToken(discordUserId, 255),
       password: generateToken(null, 255),
       role: 'UNFINISHED',
-    })) as User;
+    });
+    await User.save(user);
 
-    const discordLogin = await discordSignOnModel.create({
+    const discordLogin = DiscordSignOn.create({
       userId: user.id,
       discordUserId,
       accessToken,
       refreshToken,
     });
+    await DiscordSignOn.save(discordLogin);
 
-    const { token }: Session = (await sessionModel.create({
+    const session = Session.create({
       token: '[will-be-auto-generated]',
-      userId: user.id,
+      user: user,
       expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-      deviceInfo: null,
-    })) as Session;
+    });
+    await Session.save(session);
+    await session.reload(); //TODO: does this work properly?
 
-    const withAssociations: Session = (await sessionModel.findOne({
-      where: { token },
-      include: { model: userModel, as: 'user' },
-    })) as Session;
+    const { token } = session;
+    const dbSession = await SessionService.getByToken(token);
 
-    return withAssociations;
+    return dbSession!;
   }
 
   async login(userData: DiscordUserData): Promise<Session> {
     const { id: discordUserId } = userData;
+    const discordLogin = await DiscordSignOn.findOneBy({ discordUserId });
+    const user = await User.findOneBy({ id: discordLogin!.userId });
 
-    const discordLogin: DiscordSignOn = (await discordSignOnModel.findOne({
-      where: { discordUserId },
-    })) as DiscordSignOn;
-
-    const user: User = (await userModel.findByPk(discordLogin.userId)) as User;
-
-    const { token }: Session = (await sessionModel.create({
+    const session = Session.create({
       token: '[will-be-auto-generated]',
-      userId: user.id,
       expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-      deviceInfo: null,
-    })) as Session;
+      user: user!,
+    });
+    await Session.save(session);
+    await session.reload(); //TODO: does this work properly?
 
-    const withAssociations: Session = (await sessionModel.findOne({
-      where: { token },
-      include: { model: userModel, as: 'user' },
-    })) as Session;
+    const { token } = session;
+    const dbSession = await SessionService.getByToken(token);
 
-    return withAssociations;
+    return dbSession!;
   }
 }
 

@@ -1,1 +1,1 @@
-export type UserRole = 'admin' | 'UNFINISHED';
+export type UserRole = 'admin' | 'UNFINISHED' | 'third-party-login-user';

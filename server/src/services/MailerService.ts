@@ -6,16 +6,9 @@ import path from 'path';
 import { cfg } from '../cfg';
 import { AccountCreation } from '../entities/AccountCreation';
 import { User } from '../entities/User';
-import {
-  AccountCreation as AccountCreationModel,
-  User as UserModel,
-} from '../_legacy/models';
+import { getResourcesPath } from '../utils';
 
-export interface Replaces {
-  [key: string]: string;
-}
-
-export class Mailer {
+export class MailerService {
   private readonly opts: SMTPTransport.Options;
   private readonly transporter: Transporter;
 
@@ -29,10 +22,7 @@ export class Mailer {
    * @param user User
    * @param token string
    */
-  async sendPasswordResetMail(
-    user: UserModel | User,
-    token: string,
-  ): Promise<void> {
+  async sendPasswordResetMail(user: User, token: string): Promise<void> {
     const { email, username } = user;
     const baseUrl = cfg.frontendBaseUrl;
     const url = `${baseUrl}forgotpassword?token=${token}`;
@@ -52,7 +42,7 @@ export class Mailer {
   }
 
   async sendAccountCreationMail(
-    accountCreation: AccountCreationModel | AccountCreation,
+    accountCreation: AccountCreation,
   ): Promise<void> {
     const { token, username, email } = accountCreation;
     const baseUrl = cfg.frontendBaseUrl;
@@ -77,8 +67,8 @@ export class Mailer {
     }
   }
 
-  private loadTemplate(filename: string, replaces: Replaces) {
-    const file = path.join(__dirname, 'templates', filename);
+  private loadTemplate(filename: string, replaces: Record<string, string>) {
+    const file = path.join(getResourcesPath(), '/mailer/templates', filename);
 
     if (!fs.existsSync(file)) {
       throw new Error('given template not found!');
@@ -98,4 +88,4 @@ export class Mailer {
   }
 }
 
-export const mailer = new Mailer(cfg.mailConfig);
+export const mailer = new MailerService(cfg.mailConfig);

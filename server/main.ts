@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import { saveExampleDbData } from './resources/example/dbData.example';
 import { cfg } from './src/cfg';
-import { AppDataSource } from './src/db/dataSource';
+import { AppDataSource } from './src/dataSource';
 import { startServer } from './src/server';
 import { DownloadCounterService } from './src/services/DownloadCounterService';
 

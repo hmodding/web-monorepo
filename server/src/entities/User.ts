@@ -43,6 +43,10 @@ export class User extends AbstractEntityWithGeneratedId {
   //helpers
 
   get isAdmin(): boolean {
-    return this.role === 'admin'; //TODO: check privileges too;
+    return this.role === 'admin'; //TODO: check privileges too
+  }
+
+  get isUnfinished(): boolean {
+    return this.role === 'UNFINISHED'; //TODO: check privileges too
   }
 }

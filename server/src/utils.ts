@@ -8,11 +8,6 @@ import { cfg } from './cfg';
 import { LauncherVersion } from './entities/LauncherVersion';
 import { LoaderVersion } from './entities/LoaderVersion';
 import { Mod } from './entities/Mod';
-import {
-  LauncherVersion as LauncherVersionModel,
-  LoaderVersion as LoaderVersionModel,
-  Mod as ModModel,
-} from './_legacy/models';
 
 export function validatePassword(given: string, expected: string): boolean {
   return compareSync(given, expected);
@@ -22,6 +17,12 @@ export function capitalize(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+/**
+ * creates an almost unique token
+ * @param data a string that the token should be based on
+ * @param length allows to shorten the token to a wanted length
+ * @returns
+ */
 export function generateToken(data: string | null = null, length = -1) {
   if (data === null) {
     data = v1();
@@ -33,7 +34,7 @@ export function generateToken(data: string | null = null, length = -1) {
     .update(crypto.randomBytes(256))
     .digest('hex');
 
-  return length > 0 ? token.substr(0, length) : token;
+  return length > 0 ? token.substring(0, length) : token;
 }
 
 /**
@@ -41,7 +42,7 @@ export function generateToken(data: string | null = null, length = -1) {
  * @param mod a mod instance to build a URL for.
  * @returns the URL.
  */
-export function getModUrl(mod: ModModel | Mod): string {
+export function getModUrl(mod: Mod): string {
   return `${cfg.frontendBaseUrl}mods/${mod.id}`;
 }
 
@@ -50,9 +51,7 @@ export function getModUrl(mod: ModModel | Mod): string {
  * @param version a loader version instance to build a URL for.
  * @returns the URL.
  */
-export function getLoaderVersionUrl(
-  version: LoaderVersionModel | LoaderVersion,
-): string {
+export function getLoaderVersionUrl(version: LoaderVersion): string {
   return `${cfg.frontendBaseUrl}loader/${version.rmlVersion}`;
 }
 
@@ -61,9 +60,7 @@ export function getLoaderVersionUrl(
  * @param version a launcher version instance to build a URL for.
  * @returns the URL.
  */
-export function getLauncherVersionUrl(
-  version: LauncherVersionModel | LauncherVersion,
-): string {
+export function getLauncherVersionUrl(version: LauncherVersion): string {
   return `${cfg.frontendBaseUrl}launcher/${version.version}`;
 }
 
@@ -118,3 +115,7 @@ export const saveIfNotExists = async (
     await Entity.save(Entity.create(data));
   }
 };
+
+export const getResourcesPath = () => {
+  return `${__dirname}/../resources`
+}

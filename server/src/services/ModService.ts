@@ -65,6 +65,7 @@ export class ModService extends AbstractService {
     const buffer = Buffer.from(data.file.base64);
     const fileType = await FileType.fromBuffer(buffer);
 
+    //TODO: Why isn't it recognizing the file-type?
     if (!fileType || !cfg.validMimeTypes.includes(fileType.mime)) {
       console.warn('    ❗ fileType: ', fileType);
       throw new ApiError(

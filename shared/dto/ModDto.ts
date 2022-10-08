@@ -1,4 +1,3 @@
-import { FileDto } from './FileDto';
 import { ModVersionDto } from './ModVersionDto';
 import { ScheduledModDeletionDto } from './ScheduledModDeletionDto';
 import { UserDto } from './UserDto';
@@ -17,5 +16,4 @@ export interface ModDto extends WithCreatedAndUpdatedDto {
   versions?: ModVersionDto[];
   deletion?: ScheduledModDeletionDto;
   likes?: UserDto[];
-  file?: FileDto;
 }

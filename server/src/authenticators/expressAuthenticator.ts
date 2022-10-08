@@ -30,10 +30,10 @@ export const expressAuthentication = async (
         // OPEN THE GATES
         break;
     }
-    console.log('✅ authentication successful!');
+    console.log('    🔑 authentication successful!');
     return Promise.resolve({ success: true });
   } catch (err) {
-    console.error('❌ authentication failed:', err);
+    console.error('    🔒 authentication failed:', err);
     return Promise.reject(err);
   }
 };

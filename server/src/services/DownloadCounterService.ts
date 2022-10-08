@@ -89,7 +89,9 @@ export class DownloadCounterService {
         endPoint: cfg.storage.endPoint,
       });
     } else {
-      console.log('MISSING STORAGE CLIENT CONFIG! Upload not supported!');
+      console.log(
+        '    ❗ MISSING STORAGE CLIENT CONFIG! Upload not supported!',
+      );
       this.client = null;
     }
   }
@@ -99,7 +101,9 @@ export class DownloadCounterService {
    */
   public startListening(): void {
     if (!this.client) {
-      return console.log('No storage client configured! Nothing was uploaded!');
+      return console.log(
+        '    ❗ No storage client configured! Nothing was uploaded!',
+      );
     }
 
     this.modNotificationEmitter = this.client.listenBucketNotification(

@@ -1,5 +1,6 @@
 import { ModVersionDto } from '../../../shared/dto/ModVersionDto';
 import { ModVersion } from '../entities/ModVersion';
+import { RaftVersion } from '../entities/RaftVersion';
 import { User } from '../entities/User';
 import { AbstractService } from './AbstractService';
 import { notifier } from './discord/DiscordNotifierService';
@@ -16,9 +17,20 @@ export class ModVersionService extends AbstractService {
   }
 
   static async create(data: ModVersionDto) {
+    const minRaftVersion = await RaftVersion.findOneBy({
+      id: data.minRaftVersionId,
+    });
+    const maxRaftVersion = await RaftVersion.findOneBy({
+      id: data.maxRaftVersionId,
+    });
+    delete data.minRaftVersionId;
+    delete data.maxRaftVersionId;
+    console.log('#####################', data);
     const modVersionToCreate = ModVersion.create(data);
     modVersionToCreate.changelog = 'This is the first version';
     modVersionToCreate.downloadCount = 0;
+    modVersionToCreate.minRaftVersion = minRaftVersion!;
+    modVersionToCreate.maxRaftVersion = maxRaftVersion!;
 
     const createdModVersion = await modVersionToCreate.save();
     const newModVersion = await ModVersion.findOne({

@@ -1,5 +1,6 @@
 import FileType from 'file-type';
 import { FindOptionsWhere } from 'typeorm';
+import { ModCreateDto } from '../../../shared/dto/ModCreateDto';
 import { ModDto } from '../../../shared/dto/ModDto';
 import { modCategories } from '../../../shared/modCategories';
 import { getSchema } from '../../resources/schemas/mod/addModSchema';
@@ -56,7 +57,7 @@ export class ModService extends AbstractService {
     return mod?.author === username;
   }
 
-  static async create(data: ModDto) {
+  static async create(data: ModCreateDto) {
     if (!data.file) {
       throw new ApiError(HttpStatusCode.BadRequest, 'missing file!');
     }
@@ -65,45 +66,41 @@ export class ModService extends AbstractService {
     const fileType = await FileType.fromBuffer(buffer);
 
     if (!fileType || !cfg.validMimeTypes.includes(fileType.mime)) {
-      throw new ApiError(HttpStatusCode.Forbidden, 'file-type is not allowed!');
+      console.warn('    ❗ fileType: ', fileType);
+      throw new ApiError(
+        HttpStatusCode.Forbidden,
+        `file-type is not allowed: ${fileType?.mime || 'n/a'}!`,
+      );
     }
-
-    if (!data.versions || data.versions.length > 0) {
-      throw new ApiError(HttpStatusCode.BadRequest, 'missing initial version!');
-    }
-
-    const firstVersion = data.versions[data.versions.length - 1];
 
     try {
-      const filename = `${data.id}-${firstVersion.version}.rmod`;
+      const filename = `${data.id}-${data.version}.rmod`;
       const {
         url,
         md5,
         sha256,
       }: ObjectMeta = await fileManager.createModVersionFile(
         data.id!,
-        firstVersion.version!,
+        data.version!,
         filename,
         buffer,
       );
-
-      const createdMod = Mod.create(data as Mod);
-
+      const mod = Mod.create(data);
       await ModVersionService.create({
-        modId: createdMod.id,
-        definiteMaxRaftVersion: firstVersion.definiteMaxRaftVersion!,
+        modId: mod.id,
+        definiteMaxRaftVersion: data.definiteMaxRaftVersion!,
         downloadUrl: url,
         fileHashes: { md5, sha256 },
-        version: firstVersion.version!,
-        maxRaftVersionId: firstVersion.maxRaftVersionId,
-        minRaftVersionId: firstVersion.minRaftVersionId,
+        version: data.version!,
+        maxRaftVersionId: data.maxRaftVersionId,
+        minRaftVersionId: data.minRaftVersionId,
       });
-      const newMod = Mod.findOne({
-        where: { id: createdMod.id },
+      const dbMod = Mod.findOne({
+        where: { id: mod.id },
         relations: ['versions'],
       });
 
-      return newMod;
+      return dbMod;
     } catch (err) {
       throw new ApiError(
         HttpStatusCode.InternalServerError,
@@ -117,7 +114,7 @@ export class ModService extends AbstractService {
     return savedMod;
   }
 
-  static async isValidCreateData(data: any) {
+  static async isValidCreateData(data: ModCreateDto) {
     const addModSchema = await getSchema();
 
     return validateData(data, addModSchema);

@@ -10,6 +10,7 @@ import {
   Route,
   Security,
 } from 'tsoa';
+import { ModCreateDto } from '../../../shared/dto/ModCreateDto';
 import { ModDto } from '../../../shared/dto/ModDto';
 import { ApiError } from '../errors/ApiError';
 import { ModService } from '../services/ModService';
@@ -76,7 +77,10 @@ export class ModController extends Controller {
 
   @Post()
   @Security('user')
-  public async create(@Body() data: ModDto) {
+  public async create(
+    @Body()
+    data: ModCreateDto,
+  ) {
     const isValidData = await ModService.isValidCreateData(data);
 
     if (!isValidData) {

@@ -44,7 +44,9 @@ export class FileManagerService {
         endPoint: cfg.storage.endPoint,
       });
     } else {
-      console.warn('MISSING STORAGE CLIENT CONFIG! Upload not supported!');
+      console.warn(
+        '    ❗ MISSING STORAGE CLIENT CONFIG! Upload not supported!',
+      );
       this.client = null;
     }
   }
@@ -108,7 +110,9 @@ export class FileManagerService {
         await this.client.putObject(bucket, filePath, fileContents)
       ).toString();
     } else {
-      console.warn('No storage client configured! Nothing was uploaded!');
+      console.warn(
+        '    ❗ No storage client configured! Nothing was uploaded!',
+      );
     }
 
     return {

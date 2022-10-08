@@ -12,6 +12,7 @@
   "author": "raftmodding.com",
   "license": "MIT",
   "dependencies": {
+    "@types/json-schema": "^7.0.11",
     "ajv": "^6.10.2",
     "axios": "^0.21.2",
     "bcryptjs": "^2.4.3",

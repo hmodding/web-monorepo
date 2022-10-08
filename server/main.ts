@@ -8,17 +8,17 @@ import { DownloadCounterService } from './src/services/DownloadCounterService';
 (async () => {
   console.log(
     '\n##################################\n' +
-      '##\t\t\t\t##\n' +
-      '##\t STARTING SERVER \t##\n' +
-      '##\t\t\t\t##\n' +
-      '##################################\n',
+      '##                              ##\n' +
+      '##       STARTING SERVER        ##\n' +
+      '##                              ##\n' +
+      '##################################',
   );
   await AppDataSource.initialize(); //new
-  console.log('AppDataSource initialized!');
+  console.log('    ✔️ AppDataSource initialized!');
 
   if (process.env.NODE_ENV === 'develop') {
     await saveExampleDbData();
-    console.log('Example data saved!');
+    console.log('    ✔️ Example data saved!');
   }
 
   await startServer();

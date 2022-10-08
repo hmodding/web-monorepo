@@ -1,8 +1,8 @@
 import { Column, Entity, PrimaryColumn } from 'typeorm';
-import { AbstractEntity } from './AbstractEntity';
+import { AbstractEntityWithCreatedAndUpdated } from './AbstractEntity';
 
 @Entity({ name: 'server-versions' })
-export class ServerVersion extends AbstractEntity {
+export class ServerVersion extends AbstractEntityWithCreatedAndUpdated {
   @PrimaryColumn({ unique: true })
   version!: string;
 

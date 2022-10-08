@@ -11,16 +11,8 @@ import {
 } from 'tsoa';
 import { RaftVersionDto } from '../../../shared/dto/RaftVersionDto';
 import { ajv } from '../ajv';
-import { RaftVersion } from '../entities/RaftVersion';
 import { RaftVersionService } from '../services/RaftVersionService';
 import { HttpStatusCode } from '../types/HttpStatusCode';
-
-type RaftVersionCreateKeys = 'version' | 'buildId' | 'title' | 'releasedAt';
-
-interface RaftVersionCreateBody
-  extends Pick<RaftVersion, RaftVersionCreateKeys> {}
-
-interface RaftVersionUpdateBody extends RaftVersionCreateBody {}
 
 @Route('/raftVersions')
 export class RaftVersionController extends Controller {
@@ -54,7 +46,7 @@ export class RaftVersionController extends Controller {
 
   @Put('/{id}')
   @Security('admin')
-  public async update(@Path() id: number, @Body() body: RaftVersionUpdateBody) {
+  public async update(@Path() id: number, @Body() body: RaftVersionDto) {
     const isValidUpdateData = RaftVersionService.isValidUpdateData(body);
 
     if (!isValidUpdateData) {
@@ -62,7 +54,9 @@ export class RaftVersionController extends Controller {
       return { error: 'Invalid form' };
     }
 
+    body.id = id;
+
     this.setStatus(HttpStatusCode.Ok);
-    return RaftVersionService.update(id, body);
+    return RaftVersionService.update(body);
   }
 }

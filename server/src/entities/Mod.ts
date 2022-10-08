@@ -7,13 +7,14 @@ import {
   OneToOne,
   PrimaryColumn,
 } from 'typeorm';
-import { AbstractEntity } from './AbstractEntity';
+import { ModCategory } from '../../../shared/types/ModCategory';
+import { AbstractEntityWithCreatedAndUpdated } from './AbstractEntity';
 import { ModVersion } from './ModVersion';
 import { ScheduledModDeletion } from './ScheduledModDeletion';
 import { User } from './User';
 
 @Entity({ name: 'mods' })
-export class Mod extends AbstractEntity {
+export class Mod extends AbstractEntityWithCreatedAndUpdated {
   @PrimaryColumn({ unique: true, length: 64 })
   id!: string;
 
@@ -27,7 +28,7 @@ export class Mod extends AbstractEntity {
   readme!: string;
 
   @Column()
-  category!: string;
+  category!: ModCategory;
 
   @Column()
   author!: string;

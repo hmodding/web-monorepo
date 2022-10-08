@@ -9,13 +9,9 @@ import {
   Security,
 } from 'tsoa';
 import { LoaderVersionDto } from '../../../shared/dto/LoaderVersionDto';
-import { LoaderVersion } from '../entities/LoaderVersion';
 import { ApiError } from '../errors/ApiError';
 import { LoaderVersionService } from '../services/LoaderVersionService';
 import { HttpStatusCode } from '../types/HttpStatusCode';
-
-export interface LoaderVersionCreateData
-  extends Pick<LoaderVersion, 'rmlVersion' | 'readme'> {}
 
 @Route('/loaderVersions')
 export class LoaderVersionController extends Controller {

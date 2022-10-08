@@ -6,7 +6,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-export abstract class AbstractEntity extends BaseEntity {
+export abstract class AbstractEntityWithCreatedAndUpdated extends BaseEntity {
   @CreateDateColumn({ nullable: false })
   createdAt?: Date;
 

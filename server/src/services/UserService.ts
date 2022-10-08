@@ -4,7 +4,7 @@ import { PasswordReset } from '../entities/PasswordReset';
 import { Session } from '../entities/Session';
 import { User } from '../entities/User';
 import { ApiError } from '../errors/ApiError';
-import { schema as resetPasswordSchema } from '../forms/resetPasswordForm';
+import { schema as resetPasswordSchema } from '../../resources/schemas/resetPasswordSchema';
 import { HttpStatusCode } from '../types/HttpStatusCode';
 import { validateData } from '../utils';
 import { AbstractService } from './AbstractService';

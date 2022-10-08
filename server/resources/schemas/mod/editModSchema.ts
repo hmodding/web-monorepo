@@ -1,6 +1,6 @@
-import { ModCategories } from '../cfg';
-import { router } from '../router/_legacy/router';
-import { disableRule, httpS, slug } from './_commons';
+import { modCategories } from '../../../../shared/modCategories';
+import { router } from '../../../src/router/_legacy/router';
+import { disableRule, httpS, slug } from '../commons.schema';
 
 export const schema = {
   type: 'object',
@@ -38,7 +38,7 @@ export const schema = {
     },
     category: {
       type: 'string',
-      enum: [...ModCategories],
+      enum: [...modCategories],
     },
     readme: {
       type: 'string',

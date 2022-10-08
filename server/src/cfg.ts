@@ -353,13 +353,6 @@ export const cfg: Cfg = {
   discordNotifications: readDiscordNotificationCfg(),
 };
 
-export const Role = {
-  Admin: 'admin',
-  Unfinished: 'UNFINISHED',
-};
-
-export type UserRole = 'admin' | 'UNFINISHED';
-
 export const ModCategories: string[] = [
   `utility`,
   `optimization`,

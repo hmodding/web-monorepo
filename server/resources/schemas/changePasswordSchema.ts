@@ -1,9 +1,14 @@
-import { router } from '../router/_legacy/router';
-import { password } from './_commons';
+import { router } from '../../src/router/_legacy/router';
+import { password } from './commons.schema';
 
 export const schema = {
   type: 'object',
   properties: {
+    currentPassword: {
+      type: 'string',
+      title: 'Current password',
+      description: `Please type in your current password to prove that it's you.`,
+    },
     password: {
       type: 'string',
       title: 'New password',
@@ -17,12 +22,20 @@ export const schema = {
       ...password.schema,
     },
   },
-  required: ['password', 'passwordConfirm'],
+  required: ['currentPassword', 'password', 'passwordConfirm'],
 };
 
 export const uischema = {
   type: 'Vertical',
   elements: [
+    {
+      type: 'Control',
+      scope: '#/properties/currentPassword',
+      options: {
+        focus: true,
+        ...password.uischema.options,
+      },
+    },
     {
       type: 'Control',
       scope: '#/properties/password',
@@ -36,7 +49,7 @@ export const uischema = {
   ],
 };
 
-router.get('/forms/setNewPassword', async (req: any, res: any) => {
+router.get('/forms/changePassword', async (req: any, res: any) => {
   res.status(200).send({
     schema,
     uischema,

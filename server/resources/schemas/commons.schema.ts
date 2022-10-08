@@ -1,7 +1,8 @@
 import dayjs from 'dayjs';
-import { cfg, ModCategories } from '../cfg';
-import { RaftVersion } from '../entities/RaftVersion';
-import { capitalize } from '../utils';
+import { modCategories } from '../../../shared/modCategories';
+import { cfg } from '../../src/cfg';
+import { RaftVersion } from '../../src/entities/RaftVersion';
+import { capitalize } from '../../src/utils';
 
 export const slug = {
   schema: {
@@ -151,8 +152,9 @@ export const minMaxRaftVersion = {
 export const modCategoriesSchema = {
   type: 'string',
   oneOf: [
-    ...ModCategories.map((category) => {
-      return { title: capitalize(category), const: category };
-    }),
+    ...modCategories.map((category) => ({
+      title: capitalize(category),
+      const: category,
+    })),
   ],
 };

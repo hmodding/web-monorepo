@@ -1,6 +1,6 @@
 import finale from 'finale-rest';
-import { schema as addRaftVersionSchema } from '../../../forms/addRaftVersionForm';
-import { schema as editRaftVersionSchema } from '../../../forms/editRaftVersionForm';
+import { schema as addRaftVersionSchema } from '../../../../resources/schemas/raftVersion/addRaftVersionSchema';
+import { schema as editRaftVersionSchema } from '../../../../resources/schemas/raftVersion/editRaftVersionSchema';
 import { raftVersionModel } from '../../models';
 import { validateAdminPrivileges, validateSchema } from './_commons';
 

@@ -1,7 +1,7 @@
 import { PrimaryGeneratedColumn } from 'typeorm';
-import { AbstractEntity } from './AbstractEntity';
+import { AbstractEntityWithCreatedAndUpdated } from './AbstractEntity';
 
-export abstract class AbstractEntityWithGeneratedId extends AbstractEntity {
+export abstract class AbstractEntityWithGeneratedId extends AbstractEntityWithCreatedAndUpdated {
   @PrimaryGeneratedColumn()
   id!: number;
 }

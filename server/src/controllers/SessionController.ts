@@ -1,12 +1,6 @@
 import { Controller, Delete, Get, Path, Route, Security } from 'tsoa';
-import { ScheduledModDeletion } from '../entities/ScheduledModDeletion';
 import { SessionService } from '../services/SessionService';
 import { HttpStatusCode } from '../types/HttpStatusCode';
-
-type ScheduledModDeletionCreateKeys = 'modId';
-
-interface ScheduledModDeletionCreateBody
-  extends Pick<ScheduledModDeletion, ScheduledModDeletionCreateKeys> {}
 
 @Route('/sessions')
 export class SessionController extends Controller {

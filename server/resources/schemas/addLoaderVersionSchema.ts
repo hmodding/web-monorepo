@@ -1,4 +1,4 @@
-import { getRaftVersionsSchema, markdownEditor, slug } from './_commons';
+import { getRaftVersionsSchema, markdownEditor, slug } from './commons.schema';
 
 export const getSchema = async () => {
   return {

@@ -1,5 +1,4 @@
-import { router } from '../router/_legacy/router';
-import { disableRule, integerMax, slug } from './_commons';
+import { integerMax, slug } from '../commons.schema';
 
 export const schema = {
   type: 'object',
@@ -36,15 +35,14 @@ export const uischema = {
       type: 'Control',
       scope: '#/properties/version',
       options: {
+        focus: true,
         placeholder: `9.05`,
       },
-      ...disableRule,
     },
     {
       type: 'Control',
       scope: '#/properties/buildId',
       options: {
-        focus: true,
         placeholder: `1234567`,
         step: 1,
       },
@@ -62,10 +60,3 @@ export const uischema = {
     },
   ],
 };
-
-router.get('/forms/editRaftVersion', async (req: any, res: any) => {
-  res.status(200).send({
-    schema,
-    uischema,
-  });
-});

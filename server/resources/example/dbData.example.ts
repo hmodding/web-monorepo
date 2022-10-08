@@ -1,5 +1,5 @@
-import {hashSync} from 'bcryptjs';
-import { Role } from '../../src/cfg';
+import { hashSync } from 'bcryptjs';
+import { DeepPartial } from 'typeorm';
 import { LauncherVersion } from '../../src/entities/LauncherVersion';
 import { LoaderVersion } from '../../src/entities/LoaderVersion';
 import { Mod } from '../../src/entities/Mod';
@@ -8,45 +8,45 @@ import { User } from '../../src/entities/User';
 import { UserPrivilege } from '../../src/entities/UserPrivilege';
 
 export const saveExampleDbData = async () => {
-  const user1 = {
+  const user1: DeepPartial<User> = {
     username: 'admin',
     password: hashSync('admin'),
     email: 'admin@raftmodding.com',
-    role: Role.Admin,
+    role: 'admin',
   };
   if (!(await User.findOneBy({ username: user1.username }))) {
     await User.save(User.create(user1 as any));
   }
 
-  const userPrivilege1 = {
+  const userPrivilege1: DeepPartial<User> = {
     username: 'admin',
-    role: Role.Admin,
+    role: 'admin',
   };
   if (!(await UserPrivilege.findOneBy({ username: userPrivilege1.username }))) {
     await User.save(User.create(userPrivilege1 as any));
   }
 
-  const raftVersion1 = {
+  const raftVersion1: DeepPartial<RaftVersion> = {
     version: '1.0',
     title: 'The Final Chapter',
-    buildId: '8972572',
-    releasedAt: '2022-06-20',
+    buildId: 8972572,
+    releasedAt: new Date('2022-06-20'),
   };
   if (!(await RaftVersion.findOneBy({ version: raftVersion1.version }))) {
     await RaftVersion.save(RaftVersion.create(raftVersion1 as any));
   }
 
-  const raftVersion2 = {
+  const raftVersion2: DeepPartial<RaftVersion> = {
     version: '1.0-hotfix-1',
     title: 'The Final Chapter Hotfix #1',
-    buildId: '8973125',
-    releasedAt: '2022-06-21',
+    buildId: 8973125,
+    releasedAt: new Date('2022-06-21'),
   };
   if (!(await RaftVersion.findOneBy({ version: raftVersion2.version }))) {
     await RaftVersion.save(RaftVersion.create(raftVersion2 as any));
   }
 
-  const loaderVersion1 = {
+  const loaderVersion1: DeepPartial<LoaderVersion> = {
     rmlVersion: '6.2.4',
     raftVersionId: 2,
     readme: ' - Fixed audio for Raft Update 1.08 (working on an auto updater)',
@@ -58,7 +58,7 @@ export const saveExampleDbData = async () => {
     await LoaderVersion.save(LoaderVersion.create(loaderVersion1));
   }
 
-  const launcherVersion1 = {
+  const launcherVersion1: DeepPartial<LauncherVersion> = {
     version: '1.6',
     timestamp: new Date(),
     downloadUrl: '/launcher/1.6/RMLLauncher.ex',
@@ -77,7 +77,7 @@ export const saveExampleDbData = async () => {
     await LauncherVersion.save(LauncherVersion.create(launcherVersion1 as any));
   }
 
-  const mod1 = {
+  const mod1: DeepPartial<Mod> = {
     id: 'my-01-example-mod',
     title: 'My 01 Example Mod',
     description: 'LOREM 01 IPSUM',
@@ -98,7 +98,7 @@ export const saveExampleDbData = async () => {
     await Mod.save(Mod.create(mod1));
   }
 
-  const mod2 = {
+  const mod2: DeepPartial<Mod> = {
     id: 'my-02-example-mod',
     title: 'My 02 Example Mod',
     description: 'LOREM 02 IPSUM',
@@ -119,7 +119,7 @@ export const saveExampleDbData = async () => {
     await Mod.save(Mod.create(mod2));
   }
 
-  const mod3 = {
+  const mod3: DeepPartial<Mod> = {
     id: 'my-03-example-mod',
     title: 'My 03 Example Mod',
     description: 'LOREM 03 IPSUM',
@@ -140,7 +140,7 @@ export const saveExampleDbData = async () => {
     await Mod.save(Mod.create(mod3));
   }
 
-  const mod4 = {
+  const mod4: DeepPartial<Mod> = {
     id: 'my-04-example-mod',
     title: 'My 04 Example Mod',
     description: 'LOREM 04 IPSUM',
@@ -161,7 +161,7 @@ export const saveExampleDbData = async () => {
     await Mod.save(Mod.create(mod4));
   }
 
-  const mod5 = {
+  const mod5: DeepPartial<Mod> = {
     id: 'my-05-example-mod',
     title: 'My 05 Example Mod',
     description: 'LOREM 05 IPSUM',
@@ -182,7 +182,7 @@ export const saveExampleDbData = async () => {
     await Mod.save(Mod.create(mod5));
   }
 
-  const mod6 = {
+  const mod6: DeepPartial<Mod> = {
     id: 'my-06-example-mod',
     title: 'My 06 Example Mod',
     description: 'LOREM 06 IPSUM',
@@ -203,7 +203,7 @@ export const saveExampleDbData = async () => {
     await Mod.save(Mod.create(mod6));
   }
 
-  const mod7 = {
+  const mod7: DeepPartial<Mod> = {
     id: 'my-07-example-mod',
     title: 'My 07 Example Mod',
     description: 'LOREM 07 IPSUM',

@@ -2,55 +2,55 @@ import { Controller, Get, Route, Security } from 'tsoa';
 import {
   schema as addLauncherSchema,
   uischema as addLauncherUischema,
-} from '../forms/addLauncherVersionForm';
+} from '../../resources/schemas/addLauncherVersionSchema';
 import {
   getSchema as getAddLoaderVersionSchema,
   uischema as addLoaderVersionUischema,
-} from '../forms/addLoaderVersionForm';
+} from '../../resources/schemas/addLoaderVersionSchema';
 import {
   getSchema as getAddModSchema,
   uischema as addModUischema,
-} from '../forms/addModForm';
+} from '../../resources/schemas/mod/addModSchema';
 import {
   getSchema as getAddModVersionSchema,
   uischema as addModVersionUischema,
-} from '../forms/addModVersionForm';
+} from '../../resources/schemas/modVersion/addModVersionSchema';
 import {
   schema as addRaftVersionSchema,
   uischema as addRaftVersionUischema,
-} from '../forms/addRaftVersionForm';
+} from '../../resources/schemas/raftVersion/addRaftVersionSchema';
 import {
   schema as changePasswordSchema,
   uischema as changePasswordUischema,
-} from '../forms/changePasswordForm';
+} from '../../resources/schemas/changePasswordSchema';
 import {
   schema as editModSchema,
   uischema as editModUischema,
-} from '../forms/editModForm';
+} from '../../resources/schemas/mod/editModSchema';
 import {
   schema as editRaftVersionSchema,
   uischema as editRaftVersionUischema,
-} from '../forms/editRaftVersionForm';
+} from '../../resources/schemas/raftVersion/editRaftVersionSchema';
 import {
   schema as finishAccountSchema,
   uischema as finishAccountUischema,
-} from '../forms/finishAccountForm';
+} from '../../resources/schemas/finishAccountSchema';
 import {
   schema as loginSchema,
   uischema as loginUischema,
-} from '../forms/loginForm';
+} from '../../resources/schemas/loginSchema';
 import {
   schema as resetPasswordSchema,
   uischema as resetPasswordUischema,
-} from '../forms/resetPasswordForm';
+} from '../../resources/schemas/resetPasswordSchema';
 import {
   schema as setNewPasswordSchema,
   uischema as setNewPasswordUischema,
-} from '../forms/setNewPasswordForm';
+} from '../../resources/schemas/updatePasswordSchema';
 import {
   schema as signUpSchema,
   uischema as signUpUischema,
-} from '../forms/signUpForm';
+} from '../../resources/schemas/signUpSchema';
 import { HttpStatusCode } from '../types/HttpStatusCode';
 
 @Route('/forms')

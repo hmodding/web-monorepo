@@ -13,7 +13,9 @@ import {
   Route,
   Security,
 } from 'tsoa';
-import { Role } from '../cfg';
+import { ChangePasswordDto } from '../../../shared/dto/ChangePasswordDto';
+import { LoginDto } from '../../../shared/dto/LoginDto';
+import { ResetPasswordDto } from '../../../shared/dto/ResetPasswordDto';
 import { User } from '../entities/User';
 import { ApiError } from '../errors/ApiError';
 import { mailer } from '../mailer/mailer';
@@ -22,29 +24,13 @@ import { UserService } from '../services/UserService';
 import { HttpStatusCode } from '../types/HttpStatusCode';
 import { generateToken } from '../utils';
 
-interface UserUpdateData extends Pick<User, 'password'> {
-  currentPassword: string;
-  passwordConfirm: string;
-}
-
-interface ResetPasswordCreateData {
-  recaptcha: string;
-  email: string;
-}
-
-interface LoginBody {
-  username: string;
-  password: string;
-  deviceInfo?: { [key: string]: any }; // Record<string, any> doesn't work
-}
-
 @Route('/users')
 export class UserController extends Controller {
   @Put()
   @Security('user')
   public async update(
     @Header() authtoken: string,
-    @Body() data: UserUpdateData,
+    @Body() data: ChangePasswordDto,
   ) {
     const session = await SessionService.getByToken(authtoken);
 
@@ -91,10 +77,10 @@ export class UserController extends Controller {
 
   @Post('/resetPassword')
   @Security('captcha')
-  public async createPasswordResetToken(@Body() body: ResetPasswordCreateData) {
+  public async createPasswordResetToken(@Body() body: ResetPasswordDto) {
     const user = await UserService.getByEmail(body.email);
 
-    if (!user || user.role === Role.Unfinished) {
+    if (!user || user.isAdmin) {
       // do nothing! we don't want people to find existing email with this form! (dont just trust captcha)
       this.setStatus(200);
       return {};
@@ -155,7 +141,7 @@ export class UserController extends Controller {
   @Security('everyone')
   public async login(
     @Request() request: any, // express is not exposing the type :(
-    @Body() { username, password, deviceInfo = {} }: LoginBody,
+    @Body() { username, password, deviceInfo = {} }: LoginDto,
   ) {
     try {
       const session = await UserService.login(username, password, {

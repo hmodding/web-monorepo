@@ -1,11 +1,8 @@
-import { AccountCreationCreateData } from '../controllers/AccountCreationController';
+import { AccountCreationDto } from '../../../shared/dto/AccountCreationDto';
 import { AccountCreation } from '../entities/AccountCreation';
 import { mailer } from '../mailer/mailer';
 import { AbstractService } from './AbstractService';
 import { UserService } from './UserService';
-
-interface FinishRegistrationData
-  extends Pick<AccountCreation, 'password' | 'email' | 'username'> {}
 
 export class AccountCreationService extends AbstractService {
   static getByUsernameOrEmail(username: string, email: string) {
@@ -22,8 +19,8 @@ export class AccountCreationService extends AbstractService {
    * create a new AccountCreation and send an email
    * @param data
    */
-  static create(data: AccountCreationCreateData) {
-    const accountCreation = AccountCreation.create(data);
+  static create(data: AccountCreationDto) {
+    const accountCreation = AccountCreation.create(data as AccountCreation);
 
     mailer.sendAccountCreationMail(accountCreation);
   }
@@ -34,7 +31,7 @@ export class AccountCreationService extends AbstractService {
    * @param token
    * @returns
    */
-  static finishRegistration(data: FinishRegistrationData, token: string) {
+  static finishRegistration(data: AccountCreationDto, token: string) {
     AccountCreation.delete({ token });
 
     return UserService.create(data);

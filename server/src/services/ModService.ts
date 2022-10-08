@@ -1,11 +1,12 @@
 import FileType from 'file-type';
-import { DeepPartial, FindOptionsWhere } from 'typeorm';
-import { cfg, ModCategories } from '../cfg';
-import { ModCreateData } from '../controllers/ModController';
+import { FindOptionsWhere } from 'typeorm';
+import { ModDto } from '../../../shared/dto/ModDto';
+import { modCategories } from '../../../shared/modCategories';
+import { getSchema } from '../../resources/schemas/mod/addModSchema';
+import { cfg } from '../cfg';
 import { Mod } from '../entities/Mod';
 import { User } from '../entities/User';
 import { ApiError } from '../errors/ApiError';
-import { getSchema } from '../forms/addModForm';
 import { HttpStatusCode } from '../types/HttpStatusCode';
 import { validateData } from '../utils';
 import { AbstractService } from './AbstractService';
@@ -38,7 +39,7 @@ export class ModService extends AbstractService {
   }
 
   static getCategories() {
-    return ModCategories;
+    return modCategories;
   }
 
   static async isUpdateAllowed(modId: string, user: User) {
@@ -55,7 +56,11 @@ export class ModService extends AbstractService {
     return mod?.author === username;
   }
 
-  static async create(data: ModCreateData) {
+  static async create(data: ModDto) {
+    if (!data.file) {
+      throw new ApiError(HttpStatusCode.BadRequest, 'missing file!');
+    }
+
     const buffer = Buffer.from(data.file.base64);
     const fileType = await FileType.fromBuffer(buffer);
 
@@ -63,29 +68,35 @@ export class ModService extends AbstractService {
       throw new ApiError(HttpStatusCode.Forbidden, 'file-type is not allowed!');
     }
 
+    if (!data.versions || data.versions.length > 0) {
+      throw new ApiError(HttpStatusCode.BadRequest, 'missing initial version!');
+    }
+
+    const firstVersion = data.versions[data.versions.length - 1];
+
     try {
-      const filename = `${data.id}-${data.version}.rmod`;
+      const filename = `${data.id}-${firstVersion.version}.rmod`;
       const {
         url,
         md5,
         sha256,
       }: ObjectMeta = await fileManager.createModVersionFile(
-        data.id,
-        data.version,
+        data.id!,
+        firstVersion.version!,
         filename,
         buffer,
       );
 
-      const createdMod = Mod.create(data);
+      const createdMod = Mod.create(data as Mod);
 
       await ModVersionService.create({
         modId: createdMod.id,
-        definiteMaxRaftVersion: data.definiteMaxRaftVersion,
+        definiteMaxRaftVersion: firstVersion.definiteMaxRaftVersion!,
         downloadUrl: url,
         fileHashes: { md5, sha256 },
-        version: data.version,
-        maxRaftVersionId: data.maxRaftVersionId,
-        minRaftVersionId: data.minRaftVersionId,
+        version: firstVersion.version!,
+        maxRaftVersionId: firstVersion.maxRaftVersionId,
+        minRaftVersionId: firstVersion.minRaftVersionId,
       });
       const newMod = Mod.findOne({
         where: { id: createdMod.id },
@@ -101,12 +112,8 @@ export class ModService extends AbstractService {
     }
   }
 
-  static async update(id: string, mod: DeepPartial<Mod>) {
-    const modToSave = mod as Mod;
-    modToSave.id = id;
-
-    const savedMod = await modToSave.save();
-
+  static async update(data: ModDto) {
+    const savedMod = Mod.create(data as Mod);
     return savedMod;
   }
 

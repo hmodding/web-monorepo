@@ -1,5 +1,4 @@
 import { Request } from 'express';
-import { Role } from '../cfg';
 import { reCaptchaService } from '../services/ReCaptchaService';
 import { SessionService } from '../services/SessionService';
 
@@ -65,7 +64,7 @@ const validateAuthToken = async (req: Request) => {
     const session = await SessionService.getByToken(authtoken as string);
 
     if (session && session.token === authtoken && session.user) {
-      if (session.user.role !== Role.Unfinished) {
+      if (session.user.role !== 'UNFINISHED') {
         return session;
       }
     }

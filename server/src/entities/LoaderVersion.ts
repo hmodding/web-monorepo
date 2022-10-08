@@ -1,9 +1,9 @@
 import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
-import { AbstractEntity } from './AbstractEntity';
+import { AbstractEntityWithCreatedAndUpdated } from './AbstractEntity';
 import { RaftVersion } from './RaftVersion';
 
 @Entity({ name: 'loader-versions' })
-export class LoaderVersion extends AbstractEntity {
+export class LoaderVersion extends AbstractEntityWithCreatedAndUpdated {
   @PrimaryColumn({ unique: true })
   rmlVersion!: string;
 

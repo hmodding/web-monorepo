@@ -1,4 +1,4 @@
-import { router } from '../router/_legacy/router';
+import { router } from '../../../src/router/_legacy/router';
 import {
   fileUploadAccept,
   httpS,
@@ -6,7 +6,7 @@ import {
   minMaxRaftVersion,
   modCategoriesSchema,
   slug,
-} from './_commons';
+} from '../commons.schema';
 
 const getModVersionSchema = async (): Promise<any> => ({
   type: 'object',

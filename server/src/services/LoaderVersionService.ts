@@ -1,5 +1,5 @@
 import { LoaderVersionDto } from '../../../shared/dto/LoaderVersionDto';
-import { notifier } from '../discord/DiscordNotifier';
+import { notifier } from './discord/DiscordNotifier';
 import { LoaderVersion } from '../entities/LoaderVersion';
 import { ApiError } from '../errors/ApiError';
 import { HttpStatusCode } from '../types/HttpStatusCode';

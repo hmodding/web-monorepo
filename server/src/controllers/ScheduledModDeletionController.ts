@@ -1,15 +1,11 @@
 import dayjs, { UnitTypeShort } from 'dayjs';
 import { Body, Controller, Header, Post, Route, Security } from 'tsoa';
+import { ScheduledModDeletionDto } from '../../../shared/dto/ScheduledModDeletionDto';
 import { cfg } from '../cfg';
 import { ScheduledModDeletion } from '../entities/ScheduledModDeletion';
 import { ModService } from '../services/ModService';
 import { SessionService } from '../services/SessionService';
 import { HttpStatusCode } from '../types/HttpStatusCode';
-
-type ScheduledModDeletionCreateKeys = 'modId';
-
-interface ScheduledModDeletionCreateBody
-  extends Pick<ScheduledModDeletion, ScheduledModDeletionCreateKeys> {}
 
 @Route('/scheduledModDeletions')
 export class ScheduledModDeletionController extends Controller {
@@ -17,11 +13,11 @@ export class ScheduledModDeletionController extends Controller {
   @Security('admin')
   public async create(
     @Header() authtoken: string,
-    @Body() body: ScheduledModDeletionCreateBody,
+    @Body() body: ScheduledModDeletionDto,
   ) {
     const session = await SessionService.getByToken(authtoken);
     const isDeleteAllowed = await ModService.isDeleteAllowed(
-      body.modId,
+      body.modId!,
       session!.user!,
     );
 
@@ -33,11 +29,11 @@ export class ScheduledModDeletionController extends Controller {
     const add = cfg.scheduledDeletionTime;
     const amount = Number(add.match('^\\d+')![0]);
     const unit = add.match('[A-Za-z]+$')![0] as UnitTypeShort;
-    const deletionTime = dayjs().add(amount, unit);
+    const deletionTime = dayjs().add(amount, unit).toDate();
 
     const toCreate = new ScheduledModDeletion();
-    toCreate.modId = body.modId;
-    toCreate.deletionTime;
+    toCreate.modId = body.modId!;
+    toCreate.deletionTime = deletionTime;
 
     const created = toCreate.save();
 

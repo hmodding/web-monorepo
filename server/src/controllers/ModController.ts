@@ -10,43 +10,11 @@ import {
   Route,
   Security,
 } from 'tsoa';
-import { Mod } from '../entities/Mod';
+import { ModDto } from '../../../shared/dto/ModDto';
 import { ApiError } from '../errors/ApiError';
-import { UploadFile } from '../services/LauncherVersionService';
 import { ModService } from '../services/ModService';
 import { SessionService } from '../services/SessionService';
 import { HttpStatusCode } from '../types/HttpStatusCode';
-
-type ModUpdateKeys =
-  | 'title'
-  | 'description'
-  | 'readme'
-  | 'category'
-  | 'bannerImageUrl'
-  | 'iconImageUrl'
-  | 'repositoryUrl';
-type ModCreateKeys = ModUpdateKeys | 'id';
-
-type SupportedHashes = 'md5' | 'sha256';
-
-export type FileHashes = Record<SupportedHashes, string>;
-
-interface ModCreateUpdateData {
-  minRaftVersionId: number;
-  maxRaftVersionId: number;
-  definiteMaxRaftVersion: boolean;
-  version: string;
-}
-
-export interface ModUpdateData
-  extends ModCreateUpdateData,
-    Pick<Mod, ModUpdateKeys> {}
-
-export interface ModCreateData
-  extends ModCreateUpdateData,
-    Pick<Mod, ModCreateKeys> {
-  file: UploadFile;
-}
 
 @Route('/mods')
 export class ModController extends Controller {
@@ -108,7 +76,7 @@ export class ModController extends Controller {
 
   @Post()
   @Security('user')
-  public async create(@Body() data: ModCreateData) {
+  public async create(@Body() data: ModDto) {
     const isValidData = await ModService.isValidCreateData(data);
 
     if (!isValidData) {
@@ -130,7 +98,7 @@ export class ModController extends Controller {
   public async update(
     @Header() authtoken: string,
     @Path() id: string,
-    @Body() data: ModUpdateData,
+    @Body() data: ModDto,
   ) {
     const session = (await SessionService.getByToken(authtoken))!;
 
@@ -139,6 +107,8 @@ export class ModController extends Controller {
       return { error: 'You are not the owner of the mod!' };
     }
 
-    return await ModService.update(id, data);
+    data.id = id;
+
+    return await ModService.update(data);
   }
 }

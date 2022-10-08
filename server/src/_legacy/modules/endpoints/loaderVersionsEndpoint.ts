@@ -1,5 +1,5 @@
 import finale from 'finale-rest';
-import { notifier } from '../../../discord/DiscordNotifier';
+import { notifier } from '../../../services/discord/DiscordNotifier';
 import {
   LoaderVersion,
   loaderVersionModel,

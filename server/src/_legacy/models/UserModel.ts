@@ -1,6 +1,5 @@
 import bcrypt from 'bcryptjs';
 import { DataTypes, Model } from 'sequelize';
-import { Role } from '../../cfg';
 import { sequelize } from '../../sequelize';
 import { ModBundle } from './ModBundleModel';
 import { Mod } from './ModModel';
@@ -59,5 +58,5 @@ export const userModel = sequelize.define<User>(
 );
 
 userModel.prototype.isAdmin = function (): boolean {
-  return this.getDataValue('role') === Role.Admin;
+  return this.getDataValue('role') === 'admin';
 };

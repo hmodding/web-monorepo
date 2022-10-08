@@ -1,6 +1,7 @@
+import { WithCreatedAndUpdatedDto } from './WithCreatedAndUpdatedDto';
 import { RaftVersionDto } from './RaftVersionDto';
 
-export interface LoaderVersionDto {
+export interface LoaderVersionDto extends WithCreatedAndUpdatedDto {
   rmlVersion: string;
   timestamp?: Date;
   readme?: string;

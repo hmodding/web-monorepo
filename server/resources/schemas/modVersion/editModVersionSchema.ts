@@ -1,10 +1,11 @@
-import { router } from '../router/_legacy/router';
+import { router } from '../../../src/router/_legacy/router';
 import {
+  disableRule,
   fileUploadAccept,
   markdownEditor,
   minMaxRaftVersion,
   slug,
-} from './_commons';
+} from '../commons.schema';
 
 export const getSchema = async (): Promise<any> => ({
   type: 'object',
@@ -12,8 +13,8 @@ export const getSchema = async (): Promise<any> => ({
     version: {
       type: 'string',
       ...slug.schema,
-      title: 'Mod Version',
-      description: `Must be a <a href="https://api.raftmodding.com/website/slugs" target="_blank" tabindex="-1">slug</a> and can thus only contain lowercase characters, numbers, dashes, underscores and dots.`,
+      title: 'Mod version',
+      description: `You can not change version numbers. <b>Please add a new version if you need a new version name<b>.`,
     },
     ...(await minMaxRaftVersion.getSchema()),
     changelog: {
@@ -24,10 +25,10 @@ export const getSchema = async (): Promise<any> => ({
     file: {
       type: 'object',
       title: 'Mod file',
-      description: `Upload your mod file. If your mod needs to ship with multiple files, please follow our guide on <a href="https://api.raftmodding.com/website/mods-with-multiple-files" target="_blank">structuring your mod</a>.`,
+      description: `You can not change version numbers. <b>Please add a new version if you need a new version name<b>.`,
     },
   },
-  required: ['version', 'minRaftVersionId', 'maxRaftVersionId', 'file'],
+  required: ['version', 'minRaftVersionId', 'maxRaftVersionId', 'modFile'],
 });
 
 export const uischema = {
@@ -36,9 +37,7 @@ export const uischema = {
     {
       type: 'Control',
       scope: '#/properties/version',
-      options: {
-        focus: true,
-      },
+      ...disableRule,
     },
     ...minMaxRaftVersion.uischema,
     {
@@ -56,11 +55,12 @@ export const uischema = {
         file: true,
         ...fileUploadAccept,
       },
+      ...disableRule,
     },
   ],
 };
 
-router.get('/forms/addModVersion', async (req: any, res: any) => {
+router.get('/forms/editModVersion', async (req: any, res: any) => {
   res.status(200).send({
     schema: await getSchema(),
     uischema,

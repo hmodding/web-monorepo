@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import FileType from 'file-type';
 import { ajv } from '../../../ajv';
-import { cfg, Role } from '../../../cfg';
+import { cfg } from '../../../cfg';
 import {
   FileManagerService,
   ObjectMeta,
@@ -43,7 +43,7 @@ export async function validateAuthToken(
     const session = await extractSession(req);
 
     if (session && session.token === authtoken && session.user) {
-      if (allowUnfinished || session.user.role !== Role.Unfinished) {
+      if (allowUnfinished || session.user.role !== 'UNFINISHED') {
         return session;
       }
     }
@@ -72,7 +72,7 @@ export async function validateModOwnership(
     const { [modIdParamKey]: id } = req.params;
     let foundMod;
 
-    if (role === Role.Admin) {
+    if (role === 'admin') {
       foundMod = await modModel.findOne({ where: { id } });
     } else {
       foundMod = await modModel.findOne({ where: { id, author } });

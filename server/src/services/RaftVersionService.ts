@@ -2,8 +2,8 @@ import dayjs from 'dayjs';
 import { RaftVersionDto } from '../../../shared/dto/RaftVersionDto';
 import { RaftVersion } from '../entities/RaftVersion';
 import { ApiError } from '../errors/ApiError';
-import { schema as addRaftVersionSchema } from '../forms/addRaftVersionForm';
-import { schema as editRaftVersionSchema } from '../forms/editRaftVersionForm';
+import { schema as addRaftVersionSchema } from '../../resources/schemas/raftVersion/addRaftVersionSchema';
+import { schema as editRaftVersionSchema } from '../../resources/schemas/raftVersion/editRaftVersionSchema';
 import { HttpStatusCode } from '../types/HttpStatusCode';
 import { validateData } from '../utils';
 import { AbstractService } from './AbstractService';
@@ -38,13 +38,13 @@ export class RaftVersionService extends AbstractService {
     return createdRaftVersion;
   }
 
-  static async update(id: number, data: RaftVersionUpdateData) {
-    const raftVersionToUpdate = await RaftVersion.findOneBy({ id });
+  static async update(data: RaftVersionDto) {
+    const raftVersionToUpdate = await RaftVersion.findOneBy({ id: data.id });
 
     if (!raftVersionToUpdate) {
       throw new ApiError(
         HttpStatusCode.NotFound,
-        `Couldn't find a raft-version with id: ${id}`,
+        `Couldn't find a raft-version with id: ${data.id}`,
       );
     }
 

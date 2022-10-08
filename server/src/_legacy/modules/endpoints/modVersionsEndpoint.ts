@@ -1,7 +1,7 @@
 import finale from 'finale-rest';
 import { modModel, ModVersion, modVersionModel } from '../../models';
-import notifier from '../../../discord/DiscordNotifier';
-import { getSchema as getModVersionSchema } from '../../../forms/addModVersionForm';
+import notifier from '../../../services/discord/DiscordNotifier';
+import { getSchema as getModVersionSchema } from '../../../../resources/schemas/modVersion/addModVersionSchema';
 import {
   validateAndWriteModFile,
   validateModOwnership,

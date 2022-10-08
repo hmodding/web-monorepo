@@ -1,8 +1,8 @@
 import { AxiosError } from 'axios';
-import { cfg, DiscordNotificationsCfg } from '../cfg';
-import { LauncherVersion } from '../entities/LauncherVersion';
-import { LoaderVersion } from '../entities/LoaderVersion';
-import { ModVersion } from '../entities/ModVersion';
+import { cfg, DiscordNotificationsCfg } from '../../cfg';
+import { LauncherVersion } from '../../entities/LauncherVersion';
+import { LoaderVersion } from '../../entities/LoaderVersion';
+import { ModVersion } from '../../entities/ModVersion';
 import {
   getLauncherVersionUrl,
   getLoaderVersionUrl,
@@ -10,12 +10,12 @@ import {
   getUserUrlForUsername,
   logoUrl,
   softwareDownloadUrl,
-} from '../utils';
+} from '../../utils';
 import {
   LauncherVersion as LauncherVersionModel,
   LoaderVersion as LoaderVersionModel,
   ModVersion as ModVersionModel,
-} from '../_legacy/models';
+} from '../../_legacy/models';
 import {
   DiscordWebhookClient,
   Embed,

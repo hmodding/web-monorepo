@@ -1,10 +1,10 @@
 import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
-import { AbstractEntity } from './AbstractEntity';
+import { AbstractEntityWithCreatedAndUpdated } from './AbstractEntity';
 import { Mod } from './Mod';
 import { User } from './User';
 
 @Entity({ name: 'ModLikes' })
-export class ModLike extends AbstractEntity {
+export class ModLike extends AbstractEntityWithCreatedAndUpdated {
   @PrimaryColumn({ unique: true })
   userId!: number;
 

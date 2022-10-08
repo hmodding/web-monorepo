@@ -9,12 +9,10 @@ import {
   Route,
   Security,
 } from 'tsoa';
-import { ModLike } from '../entities/ModLike';
+import { ModLikeDto } from '../../../shared/dto/ModLikeDto';
 import { ModLikeService } from '../services/ModLikeService';
 import { SessionService } from '../services/SessionService';
 import { HttpStatusCode } from '../types/HttpStatusCode';
-
-interface ModLikeCreateData extends Pick<ModLike, 'modId'> {}
 
 @Route('/modLikes')
 export class ModLikeController extends Controller {
@@ -35,10 +33,10 @@ export class ModLikeController extends Controller {
   @Security('user')
   public async create(
     @Header() authtoken: string,
-    @Body() { modId }: ModLikeCreateData,
+    @Body() { modId }: ModLikeDto,
   ) {
     const session = await SessionService.getByToken(authtoken);
-    const modLike = ModLikeService.create(modId, session!.user!.id);
+    const modLike = ModLikeService.create(modId!, session!.user!.id);
 
     this.setStatus(201);
     return modLike;
@@ -54,6 +52,6 @@ export class ModLikeController extends Controller {
 
     await ModLikeService.delete(modId, session!.user!.id);
 
-    return { sucess: true };
+    return { success: true };
   }
 }

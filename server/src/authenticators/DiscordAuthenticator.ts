@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
-import cfg, { Role } from '../cfg';
+import cfg from '../cfg';
 import { generateToken } from '../utils';
 import {
   DiscordSignOn,
@@ -119,7 +119,7 @@ export class DiscordAuthenticator {
       username: `discord-user-${discordUserId}`,
       email: generateToken(discordUserId, 255),
       password: generateToken(null, 255),
-      role: Role.Unfinished,
+      role: 'UNFINISHED',
     })) as User;
 
     const discordLogin = await discordSignOnModel.create({

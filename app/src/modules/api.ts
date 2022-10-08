@@ -1,6 +1,7 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { NotyfEvent } from 'notyf';
 import { LoaderVersionDto } from '../../../shared/dto/LoaderVersionDto';
+import { ModDto } from '../../../shared/dto/ModDto';
 import { LOCAL_STORAGE_SESSION } from '../const';
 import {
   FormResponse,
@@ -302,7 +303,7 @@ class Api {
     return [];
   }
 
-  async getMods(params = null): Promise<Mod[]> {
+  async getMods(params = null): Promise<ModDto[]> {
     try {
       const { data }: AxiosResponse = await this.axios.get(`/mods`, {
         params,
@@ -331,9 +332,9 @@ class Api {
     return null;
   }
 
-  async addMod(mod: Mod): Promise<Mod> {
+  async addMod(mod: ModDto) {
     try {
-      const { data } = await this.axios.post('/mods', mod);
+      const { data } = await this.axios.post<ModDto>('/mods', mod);
       return data;
     } catch ({ response }) {
       const {
@@ -346,7 +347,7 @@ class Api {
     return null;
   }
 
-  async updateMod(mod: Mod): Promise<Mod> {
+  async updateMod(mod: ModDto): Promise<ModDto> {
     try {
       const { data } = await this.axios.put(`/mods/${mod.id}`, mod);
       return data;

@@ -1,5 +1,5 @@
-import { router } from '../router/_legacy/router';
-import { mail, username } from './_commons';
+import { router } from '../../src/router/_legacy/router';
+import { password, username } from './commons.schema';
 
 export const schema = {
   type: 'object',
@@ -9,13 +9,12 @@ export const schema = {
       title: 'Username',
       ...username.schema,
     },
-    email: {
+    password: {
       type: 'string',
-      title: 'E-Mail',
-      ...mail.schema,
+      title: 'Password',
     },
   },
-  required: ['username', 'email'],
+  required: ['username', 'password'],
 };
 
 export const uischema = {
@@ -30,15 +29,13 @@ export const uischema = {
     },
     {
       type: 'Control',
-      scope: '#/properties/email',
-      options: {
-        placeholder: 'your@mail.com',
-      },
+      scope: '#/properties/password',
+      ...password.uischema,
     },
   ],
 };
 
-router.get('/forms/finishAccount', async (req: any, res: any) => {
+router.get('/forms/login', async (req: any, res: any) => {
   res.status(200).send({
     schema,
     uischema,

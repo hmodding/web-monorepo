@@ -1,20 +1,15 @@
 import { Body, Controller, Delete, Path, Post, Route, Security } from 'tsoa';
-import { AccountCreation } from '../entities/AccountCreation';
+import { AccountCreationDto } from '../../../shared/dto/AccountCreationDto';
 import { AccountCreationService } from '../services/AccountCreationService';
-
-export interface AccountCreationCreateData
-  extends Pick<AccountCreation, 'username' | 'email' | 'password'> {
-  recaptcha: string;
-}
 
 @Route('/accountCreations')
 export class AccountCreationController extends Controller {
   @Post()
   @Security('captcha')
-  public async create(@Body() data: AccountCreationCreateData) {
+  public async create(@Body() data: AccountCreationDto) {
     const { username, email } = data;
 
-    if (await AccountCreationService.alreadyExists(username, email)) {
+    if (await AccountCreationService.alreadyExists(username!, email!)) {
       this.setStatus(400);
       return { error: 'Username or E-Mail is already taken!' };
     }

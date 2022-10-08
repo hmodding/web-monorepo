@@ -1,6 +1,6 @@
 import { hashSync } from 'bcryptjs';
 import { BeforeUpdate, Column, Entity, ManyToMany, OneToMany } from 'typeorm';
-import { Role } from '../cfg';
+import { UserRole } from '../../../shared/types/UserRole';
 import { AbstractEntityWithGeneratedId } from './AbstractEntityWithGeneratedId';
 import { Mod } from './Mod';
 import { ModBundle } from './ModBundle';
@@ -19,7 +19,7 @@ export class User extends AbstractEntityWithGeneratedId {
   password!: string;
 
   @Column()
-  role!: string;
+  role!: UserRole;
 
   @OneToMany(() => UserPrivilege, (privileges) => privileges.username)
   privileges!: UserPrivilege[];
@@ -43,6 +43,6 @@ export class User extends AbstractEntityWithGeneratedId {
   //helpers
 
   get isAdmin(): boolean {
-    return this.role === Role.Admin; //TODO: check privileges too;
+    return this.role === 'admin'; //TODO: check privileges too;
   }
 }

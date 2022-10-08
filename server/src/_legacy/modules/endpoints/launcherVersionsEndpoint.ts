@@ -1,6 +1,6 @@
 import finale from 'finale-rest';
 import { cfg } from '../../../cfg';
-import { notifier } from '../../../discord/DiscordNotifier';
+import { notifier } from '../../../services/discord/DiscordNotifier';
 import { FileManagerService } from '../../../services/FileManagerService';
 import { LauncherVersion, launcherVersionModel } from '../../models';
 import { validateAdminPrivileges } from './_commons';

@@ -8,31 +8,10 @@ import {
   Route,
   Security,
 } from 'tsoa';
-import { ModVersion } from '../entities/ModVersion';
+import { ModVersionDto } from '../../../shared/dto/ModVersionDto';
 import { ModVersionService } from '../services/ModVersionService';
 import { SessionService } from '../services/SessionService';
 import { HttpStatusCode } from '../types/HttpStatusCode';
-import { FileHashes } from './ModController';
-
-type ModVersionCreateUpdateKeys =
-  | 'version'
-  | 'minRaftVersionId'
-  | 'maxRaftVersionId'
-  | 'definiteMaxRaftVersion';
-type ModVersionCreateKeys =
-  | ModVersionCreateUpdateKeys
-  | 'modId'
-  | 'downloadUrl';
-
-type ModVersionUpdateKeys = ModVersionCreateUpdateKeys | 'changelog';
-
-export interface ModVersionCreateData
-  extends Pick<ModVersion, ModVersionCreateKeys> {
-  fileHashes: FileHashes;
-}
-
-export interface ModVersionUpdateData
-  extends Pick<ModVersion, ModVersionUpdateKeys> {}
 
 @Route('/modVersions')
 export class ModVersionController extends Controller {
@@ -40,11 +19,11 @@ export class ModVersionController extends Controller {
   @Security('user')
   public async create(
     @Header() authtoken: string,
-    @Body() data: ModVersionCreateData,
+    @Body() data: ModVersionDto,
   ) {
     const session = await SessionService.getByToken(authtoken);
     const isCreateAllowed = await ModVersionService.isCreateAllowed(
-      data.modId,
+      data.modId!,
       session!.user!,
     );
 
@@ -64,11 +43,11 @@ export class ModVersionController extends Controller {
   public async update(
     @Header() authtoken: string,
     @Path() id: number,
-    @Body() data: ModVersionUpdateData,
+    @Body() data: ModVersionDto,
   ) {
     const session = await SessionService.getByToken(authtoken);
+    session!.user!.id = id;
     const isUpdateAllowed = await ModVersionService.isUpdateAllowed(
-      id,
       session!.user!,
     );
 

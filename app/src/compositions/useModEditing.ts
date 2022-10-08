@@ -1,9 +1,9 @@
 import { computed, Ref, ref, watch } from 'vue';
 import { useActiveMeta } from 'vue-meta';
 import { useRoute } from 'vue-router';
-import { Mod } from '../types';
 import api from '../modules/api';
 import { state } from '../modules/stateManager';
+import { Mod } from '../types';
 import { nullToUndefined, slugify } from '../utils';
 import useRouteLeaveConfirm from './useRouteLeaveConfirm';
 
@@ -20,7 +20,7 @@ export default function (create = false) {
   const loading: Ref<boolean> = ref(false);
   const showErrors: Ref<boolean> = ref(false);
   const mod: Ref<ExtendedMod> = ref({} as ExtendedMod);
-  const errors = ref(null);
+  const errors = ref<any[]>([]);
 
   (async () => {
     if (route.params.id) {
@@ -74,7 +74,7 @@ export default function (create = false) {
 
   const errorCount = computed(() => Object.keys(errors.value));
 
-  function onChange(event: { data: object; errors: any[] }) {
+  function onChange(event: { data: Record<string, any>; errors: any[] }) {
     if (JSON.stringify(event.data) !== JSON.stringify(mod.value)) {
       routeLeaveConfirm.hasUnsavedChanges.value = true;
     }

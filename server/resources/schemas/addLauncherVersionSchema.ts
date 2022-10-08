@@ -1,5 +1,5 @@
-import { router } from '../router/_legacy/router';
-import { markdownEditor, slug } from './_commons';
+import { router } from '../../src/router/_legacy/router';
+import { markdownEditor, slug } from './commons.schema';
 
 export const schema = {
   type: 'object',

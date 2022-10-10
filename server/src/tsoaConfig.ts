@@ -3,7 +3,7 @@ import { cfg } from './cfg';
 
 const entryFile = `${__dirname}/app.ts`;
 const basePath = cfg.apiBase;
-const noImplicitAdditionalProperties = 'throw-on-extras';
+const noImplicitAdditionalProperties = 'silently-remove-extras';
 const controllerPathGlobs = [`${__dirname}/controllers/**/*Controller.ts`];
 
 /**

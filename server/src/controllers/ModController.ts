@@ -10,8 +10,7 @@ import {
   Route,
   Security,
 } from 'tsoa';
-import { ModCreateDto } from '../../../shared/dto/ModCreateDto';
-import { ModDto } from '../../../shared/dto/ModDto';
+import { ModCreateDto, ModUpdateDto } from '../../../shared/dto/ModDto';
 import { ApiError } from '../errors/ApiError';
 import { ModService } from '../services/ModService';
 import { SessionService } from '../services/SessionService';
@@ -97,7 +96,7 @@ export class ModController extends Controller {
   public async update(
     @Header() authtoken: string,
     @Path() id: string,
-    @Body() data: ModDto,
+    @Body() data: ModUpdateDto,
   ) {
     const session = (await SessionService.getByToken(authtoken))!;
 

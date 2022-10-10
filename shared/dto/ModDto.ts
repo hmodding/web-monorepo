@@ -1,3 +1,4 @@
+import { FileDto } from './FileDto';
 import { ModVersionDto } from './ModVersionDto';
 import { ScheduledModDeletionDto } from './ScheduledModDeletionDto';
 import { WithCreatedAndUpdatedDto } from './WithCreatedAndUpdatedDto';
@@ -16,3 +17,13 @@ export interface ModDto extends WithCreatedAndUpdatedDto {
   deletion?: ScheduledModDeletionDto;
   likeCount?: number;
 }
+
+export interface ModCreateDto extends ModDto {
+  version: string;
+  minRaftVersionId: number;
+  maxRaftVersionId: number;
+  definiteMaxRaftVersion?: boolean;
+  file: FileDto;
+}
+
+export interface ModUpdateDto extends Omit<ModDto, 'versions'> {}

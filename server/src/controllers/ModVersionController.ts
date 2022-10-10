@@ -9,8 +9,10 @@ import {
   Route,
   Security,
 } from 'tsoa';
-import { ModVersionCreateDto } from '../../../shared/dto/ModVersionCreateDto';
-import { ModVersionDto } from '../../../shared/dto/ModVersionDto';
+import {
+  ModVersionCreateDto,
+  ModVersionDto,
+} from '../../../shared/dto/ModVersionDto';
 import { ModVersion } from '../entities/ModVersion';
 import { ModVersionService } from '../services/ModVersionService';
 import { SessionService } from '../services/SessionService';

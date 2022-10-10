@@ -99,15 +99,15 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
+import { useModEditing } from '../compositions';
 import api from '../modules/api';
 import toaster from '../modules/toaster';
-import { useModEditing } from '../compositions';
 
-import Icon from '../components/Icon.vue';
 import ApiProvidedForm from '../components/ApiProvidedForm.vue';
-import ModDetails from '../components/ModDetails.vue';
+import Icon from '../components/Icon.vue';
 import ConfirmModal from '../components/modals/ConfirmModal.vue';
 import ModDangerZone from '../components/ModDangerZoner.vue';
+import ModDetails from '../components/ModDetails.vue';
 
 export default defineComponent({
   name: 'EditModPage',
@@ -128,6 +128,7 @@ export default defineComponent({
       if (!this.loading) {
         this.loading = true;
         this.showErrors = true;
+        delete this.mod.versions;
         const updatedMod = await api.updateMod(this.mod);
         if (!!updatedMod) {
           this.hasUnsavedChanges = false;

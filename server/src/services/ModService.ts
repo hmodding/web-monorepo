@@ -1,6 +1,5 @@
 import { FindOptionsWhere } from 'typeorm';
-import { ModCreateDto } from '../../../shared/dto/ModCreateDto';
-import { ModDto } from '../../../shared/dto/ModDto';
+import { ModCreateDto, ModDto } from '../../../shared/dto/ModDto';
 import { modCategories } from '../../../shared/modCategories';
 import { getSchema } from '../../resources/schemas/mod/addModSchema';
 import { Mod } from '../entities/Mod';
@@ -96,8 +95,9 @@ export class ModService extends AbstractService {
   }
 
   static async update(data: ModDto) {
-    const savedMod = Mod.create(data);
-    return savedMod;
+    const mod = Mod.create(data);
+    await Mod.save(mod);
+    return mod;
   }
 
   static async isValidCreateData(data: ModCreateDto) {

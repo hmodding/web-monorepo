@@ -1,6 +1,8 @@
 import FileType from 'file-type';
-import { ModVersionCreateDto } from '../../../shared/dto/ModVersionCreateDto';
-import { ModVersionDto } from '../../../shared/dto/ModVersionDto';
+import {
+  ModVersionCreateDto,
+  ModVersionDto,
+} from '../../../shared/dto/ModVersionDto';
 import { cfg } from '../cfg';
 import { ModVersion } from '../entities/ModVersion';
 import { RaftVersion } from '../entities/RaftVersion';

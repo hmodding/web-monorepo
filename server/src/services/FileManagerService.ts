@@ -103,12 +103,10 @@ export class FileManagerService {
   ): Promise<ObjectMeta> {
     const bucket = this.cfg.storage.publicBucket;
     const sha256 = this.hashSha256(fileContents);
-    let md5 = '';
+    let md5 = this.hashMd5(fileContents);
 
     if (this.client) {
-      md5 = (
         await this.client.putObject(bucket, filePath, fileContents)
-      ).toString();
     } else {
       console.warn(
         '    ❗ No storage client configured! Nothing was uploaded!',
@@ -129,6 +127,15 @@ export class FileManagerService {
    */
   private hashSha256(fileContents: Buffer): string {
     return createHash('sha256').update(fileContents).digest('hex');
+  }
+
+  /**
+   * Creates a MD5 hash code for a given file.
+   * @param fileContents a buffer that holds the file content to hash
+   * @returns the MD5 hash code of the file
+   */
+  private hashMd5(fileContents: Buffer): string {
+    return createHash('md5').update(fileContents).digest('hex');
   }
 
   /**

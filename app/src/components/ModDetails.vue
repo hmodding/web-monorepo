@@ -39,9 +39,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, watch } from 'vue';
+import { defineComponent, PropType } from 'vue';
 // noinspection TypeScriptCheckImport
 import VueMarkdownIt from 'vue3-markdown-it';
+import { ModDto } from '../../../shared/dto/ModDto';
 import defaultBanner from '../assets/images/banner-default.jpg';
 import { useMod } from '../compositions';
 import { modDetails } from '../_legacy';
@@ -60,7 +61,10 @@ export default defineComponent({
     VueMarkdownIt,
   },
   props: {
-    mod: Object,
+    mod: {
+      type: Object as PropType<ModDto>,
+      required: true,
+    },
     preview: Boolean,
   },
   emits: ['like'],

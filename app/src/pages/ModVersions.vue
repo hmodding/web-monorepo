@@ -1,6 +1,6 @@
 <template>
   <div class="container" v-if="mod">
-    <mod-header :mod="mod" @toggle-like="onToggleLike" />
+    <mod-header :mod="mod" @like="onToggleLike" />
     <section class="my-3">
       <div class="row">
         <div class="col-sm-9 my-3">
@@ -21,11 +21,12 @@
 import { defineComponent, Ref, ref } from 'vue';
 import { useActiveMeta } from 'vue-meta';
 import { useRoute } from 'vue-router';
-import { Mod } from '../types';
+import { ModDto } from '../../../shared/dto/ModDto';
 import ModDetails from '../components/ModDetails.vue';
 import ModHeader from '../components/ModHeader.vue';
 import ModRightTable from '../components/ModRightTable.vue';
 import ModVersionDetails from '../components/ModVersionDetails.vue';
+import { useLikes } from '../compositions';
 import api from '../modules/api';
 
 export default defineComponent({
@@ -38,16 +39,17 @@ export default defineComponent({
   },
   setup() {
     const meta = useActiveMeta();
-    const mod: Ref<Mod> = ref(null);
+    const mod: Ref<ModDto | null> = ref(null);
 
     (async () => {
       const route = useRoute();
       mod.value = await api.getMod(route.params.id as string);
-      meta.title = `${mod.value.title} versions`;
+      meta.title = `${mod.value?.title} versions`;
     })();
 
     return {
       mod,
+      ...useLikes(mod)
     };
   },
 });

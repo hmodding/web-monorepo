@@ -1,10 +1,9 @@
 import { ModVersionDto } from './ModVersionDto';
 import { ScheduledModDeletionDto } from './ScheduledModDeletionDto';
-import { UserDto } from './UserDto';
 import { WithCreatedAndUpdatedDto } from './WithCreatedAndUpdatedDto';
 
 export interface ModDto extends WithCreatedAndUpdatedDto {
-  id?: string;
+  id: string;
   title?: string;
   description?: string;
   readme?: string;
@@ -15,5 +14,5 @@ export interface ModDto extends WithCreatedAndUpdatedDto {
   repositoryUrl?: string;
   versions?: ModVersionDto[];
   deletion?: ScheduledModDeletionDto;
-  likes?: UserDto[];
+  likeCount: number;
 }

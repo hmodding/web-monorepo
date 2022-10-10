@@ -1,18 +1,20 @@
 import { Ref } from 'vue';
-import { Mod } from '../types';
+import { ModDto } from '../../../shared/dto/ModDto';
 
-const useLikes = (mod: Ref<Mod>) => {
-  function onToggleLike(isLiked: boolean) {
-    if (isLiked) {
-      mod.value.likeCount++;
-    } else {
-      mod.value.likeCount--;
+export const useLikes = (mod: Ref<ModDto | null>) => {
+  const onToggleLike = (isLiked: boolean) => {
+    console.log('onToggleLike', isLiked, mod.value?.likeCount);
+    if (mod.value) {
+      if (isLiked) {
+        mod.value.likeCount++;
+      } else {
+        mod.value.likeCount--;
+      }
     }
-  }
+  };
 
   return {
     onToggleLike,
   };
 };
 
-export default useLikes;

@@ -8,7 +8,7 @@
 import { defineComponent, Ref, ref } from 'vue';
 import { useActiveMeta } from 'vue-meta';
 import { useRoute, useRouter } from 'vue-router';
-import { Mod } from '../types';
+import { ModDto } from '../../../shared/dto/ModDto';
 import ModDetails from '../components/ModDetails.vue';
 import { useLikes } from '../compositions';
 import api from '../modules/api';
@@ -23,7 +23,7 @@ export default defineComponent({
     ModDetails,
   },
   setup() {
-    const mod: Ref<Mod> = ref(null);
+    const mod: Ref<ModDto | null> = ref(null);
     const meta = useActiveMeta();
 
     (async () => {
@@ -37,9 +37,9 @@ export default defineComponent({
         toaster.error(`Mod ${modId} not found`);
       }
 
-      meta.title = mod.value.title;
-      meta.description = mod.value.description;
-      meta.og.image = mod.value.bannerImageUrl || VITE_META_BANNER;
+      meta.title = mod.value?.title;
+      meta.description = mod.value?.description;
+      meta.og.image = mod.value?.bannerImageUrl || VITE_META_BANNER;
     })();
 
     return {

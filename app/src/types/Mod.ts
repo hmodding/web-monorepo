@@ -1,4 +1,3 @@
-import User from './User';
 import ModVersion from './ModVersion';
 import ScheduledModDeletion from './ScheduledModDeletion';
 
@@ -13,6 +12,6 @@ export default interface Mod {
   iconImageUrl?: string;
   repositoryUrl?: string;
   versions?: ModVersion[];
-  likeCount?: number;
+  likeCount: number;
   deletion?: ScheduledModDeletion;
 }

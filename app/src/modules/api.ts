@@ -315,9 +315,11 @@ class Api {
     return [];
   }
 
-  async getMod(id: string): Promise<Mod> {
+  async getMod(id: string) {
     try {
-      const { data }: AxiosResponse = await this.axios.get(`/mods/${id}`);
+      const { data }: AxiosResponse = await this.axios.get<ModDto>(
+        `/mods/${id}`,
+      );
       return data;
     } catch ({ response }) {
       const {
@@ -364,10 +366,7 @@ class Api {
 
   async addModVersion(modId: number, version: ModVersion): Promise<ModVersion> {
     try {
-      const { data } = await this.axios.post(
-        `/mods/${modId}/versions`,
-        version,
-      );
+      const { data } = await this.axios.post(`/modversions/${modId}`, version);
       return data;
     } catch ({ response }) {
       const {

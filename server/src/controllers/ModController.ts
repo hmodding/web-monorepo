@@ -67,12 +67,7 @@ export class ModController extends Controller {
       return;
     }
 
-    const likeCount = mod?.likes;
-
-    return {
-      ...mod,
-      likeCount,
-    };
+    return mod;
   }
 
   @Post()

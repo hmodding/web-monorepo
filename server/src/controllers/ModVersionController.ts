@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   Header,
   Path,
   Post,
@@ -9,12 +10,19 @@ import {
   Security,
 } from 'tsoa';
 import { ModVersionDto } from '../../../shared/dto/ModVersionDto';
+import { ModVersion } from '../entities/ModVersion';
 import { ModVersionService } from '../services/ModVersionService';
 import { SessionService } from '../services/SessionService';
 import { HttpStatusCode } from '../types/HttpStatusCode';
 
 @Route('/modVersions')
 export class ModVersionController extends Controller {
+  @Get('/{id}')
+  @Security('everyone')
+  public async read(@Path() id: number) {
+    return ModVersion.findBy({ id });
+  }
+
   @Post()
   @Security('user')
   public async create(

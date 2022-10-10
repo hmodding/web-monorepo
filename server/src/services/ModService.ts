@@ -23,10 +23,27 @@ export class ModService extends AbstractService {
   }
 
   static async getById(id: string, sort?: string) {
-    return await Mod.findOne({
+    const mod = await Mod.findOne({
       where: { id },
-      relations: ['versions', 'likes'],
+      select: [
+        'id',
+        'author',
+        'bannerImageUrl',
+        'iconImageUrl',
+        'category',
+        'description',
+        'readme',
+        'title',
+      ],
+      relations: {
+        versions: {},
+        likes: true,
+      },
     });
+    const modDto = (mod as unknown) as ModDto;
+    modDto.likeCount = mod?.likes?.length || 0;
+
+    return modDto;
   }
 
   static async getMostLiked(limit: number = 3) {
@@ -109,7 +126,7 @@ export class ModService extends AbstractService {
   }
 
   static async update(data: ModDto) {
-    const savedMod = Mod.create(data as Mod);
+    const savedMod = Mod.create(data);
     return savedMod;
   }
 

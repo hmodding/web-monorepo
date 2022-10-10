@@ -8,29 +8,9 @@ import {
   uischema as addLoaderVersionUischema,
 } from '../../resources/schemas/addLoaderVersionSchema';
 import {
-  getSchema as getAddModSchema,
-  uischema as addModUischema,
-} from '../../resources/schemas/mod/addModSchema';
-import {
-  getSchema as getAddModVersionSchema,
-  uischema as addModVersionUischema,
-} from '../../resources/schemas/modVersion/addModVersionSchema';
-import {
-  schema as addRaftVersionSchema,
-  uischema as addRaftVersionUischema,
-} from '../../resources/schemas/raftVersion/addRaftVersionSchema';
-import {
   schema as changePasswordSchema,
   uischema as changePasswordUischema,
 } from '../../resources/schemas/changePasswordSchema';
-import {
-  schema as editModSchema,
-  uischema as editModUischema,
-} from '../../resources/schemas/mod/editModSchema';
-import {
-  schema as editRaftVersionSchema,
-  uischema as editRaftVersionUischema,
-} from '../../resources/schemas/raftVersion/editRaftVersionSchema';
 import {
   schema as finishAccountSchema,
   uischema as finishAccountUischema,
@@ -40,17 +20,38 @@ import {
   uischema as loginUischema,
 } from '../../resources/schemas/loginSchema';
 import {
+  getSchema as getAddModSchema,
+  uischema as addModUischema,
+} from '../../resources/schemas/mod/addModSchema';
+import {
+  schema as editModSchema,
+  uischema as editModUischema,
+} from '../../resources/schemas/mod/editModSchema';
+import {
+  getSchema as getAddModVersionSchema,
+  uischema as addModVersionUischema,
+} from '../../resources/schemas/modVersion/addModVersionSchema';
+import { getSchema as getEditModVersionSchema } from '../../resources/schemas/modVersion/editModVersionSchema';
+import {
+  schema as addRaftVersionSchema,
+  uischema as addRaftVersionUischema,
+} from '../../resources/schemas/raftVersion/addRaftVersionSchema';
+import {
+  schema as editRaftVersionSchema,
+  uischema as editRaftVersionUischema,
+} from '../../resources/schemas/raftVersion/editRaftVersionSchema';
+import {
   schema as resetPasswordSchema,
   uischema as resetPasswordUischema,
 } from '../../resources/schemas/resetPasswordSchema';
 import {
-  schema as setNewPasswordSchema,
-  uischema as setNewPasswordUischema,
-} from '../../resources/schemas/updatePasswordSchema';
-import {
   schema as signUpSchema,
   uischema as signUpUischema,
 } from '../../resources/schemas/signUpSchema';
+import {
+  schema as setNewPasswordSchema,
+  uischema as setNewPasswordUischema,
+} from '../../resources/schemas/updatePasswordSchema';
 import { HttpStatusCode } from '../types/HttpStatusCode';
 
 @Route('/forms')
@@ -121,6 +122,16 @@ export class FormController extends Controller {
     this.setStatus(HttpStatusCode.Ok);
     return {
       schema: editModSchema,
+      uischema: editModUischema,
+    };
+  }
+
+  @Get('/editModVersion')
+  @Security('everyone')
+  public async editModVersion() {
+    this.setStatus(HttpStatusCode.Ok);
+    return {
+      schema: await getEditModVersionSchema(),
       uischema: editModUischema,
     };
   }

@@ -1,5 +1,4 @@
 import { modCategories } from '../../../../shared/modCategories';
-import { router } from '../../../src/router/_legacy/router';
 import { disableRule, httpS, slug } from '../commons.schema';
 
 export const schema = {
@@ -105,10 +104,3 @@ export const uischema = {
     },
   ],
 };
-
-router.get('/forms/editMod', async (req: any, res: any) => {
-  res.status(200).send({
-    schema,
-    uischema,
-  });
-});

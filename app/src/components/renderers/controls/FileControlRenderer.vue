@@ -32,15 +32,15 @@
 
 <script lang="ts">
 import {
-  and,
-  ControlElement,
-  isObjectControl,
-  JsonFormsRendererRegistryEntry,
-  optionIs,
-  rankWith,
+and,
+ControlElement,
+isObjectControl,
+JsonFormsRendererRegistryEntry,
+optionIs,
+rankWith
 } from '@jsonforms/core';
 import { rendererProps, useJsonFormsControl } from '@jsonforms/vue';
-import { defineComponent, ref, Ref } from 'vue';
+import { defineComponent, ref } from 'vue';
 import Icon from '../../Icon.vue';
 import { toBase64 } from '../styles';
 import { useVanillaControl } from '../util';
@@ -76,6 +76,7 @@ const controlRenderer = defineComponent({
         file = files[0];
         this.filename = `&#8230;/${file.name}`;
         value = await toBase64(file);
+        console.log(value);
       }
       return this.onChange({
         target: { _$base64: value, _$name: file.name || null, value },

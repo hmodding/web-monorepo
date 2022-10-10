@@ -25,7 +25,6 @@ export class ModVersionService extends AbstractService {
     });
     delete data.minRaftVersionId;
     delete data.maxRaftVersionId;
-    console.log('#####################', data);
     const modVersionToCreate = ModVersion.create(data);
     modVersionToCreate.changelog = 'This is the first version';
     modVersionToCreate.downloadCount = 0;

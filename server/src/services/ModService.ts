@@ -11,7 +11,7 @@ import { ApiError } from '../errors/ApiError';
 import { HttpStatusCode } from '../types/HttpStatusCode';
 import { validateData } from '../utils';
 import { AbstractService } from './AbstractService';
-import { fileManager, ObjectMeta } from './FileManagerService';
+import { fileManager } from './FileManagerService';
 import { ModVersionService } from './ModVersionService';
 
 export class ModService extends AbstractService {
@@ -62,10 +62,10 @@ export class ModService extends AbstractService {
       throw new ApiError(HttpStatusCode.BadRequest, 'missing file!');
     }
 
-    const buffer = Buffer.from(data.file.base64);
+    const encoding = 'base64';
+    const buffer = Buffer.from(data.file.base64, encoding);
     const fileType = await FileType.fromBuffer(buffer);
 
-    //TODO: Why isn't it recognizing the file-type?
     if (!fileType || !cfg.validMimeTypes.includes(fileType.mime)) {
       console.warn('    ❗ fileType: ', fileType);
       throw new ApiError(
@@ -76,17 +76,14 @@ export class ModService extends AbstractService {
 
     try {
       const filename = `${data.id}-${data.version}.rmod`;
-      const {
-        url,
-        md5,
-        sha256,
-      }: ObjectMeta = await fileManager.createModVersionFile(
+      const { url, md5, sha256 } = await fileManager.createModVersionFile(
         data.id!,
         data.version!,
         filename,
         buffer,
       );
       const mod = Mod.create(data);
+      await Mod.save(mod);
       await ModVersionService.create({
         modId: mod.id,
         definiteMaxRaftVersion: data.definiteMaxRaftVersion!,
@@ -103,6 +100,7 @@ export class ModService extends AbstractService {
 
       return dbMod;
     } catch (err) {
+      console.warn('    ❗ error creating mod:', err);
       throw new ApiError(
         HttpStatusCode.InternalServerError,
         'file upload failed! (sorry)',

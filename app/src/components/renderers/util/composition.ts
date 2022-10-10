@@ -1,4 +1,11 @@
-import { useStyles } from '../styles';
+import {
+  composePaths,
+  findUISchema,
+  getFirstPrimitiveProp,
+  Resolve,
+} from '@jsonforms/core';
+import cloneDeep from 'lodash/cloneDeep';
+import merge from 'lodash/merge';
 import {
   computed,
   getCurrentInstance,
@@ -7,14 +14,7 @@ import {
   ref,
   watch,
 } from 'vue';
-import merge from 'lodash/merge';
-import cloneDeep from 'lodash/cloneDeep';
-import {
-  composePaths,
-  findUISchema,
-  getFirstPrimitiveProp,
-  Resolve,
-} from '@jsonforms/core';
+import { useStyles } from '../styles';
 
 /**
  * Adds styles, isFocused, appliedOptions and onChange
@@ -35,7 +35,7 @@ export const useVanillaControl = <
 
   const isFocused = ref(false);
 
-  const onChange = (event: Event) => {
+  const onChange = (event: CustomEvent) => {
     function prepareValue(value: any) {
       const type = input.control?.value?.schema?.type;
 
@@ -115,9 +115,9 @@ export const useVanillaControl = <
   onMounted(async () => {
     const instance = getCurrentInstance();
 
-    if (instance.refs.input && appliedOptions.value.focus) {
+    if (instance?.refs.input && appliedOptions.value.focus) {
       await nextTick();
-      (instance.refs.input as HTMLInputElement).focus();
+      (instance?.refs.input as HTMLInputElement).focus();
     }
   });
   return {

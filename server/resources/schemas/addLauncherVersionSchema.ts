@@ -1,4 +1,3 @@
-import { router } from '../../src/router/_legacy/router';
 import { markdownEditor, slug } from './commons.schema';
 
 export const schema = {
@@ -51,10 +50,3 @@ export const uischema = {
     },
   ],
 };
-
-router.get('/forms/addLauncherVersion', async (req: any, res: any) => {
-  res.status(200).send({
-    schema,
-    uischema,
-  });
-});

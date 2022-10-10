@@ -5,6 +5,7 @@ import { RaftVersionDto } from './RaftVersionDto';
 import { WithCreatedAndUpdatedDto } from './WithCreatedAndUpdatedDto';
 
 export interface ModVersionDto extends WithCreatedAndUpdatedDto {
+  id: number;
   modId?: string;
   version?: string;
   changelog?: string;

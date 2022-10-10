@@ -4,7 +4,7 @@
       <div class="card mb-3">
         <div class="card-body">
           <h5 class="card-title">
-            Edit version {{ version.version }} of mod "{{ mod.title }}"
+            Edit version {{ version.version }} of mod "{{ version.mod?.title }}"
           </h5>
           <form class="form" @submit.prevent="onSubmit" novalidate>
             <api-provided-form
@@ -63,7 +63,7 @@
       </div>
       <ul>
         <li>
-          <router-link :to="{ name: 'mod', params: { id: mod.id } }"
+          <router-link :to="{ name: 'mod', params: { id: version.mod?.id } }"
             >Go back to the mod's page</router-link
           >
         </li>
@@ -86,7 +86,6 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { ModVersion } from '../types';
 import ApiProvidedForm from '../components/ApiProvidedForm.vue';
 import Icon from '../components/Icon.vue';
 import ConfirmModal from '../components/modals/ConfirmModal.vue';
@@ -107,26 +106,13 @@ export default defineComponent({
     async onSubmit(): Promise<void> {
       if (!this.loading) {
         this.loading = true;
-        const {
-          version,
-          changelog,
-          minRaftVersionId,
-          maxRaftVersionId,
-          definiteMaxRaftVersion,
-        }: ModVersion = this.version;
-        const modVersion = await api.updateModVersion(this.$route.params.id, {
-          version,
-          changelog,
-          minRaftVersionId,
-          maxRaftVersionId,
-          definiteMaxRaftVersion,
-        } as ModVersion);
+        const modVersion = await api.updateModVersion(Number(this.$route.params.id), this.version);
 
         if (!!modVersion) {
           this.hasUnsavedChanges = false;
           await this.$router.push({
             name: 'modVersions',
-            params: { id: modVersion.modId },
+            params: { id: String(modVersion.modId) },
           });
           toaster.success(
             `Version <b>"${modVersion.version}"</b> was updated!`,

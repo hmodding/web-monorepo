@@ -26,7 +26,7 @@ export default [
     meta: { sessionRequired: true },
   },
   {
-    path: '/mods/:id/:version/edit',
+    path: '/modVersions/:id',
     name: 'editModVersion',
     component: EditModVersion,
     meta: { sessionRequired: true },

@@ -23,7 +23,7 @@ export class ModVersionController extends Controller {
   @Get('/{id}')
   @Security('everyone')
   public async read(@Path() id: number) {
-    return ModVersion.findBy({ id });
+    return ModVersion.findOne({ where: { id }, relations: { mod: true } });
   }
 
   @Post()

@@ -1,4 +1,3 @@
-import { router } from '../../../src/router/_legacy/router';
 import {
   disableRule,
   fileUploadAccept,
@@ -59,10 +58,3 @@ export const uischema = {
     },
   ],
 };
-
-router.get('/forms/editModVersion', async (req: any, res: any) => {
-  res.status(200).send({
-    schema: await getSchema(),
-    uischema,
-  });
-});

@@ -2,6 +2,7 @@ import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { NotyfEvent } from 'notyf';
 import { LoaderVersionDto } from '../../../shared/dto/LoaderVersionDto';
 import { ModDto } from '../../../shared/dto/ModDto';
+import { ModVersionDto } from '../../../shared/dto/ModVersionDto';
 import { LOCAL_STORAGE_SESSION } from '../const';
 import {
   FormResponse,
@@ -364,6 +365,22 @@ class Api {
     return null;
   }
 
+  async getModVersion(id: number) {
+    try {
+      const { data } = await this.axios.get<ModVersionDto>(
+        `/modVersions/${id}`,
+      );
+      return data;
+    } catch ({ response }) {
+      const {
+        data: { error },
+      } = response;
+      toaster.error(
+        error || '<b>Form invalid!</b><br/> Please check your inputs',
+      );
+    }
+  }
+
   async addModVersion(modId: number, version: ModVersion): Promise<ModVersion> {
     try {
       const { data } = await this.axios.post(`/modversions`, {
@@ -382,14 +399,13 @@ class Api {
     return null;
   }
 
-  async updateModVersion(
-    modId: number,
-    version: ModVersion,
-  ): Promise<ModVersion> {
+  async updateModVersion(id: number, version: ModVersionDto) {
     try {
-      const { data } = await this.axios.put(
-        `/mods/${modId}/versions/${version.version}`,
-        version,
+      const body: ModVersionDto = { ...version };
+      delete body.mod;
+      const { data } = await this.axios.put<ModVersionDto>(
+        `/modVersions/${id}`,
+        body,
       );
       return data;
     } catch ({ response }) {

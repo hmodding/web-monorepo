@@ -1,7 +1,7 @@
 import { Ref, ref } from 'vue';
 import { useActiveMeta } from 'vue-meta';
 import { useRoute } from 'vue-router';
-import { Mod, ModVersion } from '../types';
+import { ModVersionDto } from '../../../shared/dto/ModVersionDto';
 import api from '../modules/api';
 import useRouteLeaveConfirm from './useRouteLeaveConfirm';
 
@@ -12,44 +12,37 @@ export default function () {
   const ready: Ref<boolean> = ref(false);
   const loading: Ref<boolean> = ref(false);
   const showErrors: Ref<boolean> = ref(false);
-  const modVersion: Ref<ModVersion> = ref({} as ModVersion);
-  const mod: Ref<Mod> = ref({} as Mod);
+  const modVersion: Ref<ModVersionDto | undefined> = ref();
 
   meta.title = 'Add mod Version';
 
   (async () => {
     const { version } = route.params;
 
-    mod.value = await api.getMod(route.params.id as string);
-
-    if (version) {
-      modVersion.value = mod.value.versions.find(
-        (mv: ModVersion) => mv.version === version,
-      );
-    }
+    modVersion.value = await api.getModVersion(Number(route.params.id));
 
     const raftVersions = await api.getRaftVersions();
-    const { minRaftVersionId, maxRaftVersionId } = modVersion.value;
+    const { minRaftVersionId, maxRaftVersionId } = modVersion.value!;
 
     if (!minRaftVersionId) {
-      modVersion.value.minRaftVersionId =
+      modVersion.value!.minRaftVersionId =
         raftVersions[raftVersions.length - 1].id;
     }
     if (!maxRaftVersionId) {
-      modVersion.value.maxRaftVersionId = raftVersions[0].id;
+      modVersion.value!.maxRaftVersionId = raftVersions[0].id;
     }
 
     ready.value = true;
   })();
 
-  function onChange(event: { data: object; error: any[] }) {
+  function onChange(event: { data: ModVersionDto; error: any[] }) {
     if (
       ready.value &&
       JSON.stringify(event.data) !== JSON.stringify(modVersion.value)
     ) {
       routeLeaveConfirm.hasUnsavedChanges.value = true;
     }
-    modVersion.value = event.data as ModVersion;
+    modVersion.value = event.data;
   }
 
   return {
@@ -57,8 +50,7 @@ export default function () {
     loading,
     ready,
     showErrors,
-    mod,
-    version: modVersion,
+    version: (modVersion as unknown) as ModVersionDto,
     onChange,
   };
 }

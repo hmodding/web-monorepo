@@ -31,7 +31,10 @@ import {
   getSchema as getAddModVersionSchema,
   uischema as addModVersionUischema,
 } from '../../resources/schemas/modVersion/addModVersionSchema';
-import { getSchema as getEditModVersionSchema } from '../../resources/schemas/modVersion/editModVersionSchema';
+import {
+  getSchema as getEditModVersionSchema,
+  uischema as editModVersionUischema,
+} from '../../resources/schemas/modVersion/editModVersionSchema';
 import {
   schema as addRaftVersionSchema,
   uischema as addRaftVersionUischema,
@@ -132,7 +135,7 @@ export class FormController extends Controller {
     this.setStatus(HttpStatusCode.Ok);
     return {
       schema: await getEditModVersionSchema(),
-      uischema: editModUischema,
+      uischema: editModVersionUischema,
     };
   }
 

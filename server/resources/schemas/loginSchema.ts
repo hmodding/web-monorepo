@@ -1,4 +1,3 @@
-import { router } from '../../src/router/_legacy/router';
 import { password, username } from './commons.schema';
 
 export const schema = {
@@ -34,10 +33,3 @@ export const uischema = {
     },
   ],
 };
-
-router.get('/forms/login', async (req: any, res: any) => {
-  res.status(200).send({
-    schema,
-    uischema,
-  });
-});

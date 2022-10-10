@@ -4,12 +4,14 @@
     <section class="my-3">
       <div class="row">
         <div class="col-sm-9 my-3">
-          <mod-version-details
-            v-for="(version, i) in mod.versions"
-            :key="version.version"
-            :version="version"
-            :installable="i === 0"
-          />
+          <template v-for="(version, i) in mod.versions">
+            <mod-version-details
+              v-if="version"
+              :key="version.version"
+              :version="version"
+              :installable="i === 0"
+            />
+          </template>
         </div>
         <mod-right-table v-if="mod" :mod="mod" />
       </div>

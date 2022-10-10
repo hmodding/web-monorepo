@@ -24,8 +24,7 @@
                   : {
                       name: 'editModVersion',
                       params: {
-                        id: $route.params.id,
-                        version: version.version,
+                        id: version.id
                       },
                     }
               "
@@ -73,9 +72,9 @@
 
 <script lang="ts">
 import dayjs from 'dayjs';
-import { defineComponent } from 'vue';
-// noinspection TypeScriptCheckImport
+import { defineComponent, PropType } from 'vue';
 import VueMarkdownIt from 'vue3-markdown-it';
+import { ModVersionDto } from '../../../shared/dto/ModVersionDto';
 import { DATETIME_FORMAT, DATE_FORMAT } from '../const';
 import { modDetails } from '../_legacy';
 import FileHashes from './FileHashes.vue';
@@ -86,7 +85,10 @@ export default defineComponent({
   name: 'ModVersionDetails',
   components: { Icon, VueMarkdownIt, FileHashes, RaftVersionMatchingBadge },
   props: {
-    version: Object,
+    version: {
+      type: Object as PropType<ModVersionDto>,
+      required: true
+    },
     installable: {
       type: Boolean,
       default: false,
@@ -95,7 +97,7 @@ export default defineComponent({
   },
   computed: {
     vReleaseDate(): Date | string {
-      return this.preview ? new Date() : this.version.createdAt;
+      return this.preview ? new Date() : this.version.createdAt!;
     },
     fullReleaseDateStr(): string {
       return dayjs(this.vReleaseDate).format(DATETIME_FORMAT);

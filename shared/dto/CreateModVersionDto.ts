@@ -1,9 +1,8 @@
-import { ModBundleDto } from './ModBundleDto';
+import { FileDto } from './FileDto';
 import { ModDto } from './ModDto';
 import { RaftVersionDto } from './RaftVersionDto';
-import { WithCreatedAndUpdatedDto } from './WithCreatedAndUpdatedDto';
 
-export interface ModVersionDto extends WithCreatedAndUpdatedDto {
+export interface CreateModVersionDto {
   modId?: string;
   version?: string;
   changelog?: string;
@@ -16,5 +15,5 @@ export interface ModVersionDto extends WithCreatedAndUpdatedDto {
   mod?: ModDto;
   minRaftVersion?: RaftVersionDto;
   maxRaftVersion?: RaftVersionDto;
-  bundles?: ModBundleDto[];
+  file: FileDto;
 }

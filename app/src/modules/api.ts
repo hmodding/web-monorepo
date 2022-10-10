@@ -366,7 +366,10 @@ class Api {
 
   async addModVersion(modId: number, version: ModVersion): Promise<ModVersion> {
     try {
-      const { data } = await this.axios.post(`/modversions/${modId}`, version);
+      const { data } = await this.axios.post(`/modversions`, {
+        ...version,
+        modId,
+      });
       return data;
     } catch ({ response }) {
       const {

@@ -1,17 +1,14 @@
-import FileType from 'file-type';
 import { FindOptionsWhere } from 'typeorm';
 import { ModCreateDto } from '../../../shared/dto/ModCreateDto';
 import { ModDto } from '../../../shared/dto/ModDto';
 import { modCategories } from '../../../shared/modCategories';
 import { getSchema } from '../../resources/schemas/mod/addModSchema';
-import { cfg } from '../cfg';
 import { Mod } from '../entities/Mod';
 import { User } from '../entities/User';
 import { ApiError } from '../errors/ApiError';
 import { HttpStatusCode } from '../types/HttpStatusCode';
 import { validateData } from '../utils';
 import { AbstractService } from './AbstractService';
-import { fileManager } from './FileManagerService';
 import { ModVersionService } from './ModVersionService';
 
 export class ModService extends AbstractService {
@@ -23,23 +20,19 @@ export class ModService extends AbstractService {
   }
 
   static async getById(id: string, sort?: string) {
-    const mod = await Mod.findOne({
-      where: { id },
-      select: [
-        'id',
-        'author',
-        'bannerImageUrl',
-        'iconImageUrl',
-        'category',
-        'description',
-        'readme',
-        'title',
-      ],
-      relations: {
-        versions: {},
-        likes: true,
-      },
-    });
+    const mod = await Mod.createQueryBuilder('mod')
+      .where('mod.id = :id', { id })
+      .innerJoinAndSelect(
+        'mod.versions',
+        'versions',
+        'versions.modId = :modId',
+        {
+          modId: id,
+        },
+      )
+      .leftJoin('mod.likes', 'likes')
+      .orderBy('versions.createdAt', 'DESC')
+      .getOne();
     const modDto = (mod as unknown) as ModDto;
     modDto.likeCount = mod?.likes?.length || 0;
 
@@ -75,40 +68,17 @@ export class ModService extends AbstractService {
   }
 
   static async create(data: ModCreateDto) {
-    if (!data.file) {
-      throw new ApiError(HttpStatusCode.BadRequest, 'missing file!');
-    }
-
-    const encoding = 'base64';
-    const buffer = Buffer.from(data.file.base64, encoding);
-    const fileType = await FileType.fromBuffer(buffer);
-
-    if (!fileType || !cfg.validMimeTypes.includes(fileType.mime)) {
-      console.warn('    ❗ fileType: ', fileType);
-      throw new ApiError(
-        HttpStatusCode.Forbidden,
-        `file-type is not allowed: ${fileType?.mime || 'n/a'}!`,
-      );
-    }
-
     try {
-      const filename = `${data.id}-${data.version}.rmod`;
-      const { url, md5, sha256 } = await fileManager.createModVersionFile(
-        data.id!,
-        data.version!,
-        filename,
-        buffer,
-      );
       const mod = Mod.create(data);
       await Mod.save(mod);
       await ModVersionService.create({
         modId: mod.id,
-        definiteMaxRaftVersion: data.definiteMaxRaftVersion!,
-        downloadUrl: url,
-        fileHashes: { md5, sha256 },
+        changelog: 'This is the first version!',
+        definiteMaxRaftVersion: data.definiteMaxRaftVersion,
         version: data.version!,
-        maxRaftVersionId: data.maxRaftVersionId,
         minRaftVersionId: data.minRaftVersionId,
+        maxRaftVersionId: data.maxRaftVersionId,
+        file: data.file,
       });
       const dbMod = Mod.findOne({
         where: { id: mod.id },

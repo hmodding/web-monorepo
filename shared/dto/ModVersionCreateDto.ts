@@ -2,7 +2,7 @@ import { FileDto } from './FileDto';
 import { ModDto } from './ModDto';
 import { RaftVersionDto } from './RaftVersionDto';
 
-export interface CreateModVersionDto {
+export interface ModVersionCreateDto {
   modId?: string;
   version?: string;
   changelog?: string;

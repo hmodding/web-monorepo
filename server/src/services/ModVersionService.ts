@@ -1,5 +1,5 @@
 import FileType from 'file-type';
-import { CreateModVersionDto } from '../../../shared/dto/CreateModVersionDto';
+import { ModVersionCreateDto } from '../../../shared/dto/ModVersionCreateDto';
 import { ModVersionDto } from '../../../shared/dto/ModVersionDto';
 import { cfg } from '../cfg';
 import { ModVersion } from '../entities/ModVersion';
@@ -22,7 +22,7 @@ export class ModVersionService extends AbstractService {
     return this.isCreateAllowed(modVersion!.modId, user);
   }
 
-  static async create(data: CreateModVersionDto) {
+  static async create(data: ModVersionCreateDto) {
     if (!data.file) {
       throw new ApiError(HttpStatusCode.BadRequest, 'missing file!');
     }

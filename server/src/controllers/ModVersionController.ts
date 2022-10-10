@@ -9,7 +9,7 @@ import {
   Route,
   Security,
 } from 'tsoa';
-import { CreateModVersionDto } from '../../../shared/dto/CreateModVersionDto';
+import { ModVersionCreateDto } from '../../../shared/dto/ModVersionCreateDto';
 import { ModVersionDto } from '../../../shared/dto/ModVersionDto';
 import { ModVersion } from '../entities/ModVersion';
 import { ModVersionService } from '../services/ModVersionService';
@@ -28,7 +28,7 @@ export class ModVersionController extends Controller {
   @Security('user')
   public async create(
     @Header() authtoken: string,
-    @Body() data: CreateModVersionDto,
+    @Body() data: ModVersionCreateDto,
   ) {
     const session = await SessionService.getByToken(authtoken);
     const isCreateAllowed = await ModVersionService.isCreateAllowed(

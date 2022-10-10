@@ -14,5 +14,5 @@ export interface ModDto extends WithCreatedAndUpdatedDto {
   repositoryUrl?: string;
   versions?: ModVersionDto[];
   deletion?: ScheduledModDeletionDto;
-  likeCount: number;
+  likeCount?: number;
 }

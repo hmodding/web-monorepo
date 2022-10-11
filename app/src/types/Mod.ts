@@ -1,7 +1,7 @@
-import ModVersion from './ModVersion';
-import ScheduledModDeletion from './ScheduledModDeletion';
+import { ModVersion } from './ModVersion';
+import { ScheduledModDeletion } from './ScheduledModDeletion';
 
-export default interface Mod {
+export interface Mod {
   id: string;
   title: string;
   description: string;

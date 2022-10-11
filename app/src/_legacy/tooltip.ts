@@ -1,5 +1,3 @@
-import $ from 'jquery';
-
-export default function () {
+export const tooltip = () => {
   $('[data-toggle="tooltip"]').tooltip();
-}
+};

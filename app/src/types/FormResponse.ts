@@ -1,4 +1,6 @@
-export default interface FormResponse {
-  schema: object;
-  uischema?: object;
+import { JsonSchema, UISchemaElement } from '@jsonforms/core';
+
+export interface FormResponse {
+  schema: JsonSchema;
+  uischema?: UISchemaElement;
 }

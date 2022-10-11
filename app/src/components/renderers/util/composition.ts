@@ -35,7 +35,7 @@ export const useVanillaControl = <
 
   const isFocused = ref(false);
 
-  const onChange = (event: CustomEvent) => {
+  const onChange = (event: Event) => {
     function prepareValue(value: any) {
       const type = input.control?.value?.schema?.type;
 

@@ -1,22 +1,21 @@
 <template>
   <label v-if="layout.visible" :class="styles.label.root">
-    {{ this.layout.uischema.text }}
+    {{ layout.uischema.options?.text }}
   </label>
 </template>
 
 <script lang="ts">
 import {
-  JsonFormsRendererRegistryEntry,
-  Layout,
-  rankWith,
-  uiTypeIs,
+JsonFormsRendererRegistryEntry,
+Layout,
+rankWith, uiTypeIs
 } from '@jsonforms/core';
-import { defineComponent } from 'vue';
 import {
-  DispatchRenderer,
-  rendererProps,
-  useJsonFormsLayout,
+DispatchRenderer,
+rendererProps,
+useJsonFormsLayout
 } from '@jsonforms/vue';
+import { defineComponent } from 'vue';
 import { useVanillaLayout } from '../util';
 
 const labelRenderer = defineComponent({

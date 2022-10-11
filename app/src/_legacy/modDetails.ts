@@ -2,7 +2,7 @@
 
 import $ from 'jquery';
 
-export default function () {
+export const modDetails = () => {
   $('.install-button').click(function (e) {
     $('#install-modal').modal('show');
   });
@@ -26,4 +26,4 @@ export default function () {
   $('#support-discord-link').click(function (e) {
     $('#support-modal').modal('hide');
   });
-}
+};

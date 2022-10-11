@@ -78,16 +78,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
 import dayjs from 'dayjs';
+import { defineComponent } from 'vue';
 
 // noinspection TypeScriptCheckImport
 import VueMarkdownIt from 'vue3-markdown-it';
 
-import { DATE_FORMAT, DATETIME_FORMAT } from '../const';
-import { changelog } from '../_legacy';
-import TheSupportLabelModal from './modals/TheSupportLabelModal.vue';
+import { DATETIME_FORMAT, DATE_FORMAT } from '../const/formats.const';
+import { changelog } from '../_legacy/changelog';
 import Icon from './Icon.vue';
+import TheSupportLabelModal from './modals/TheSupportLabelModal.vue';
 
 export default defineComponent({
   name: 'Changelog',
@@ -102,10 +102,10 @@ export default defineComponent({
     preview: Boolean,
   },
   computed: {
-    vReleaseDate(): Date | string {
+    vReleaseDate() {
       return this.preview ? new Date() : this.releaseDate;
     },
-    vLastUpdate(): Date | string {
+    vLastUpdate() {
       return this.preview ? new Date() : this.lastUpdate;
     },
     fullReleaseDateStr(): string {

@@ -6,7 +6,7 @@ import Mod from '../pages/Mod.vue';
 import Mods from '../pages/Mods.vue';
 import ModVersions from '../pages/ModVersions.vue';
 
-export default [
+export const modRoutes = [
   {
     path: '/mods',
     name: 'mods',

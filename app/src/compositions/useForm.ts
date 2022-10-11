@@ -1,6 +1,9 @@
-import { computed, Ref, ref } from 'vue';
+import { computed, Ref, ref, SetupContext } from 'vue';
+import { TODO } from 'vue-meta';
 
-export default function (emit) {
+export const useForm = (ctx: SetupContext) => {
+  const { emit } = ctx;
+
   const formLoading: Ref<boolean> = ref(false);
   const data: any = ref({});
   const errors: any = ref(null);
@@ -11,7 +14,7 @@ export default function (emit) {
     return Object.keys(errors.value)?.length || 0;
   });
 
-  function onFormChange(event) {
+  function onFormChange(event: TODO) {
     const changed = JSON.stringify(event.data) !== JSON.stringify(data.value);
     data.value = event.data;
     errors.value = event.errors;
@@ -27,4 +30,4 @@ export default function (emit) {
     formLoading,
     onFormChange,
   };
-}
+};

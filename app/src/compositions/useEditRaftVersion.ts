@@ -1,26 +1,26 @@
 import dayjs from 'dayjs';
-import { __metadata } from 'tslib';
-import { Ref, ref, watch } from 'vue';
+import { Ref, ref, SetupContext, watch } from 'vue';
 import { useActiveMeta } from 'vue-meta';
 import { useRoute } from 'vue-router';
-import { Mod, RaftVersion } from '../types';
-import { DATE_FORMAT } from '../const';
-import api from '../modules/api';
-import useForm from './useForm';
-import useRouteLeaveConfirm from './useRouteLeaveConfirm';
+import { DATE_FORMAT } from '../const/formats.const';
+import { api } from '../modules/api';
+import { Mod } from '../types/Mod';
+import { RaftVersion } from '../types/RaftVersion';
+import { useForm } from './useForm';
+import { useLoading } from './useLoading';
+import { useRouteLeaveConfirm } from './useRouteLeaveConfirm';
 
 export interface ExtendedMod extends Mod {
   minRaftVersionId: number;
   maxRaftVersionId: number;
 }
 
-export default function (emit) {
+export const useEditRaftVersion = (ctx: SetupContext) => {
   const meta = useActiveMeta();
-  const form = useForm(emit);
+  const form = useForm(ctx);
   const routeLeaveConfirm = useRouteLeaveConfirm();
   const route = useRoute();
   const ready: Ref<boolean> = ref(false);
-  const loading: Ref<boolean> = ref(false);
 
   (async () => {
     const { id } = route.params;
@@ -54,8 +54,8 @@ export default function (emit) {
   return {
     ...routeLeaveConfirm,
     ...form,
-    loading,
+    ...useLoading(),
     ready,
     onChange,
   };
-}
+};

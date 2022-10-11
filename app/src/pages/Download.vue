@@ -236,8 +236,8 @@
               :class="{ 'table-success': i === 0 }"
             >
               <th scope="row">{{ loaderVersion.rmlVersion }}</th>
-              <td>{{ loaderVersion.raftVersion.title }}</td>
-              <td>{{ toDateStr(loaderVersion.timestamp) }}</td>
+              <td>{{ loaderVersion?.raftVersion?.title }}</td>
+              <td>{{ toDateStr(loaderVersion.timestamp || '') }}</td>
               <td>
                 <router-link
                   :to="{
@@ -260,13 +260,13 @@
 <script lang="ts">
 import { defineComponent, ref, Ref } from 'vue';
 
-import { LauncherVersion, LoaderVersion } from '../types';
+import { api } from '../modules/api';
 import { toDateStr } from '../utils';
-import api from '../modules/api';
 
-import Icon from '../components/Icon.vue';
-import { RouteLocation } from 'vue-router';
 import { useActiveMeta } from 'vue-meta';
+import { LoaderVersionDto } from '../../../shared/dto/LoaderVersionDto';
+import Icon from '../components/Icon.vue';
+import { LauncherVersion } from '../types/LauncherVersion';
 
 export default defineComponent({
   name: 'DownloadPage',
@@ -274,7 +274,7 @@ export default defineComponent({
   setup() {
     const meta = useActiveMeta();
     const launcherVersions: Ref<LauncherVersion[]> = ref([]);
-    const loaderVersions: Ref<LoaderVersion[]> = ref([]);
+    const loaderVersions: Ref<LoaderVersionDto[]> = ref([]);
 
     meta.title = 'Download';
 

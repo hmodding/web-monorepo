@@ -1,31 +1,32 @@
-import { computed, Ref, ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useActiveMeta } from 'vue-meta';
 import { useRoute } from 'vue-router';
-import api from '../modules/api';
-import { state } from '../modules/stateManager';
-import { Mod } from '../types';
+import { ModCreateDto } from '../../../shared/dto/ModDto';
+import { api } from '../modules/api';
+import { state } from '../store/store';
+import { Mod } from '../types/Mod';
 import { nullToUndefined, slugify } from '../utils';
-import useRouteLeaveConfirm from './useRouteLeaveConfirm';
+import { useRouteLeaveConfirm } from './useRouteLeaveConfirm';
 
 export interface ExtendedMod extends Mod {
   minRaftVersionId: number;
   maxRaftVersionId: number;
 }
 
-export default function (create = false) {
+export const useModEditing = (create = false) => {
   const meta = useActiveMeta();
   const routeLeaveConfirm = useRouteLeaveConfirm();
   const route = useRoute();
-  const ready: Ref<boolean> = ref(false);
-  const loading: Ref<boolean> = ref(false);
-  const showErrors: Ref<boolean> = ref(false);
-  const mod: Ref<ExtendedMod> = ref({} as ExtendedMod);
+  const ready = ref(false);
+  const loading = ref(false);
+  const showErrors = ref(false);
+  const mod = ref<ModCreateDto>({} as ModCreateDto);
   const errors = ref<any[]>([]);
 
   (async () => {
     if (route.params.id) {
       const found = await api.getMod(route.params.id as string);
-      mod.value = nullToUndefined(found) as ExtendedMod;
+      mod.value = nullToUndefined(found) as ModCreateDto;
     }
 
     const { category, minRaftVersionId, maxRaftVersionId, author } = mod.value;
@@ -47,7 +48,7 @@ export default function (create = false) {
       }
 
       if (!author) {
-        mod.value.author = state.session.user.username;
+        mod.value.author = state.session!.user!.username;
       }
     }
 
@@ -63,23 +64,23 @@ export default function (create = false) {
   if (create) {
     watch(
       () => mod.value.title,
-      (title: string) => {
+      (title) => {
         if (!ready.value) return;
 
-        mod.value.id = title ? slugify(title) : undefined;
+        mod.value.id = title ? slugify(title) : '';
         meta.title = `Edit ${mod.value.title || ''}`;
       },
     );
   }
 
-  const errorCount = computed(() => Object.keys(errors.value));
+  const errorCount = computed(() => Object.keys(errors.value).length);
 
   function onChange(event: { data: Record<string, any>; errors: any[] }) {
     if (JSON.stringify(event.data) !== JSON.stringify(mod.value)) {
       routeLeaveConfirm.hasUnsavedChanges.value = true;
     }
 
-    mod.value = event.data as ExtendedMod;
+    mod.value = event.data as ModCreateDto;
     errors.value = event.errors;
   }
 
@@ -93,4 +94,4 @@ export default function (create = false) {
     errorCount,
     onChange,
   };
-}
+};

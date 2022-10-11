@@ -1,11 +1,11 @@
-import RaftVersion from './RaftVersion';
-import Session from './Session';
+import { RaftVersion } from './RaftVersion';
+import { Session } from './Session';
 
-export default interface State {
-  session: Session;
+export interface State {
+  session: Session | null;
   theme: Theme;
   likes: string[];
-  latestRaftVersion: RaftVersion;
+  latestRaftVersion: RaftVersion | null;
 }
 
 export type Theme = 'light' | 'dark';

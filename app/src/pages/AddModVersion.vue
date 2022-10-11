@@ -3,7 +3,7 @@
     <section class="my-5 mx-1 with-json-forms">
       <div class="card mb-3">
         <div class="card-body">
-          <h5 class="card-title">Add a new mod version to "{{ mod.title }}"</h5>
+          <h5 class="card-title">Add a new mod version to "{{ version?.mod?.title }}"</h5>
           <form class="form" @submit.prevent="onSubmit" novalidate>
             <api-provided-form
               v-if="ready"
@@ -61,14 +61,14 @@
       </div>
       <ul>
         <li>
-          <router-link :to="{ name: 'mod', params: { id: mod.id } }"
+          <router-link :to="{ name: 'mod', params: { id: Number(version?.mod?.id) } }"
             >Go back to the mod's page</router-link
           >
         </li>
       </ul>
     </section>
     <section class="collapse my-3 mx-1" id="preview">
-      <mod-version-details :version="version" :preview="true" />
+      <mod-version-details :version="version!" :preview="true" />
     </section>
   </div>
   <confirm-modal
@@ -83,17 +83,17 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, version } from 'vue';
 
-import { useAddModVersion } from '../compositions';
-import api from '../modules/api';
-import toaster from '../modules/toaster';
-
-import Icon from '../components/Icon.vue';
+import { ready } from 'jquery';
+import { useActiveMeta } from 'vue-meta';
 import ApiProvidedForm from '../components/ApiProvidedForm.vue';
+import Icon from '../components/Icon.vue';
 import ConfirmModal from '../components/modals/ConfirmModal.vue';
 import ModVersionDetails from '../components/ModVersionDetails.vue';
-import { useActiveMeta } from 'vue-meta';
+import { useAddModVersion } from '../compositions/useAddModVersion';
+import { api } from '../modules/api';
+import { toaster } from '../modules/toaster';
 
 export default defineComponent({
   name: 'AddModVersionPage',
@@ -112,14 +112,14 @@ export default defineComponent({
       if (!this.loading) {
         this.loading = true;
         const newVersion = await api.addModVersion(
-          this.$route.params.id,
-          this.version,
+          Number(this.$route.params.id),
+          this.version!,
         );
         if (!!newVersion) {
           this.hasUnsavedChanges = false;
           await this.$router.push({
             name: 'modVersions',
-            params: { id: newVersion.modId },
+            params: { id: String(newVersion.modId) },
           });
           toaster.success(
             `New Version <b>"${newVersion.version}"</b> has been released!`,

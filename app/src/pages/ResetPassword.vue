@@ -22,21 +22,22 @@
 </template>
 
 <script lang="ts">
+import token from 'markdown-it/lib/token';
 import { defineComponent, ref, Ref } from 'vue';
 import { useActiveMeta } from 'vue-meta';
 import { useRoute } from 'vue-router';
 import ApiProvidedForm from '../components/ApiProvidedForm.vue';
 import PerformPasswordReset from '../components/PerformPasswordReset.vue';
 import RequestPasswordReset from '../components/RequestPasswordReset.vue';
-import { TOAST_PASSWORD_RESET_INVALID_TOKEN } from '../const';
-import api from '../modules/api';
-import toaster from '../modules/toaster';
+import { TOAST_PASSWORD_RESET_INVALID_TOKEN } from '../const/toasts.const';
+import { api } from '../modules/api';
+import { toaster } from '../modules/toaster';
 
 export default defineComponent({
   components: { ApiProvidedForm, RequestPasswordReset, PerformPasswordReset },
   setup(props: any, { emit }) {
     const route = useRoute();
-    const token: Ref<string> = ref((route.query.token as string) || null);
+    const token: Ref<string> = ref(String(route.query.token));
     const meta = useActiveMeta();
 
     meta.title = 'Forgot password';

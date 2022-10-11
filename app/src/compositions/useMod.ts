@@ -1,10 +1,9 @@
-import { state } from '../modules/stateManager';
-import { ModVersion } from '../types';
 import { computed, Ref } from 'vue';
-import useRandom from './useRandom';
-import { ROLE_ADMIN } from '../const';
+import { state } from '../store/store';
+import { ModVersion } from '../types/ModVersion';
+import { useRandom } from './useRandom';
 
-function useMod(props: any) {
+export const useMod = (props: any) => {
   const { randomNumber } = useRandom();
 
   const isAuthor: Ref<boolean> = computed(() => {
@@ -12,7 +11,7 @@ function useMod(props: any) {
   });
 
   const isAdmin = computed(() => {
-    return state?.session?.user?.role === ROLE_ADMIN;
+    return state?.session?.user?.role === 'admin';
   });
 
   const versions: Ref<ModVersion[]> = computed(() => {
@@ -52,6 +51,4 @@ function useMod(props: any) {
     currentVersionDownloads,
     totalDownloads,
   };
-}
-
-export default useMod;
+};

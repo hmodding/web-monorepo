@@ -12,13 +12,12 @@
 
 <script lang="ts">
 import { defineComponent, Ref, ref } from 'vue';
+import { useActiveMeta } from 'vue-meta';
 import { useRoute } from 'vue-router';
 
-import { LauncherVersion } from '../types';
-import api from '../modules/api';
-
 import Changelog from '../components/Changelog.vue';
-import { useActiveMeta } from 'vue-meta';
+import { api } from '../modules/api';
+import { LauncherVersion } from '../types/LauncherVersion';
 
 export default defineComponent({
   name: 'LauncherChangelogPage',

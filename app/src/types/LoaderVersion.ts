@@ -1,6 +1,6 @@
-import RaftVersion from './RaftVersion';
+import { RaftVersion } from './RaftVersion';
 
-export default interface LoaderVersion {
+export interface LoaderVersion {
   rmlVersion: string;
   raftVersionId: number;
   timestamp: Date;

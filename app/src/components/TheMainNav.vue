@@ -232,10 +232,10 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { ROLE_ADMIN } from '../const';
-import { isSessionExpired, killSession, state } from '../modules/stateManager';
-import toaster from '../modules/toaster';
-import { Session, User } from '../types';
+import { toaster } from '../modules/toaster';
+import { isSessionExpired, killSession } from '../store/session.store';
+import { state } from '../store/store';
+import { User } from '../types/User';
 import Icon from './Icon.vue';
 import TheDonationModal from './modals/TheDonationModal.vue';
 
@@ -243,14 +243,14 @@ export default defineComponent({
   name: 'TheMainNav',
   components: { Icon, TheDonationModal },
   computed: {
-    session(): Session {
+    session() {
       return state.session;
     },
     user(): User {
       return (state.session?.user || {}) as User;
     },
     isAdmin(): boolean {
-      return this.user?.role === ROLE_ADMIN;
+      return this.user?.role === 'admin';
     },
     theme(): string {
       return state.theme;

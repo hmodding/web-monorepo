@@ -23,13 +23,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 
 export default defineComponent({
   name: 'FileHashes',
   props: {
     forVersion: [String, Number],
-    hashes: Object,
+    hashes: Object as PropType<Record<string, string>>,
   },
 });
 </script>

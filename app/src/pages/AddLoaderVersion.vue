@@ -78,16 +78,17 @@
 </template>
 
 <script lang="ts">
+import { data, ready } from 'jquery';
 import { defineComponent } from 'vue';
 import { useActiveMeta } from 'vue-meta';
 import ApiProvidedForm from '../components/ApiProvidedForm.vue';
 import Changelog from '../components/Changelog.vue';
 import Icon from '../components/Icon.vue';
 import ConfirmModal from '../components/modals/ConfirmModal.vue';
-import { useAddLoaderVersion } from '../compositions';
-import { TOAST_FORM_INVALID, TOAST_GENERIC_SERVER_ERROR } from '../const';
-import api from '../modules/api';
-import toaster from '../modules/toaster';
+import { useAddLoaderVersion } from '../compositions/useAddLoaderVersion';
+import { TOAST_FORM_INVALID, TOAST_GENERIC_SERVER_ERROR } from '../const/toasts.const';
+import { api } from '../modules/api';
+import { toaster } from '../modules/toaster';
 
 export default defineComponent({
   name: 'AddLoaderVersionPage',
@@ -97,13 +98,13 @@ export default defineComponent({
     ConfirmModal,
     Changelog,
   },
-  setup(props, { emit }) {
+  setup(_props, ctx) {
     const meta = useActiveMeta();
 
     meta.title = 'Add loader version';
 
     return {
-      ...useAddLoaderVersion(emit),
+      ...useAddLoaderVersion(ctx),
     };
   },
   methods: {

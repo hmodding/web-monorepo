@@ -1,10 +1,10 @@
 // noinspection ES6ConvertVarToLetConst
 import $ from 'jquery';
 
-export default function () {
+export const passwordValidator = () => {
   $('#password').on('input', function (e) {
     var password = $(e.target).val();
-    var result;
+    var result = '';
     if (!password || typeof password !== 'string') {
       result = 'Please enter a password!';
     } else if (password.length < 8) {
@@ -24,4 +24,4 @@ export default function () {
       $('#password-feedback').text(result);
     }
   });
-}
+};

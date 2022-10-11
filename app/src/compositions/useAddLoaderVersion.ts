@@ -1,10 +1,10 @@
-import { Ref, ref } from 'vue';
-import { LoaderVersion } from '../types';
-import useForm from './useForm';
-import useRouteLeaveConfirm from './useRouteLeaveConfirm';
+import { Ref, ref, SetupContext } from 'vue';
+import { LoaderVersion } from '../types/LoaderVersion';
+import { useForm } from './useForm';
+import { useRouteLeaveConfirm } from './useRouteLeaveConfirm';
 
-export default function (emit) {
-  const form = useForm(emit);
+export const useAddLoaderVersion = (ctx: SetupContext) => {
+  const form = useForm(ctx);
   const routeLeaveConfirm = useRouteLeaveConfirm();
   const ready: Ref<boolean> = ref(false);
   const loading: Ref<boolean> = ref(false);
@@ -28,4 +28,4 @@ export default function (emit) {
     ready,
     onChange,
   };
-}
+};

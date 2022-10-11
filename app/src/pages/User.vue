@@ -11,8 +11,9 @@
 import { defineComponent, ref } from 'vue';
 import { useActiveMeta } from 'vue-meta';
 import { useRoute } from 'vue-router';
+import { ModQueryParams } from '../../../shared/types/ModQueryParams';
 import ModsCardDeck from '../components/ModsCardDeck.vue';
-import { useMods } from '../compositions';
+import { useMods } from '../compositions/useMods';
 
 export default defineComponent({
   name: 'UserPage',
@@ -20,8 +21,8 @@ export default defineComponent({
   setup() {
     const meta = useActiveMeta();
     const route = useRoute();
-    const username = ref(route.params.username);
-    const defaultQuery = {
+    const username = ref(String(route.params.username));
+    const defaultQuery: ModQueryParams = {
       author: username.value,
     };
 

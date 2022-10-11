@@ -1,7 +1,7 @@
-import User from './User';
-import ModVersion from './ModVersion';
+import { ModVersion } from './ModVersion';
+import { User } from './User';
 
-export default interface ModBundle {
+export interface ModBundle {
   title: string;
   description: string;
   readme: string;

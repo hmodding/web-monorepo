@@ -1,5 +1,7 @@
-import { INotyfOptions } from 'notyf/notyf.options';
 import { Notyf, NotyfNotification } from 'notyf';
+import { INotyfOptions } from 'notyf/notyf.options';
+
+type ToastType = 'success' | 'error';
 
 const defaultConfig: Partial<INotyfOptions> = {
   position: { x: 'right', y: 'bottom' },
@@ -21,7 +23,7 @@ export class Toaster extends Notyf {
   }
 
   private formatMessage(
-    methodName: string,
+    methodName: ToastType,
     message: string,
     ...replaces: string[]
   ): NotyfNotification {
@@ -37,6 +39,4 @@ export class Toaster extends Notyf {
   }
 }
 
-const toaster = new Toaster();
-
-export default toaster;
+export const toaster = new Toaster();

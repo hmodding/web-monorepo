@@ -1,7 +1,7 @@
 import { NavigationGuardNext, RouteLocation } from 'vue-router';
-import { ROLE_ADMIN } from '../const';
-import { isSessionExpired, state } from '../modules/stateManager';
-import toaster from '../modules/toaster';
+import { toaster } from '../modules/toaster';
+import { isSessionExpired } from '../store/session.store';
+import { state } from '../store/store';
 
 export function handleMissingSession(
   to: RouteLocation,
@@ -40,7 +40,7 @@ export function handleAdminOnly(
   from: RouteLocation,
   next: NavigationGuardNext,
 ): void {
-  if (isSessionExpired() || state.session.user.role !== ROLE_ADMIN) {
+  if (isSessionExpired() || state.session?.user?.role !== 'admin') {
     toaster.error(`You are missing privileges to view this page!`);
     return next(from);
   } else {

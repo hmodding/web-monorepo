@@ -12,11 +12,11 @@
 import { defineComponent, Ref, ref } from 'vue';
 import { RouteLocationNormalizedLoaded, useRoute } from 'vue-router';
 
-import { LoaderVersion } from '../types';
-import api from '../modules/api';
+import { api } from '../modules/api';
 
-import Changelog from '../components/Changelog.vue';
 import { useActiveMeta } from 'vue-meta';
+import Changelog from '../components/Changelog.vue';
+import { LoaderVersion } from '../types/LoaderVersion';
 
 export default defineComponent({
   name: 'LoaderChangelogPage',

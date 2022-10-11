@@ -1,4 +1,4 @@
-export default interface LauncherVersion {
+export interface LauncherVersion {
   version: string;
   timestamp: Date;
   downloadUrl: string;

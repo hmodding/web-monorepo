@@ -83,12 +83,11 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-
-import { Session, User } from '../types';
-import { tooltip } from '../_legacy';
-
-import { state } from '../modules/stateManager';
 import { useActiveMeta } from 'vue-meta';
+
+import { state } from '../store/store';
+import { User } from '../types/User';
+import { tooltip } from '../_legacy/tooltip';
 
 export default defineComponent({
   name: 'AccountPage',
@@ -98,7 +97,7 @@ export default defineComponent({
     meta.title = 'Account';
   },
   computed: {
-    session(): Session {
+    session() {
       return state.session;
     },
     user(): User {

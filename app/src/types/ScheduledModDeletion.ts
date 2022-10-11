@@ -1,6 +1,6 @@
-import Mod from './Mod';
+import { Mod } from './Mod';
 
-export default interface ScheduledModDeletion {
+export interface ScheduledModDeletion {
   modId: string;
   deletionTime: Date;
   mod?: Mod;

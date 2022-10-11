@@ -23,7 +23,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType, ref, Ref } from 'vue';
-import { Theme } from '../types';
+import { Theme } from '../types/State';
 
 interface ReCaptchaRenderParameters {
   sitekey: string;

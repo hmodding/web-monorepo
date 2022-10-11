@@ -32,8 +32,8 @@ import { defineComponent, Ref, ref } from 'vue';
 import { useActiveMeta } from 'vue-meta';
 import { NavigationGuardNext, RouteLocation } from 'vue-router';
 import Icon from '../components/Icon.vue';
-import api from '../modules/api';
-import toaster from '../modules/toaster';
+import { api } from '../modules/api';
+import { toaster } from '../modules/toaster';
 
 export default defineComponent({
   name: 'DiscordAuth',
@@ -72,7 +72,7 @@ export default defineComponent({
     this.loading = true;
 
     const { code } = this.$route.query;
-    const didLogin = await api.discordAuth(code);
+    const didLogin = await api.discordAuth(String(code));
 
     this.loading = false;
 

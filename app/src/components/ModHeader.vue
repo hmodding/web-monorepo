@@ -32,12 +32,14 @@
 </template>
 
 <script lang="ts">
+import { head } from 'lodash';
 import { defineComponent, PropType, Ref, ref } from 'vue';
 import { ModDto } from '../../../shared/dto/ModDto';
-import { useMod } from '../compositions';
-import api from '../modules/api';
-import { isSessionExpired, state } from '../modules/stateManager';
-import toaster from '../modules/toaster';
+import { useMod } from '../compositions/useMod';
+import { api } from '../modules/api';
+import { toaster } from '../modules/toaster';
+import { isSessionExpired } from '../store/session.store';
+import { state } from '../store/store';
 import Icon from './Icon.vue';
 
 export default defineComponent({

@@ -32,8 +32,9 @@
 
 <script lang="ts">
 import { computeLabel, isDescriptionHidden } from '@jsonforms/core';
-import { CompType, defineComponent } from 'vue';
-import { CHECK_MARK_SVG_DATA_URL } from '../../../const';
+import { type } from 'os';
+import { defineComponent, PropType } from 'vue';
+import { CHECK_MARK_SVG_DATA_URL } from '../../../const/graphics.const';
 import { Styles } from '../styles';
 import { Options } from '../util';
 
@@ -61,7 +62,7 @@ export default defineComponent({
     },
     appliedOptions: {
       required: false as false,
-      type: Object as CompType<Options, ObjectConstructor>,
+      type: Object as PropType<Options & ObjectConstructor>,
       default: undefined,
     },
     visible: {
@@ -81,7 +82,7 @@ export default defineComponent({
     },
     styles: {
       required: true,
-      type: Object as CompType<Styles, ObjectConstructor>,
+      type: Object as PropType<Styles & ObjectConstructor>,
     },
     showErrors: {
       type: Boolean,

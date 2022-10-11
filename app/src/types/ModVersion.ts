@@ -1,7 +1,7 @@
-import Mod from './Mod';
-import ModBundle from './ModBundle';
+import { Mod } from './Mod';
+import { ModBundle } from './ModBundle';
 
-export default interface ModVersion {
+export interface ModVersion {
   id?: number;
   modId: string;
   version: string;

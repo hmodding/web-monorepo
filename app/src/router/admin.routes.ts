@@ -6,7 +6,7 @@ import LauncherVersionManagement from '../pages/LauncherVersionManagement.vue';
 import LoaderVersionManagement from '../pages/LoaderVersionManagement.vue';
 import RaftVersionManagement from '../pages/RaftVersionManagement.vue';
 
-export default [
+export const adminRoutes = [
   {
     path: '/raft-version-management',
     name: 'raftVersionManagement',

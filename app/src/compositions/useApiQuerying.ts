@@ -2,9 +2,9 @@ import { computed, reactive, ref, Ref } from 'vue';
 
 import { emptyToNull } from '../utils';
 
-function useApiQuerying() {
-  const sort: Ref<string> = ref(null);
-  const search: Ref<string> = ref(null);
+export const useApiQuerying = () => {
+  const sort: Ref<string | null> = ref(null);
+  const search: Ref<string | null> = ref(null);
   const filter: any = reactive({});
 
   const query = computed({
@@ -30,6 +30,4 @@ function useApiQuerying() {
     filter,
     query,
   };
-}
-
-export default useApiQuerying;
+};

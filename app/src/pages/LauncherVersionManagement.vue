@@ -36,8 +36,9 @@ import { defineComponent, ref, Ref } from 'vue';
 import { useActiveMeta } from 'vue-meta';
 import { LauncherVersionDto } from '../../../shared/dto/LauncherVersionDto';
 import Icon from '../components/Icon.vue';
-import api from '../modules/api';
+import { api } from '../modules/api';
 import { toDateStr } from '../utils';
+
 export default defineComponent({
   components: { Icon },
   name: 'LauncherVersionManagement',

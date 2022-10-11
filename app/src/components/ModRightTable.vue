@@ -137,9 +137,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { useMod } from '../compositions';
-import { modDetails } from '../_legacy';
+import { defineComponent, PropType } from 'vue';
+import { ModDto } from '../../../shared/dto/ModDto';
+import { useMod } from '../compositions/useMod';
+import { modDetails } from '../_legacy/modDetails';
 import AdminUsageInfo from './AdminUsageInfo.vue';
 import Icon from './Icon.vue';
 import TheDownloadThanksModal from './modals/TheDownloadThanksModal.vue';
@@ -158,7 +159,10 @@ export default defineComponent({
     AdminUsageInfo,
   },
   props: {
-    mod: Object,
+    mod: {
+      type: Object as PropType<ModDto>,
+      required: true
+    },
     preview: {
       type: Boolean,
       default: false,

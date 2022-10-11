@@ -1,13 +1,13 @@
 import Account from '../pages/Account.vue';
 import ChangePassword from '../pages/ChangePassword.vue';
 import DiscordAuth from '../pages/DiscordAuth.vue';
+import FinishAccount from '../pages/FinishAccount.vue';
 import ResetPassword from '../pages/ResetPassword.vue';
 import SignIn from '../pages/SignIn.vue';
 import SignUp from '../pages/SignUp.vue';
 import User from '../pages/User.vue';
-import FinishAccount from '../pages/FinishAccount.vue';
 
-export default [
+export const accountRoutes = [
   {
     path: '/user/:username',
     name: 'user',

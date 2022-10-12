@@ -42,19 +42,21 @@
 
 <script lang="ts">
 import {
-  composePaths,
-  ControlElement,
-  createDefaultValue,
-  JsonFormsRendererRegistryEntry,
-  rankWith,
-  schemaTypeIs,
+composePaths,
+ControlElement,
+createDefaultValue,
+JsonFormsRendererRegistryEntry,
+moveUp,
+rankWith,
+schemaTypeIs
 } from '@jsonforms/core';
-import { defineComponent } from 'vue';
 import {
-  DispatchRenderer,
-  rendererProps,
-  useJsonFormsArrayControl,
+DispatchRenderer,
+rendererProps,
+useJsonFormsArrayControl
 } from '@jsonforms/vue';
+import { defineComponent } from 'vue';
+import { doNothing } from '../../../utils';
 import { useVanillaArrayControl } from '../util';
 import ArrayListElement from './ArrayListElement.vue';
 
@@ -68,7 +70,14 @@ const controlRenderer = defineComponent({
     ...rendererProps<ControlElement>(),
   },
   setup(props) {
-    return useVanillaArrayControl(useJsonFormsArrayControl(props));
+    const arrayControl = useVanillaArrayControl(useJsonFormsArrayControl(props));
+    
+    return {
+      ...arrayControl,
+      moveUp: arrayControl.moveUp || doNothing,
+      moveDown: arrayControl.moveDown || doNothing,
+      removeItems: arrayControl.removeItems || doNothing,
+    }
   },
   computed: {
     noData(): boolean {

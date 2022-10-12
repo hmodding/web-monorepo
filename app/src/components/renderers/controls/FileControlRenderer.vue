@@ -80,7 +80,7 @@ const controlRenderer = defineComponent({
       }
       return this.onChange({
         target: { _$base64: value, _$name: file?.name || null, value },
-      } as any);
+      } as unknown as Event);
     },
   },
 });

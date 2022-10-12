@@ -47,10 +47,10 @@ const controlRenderer = defineComponent({
   },
   methods: {
     onVerify(token: string) {
-      this.onChange({ target: { value: token } });
+      this.onChange({ target: { value: token }} as unknown as Event);
     },
     resetToken() {
-      this.onChange({ target: { value: undefined } });
+      this.onChange({ target: { value: undefined } } as unknown as Event);
     },
   },
 });

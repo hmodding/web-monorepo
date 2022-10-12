@@ -138,7 +138,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { useMod } from '../compositions';
+import { useMod } from '../compositions/useMod';
 import { $modDetails } from '../_legacy/modDetails';
 import AdminUsageInfo from './AdminUsageInfo.vue';
 import Icon from './Icon.vue';

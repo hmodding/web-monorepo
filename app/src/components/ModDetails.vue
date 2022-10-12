@@ -44,7 +44,7 @@ import { defineComponent, PropType } from 'vue';
 import VueMarkdownIt from 'vue3-markdown-it';
 import { ModDto } from '../../../shared/dto/ModDto';
 import defaultBanner from '../assets/images/banner-default.jpg';
-import { useMod } from '../compositions';
+import { useMod } from '../compositions/useMod';
 import { $modDetails } from '../_legacy/modDetails';
 import FileHashes from './FileHashes.vue';
 import Icon from './Icon.vue';

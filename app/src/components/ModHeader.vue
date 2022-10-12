@@ -34,7 +34,7 @@
 <script lang="ts">
 import { defineComponent, PropType, Ref, ref } from 'vue';
 import { ModDto } from '../../../shared/dto/ModDto';
-import { useMod } from '../compositions';
+import { useMod } from '../compositions/useMod';
 import { api } from '../modules/api';
 import { isSessionExpired, state } from '../modules/stateManager';
 import { toaster } from '../modules/toaster';

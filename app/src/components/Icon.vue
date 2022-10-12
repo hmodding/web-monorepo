@@ -7,13 +7,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { size } from 'lodash';
+import { type } from 'os';
+import { title } from 'process';
+import { defineComponent, PropType } from 'vue';
 
-export type IconOptions = {
-  name: string;
-  type?: 's' | 'r' | 'b';
-  size?:
-    | 'xs'
+type IconType = 's' | 'r' | 'b';
+
+type IconSize = 'xs'
     | 'sm'
     | 'lg'
     | '2x'
@@ -25,6 +26,11 @@ export type IconOptions = {
     | '8x'
     | '9x'
     | '10x';
+
+export type IconOptions = {
+  name: string;
+  type?: IconType
+  size?: IconSize
 };
 
 export default defineComponent({
@@ -35,13 +41,18 @@ export default defineComponent({
       required: true,
     },
     type: {
-      type: String,
+      type: String as PropType<IconType>,
       default: 's',
       validator(type: string): boolean {
         return ['s', 'r', 'b'].includes(type);
       },
     },
-    size: String,
+    size: {
+      type: String as PropType<IconSize>,
+      validator(size: string): boolean {
+        return ['xs', 'sm', 'lg', '2x', '3x', '4x', '5x', '6x', '7x', '8x', '9x', '10x'].includes(size);
+      }
+    },
     title: String,
   },
 });

@@ -81,14 +81,16 @@
 </template>
 
 <script lang="ts">
+import { ready } from 'jquery';
 import { defineComponent } from 'vue';
 import { useActiveMeta } from 'vue-meta';
+import { ModDto } from '../../../shared/dto/ModDto';
 import ApiProvidedForm from '../components/ApiProvidedForm.vue';
 import Icon from '../components/Icon.vue';
 import ConfirmModal from '../components/modals/ConfirmModal.vue';
 import ModDetails from '../components/ModDetails.vue';
 import { useModEditing } from '../compositions/useModEditing';
-import { TOAST_FORM_INVALID } from '../const';
+import { TOAST_FORM_INVALID } from '../const/toasts.const';
 import { api } from '../modules/api';
 import { toaster } from '../modules/toaster';
 
@@ -113,7 +115,7 @@ export default defineComponent({
 
         if (this.errorCount <= 0) {
           this.loading = true;
-          const newMod = await api.addMod(this.mod);
+          const newMod = await api.addMod(this.mod as ModDto);
           if (!!newMod) {
             this.hasUnsavedChanges = false;
             await this.$router.push({ name: 'mod', params: { id: newMod.id } });

@@ -20,11 +20,7 @@
 import { data } from 'jquery';
 import { defineComponent } from 'vue';
 import { useForm } from '../compositions/useForm';
-import {
-TOAST_FORM_INVALID,
-TOAST_PASSWORD_RESET_SET_FAILED,
-TOAST_PASSWORD_RESET_SET_SUCCESS
-} from '../const';
+import { TOAST_FORM_INVALID, TOAST_PASSWORD_RESET_SET_FAILED, TOAST_PASSWORD_RESET_SET_SUCCESS } from '../const/toasts.const';
 import { api } from '../modules/api';
 import { toaster } from '../modules/toaster';
 import ApiProvidedForm from './ApiProvidedForm.vue';

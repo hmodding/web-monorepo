@@ -232,7 +232,6 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { ROLE_ADMIN } from '../const';
 import { isSessionExpired, killSession, state } from '../modules/stateManager';
 import { toaster } from '../modules/toaster';
 import { Session, User } from '../types';
@@ -250,7 +249,7 @@ export default defineComponent({
       return (state.session?.user || {}) as User;
     },
     isAdmin(): boolean {
-      return this.user?.role === ROLE_ADMIN;
+      return this.user?.role === 'admin';
     },
     theme(): string {
       return state.theme;

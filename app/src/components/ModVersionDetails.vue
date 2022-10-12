@@ -75,7 +75,7 @@ import dayjs from 'dayjs';
 import { defineComponent, PropType, version } from 'vue';
 import VueMarkdownIt from 'vue3-markdown-it';
 import { ModVersionDto } from '../../../shared/dto/ModVersionDto';
-import { DATETIME_FORMAT, DATE_FORMAT } from '../const';
+import { DATETIME_FORMAT, DATE_FORMAT } from '../const/formats.const';
 import { $modDetails } from '../_legacy/modDetails';
 import FileHashes from './FileHashes.vue';
 import Icon from './Icon.vue';

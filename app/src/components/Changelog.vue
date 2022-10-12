@@ -83,8 +83,8 @@ import { defineComponent, version } from 'vue';
 
 // noinspection TypeScriptCheckImport
 import VueMarkdownIt from 'vue3-markdown-it';
+import { DATETIME_FORMAT, DATE_FORMAT } from '../const/formats.const';
 
-import { DATETIME_FORMAT, DATE_FORMAT } from '../const';
 import { $changelog } from '../_legacy/changelog';
 import Icon from './Icon.vue';
 import TheSupportLabelModal from './modals/TheSupportLabelModal.vue';

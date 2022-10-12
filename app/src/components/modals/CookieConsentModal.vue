@@ -40,16 +40,14 @@
 
 <script lang="ts">
 import { defineComponent, ref, Ref } from 'vue';
+import { LOCAL_STORAGE_COOKIE_CONSENT } from '../../const/localStorage.const';
 
-import { LOCAL_STORAGE_COOKIE_CONSENT } from '../../const';
 
 export default defineComponent({
   name: 'CookieConsentModal',
   setup() {
     const show: Ref<boolean> = ref(true);
-    const cookieConsent: string = localStorage.getItem(
-      LOCAL_STORAGE_COOKIE_CONSENT,
-    );
+    const cookieConsent = localStorage.getItem(LOCAL_STORAGE_COOKIE_CONSENT);
 
     if (cookieConsent && cookieConsent === 'accepted') {
       show.value = false;

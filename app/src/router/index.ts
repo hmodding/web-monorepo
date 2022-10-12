@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import { ROLE_UNFINISHED } from '../const';
 import { isSessionExpired, setBlankPage, state } from '../modules/stateManager';
 import Download from '../pages/Download.vue';
 import Home from '../pages/Home.vue';
@@ -61,7 +60,7 @@ router.beforeEach((to, from, next) => {
       return handleExistingSession(to, from, next);
     } else if (to.meta.adminOnly) {
       return handleAdminOnly(to, from, next);
-    } else if (state.session.user.role === ROLE_UNFINISHED) {
+    } else if (state.session.user.role === 'UNFINISHED') {
       return handleUnfinishedUser(to, from, next);
     }
   }

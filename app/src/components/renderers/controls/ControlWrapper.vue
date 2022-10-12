@@ -32,8 +32,9 @@
 
 <script lang="ts">
 import { computeLabel, isDescriptionHidden } from '@jsonforms/core';
+import { type } from 'os';
 import { CompType, defineComponent } from 'vue';
-import { CHECK_MARK_SVG_DATA_URL } from '../../../const';
+import { CHECK_MARK_SVG_DATA_URL } from '../../../const/graphics.const';
 import { Styles } from '../styles';
 import { Options } from '../util';
 

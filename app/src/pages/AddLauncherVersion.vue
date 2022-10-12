@@ -86,7 +86,7 @@ import Changelog from '../components/Changelog.vue';
 import Icon from '../components/Icon.vue';
 import ConfirmModal from '../components/modals/ConfirmModal.vue';
 import { useAddLauncherVersion } from '../compositions/useAddLauncherVersion';
-import { TOAST_FORM_INVALID, TOAST_GENERIC_SERVER_ERROR } from '../const';
+import { TOAST_FORM_INVALID, TOAST_GENERIC_SERVER_ERROR } from '../const/toasts.const';
 import { api } from '../modules/api';
 import { toaster } from '../modules/toaster';
 
@@ -98,7 +98,7 @@ export default defineComponent({
     ConfirmModal,
     Changelog,
   },
-  setup(props, ctx) {
+  setup(_props, ctx) {
     const meta = useActiveMeta();
 
     meta.title = 'Add launcher version';

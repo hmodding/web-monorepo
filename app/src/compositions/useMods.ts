@@ -2,7 +2,6 @@ import { ref } from 'vue';
 import { ModDto } from '../../../shared/dto/ModDto';
 import { QueryParams } from '../../../shared/types/QueryParams';
 
-import { MIN_LOADING_DURATION } from '../const';
 import { api } from '../modules/api';
 
 export const useMods = (defaultQuery: QueryParams = {}) => {
@@ -21,7 +20,7 @@ export const useMods = (defaultQuery: QueryParams = {}) => {
 
     setTimeout(() => {
       loading.value = false;
-    }, MIN_LOADING_DURATION);
+    }, 1000); //min download time
   }
 
   onSearch(defaultQuery);

@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import { ref, SetupContext, watch } from 'vue';
 import { useActiveMeta } from 'vue-meta';
 import { useRoute } from 'vue-router';
-import { DATE_FORMAT } from '../const';
+import { DATE_FORMAT } from '../const/formats.const';
 import { api } from '../modules/api';
 import { Mod, RaftVersion } from '../types';
 import { useForm } from './useForm';

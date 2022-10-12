@@ -1,5 +1,4 @@
 import { computed, Ref } from 'vue';
-import { ROLE_ADMIN } from '../const';
 import { state } from '../modules/stateManager';
 import { ModVersion } from '../types';
 import { useRandom } from './useRandom';
@@ -12,7 +11,7 @@ export const useMod = (props: any) => {
   });
 
   const isAdmin = computed(() => {
-    return state?.session?.user?.role === ROLE_ADMIN;
+    return state?.session?.user?.role === 'admin';
   });
 
   const versions = computed<ModVersion[]>(() => {

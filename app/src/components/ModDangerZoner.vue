@@ -84,12 +84,12 @@
 import { defineComponent, ref } from 'vue';
 
 import dayjs from 'dayjs';
-import { DATETIME_FORMAT } from '../const';
 import { api } from '../modules/api';
 import { toaster } from '../modules/toaster';
 
 import { ModDto } from '../../../shared/dto/ModDto';
 import { useModalAnswer } from '../compositions/useModalAnswer';
+import { DATETIME_FORMAT } from '../const/formats.const';
 import DangerZoneModal from './modals/DangerZoneModal.vue';
 
 export default defineComponent({

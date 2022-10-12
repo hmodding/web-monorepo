@@ -27,24 +27,25 @@
 </template>
 
 <script lang="ts">
+import { data } from 'jquery';
 import { defineComponent } from 'vue';
 import { useActiveMeta } from 'vue-meta';
 import ApiProvidedForm from '../components/ApiProvidedForm.vue';
 import { useForm } from '../compositions/useForm';
-import { TOAST_FORM_INVALID, TOAST_SIGNUP_MAIL_SENT } from '../const';
+import { TOAST_FORM_INVALID, TOAST_SIGNUP_MAIL_SENT } from '../const/toasts.const';
 import { api } from '../modules/api';
 import { toaster } from '../modules/toaster';
 
 export default defineComponent({
   name: 'SignUpPage',
   components: { ApiProvidedForm },
-  setup(props, { emit }) {
+  setup(_props, ctx) {
     const meta = useActiveMeta();
 
     meta.title = 'Sign up';
 
     return {
-      ...useForm(emit),
+      ...useForm(ctx),
     };
   },
   async beforeRouteEnter(to) {
@@ -73,8 +74,8 @@ export default defineComponent({
             icon: {
               className: 'fas fa-paper-plane text-white',
               tagName: 'i',
-              text: null,
-              color: null,
+              text: '',
+              color: '',
             },
           });
         }

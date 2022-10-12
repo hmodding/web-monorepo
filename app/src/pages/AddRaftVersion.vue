@@ -61,7 +61,8 @@ import ApiProvidedForm from '../components/ApiProvidedForm.vue';
 import Icon from '../components/Icon.vue';
 import ConfirmModal from '../components/modals/ConfirmModal.vue';
 import { useEditRaftVersion } from '../compositions/useEditRaftVersion';
-import { DATE_FORMAT, TOAST_FORM_INVALID } from '../const';
+import { DATE_FORMAT } from '../const/formats.const';
+import { TOAST_FORM_INVALID } from '../const/toasts.const';
 import { api } from '../modules/api';
 import { toaster } from '../modules/toaster';
 

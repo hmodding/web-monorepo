@@ -3,8 +3,7 @@ import { reactive } from 'vue';
 import {
   LOCAL_STORAGE_SESSION,
   LOCAL_STORAGE_THEME,
-  ROLE_UNFINISHED,
-} from '../const';
+} from '../const/localStorage.const';
 import { Session, State, Theme } from '../types';
 import { api } from './api';
 
@@ -32,7 +31,7 @@ export function isSessionExpired(): boolean {
 }
 
 export async function initSession(): Promise<void> {
-  const token: string = localStorage.getItem(LOCAL_STORAGE_SESSION);
+  const token = localStorage.getItem(LOCAL_STORAGE_SESSION);
 
   document.body.setAttribute('data-theme', state.theme);
 
@@ -40,7 +39,7 @@ export async function initSession(): Promise<void> {
     state.session = await api.getSession(token);
     api.setAuthToken(state.session.token);
 
-    if (state.session?.user?.role === ROLE_UNFINISHED) {
+    if (state.session?.user?.role === 'UNFINISHED') {
       state.likes = [];
     } else {
       state.likes = (await api.getModLikes()).map(({ modId }) => modId);

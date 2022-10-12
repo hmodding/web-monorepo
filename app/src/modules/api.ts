@@ -4,7 +4,7 @@ import { LoaderVersionDto } from '../../../shared/dto/LoaderVersionDto';
 import { ModDto } from '../../../shared/dto/ModDto';
 import { ModVersionDto } from '../../../shared/dto/ModVersionDto';
 import { QueryParams } from '../../../shared/types/QueryParams';
-import { LOCAL_STORAGE_SESSION } from '../const';
+import { LOCAL_STORAGE_SESSION } from '../const/localStorage.const';
 import {
   FormResponse,
   LauncherVersion,

@@ -18,7 +18,7 @@
 import { JsonForms } from '@jsonforms/vue';
 import { defineComponent, Ref, ref } from 'vue';
 
-import ajv from '../modules/ajv';
+import { ajv } from '../modules/ajv';
 import { api } from '../modules/api';
 import { defaultStyles, mergeStyles, vanillaRenderers } from './renderers';
 

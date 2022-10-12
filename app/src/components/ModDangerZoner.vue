@@ -81,15 +81,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, Ref } from 'vue';
+import { defineComponent, ref } from 'vue';
 
 import dayjs from 'dayjs';
-import { useModalAnswer } from '../compositions';
 import { DATETIME_FORMAT } from '../const';
 import { api } from '../modules/api';
 import { toaster } from '../modules/toaster';
-import { Mod } from '../types';
 
+import { ModDto } from '../../../shared/dto/ModDto';
+import { useModalAnswer } from '../compositions/useModalAnswer';
 import DangerZoneModal from './modals/DangerZoneModal.vue';
 
 export default defineComponent({
@@ -102,11 +102,11 @@ export default defineComponent({
     },
   },
   setup() {
-    const transferTo: Ref<string> = ref();
-    const transferToCls: Ref<string> = ref('');
+    const transferTo = ref<string>();
+    const transferToCls = ref('');
 
-    const deleteConfirm: Ref<string> = ref();
-    const deleteConfirmCls: Ref<string> = ref('');
+    const deleteConfirm= ref<string>();
+    const deleteConfirmCls = ref('');
 
     return {
       transferTo,
@@ -120,7 +120,7 @@ export default defineComponent({
     async onTransfer(event: Event): Promise<void> {
       if (this.transferTo && (await this.waitForAnswer())) {
         const { id } = this.mod;
-        const mod = await api.updateMod({ id, author: this.transferTo } as Mod);
+        const mod = await api.updateMod({ id, author: this.transferTo } as ModDto);
 
         if (mod) {
           await this.$router.push({ name: 'mods' });

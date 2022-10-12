@@ -1,5 +1,4 @@
 import dayjs from 'dayjs';
-import { Mod, ModVersion } from './types';
 import { DATE_FORMAT } from './const';
 
 export function slugify(str: string): string {
@@ -70,3 +69,5 @@ const defaultTitleAppend: string = import.meta.env.VITE_TITLE_APPEND as string;
 export function getTitle(title: string, append: string = defaultTitleAppend) {
   return title + (append ? append : '');
 }
+
+export const doNothing = () => {};

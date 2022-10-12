@@ -1,14 +1,15 @@
 import { reactive } from 'vue';
+import { doNothing } from '../utils';
 
 interface AnswerDefinition {
-  confirm: Function;
-  cancel: Function;
+  confirm: (value?: unknown) => void;
+  cancel: () => void;
 }
 
-export default function () {
+export const useModalAnswer = () => {
   const answer: AnswerDefinition = reactive({
-    confirm: null,
-    cancel: null,
+    confirm: doNothing,
+    cancel: doNothing,
   });
 
   async function waitForAnswer() {
@@ -29,4 +30,4 @@ export default function () {
     answer,
     waitForAnswer,
   };
-}
+};

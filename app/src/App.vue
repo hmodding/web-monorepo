@@ -23,7 +23,7 @@ import TheMainFooter from './components/TheMainFooter.vue';
 import TheMainNav from './components/TheMainNav.vue';
 import { useGeneralMeta } from './compositions/meta/useGeneralMeta';
 import { useMetaAutoMatcher } from './compositions/meta/useMetaAutoMatcher';
-import { state } from './modules/stateManager';
+import { state } from './store/stateManager';
 
 export default defineComponent({
   components: { CookieConsentModal, TheMainFooter, TheMainNav },

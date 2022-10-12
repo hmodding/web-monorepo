@@ -1,5 +1,5 @@
 import { computed, Ref } from 'vue';
-import { state } from '../modules/stateManager';
+import { state } from '../store/stateManager';
 import { ModVersion } from '../types';
 import { useRandom } from './useRandom';
 

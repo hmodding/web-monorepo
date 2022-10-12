@@ -232,7 +232,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { isSessionExpired, killSession, state } from '../modules/stateManager';
+import { isSessionExpired, killSession, state } from '../store/stateManager';
 import { toaster } from '../modules/toaster';
 import { Session, User } from '../types';
 import Icon from './Icon.vue';

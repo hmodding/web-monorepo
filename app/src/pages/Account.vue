@@ -87,7 +87,7 @@ import { defineComponent } from 'vue';
 import { Session, User } from '../types';
 
 import { useActiveMeta } from 'vue-meta';
-import { state } from '../modules/stateManager';
+import { state } from '../store/stateManager';
 import { $tooltip } from '../_legacy/tooltip';
 
 export default defineComponent({

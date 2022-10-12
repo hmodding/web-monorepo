@@ -23,7 +23,7 @@ import {
 } from '@jsonforms/core';
 import { rendererProps, useJsonFormsControl } from '@jsonforms/vue';
 import { defineComponent } from 'vue';
-import { state } from '../../../modules/stateManager';
+import { state } from '../../../store/stateManager';
 import ReCaptcha from '../../ReCaptcha.vue';
 import { useVanillaControl } from '../util';
 import { default as ControlWrapper } from './ControlWrapper.vue';

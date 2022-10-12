@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import { isSessionExpired, setBlankPage, state } from '../modules/stateManager';
+import { isSessionExpired, setBlankPage, state } from '../store/stateManager';
 import Download from '../pages/Download.vue';
 import Home from '../pages/Home.vue';
 import LauncherChangelog from '../pages/LauncherChangelog.vue';

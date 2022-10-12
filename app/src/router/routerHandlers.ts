@@ -1,5 +1,5 @@
 import { NavigationGuardNext, RouteLocation } from 'vue-router';
-import { isSessionExpired, state } from '../modules/stateManager';
+import { isSessionExpired, state } from '../store/stateManager';
 import { toaster } from '../modules/toaster';
 
 export function handleMissingSession(

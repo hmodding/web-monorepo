@@ -15,7 +15,7 @@ import {
   RaftVersion, Session
 } from '../types';
 import { ModLike } from '../types/ModLike';
-import { setSession, state } from './stateManager';
+import { setSession, state } from '../store/stateManager';
 import { toaster } from './toaster';
 
 class Api {

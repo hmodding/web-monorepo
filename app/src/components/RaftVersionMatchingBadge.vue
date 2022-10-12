@@ -16,7 +16,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { state } from '../modules/stateManager';
+import { state } from '../store/stateManager';
 
 export default defineComponent({
   name: 'RaftVersionMatchingBadge',

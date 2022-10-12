@@ -37,7 +37,7 @@ import ApiProvidedForm from '../components/ApiProvidedForm.vue';
 import Icon from '../components/Icon.vue';
 import { useForm } from '../compositions/useForm';
 import { api } from '../modules/api';
-import { killSession } from '../modules/stateManager';
+import { killSession } from '../store/stateManager';
 import { toaster } from '../modules/toaster';
 import { $passwordValidator } from '../_legacy/passwordValidator';
 

@@ -5,7 +5,7 @@ import {
   LOCAL_STORAGE_THEME,
 } from '../const/localStorage.const';
 import { Session, State, Theme } from '../types';
-import { api } from './api';
+import { api } from '../modules/api';
 
 export const state: State = reactive({
   session: null,

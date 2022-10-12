@@ -1,4 +1,4 @@
-import { setBlankPage } from '../modules/stateManager';
+import { setBlankPage } from '../store/stateManager';
 
 export default [
   {

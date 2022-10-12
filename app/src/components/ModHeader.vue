@@ -36,7 +36,7 @@ import { defineComponent, PropType, Ref, ref } from 'vue';
 import { ModDto } from '../../../shared/dto/ModDto';
 import { useMod } from '../compositions/useMod';
 import { api } from '../modules/api';
-import { isSessionExpired, state } from '../modules/stateManager';
+import { isSessionExpired, state } from '../store/stateManager';
 import { toaster } from '../modules/toaster';
 import Icon from './Icon.vue';
 

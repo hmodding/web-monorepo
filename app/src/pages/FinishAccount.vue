@@ -38,7 +38,7 @@ import Icon from '../components/Icon.vue';
 import { useForm } from '../compositions/useForm';
 import { TOAST_ACCOUNT_FINISHED, TOAST_GENERIC_SERVER_ERROR } from '../const/toasts.const';
 import { api } from '../modules/api';
-import { isSessionExpired, state } from '../modules/stateManager';
+import { isSessionExpired, state } from '../store/stateManager';
 import { toaster } from '../modules/toaster';
 
 export default defineComponent({

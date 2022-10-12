@@ -12,7 +12,7 @@
 import { Theme } from 'State';
 import { defineComponent } from 'vue';
 
-import { setTheme, state } from '../modules/stateManager';
+import { setTheme, state } from '../store/stateManager';
 
 export default defineComponent({
   name: 'ThemeSwitch',

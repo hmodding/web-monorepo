@@ -1,4 +1,3 @@
-export { default as useAddLauncherVersion } from './useAddLauncherVersion';
 export { default as useAddLoaderVersion } from './useAddLoaderVersion';
 export { default as useAddModVersion } from './useAddModVersion';
 export { default as useApiQuerying } from './useApiQuerying';

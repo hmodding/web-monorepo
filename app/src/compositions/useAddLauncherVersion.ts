@@ -1,19 +1,20 @@
-import { Ref, ref } from 'vue';
+import { JsonFormsChangeEvent } from '@jsonforms/vue';
+import { ref, SetupContext } from 'vue';
 import { LoaderVersion } from '../types';
 import { useForm } from './useForm';
+import useLoading from './useLoading';
 import useRouteLeaveConfirm from './useRouteLeaveConfirm';
 
-export default function (emit) {
-  const form = useForm(emit);
+export const useAddLauncherVersion = (ctx: SetupContext) => {
+  const form = useForm(ctx);
   const routeLeaveConfirm = useRouteLeaveConfirm();
-  const ready: Ref<boolean> = ref(false);
-  const loading: Ref<boolean> = ref(false);
+  const ready = ref(false);
 
   (async () => {
     ready.value = true;
   })();
 
-  function onChange(event: { data: object; errors: any[] }) {
+  function onChange(event: JsonFormsChangeEvent) {
     if (JSON.stringify(event.data) !== JSON.stringify(form.data.value)) {
       routeLeaveConfirm.hasUnsavedChanges.value = true;
     }
@@ -24,8 +25,8 @@ export default function (emit) {
   return {
     ...routeLeaveConfirm,
     ...form,
-    loading,
+    ...useLoading(),
     ready,
     onChange,
   };
-}
+};

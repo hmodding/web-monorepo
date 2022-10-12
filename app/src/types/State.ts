@@ -6,6 +6,7 @@ export default interface State {
   theme: Theme;
   likes: string[];
   latestRaftVersion: RaftVersion;
+  blank: boolean;
 }
 
 export type Theme = 'light' | 'dark';

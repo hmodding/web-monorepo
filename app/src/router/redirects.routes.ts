@@ -1,24 +1,24 @@
-import { setGlobalBlank } from '../compositions';
+import { setBlankPage } from '../modules/stateManager';
 
 export default [
   {
     path: '/discord',
     beforeEnter() {
-      setGlobalBlank(true);
+      setBlankPage(true);
       location.replace(import.meta.env.VITE_DISCORD_INVITE_LINK as string);
     },
   },
   {
     path: '/docs',
     beforeEnter() {
-      setGlobalBlank(true);
+      setBlankPage(true);
       return location.replace(import.meta.env.VITE_API_DOCS_URL as string);
     },
   },
   {
     path: '/docs/multiple-files',
     beforeEnter() {
-      setGlobalBlank(true);
+      setBlankPage(true);
       location.replace(
         import.meta.env.VITE_API_DOCS_MULTIPLE_FILES_URL as string,
       );
@@ -27,7 +27,7 @@ export default [
   {
     path: '/docs/slugs',
     beforeEnter() {
-      setGlobalBlank(true);
+      setBlankPage(true);
       location.replace(import.meta.env.VITE_API_DOCS_SLUGS_URL as string);
     },
   },

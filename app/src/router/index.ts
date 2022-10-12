@@ -1,23 +1,22 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import { isSessionExpired, state } from '../modules/stateManager';
+import { ROLE_UNFINISHED } from '../const';
+import { isSessionExpired, setBlankPage, state } from '../modules/stateManager';
 import Download from '../pages/Download.vue';
 import Home from '../pages/Home.vue';
-import NotFound from '../pages/NotFound.vue';
-import LoaderChangelog from '../pages/LoaderChangelog.vue';
 import LauncherChangelog from '../pages/LauncherChangelog.vue';
+import LoaderChangelog from '../pages/LoaderChangelog.vue';
+import NotFound from '../pages/NotFound.vue';
 import accountRoutes from './account.routes';
 import adminRoutes from './admin.routes';
 import legalRoutes from './legal.routes';
 import modRoutes from './mods.routes';
+import redirectsRoutes from './redirects.routes';
 import {
   handleAdminOnly,
   handleExistingSession,
   handleMissingSession,
   handleUnfinishedUser,
 } from './routerHandlers';
-import redirectsRoutes from './redirects.routes';
-import { ROLE_UNFINISHED } from '../const';
-import { setGlobalBlank } from '../compositions';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -50,7 +49,7 @@ const router = createRouter({
 export default router;
 
 router.beforeEach((to, from, next) => {
-  setGlobalBlank(false);
+  setBlankPage(false);
   document.body.setAttribute('data-route', to.matched[0].name as string);
 
   if (isSessionExpired()) {

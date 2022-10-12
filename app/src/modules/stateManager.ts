@@ -13,6 +13,7 @@ export const state: State = reactive({
   theme: getThemeFromLocalStorage(),
   likes: [],
   latestRaftVersion: null,
+  blankPage: false,
 });
 
 export function isSessionExpired(): boolean {
@@ -76,3 +77,7 @@ export function setTheme(theme: Theme): void {
   localStorage.setItem(LOCAL_STORAGE_THEME, `${state.theme}`);
   document.body.setAttribute('data-theme', state.theme);
 }
+
+export const setBlankPage = (value: boolean) => {
+  state.blank = value;
+};

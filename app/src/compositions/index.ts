@@ -1,4 +1,3 @@
-export * from './meta';
 export { default as useAddLauncherVersion } from './useAddLauncherVersion';
 export { default as useAddLoaderVersion } from './useAddLoaderVersion';
 export { default as useAddModVersion } from './useAddModVersion';
@@ -12,4 +11,3 @@ export { default as useModalAnswer } from './useModalAnswer';
 export { default as useModEditing } from './useModEditing';
 export { default as useMods } from './useMods';
 export { default as useRouteLeaveConfirm } from './useRouteLeaveConfirm';
-

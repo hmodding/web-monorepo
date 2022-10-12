@@ -4,7 +4,7 @@ import { useRoute } from 'vue-router';
 
 const { VITE_META_BASE_URL } = import.meta.env;
 
-export default function () {
+export const useMetaAutoMatcher = () => {
   const meta = useActiveMeta();
   const route = useRoute();
 
@@ -31,4 +31,4 @@ export default function () {
     },
     { immediate: true },
   );
-}
+};

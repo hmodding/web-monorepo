@@ -87,7 +87,7 @@ import ApiProvidedForm from '../components/ApiProvidedForm.vue';
 import Icon from '../components/Icon.vue';
 import ConfirmModal from '../components/modals/ConfirmModal.vue';
 import ModDetails from '../components/ModDetails.vue';
-import { useModEditing } from '../compositions';
+import { useModEditing } from '../compositions/useModEditing';
 import { TOAST_FORM_INVALID } from '../const';
 import { api } from '../modules/api';
 import { toaster } from '../modules/toaster';

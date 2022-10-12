@@ -1,4 +1,4 @@
-import { computed, Ref, ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useActiveMeta } from 'vue-meta';
 import { useRoute } from 'vue-router';
 import { api } from '../modules/api';
@@ -12,14 +12,14 @@ export interface ExtendedMod extends Mod {
   maxRaftVersionId: number;
 }
 
-export default function (create = false) {
+export const useModEditing = (create: boolean = false) => {
   const meta = useActiveMeta();
   const routeLeaveConfirm = useRouteLeaveConfirm();
   const route = useRoute();
-  const ready: Ref<boolean> = ref(false);
-  const loading: Ref<boolean> = ref(false);
-  const showErrors: Ref<boolean> = ref(false);
-  const mod: Ref<ExtendedMod> = ref({} as ExtendedMod);
+  const ready = ref(false);
+  const loading = ref(false);
+  const showErrors = ref(false);
+  const mod = ref<ExtendedMod>({} as ExtendedMod);
   const errors = ref<any[]>([]);
 
   (async () => {
@@ -47,7 +47,7 @@ export default function (create = false) {
       }
 
       if (!author) {
-        mod.value.author = state.session.user.username;
+        mod.value.author = state.session!.user!.username;
       }
     }
 
@@ -66,7 +66,7 @@ export default function (create = false) {
       (title: string) => {
         if (!ready.value) return;
 
-        mod.value.id = title ? slugify(title) : undefined;
+        mod.value.id = title ? slugify(title) : '';
         meta.title = `Edit ${mod.value.title || ''}`;
       },
     );
@@ -93,4 +93,4 @@ export default function (create = false) {
     errorCount,
     onChange,
   };
-}
+};

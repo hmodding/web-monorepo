@@ -1,6 +1,6 @@
 import { ref, Ref } from 'vue';
 import { onBeforeRouteLeave } from 'vue-router';
-import { useModalAnswer } from './index';
+import { useModalAnswer } from './useModalAnswer';
 
 export default function () {
   const { answer, waitForAnswer } = useModalAnswer();

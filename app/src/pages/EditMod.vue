@@ -99,7 +99,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import { useModEditing } from '../compositions';
+import { useModEditing } from '../compositions/useModEditing';
 import { api } from '../modules/api';
 import { toaster } from '../modules/toaster';
 

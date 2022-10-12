@@ -48,7 +48,7 @@ import LoadingSpinner from '../components/LoadingSpinner.vue';
 import ModsCardDeck from '../components/ModsCardDeck.vue';
 import ModSearcher from '../components/ModSearcher.vue';
 import PlaceholderModCard from '../components/PlaceholderModCard.vue';
-import { useMods } from '../compositions';
+import { useMods } from '../compositions/useMods';
 
 export default defineComponent({
   name: 'ModsPage',

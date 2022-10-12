@@ -33,7 +33,7 @@ import { useActiveMeta } from 'vue-meta';
 import { NavigationGuardNext, RouteLocation } from 'vue-router';
 import Icon from '../components/Icon.vue';
 import { api } from '../modules/api';
-import toaster from '../modules/toaster';
+import { toaster } from '../modules/toaster';
 
 export default defineComponent({
   name: 'DiscordAuth',

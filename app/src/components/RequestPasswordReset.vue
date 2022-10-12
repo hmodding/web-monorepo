@@ -29,7 +29,7 @@ TOAST_PASSWORD_RESET_ALREADY_EXISTS,
 TOAST_PASSWORD_RESET_SENT
 } from '../const';
 import { api } from '../modules/api';
-import toaster from '../modules/toaster';
+import { toaster } from '../modules/toaster';
 import ApiProvidedForm from './ApiProvidedForm.vue';
 
 export default defineComponent({

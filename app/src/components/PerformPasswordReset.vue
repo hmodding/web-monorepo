@@ -25,7 +25,7 @@ TOAST_PASSWORD_RESET_SET_FAILED,
 TOAST_PASSWORD_RESET_SET_SUCCESS
 } from '../const';
 import { api } from '../modules/api';
-import toaster from '../modules/toaster';
+import { toaster } from '../modules/toaster';
 import ApiProvidedForm from './ApiProvidedForm.vue';
 
 export default defineComponent({

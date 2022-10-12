@@ -87,7 +87,7 @@ import { defineComponent } from 'vue';
 
 import { useAddModVersion } from '../compositions';
 import { api } from '../modules/api';
-import toaster from '../modules/toaster';
+import { toaster } from '../modules/toaster';
 
 import { useActiveMeta } from 'vue-meta';
 import ApiProvidedForm from '../components/ApiProvidedForm.vue';

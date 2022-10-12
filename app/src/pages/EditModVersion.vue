@@ -92,7 +92,7 @@ import ConfirmModal from '../components/modals/ConfirmModal.vue';
 import ModVersionDetails from '../components/ModVersionDetails.vue';
 import { useAddModVersion } from '../compositions';
 import { api } from '../modules/api';
-import toaster from '../modules/toaster';
+import { toaster } from '../modules/toaster';
 
 export default defineComponent({
   name: 'EditModVersionPage',

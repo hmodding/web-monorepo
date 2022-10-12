@@ -101,7 +101,7 @@ import { defineComponent } from 'vue';
 
 import { useModEditing } from '../compositions';
 import { api } from '../modules/api';
-import toaster from '../modules/toaster';
+import { toaster } from '../modules/toaster';
 
 import ApiProvidedForm from '../components/ApiProvidedForm.vue';
 import Icon from '../components/Icon.vue';

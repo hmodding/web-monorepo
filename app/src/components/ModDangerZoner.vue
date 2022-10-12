@@ -87,7 +87,7 @@ import dayjs from 'dayjs';
 import { useModalAnswer } from '../compositions';
 import { DATETIME_FORMAT } from '../const';
 import { api } from '../modules/api';
-import toaster from '../modules/toaster';
+import { toaster } from '../modules/toaster';
 import { Mod } from '../types';
 
 import DangerZoneModal from './modals/DangerZoneModal.vue';

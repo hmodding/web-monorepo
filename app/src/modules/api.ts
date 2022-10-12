@@ -17,7 +17,7 @@ import {
 import { ModLike } from '../types/ModLike';
 import { PasswordReset } from '../types/PasswordReset';
 import { setSession, state } from './stateManager';
-import toaster from './toaster';
+import { toaster } from './toaster';
 
 class Api {
   private axios: AxiosInstance;

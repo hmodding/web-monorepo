@@ -234,7 +234,7 @@
 import { defineComponent } from 'vue';
 import { ROLE_ADMIN } from '../const';
 import { isSessionExpired, killSession, state } from '../modules/stateManager';
-import toaster from '../modules/toaster';
+import { toaster } from '../modules/toaster';
 import { Session, User } from '../types';
 import Icon from './Icon.vue';
 import TheDonationModal from './modals/TheDonationModal.vue';

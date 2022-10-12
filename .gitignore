@@ -18,6 +18,7 @@ dist-ssr
 # IDE
 .vscode/*
 !.vscode/launch.json
+!.vscode/settings.json
 .idea
 
 # OSX

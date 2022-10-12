@@ -1,5 +1,6 @@
+import { JsonFormsChangeEvent } from '@jsonforms/vue';
 import dayjs from 'dayjs';
-import { Ref, ref, SetupContext, watch } from 'vue';
+import { ref, SetupContext, watch } from 'vue';
 import { useActiveMeta } from 'vue-meta';
 import { useRoute } from 'vue-router';
 import { DATE_FORMAT } from '../const';
@@ -18,8 +19,8 @@ export const useEditRaftVersion = (ctx: SetupContext) => {
   const form = useForm(ctx);
   const routeLeaveConfirm = useRouteLeaveConfirm();
   const route = useRoute();
-  const ready: Ref<boolean> = ref(false);
-  const loading: Ref<boolean> = ref(false);
+  const ready = ref(false);
+  const loading = ref(false);
 
   (async () => {
     const { id } = route.params;
@@ -35,7 +36,7 @@ export const useEditRaftVersion = (ctx: SetupContext) => {
     ready.value = true;
   })();
 
-  function onChange(event: { data: object; errors: any[] }) {
+  function onChange(event: JsonFormsChangeEvent) {
     if (JSON.stringify(event.data) !== JSON.stringify(form.data.value)) {
       routeLeaveConfirm.hasUnsavedChanges.value = true;
     }

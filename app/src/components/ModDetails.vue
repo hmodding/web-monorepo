@@ -45,7 +45,7 @@ import VueMarkdownIt from 'vue3-markdown-it';
 import { ModDto } from '../../../shared/dto/ModDto';
 import defaultBanner from '../assets/images/banner-default.jpg';
 import { useMod } from '../compositions';
-import { modDetails } from '../_legacy';
+import { $modDetails } from '../_legacy/modDetails';
 import FileHashes from './FileHashes.vue';
 import Icon from './Icon.vue';
 import ModHeader from './ModHeader.vue';
@@ -76,7 +76,7 @@ export default defineComponent({
   },
   async mounted() {
     await this.$nextTick();
-    modDetails();
+    $modDetails();
   },
 });
 </script>

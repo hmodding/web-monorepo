@@ -72,11 +72,11 @@
 
 <script lang="ts">
 import dayjs from 'dayjs';
-import { defineComponent, PropType } from 'vue';
+import { defineComponent, PropType, version } from 'vue';
 import VueMarkdownIt from 'vue3-markdown-it';
 import { ModVersionDto } from '../../../shared/dto/ModVersionDto';
 import { DATETIME_FORMAT, DATE_FORMAT } from '../const';
-import { modDetails } from '../_legacy';
+import { $modDetails } from '../_legacy/modDetails';
 import FileHashes from './FileHashes.vue';
 import Icon from './Icon.vue';
 import RaftVersionMatchingBadge from './RaftVersionMatchingBadge.vue';
@@ -108,7 +108,7 @@ export default defineComponent({
   },
   async mounted() {
     await this.$nextTick();
-    modDetails();
+    $modDetails();
   },
 });
 </script>

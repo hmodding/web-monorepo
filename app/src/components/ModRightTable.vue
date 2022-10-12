@@ -139,7 +139,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { useMod } from '../compositions';
-import { modDetails } from '../_legacy';
+import { $modDetails } from '../_legacy/modDetails';
 import AdminUsageInfo from './AdminUsageInfo.vue';
 import Icon from './Icon.vue';
 import TheDownloadThanksModal from './modals/TheDownloadThanksModal.vue';
@@ -172,7 +172,7 @@ export default defineComponent({
   },
   async mounted() {
     await this.$nextTick();
-    modDetails();
+    $modDetails();
   },
   methods: {
     onDownload() {

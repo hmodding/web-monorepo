@@ -85,10 +85,10 @@
 import { defineComponent } from 'vue';
 
 import { Session, User } from '../types';
-import { tooltip } from '../_legacy';
 
-import { state } from '../modules/stateManager';
 import { useActiveMeta } from 'vue-meta';
+import { state } from '../modules/stateManager';
+import { $tooltip } from '../_legacy/tooltip';
 
 export default defineComponent({
   name: 'AccountPage',
@@ -106,7 +106,7 @@ export default defineComponent({
     },
   },
   mounted() {
-    tooltip();
+    $tooltip();
   },
 });
 </script>

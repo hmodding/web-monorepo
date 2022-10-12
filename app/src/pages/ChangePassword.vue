@@ -30,6 +30,7 @@
 </template>
 
 <script lang="ts">
+import { data } from 'jquery';
 import { defineComponent } from 'vue';
 import { useActiveMeta } from 'vue-meta';
 import ApiProvidedForm from '../components/ApiProvidedForm.vue';
@@ -38,7 +39,7 @@ import { useForm } from '../compositions';
 import { api } from '../modules/api';
 import { killSession } from '../modules/stateManager';
 import { toaster } from '../modules/toaster';
-import { passwordValidator } from '../_legacy';
+import { $passwordValidator } from '../_legacy/passwordValidator';
 
 export default defineComponent({
   name: 'ChangePasswordPage',
@@ -51,7 +52,7 @@ export default defineComponent({
     return useForm(emit);
   },
   mounted() {
-    passwordValidator();
+    $passwordValidator();
   },
   methods: {
     async onSubmit() {

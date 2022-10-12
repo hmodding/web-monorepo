@@ -47,7 +47,7 @@ import { defineComponent } from 'vue';
 import { useActiveMeta } from 'vue-meta';
 import ApiProvidedForm from '../components/ApiProvidedForm.vue';
 import Icon from '../components/Icon.vue';
-import { useForm } from '../compositions';
+import { useForm } from '../compositions/useForm';
 import { api } from '../modules/api';
 
 export default defineComponent({

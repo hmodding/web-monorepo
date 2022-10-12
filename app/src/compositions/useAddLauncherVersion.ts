@@ -1,6 +1,6 @@
 import { Ref, ref } from 'vue';
 import { LoaderVersion } from '../types';
-import useForm from './useForm';
+import { useForm } from './useForm';
 import useRouteLeaveConfirm from './useRouteLeaveConfirm';
 
 export default function (emit) {

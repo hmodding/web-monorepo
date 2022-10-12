@@ -22,7 +22,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import { useForm } from '../compositions';
+import { useForm } from '../compositions/useForm';
 import {
 TOAST_FORM_INVALID,
 TOAST_PASSWORD_RESET_ALREADY_EXISTS,

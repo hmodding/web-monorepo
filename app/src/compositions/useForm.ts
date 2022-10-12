@@ -1,17 +1,20 @@
-import { computed, Ref, ref } from 'vue';
+import { JsonFormsChangeEvent } from '@jsonforms/vue';
+import { computed, ref, SetupContext } from 'vue';
 
-export default function (emit) {
-  const formLoading: Ref<boolean> = ref(false);
-  const data: any = ref({});
-  const errors: any = ref(null);
-  const showErrors: Ref<boolean> = ref(false);
-  const ready: Ref<boolean> = ref(false);
+export const useForm = (ctx: SetupContext) => {
+  const { emit } = ctx;
+
+  const formLoading = ref(false);
+  const data = ref<any>({});
+  const errors = ref<any>(null);
+  const showErrors = ref(false);
+  const ready = ref(false);
 
   const errorCount = computed(() => {
     return Object.keys(errors.value)?.length || 0;
   });
 
-  function onFormChange(event) {
+  function onFormChange(event: JsonFormsChangeEvent) {
     const changed = JSON.stringify(event.data) !== JSON.stringify(data.value);
     data.value = event.data;
     errors.value = event.errors;
@@ -27,4 +30,4 @@ export default function (emit) {
     formLoading,
     onFormChange,
   };
-}
+};

@@ -17,8 +17,9 @@
 </template>
 
 <script lang="ts">
+import { data } from 'jquery';
 import { defineComponent } from 'vue';
-import { useForm } from '../compositions';
+import { useForm } from '../compositions/useForm';
 import {
 TOAST_FORM_INVALID,
 TOAST_PASSWORD_RESET_SET_FAILED,
@@ -37,9 +38,9 @@ export default defineComponent({
       required: true,
     },
   },
-  setup(props: any, { emit }) {
+  setup(props: any, ctx) {
     return {
-      ...useForm(emit),
+      ...useForm(ctx),
     };
   },
   methods: {

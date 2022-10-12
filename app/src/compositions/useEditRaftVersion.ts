@@ -5,7 +5,7 @@ import { useRoute } from 'vue-router';
 import { DATE_FORMAT } from '../const';
 import { api } from '../modules/api';
 import { Mod, RaftVersion } from '../types';
-import useForm from './useForm';
+import { useForm } from './useForm';
 import useRouteLeaveConfirm from './useRouteLeaveConfirm';
 
 export interface ExtendedMod extends Mod {

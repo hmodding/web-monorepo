@@ -34,7 +34,7 @@ import { defineComponent, ref } from 'vue';
 import { useActiveMeta } from 'vue-meta';
 import ApiProvidedForm from '../components/ApiProvidedForm.vue';
 import Icon from '../components/Icon.vue';
-import { useForm } from '../compositions';
+import { useForm } from '../compositions/useForm';
 import {
 ROLE_UNFINISHED,
 TOAST_ACCOUNT_FINISHED,

@@ -1,8 +1,8 @@
 import { ref, Ref } from 'vue';
 import { onBeforeRouteLeave } from 'vue-router';
-import { useModalAnswer } from './useModalAnswer';
+import { useModalAnswer } from './index';
 
-export const useRouteLeaveConfirm = () => {
+export default function () {
   const { answer, waitForAnswer } = useModalAnswer();
   const hasUnsavedChanges: Ref<boolean> = ref(false);
   const show: Ref<boolean> = ref(false);
@@ -30,4 +30,4 @@ export const useRouteLeaveConfirm = () => {
     onRouteLeaveConfirm,
     onRouteLeaveCancel,
   };
-};
+}

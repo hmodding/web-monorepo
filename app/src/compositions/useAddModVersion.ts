@@ -2,15 +2,15 @@ import { Ref, ref } from 'vue';
 import { useActiveMeta } from 'vue-meta';
 import { useRoute } from 'vue-router';
 import { ModVersionDto } from '../../../shared/dto/ModVersionDto';
-import { api } from '../modules/api';
-import { useLoading } from './useLoading';
-import { useRouteLeaveConfirm } from './useRouteLeaveConfirm';
+import api from '../modules/api';
+import useRouteLeaveConfirm from './useRouteLeaveConfirm';
 
-export const useAddModVersion = () => {
+export default function () {
   const meta = useActiveMeta();
   const routeLeaveConfirm = useRouteLeaveConfirm();
   const route = useRoute();
   const ready: Ref<boolean> = ref(false);
+  const loading: Ref<boolean> = ref(false);
   const showErrors: Ref<boolean> = ref(false);
   const modVersion: Ref<ModVersionDto | undefined> = ref();
 
@@ -47,10 +47,10 @@ export const useAddModVersion = () => {
 
   return {
     ...routeLeaveConfirm,
-    ...useLoading(),
+    loading,
     ready,
     showErrors,
-    version: modVersion,
+    version: (modVersion as unknown) as ModVersionDto,
     onChange,
   };
-};
+}

@@ -2,7 +2,7 @@
 
 import $ from 'jquery';
 
-export const mainNavDropDown = () => {
+export default function () {
   var dropdownOpen = false;
   $(function () {
     $('[data-toggle="tooltip"]').tooltip();
@@ -20,4 +20,4 @@ export const mainNavDropDown = () => {
       }
     });
   });
-};
+}

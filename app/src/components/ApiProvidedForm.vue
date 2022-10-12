@@ -4,7 +4,6 @@
     class="api-provided-form"
     :schema="schema"
     :uischema="uischema"
-    :data="null"
     :renderers="renderers"
     :ajv="ajv"
     :config="{
@@ -16,13 +15,12 @@
 </template>
 
 <script lang="ts">
-import { JsonForms } from '@jsonforms/vue';
 import { defineComponent, Ref, ref } from 'vue';
+import { JsonForms } from '@jsonforms/vue';
 
-import { JsonSchema, UISchemaElement } from '@jsonforms/core';
-import { ajv } from '../modules/ajv';
-import { api } from '../modules/api';
 import { defaultStyles, mergeStyles, vanillaRenderers } from './renderers';
+import api from '../modules/api';
+import ajv from '../modules/ajv';
 
 export default defineComponent({
   name: 'ApiProvidedForm',
@@ -44,9 +42,9 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const errors: Ref<string[]> = ref([]);
-    const schema: Ref<JsonSchema | undefined> = ref();
-    const uischema: Ref<UISchemaElement | undefined> = ref();
+    const errors: Ref<string[]> = ref(null);
+    const schema: Ref<object> = ref(null);
+    const uischema: Ref<object> = ref(null);
     const renderers = Object.freeze(vanillaRenderers);
 
     (async () => {

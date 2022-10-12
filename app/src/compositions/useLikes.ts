@@ -6,9 +6,9 @@ export const useLikes = (mod: Ref<ModDto | null>) => {
     console.log('onToggleLike', isLiked, mod.value?.likeCount);
     if (mod.value) {
       if (isLiked) {
-        mod.value.likeCount = mod.value.likeCount ? mod.value.likeCount + 1 : 1;
+        mod.value.likeCount++;
       } else {
-        mod.value.likeCount = mod.value.likeCount ? mod.value.likeCount - 1 : 0;
+        mod.value.likeCount--;
       }
     }
   };

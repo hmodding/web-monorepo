@@ -1,18 +1,18 @@
 import { ref, Ref } from 'vue';
-import { ModDto } from '../../../shared/dto/ModDto';
 
-import { ModQueryParams } from '../../../shared/types/ModQueryParams';
-import { api } from '../modules/api';
+import { Mod } from '../types';
+import api from '../modules/api';
+import { MIN_LOADING_DURATION } from '../const';
 
-export const useMods = (defaultQuery?: ModQueryParams) => {
+function useMods(defaultQuery = null) {
   const loading: Ref<boolean> = ref(false);
-  const mods: Ref<ModDto[]> = ref([]);
+  const mods: Ref<Mod[]> = ref([]);
 
-  const loadMods = async (params: ModQueryParams) => {
+  async function loadMods(params) {
     mods.value = await api.getMods(params);
-  };
+  }
 
-  const onSearch = async (query: any) => {
+  async function onSearch(query: any): Promise<void> {
     if (loading.value) return;
 
     loading.value = true;
@@ -20,8 +20,8 @@ export const useMods = (defaultQuery?: ModQueryParams) => {
 
     setTimeout(() => {
       loading.value = false;
-    }, 3000); //3s min downloading duration
-  };
+    }, MIN_LOADING_DURATION);
+  }
 
   onSearch(defaultQuery);
 
@@ -31,4 +31,6 @@ export const useMods = (defaultQuery?: ModQueryParams) => {
     loadMods,
     onSearch,
   };
-};
+}
+
+export default useMods;

@@ -30,26 +30,25 @@
 </template>
 
 <script lang="ts">
-import { data } from 'jquery';
 import { defineComponent } from 'vue';
 import { useActiveMeta } from 'vue-meta';
 import ApiProvidedForm from '../components/ApiProvidedForm.vue';
 import Icon from '../components/Icon.vue';
-import { useForm } from '../compositions/useForm';
-import { api } from '../modules/api';
-import { toaster } from '../modules/toaster';
-import { killSession } from '../store/session.store';
-import { passwordValidator } from '../_legacy/passwordValidator';
+import { useForm } from '../compositions';
+import api from '../modules/api';
+import { killSession } from '../modules/stateManager';
+import toaster from '../modules/toaster';
+import { passwordValidator } from '../_legacy';
 
 export default defineComponent({
   name: 'ChangePasswordPage',
   components: { ApiProvidedForm, Icon },
-  setup(_props, ctx) {
+  setup(props, { emit }) {
     const meta = useActiveMeta();
 
     meta.title = 'Change your password';
 
-    return useForm(ctx);
+    return useForm(emit);
   },
   mounted() {
     passwordValidator();

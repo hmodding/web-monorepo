@@ -18,11 +18,11 @@
       :class="styles.arrayList.itemWrapper"
     >
       <array-list-element
-        :moveUp="moveUp!(control.path, index)"
+        :moveUp="moveUp(control.path, index)"
         :moveUpEnabled="index > 0"
-        :moveDown="moveDown!(control.path, index)"
+        :moveDown="moveDown(control.path, index)"
         :moveDownEnabled="index < control.data.length - 1"
-        :delete="removeItems!(control.path, [index])"
+        :delete="removeItems(control.path, [index])"
         :label="childLabelForIndex(index)"
         :styles="styles"
       >
@@ -42,19 +42,19 @@
 
 <script lang="ts">
 import {
-composePaths,
-ControlElement,
-createDefaultValue,
-JsonFormsRendererRegistryEntry,
-rankWith,
-schemaTypeIs
+  composePaths,
+  ControlElement,
+  createDefaultValue,
+  JsonFormsRendererRegistryEntry,
+  rankWith,
+  schemaTypeIs,
 } from '@jsonforms/core';
-import {
-DispatchRenderer,
-rendererProps,
-useJsonFormsArrayControl
-} from '@jsonforms/vue';
 import { defineComponent } from 'vue';
+import {
+  DispatchRenderer,
+  rendererProps,
+  useJsonFormsArrayControl,
+} from '@jsonforms/vue';
 import { useVanillaArrayControl } from '../util';
 import ArrayListElement from './ArrayListElement.vue';
 

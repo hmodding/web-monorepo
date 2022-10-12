@@ -1,17 +1,17 @@
 import { reactive } from 'vue';
 
 interface AnswerDefinition {
-  confirm: (value?: unknown) => any;
-  cancel: (reason?: any) => any;
+  confirm: Function;
+  cancel: Function;
 }
 
-export const useModalAnswer = () => {
-  const answer = reactive<AnswerDefinition>({
-    confirm: () => null,
-    cancel: () => null,
+export default function () {
+  const answer: AnswerDefinition = reactive({
+    confirm: null,
+    cancel: null,
   });
 
-  const waitForAnswer = async () => {
+  async function waitForAnswer() {
     const promise = new Promise((resolve, reject) => {
       answer.confirm = resolve;
       answer.cancel = reject;
@@ -23,10 +23,10 @@ export const useModalAnswer = () => {
     } catch (e) {
       return false;
     }
-  };
+  }
 
   return {
     answer,
     waitForAnswer,
   };
-};
+}

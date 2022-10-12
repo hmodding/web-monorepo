@@ -22,7 +22,7 @@
       deselect-label="✓"
       select-label=""
       selected-label="✓"
-      @select="onChange({target: $event} as Event)"
+      @select="onChange({ target: $event })"
       @open="isFocused = true"
       @close="isFocused = false"
     >
@@ -33,18 +33,18 @@
 
 <script lang="ts">
 import {
-ControlElement,
-isOneOfEnumControl,
-JsonFormsRendererRegistryEntry,
-rankWith
+  ControlElement,
+  isOneOfEnumControl,
+  JsonFormsRendererRegistryEntry,
+  rankWith,
 } from '@jsonforms/core';
-import { rendererProps, useJsonFormsOneOfEnumControl } from '@jsonforms/vue';
 import { defineComponent } from 'vue';
+import { rendererProps, useJsonFormsOneOfEnumControl } from '@jsonforms/vue';
 //@ts-ignore
 import VueMultiselect from 'vue-multiselect';
 
-import { useVanillaControl } from '../util';
 import { default as ControlWrapper } from './ControlWrapper.vue';
+import { useVanillaControl } from '../util';
 
 const controlRenderer = defineComponent({
   name: 'enum-oneof-control-renderer',

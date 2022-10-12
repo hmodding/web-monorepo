@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
-import { DATE_FORMAT } from './const/formats.const';
+import { Mod, ModVersion } from './types';
+import { DATE_FORMAT } from './const';
 
 export function slugify(str: string): string {
   const a =
@@ -24,7 +25,7 @@ export function toDateStr(date: Date | string): string {
   return dayjs(date).format(DATE_FORMAT);
 }
 
-export function stripHtml(html: string) {
+export function stripHtml(html) {
   let tmp = document.createElement('DIV');
 
   tmp.innerHTML = html;
@@ -32,7 +33,7 @@ export function stripHtml(html: string) {
   return tmp.textContent || tmp.innerText || '';
 }
 
-export function toFormData(shallowObj: Record<string, any>) {
+export function toFormData(shallowObj: object) {
   const formData = new FormData();
 
   Object.keys(shallowObj).forEach((key) => {
@@ -42,7 +43,7 @@ export function toFormData(shallowObj: Record<string, any>) {
   return formData;
 }
 
-export function nullToUndefined(shallowObj: Record<string, any>) {
+export function nullToUndefined(shallowObj: object) {
   if (!shallowObj) return shallowObj;
   Object.keys(shallowObj).forEach((key) => {
     if (shallowObj[key] === null) {
@@ -53,7 +54,7 @@ export function nullToUndefined(shallowObj: Record<string, any>) {
   return shallowObj;
 }
 
-export function emptyToNull(shallowObj: Record<string, any>) {
+export function emptyToNull(shallowObj: object) {
   if (!shallowObj) return shallowObj;
   Object.keys(shallowObj).forEach((key) => {
     if (shallowObj[key] === '') {

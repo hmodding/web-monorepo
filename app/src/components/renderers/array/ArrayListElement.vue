@@ -33,7 +33,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+import { CompType, defineComponent } from 'vue';
 import { classes, Styles } from '../styles';
 
 const listItem = defineComponent({
@@ -76,7 +76,7 @@ const listItem = defineComponent({
     },
     styles: {
       required: true,
-      type: Object as PropType<Styles & ObjectConstructor>,
+      type: Object as CompType<Styles, ObjectConstructor>,
     },
   },
   data() {

@@ -4,7 +4,7 @@
       <div class="card mb-3">
         <div class="card-body">
           <h5 class="card-title">
-            Edit version {{ version?.version }} of mod "{{ version?.mod?.title }}"
+            Edit version {{ version.version }} of mod "{{ version.mod?.title }}"
           </h5>
           <form class="form" @submit.prevent="onSubmit" novalidate>
             <api-provided-form
@@ -63,14 +63,14 @@
       </div>
       <ul>
         <li>
-          <router-link :to="{ name: 'mod', params: { id: version?.mod?.id } }"
+          <router-link :to="{ name: 'mod', params: { id: version.mod?.id } }"
             >Go back to the mod's page</router-link
           >
         </li>
       </ul>
     </section>
     <section class="collapse my-3 mx-1" id="preview">
-      <mod-version-details :version="version!" :preview="true" />
+      <mod-version-details :version="version" :preview="true" />
     </section>
   </div>
   <confirm-modal
@@ -85,15 +85,14 @@
 </template>
 
 <script lang="ts">
-import { ready } from 'jquery';
-import { defineComponent, version } from 'vue';
+import { defineComponent } from 'vue';
 import ApiProvidedForm from '../components/ApiProvidedForm.vue';
 import Icon from '../components/Icon.vue';
 import ConfirmModal from '../components/modals/ConfirmModal.vue';
 import ModVersionDetails from '../components/ModVersionDetails.vue';
-import { useAddModVersion } from '../compositions/useAddModVersion';
-import { api } from '../modules/api';
-import { toaster } from '../modules/toaster';
+import { useAddModVersion } from '../compositions';
+import api from '../modules/api';
+import toaster from '../modules/toaster';
 
 export default defineComponent({
   name: 'EditModVersionPage',
@@ -107,7 +106,7 @@ export default defineComponent({
     async onSubmit(): Promise<void> {
       if (!this.loading) {
         this.loading = true;
-        const modVersion = await api.updateModVersion(Number(this.$route.params.id), this.version!);
+        const modVersion = await api.updateModVersion(Number(this.$route.params.id), this.version);
 
         if (!!modVersion) {
           this.hasUnsavedChanges = false;

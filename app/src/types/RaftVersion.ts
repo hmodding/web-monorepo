@@ -1,4 +1,4 @@
-export interface RaftVersion {
+export default interface RaftVersion {
   id: number;
   version: string;
   buildId: string;

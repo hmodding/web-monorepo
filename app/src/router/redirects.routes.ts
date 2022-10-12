@@ -1,6 +1,6 @@
-import { setGlobalBlank } from '../compositions/useGlobalBlank';
+import { setGlobalBlank } from '../compositions';
 
-export const redirectRoutes = [
+export default [
   {
     path: '/discord',
     beforeEnter() {

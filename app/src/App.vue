@@ -21,9 +21,11 @@ import { defineComponent } from 'vue';
 import CookieConsentModal from './components/modals/CookieConsentModal.vue';
 import TheMainFooter from './components/TheMainFooter.vue';
 import TheMainNav from './components/TheMainNav.vue';
-import { useGeneralMeta } from './compositions/meta/useGeneralMeta';
-import { useMetaAutoMatcher } from './compositions/meta/useMetaAutoMatcher';
-import { useGlobalBlank } from './compositions/useGlobalBlank';
+import {
+  useGeneralMeta,
+  useGlobalBlank,
+  useMetaAutoMatcher,
+} from './compositions';
 
 export default defineComponent({
   components: { CookieConsentModal, TheMainFooter, TheMainNav },

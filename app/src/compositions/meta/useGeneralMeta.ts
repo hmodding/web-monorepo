@@ -8,7 +8,7 @@ const {
   VITE_META_BASE_URL,
 } = import.meta.env;
 
-export const useGeneralMeta = () => {
+export function useGeneralMeta() {
   const generalMeta = computed(() => ({
     htmlAttrs: {
       lang: 'en',
@@ -18,7 +18,7 @@ export const useGeneralMeta = () => {
       href: baseUrl,
     },
     title: VITE_TITLE_DEFAULT as string,
-    titleTemplate(chunk: string = '') {
+    titleTemplate(chunk: string = null) {
       if (chunk !== VITE_TITLE_DEFAULT) {
         return `${chunk}${VITE_TITLE_APPEND}`;
       }
@@ -48,7 +48,7 @@ export const useGeneralMeta = () => {
   }));
 
   useMeta(generalMeta);
-};
+}
 
 const baseUrl = VITE_META_BASE_URL;
 
@@ -89,3 +89,5 @@ const tags = [
 ].join(', ');
 
 const authors = ['traxam', 'zer0', 'TeKGameR'].join(', ');
+
+export default useGeneralMeta;

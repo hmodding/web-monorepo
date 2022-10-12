@@ -43,25 +43,25 @@
 </template>
 
 <script lang="ts">
-import { data } from 'jquery';
 import { defineComponent } from 'vue';
 import { useActiveMeta } from 'vue-meta';
 import ApiProvidedForm from '../components/ApiProvidedForm.vue';
 import Icon from '../components/Icon.vue';
-import { useForm } from '../compositions/useForm';
-import { api } from '../modules/api';
+import { useForm } from '../compositions';
+import api from '../modules/api';
 
 export default defineComponent({
   name: 'SignInPage',
   components: { ApiProvidedForm, Icon },
-  setup(_props, ctx) {
+  setup(_props, { emit }) {
     const meta = useActiveMeta();
 
     meta.title = `Sign in`;
 
     return {
-      ...useForm(ctx),
+      ...useForm(emit),
       discord: {
+        //@ts-ignore
         clientId: import.meta.env.VITE_DISCORD_CLIENT_ID,
       },
     };
@@ -75,8 +75,8 @@ export default defineComponent({
         redirect = 'home';
       }
 
-      const params = JSON.parse(String(paramsStr));
-      const query = JSON.parse(String(queryStr));
+      const params = JSON.parse(paramsStr || null);
+      const query = JSON.parse(queryStr || null);
 
       if (await api.login(username, password)) {
         await this.$router.replace({ name: redirect, params, query } as any);

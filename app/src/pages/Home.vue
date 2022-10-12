@@ -65,10 +65,11 @@
 <script lang="ts">
 import { defineComponent, reactive } from 'vue';
 
-import { useActiveMeta } from 'vue-meta';
+import { Mod } from '../types';
+import api from '../modules/api';
+
 import ModsCardDeck from '../components/ModsCardDeck.vue';
-import { api } from '../modules/api';
-import { Mod } from '../types/Mod';
+import { useActiveMeta } from 'vue-meta';
 
 interface ModCollection {
   mostDownloaded: Mod[];

@@ -18,9 +18,9 @@ import { HttpStatusCode } from '../types/HttpStatusCode';
 export class RaftVersionController extends Controller {
   @Get()
   @Security('everyone')
-  public async list(@Query() sort?: string, @Query() count?: number) {
+  public async list(@Query() sort?: string) {
     this.setStatus(HttpStatusCode.Ok);
-    return RaftVersionService.getAll({ sort, count });
+    return RaftVersionService.getAll(sort);
   }
 
   @Get('/{id}')

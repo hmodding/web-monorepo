@@ -67,7 +67,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { donationModal } from '../../_legacy/donationModal';
+import { donationModal } from '../../_legacy';
 
 export default defineComponent({
   name: 'TheDonationModal',

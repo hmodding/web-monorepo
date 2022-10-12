@@ -2,7 +2,6 @@
   /* APP */
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "module": "es2022",
     "isolatedModules": true,
     "useDefineForClassFields": true,
     "jsx": "preserve",

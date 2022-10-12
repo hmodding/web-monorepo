@@ -2,7 +2,7 @@
 
 import $ from 'jquery';
 
-export const changelog = () => {
+export default function () {
   $('.support-button').click(function (e) {
     e.preventDefault();
     $('#support-modal').modal('show');
@@ -10,4 +10,4 @@ export const changelog = () => {
   $('#support-discord-link').click(function (e) {
     $('#support-modal').modal('hide');
   });
-};
+}

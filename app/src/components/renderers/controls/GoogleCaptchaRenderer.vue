@@ -14,19 +14,19 @@
 
 <script lang="ts">
 import {
-and,
-ControlElement,
-isStringControl,
-JsonFormsRendererRegistryEntry,
-optionIs,
-rankWith
+  and,
+  ControlElement,
+  isStringControl,
+  JsonFormsRendererRegistryEntry,
+  optionIs,
+  rankWith,
 } from '@jsonforms/core';
 import { rendererProps, useJsonFormsControl } from '@jsonforms/vue';
 import { defineComponent } from 'vue';
-import { state } from '../../../store/store';
+import { state } from '../../../modules/stateManager';
 import ReCaptcha from '../../ReCaptcha.vue';
 import { useVanillaControl } from '../util';
-import ControlWrapper from './ControlWrapper.vue';
+import { default as ControlWrapper } from './ControlWrapper.vue';
 
 const controlRenderer = defineComponent({
   name: 'google-captcha-renderer',
@@ -47,10 +47,10 @@ const controlRenderer = defineComponent({
   },
   methods: {
     onVerify(token: string) {
-      this.onChange({ target: { value: token } } as unknown as Event);
+      this.onChange({ target: { value: token } });
     },
     resetToken() {
-      this.onChange({ target: { value: undefined } } as unknown as Event);
+      this.onChange({ target: { value: undefined } });
     },
   },
 });

@@ -43,13 +43,12 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { useActiveMeta } from 'vue-meta';
-import { QueryParams } from '../../../shared/types/QueryParams';
 import Icon from '../components/Icon.vue';
 import LoadingSpinner from '../components/LoadingSpinner.vue';
 import ModsCardDeck from '../components/ModsCardDeck.vue';
 import ModSearcher from '../components/ModSearcher.vue';
 import PlaceholderModCard from '../components/PlaceholderModCard.vue';
-import { useMods } from '../compositions/useMods';
+import { useMods } from '../compositions';
 
 export default defineComponent({
   name: 'ModsPage',
@@ -62,7 +61,7 @@ export default defineComponent({
   },
   setup() {
     const meta = useActiveMeta();
-    const defaultQuery: QueryParams = {
+    const defaultQuery = {
       sort: '-createdAt',
     };
 

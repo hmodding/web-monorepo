@@ -99,16 +99,15 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import { api } from '../modules/api';
-import { toaster } from '../modules/toaster';
+import { useModEditing } from '../compositions';
+import api from '../modules/api';
+import toaster from '../modules/toaster';
 
-import { ready } from 'jquery';
 import ApiProvidedForm from '../components/ApiProvidedForm.vue';
 import Icon from '../components/Icon.vue';
 import ConfirmModal from '../components/modals/ConfirmModal.vue';
 import ModDangerZone from '../components/ModDangerZoner.vue';
 import ModDetails from '../components/ModDetails.vue';
-import { useModEditing } from '../compositions/useModEditing';
 
 export default defineComponent({
   name: 'EditModPage',

@@ -1,3 +1,3 @@
-export interface MarkdownItConfiguration {
+export default interface MarkdownItConfiguration {
   plugins?: Object[];
 }

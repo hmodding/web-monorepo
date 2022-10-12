@@ -1,6 +1,6 @@
-import { User } from './User';
+import User from './User';
 
-export interface Session {
+export default interface Session {
   token: string;
   user?: User;
   expires: Date;

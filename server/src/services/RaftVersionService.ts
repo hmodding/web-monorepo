@@ -1,9 +1,9 @@
 import dayjs from 'dayjs';
 import { RaftVersionDto } from '../../../shared/dto/RaftVersionDto';
-import { schema as addRaftVersionSchema } from '../../resources/schemas/raftVersion/addRaftVersionSchema';
-import { schema as editRaftVersionSchema } from '../../resources/schemas/raftVersion/editRaftVersionSchema';
 import { RaftVersion } from '../entities/RaftVersion';
 import { ApiError } from '../errors/ApiError';
+import { schema as addRaftVersionSchema } from '../../resources/schemas/raftVersion/addRaftVersionSchema';
+import { schema as editRaftVersionSchema } from '../../resources/schemas/raftVersion/editRaftVersionSchema';
 import { HttpStatusCode } from '../types/HttpStatusCode';
 import { validateData } from '../utils';
 import { AbstractService } from './AbstractService';
@@ -15,16 +15,10 @@ interface RaftVersionCreateData
 
 interface RaftVersionUpdateData extends RaftVersionCreateData {}
 
-interface QueryParams {
-  sort?: string;
-  count?: number;
-}
-
 export class RaftVersionService extends AbstractService {
-  static async getAll({ sort, count }: QueryParams) {
+  static async getAll(sort?: string) {
     return RaftVersion.find({
       order: this.parseSort(sort),
-      take: count,
     });
   }
 

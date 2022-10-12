@@ -83,12 +83,13 @@
 <script lang="ts">
 import { defineComponent, ref, Ref } from 'vue';
 
+import toaster from '../modules/toaster';
+import { useModalAnswer } from '../compositions';
+import api from '../modules/api';
+import { DATETIME_FORMAT } from '../const';
 import dayjs from 'dayjs';
-import { DATETIME_FORMAT } from '../const/formats.const';
-import { api } from '../modules/api';
-import { toaster } from '../modules/toaster';
+import { Mod } from '../types';
 
-import { useModalAnswer } from '../compositions/useModalAnswer';
 import DangerZoneModal from './modals/DangerZoneModal.vue';
 
 export default defineComponent({
@@ -101,10 +102,10 @@ export default defineComponent({
     },
   },
   setup() {
-    const transferTo: Ref<string> = ref('');
+    const transferTo: Ref<string> = ref();
     const transferToCls: Ref<string> = ref('');
 
-    const deleteConfirm: Ref<string> = ref('');
+    const deleteConfirm: Ref<string> = ref();
     const deleteConfirmCls: Ref<string> = ref('');
 
     return {
@@ -119,7 +120,7 @@ export default defineComponent({
     async onTransfer(event: Event): Promise<void> {
       if (this.transferTo && (await this.waitForAnswer())) {
         const { id } = this.mod;
-        const mod = await api.updateMod({ id, author: this.transferTo });
+        const mod = await api.updateMod({ id, author: this.transferTo } as Mod);
 
         if (mod) {
           await this.$router.push({ name: 'mods' });

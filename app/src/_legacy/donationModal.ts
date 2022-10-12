@@ -1,13 +1,13 @@
 // noinspection JSDeprecatedSymbols
 
-import { Modal } from 'bootstrap';
 import $ from 'jquery';
+import { Modal } from 'bootstrap';
 
-export const donationModal = () => {
+export default function () {
   $.extend(Modal);
 
   $('.donate-button').click(function (e) {
     e.preventDefault();
     $('#donate-modal').modal('toggle');
   });
-};
+}

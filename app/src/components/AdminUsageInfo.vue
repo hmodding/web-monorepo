@@ -3,7 +3,7 @@
     name="shield-alt"
     class="text-danger"
     size="xs"
-    title="Admin privileges usage"
+    title="Admin priviliges usage"
   />
 </template>
 

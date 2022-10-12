@@ -70,7 +70,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { api } from '../../modules/api';
+import api from '../../modules/api';
 
 export default defineComponent({
   name: 'TheDownloadWarningModal',

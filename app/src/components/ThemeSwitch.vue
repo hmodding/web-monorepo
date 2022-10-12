@@ -9,11 +9,10 @@
 </template>
 
 <script lang="ts">
+import { Theme } from 'State';
 import { defineComponent } from 'vue';
-import { state } from '../store/store';
-import { setTheme } from '../store/theme.store';
-import { Theme } from '../types/State';
 
+import { setTheme, state } from '../modules/stateManager';
 
 export default defineComponent({
   name: 'ThemeSwitch',

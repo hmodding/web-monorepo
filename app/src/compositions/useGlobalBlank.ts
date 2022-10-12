@@ -1,4 +1,4 @@
-import { ref } from 'vue';
+import { computed, Ref, ref } from 'vue';
 
 const blank = ref(false);
 
@@ -8,6 +8,6 @@ export const useGlobalBlank = () => {
   };
 };
 
-export const setGlobalBlank = (value: boolean) => {
+export const setGlobalBlank = (value) => {
   blank.value = value;
 };

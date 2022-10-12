@@ -45,13 +45,12 @@
 </template>
 
 <script lang="ts">
-import { versions } from 'process';
 import { defineComponent, ref, Ref } from 'vue';
 import { useActiveMeta } from 'vue-meta';
 import { useRoute } from 'vue-router';
 import Icon from '../components/Icon.vue';
-import { api } from '../modules/api';
-import { RaftVersion } from '../types/RaftVersion';
+import api from '../modules/api';
+import { RaftVersion } from '../types';
 import { toDateStr } from '../utils';
 
 export default defineComponent({

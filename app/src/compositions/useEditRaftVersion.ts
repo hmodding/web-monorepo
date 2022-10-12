@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { Ref, ref, watch } from 'vue';
+import { Ref, ref, SetupContext, watch } from 'vue';
 import { useActiveMeta } from 'vue-meta';
 import { useRoute } from 'vue-router';
 import { DATE_FORMAT } from '../const';
@@ -13,9 +13,9 @@ export interface ExtendedMod extends Mod {
   maxRaftVersionId: number;
 }
 
-export default function (emit) {
+export const useEditRaftVersion = (ctx: SetupContext) => {
   const meta = useActiveMeta();
-  const form = useForm(emit);
+  const form = useForm(ctx);
   const routeLeaveConfirm = useRouteLeaveConfirm();
   const route = useRoute();
   const ready: Ref<boolean> = ref(false);
@@ -57,4 +57,4 @@ export default function (emit) {
     ready,
     onChange,
   };
-}
+};

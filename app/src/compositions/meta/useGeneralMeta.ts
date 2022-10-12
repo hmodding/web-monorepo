@@ -17,7 +17,7 @@ export const useGeneralMeta = () => {
     base: {
       href: baseUrl,
     },
-    title: VITE_TITLE_DEFAULT as string,
+    title: String(VITE_TITLE_DEFAULT),
     titleTemplate(chunk: string = '') {
       if (chunk !== VITE_TITLE_DEFAULT) {
         return `${chunk}${VITE_TITLE_APPEND}`;

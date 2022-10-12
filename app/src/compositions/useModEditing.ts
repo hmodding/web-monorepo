@@ -5,7 +5,7 @@ import { api } from '../modules/api';
 import { state } from '../modules/stateManager';
 import { Mod } from '../types';
 import { nullToUndefined, slugify } from '../utils';
-import useRouteLeaveConfirm from './useRouteLeaveConfirm';
+import { useRouteLeaveConfirm } from './useRouteLeaveConfirm';
 
 export interface ExtendedMod extends Mod {
   minRaftVersionId: number;

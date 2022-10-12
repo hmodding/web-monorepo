@@ -3,7 +3,7 @@ import { ref, SetupContext } from 'vue';
 import { LoaderVersion } from '../types';
 import { useForm } from './useForm';
 import { useLoading } from './useLoading';
-import useRouteLeaveConfirm from './useRouteLeaveConfirm';
+import {useRouteLeaveConfirm} from './useRouteLeaveConfirm';
 
 export const useAddLauncherVersion = (ctx: SetupContext) => {
   const form = useForm(ctx);

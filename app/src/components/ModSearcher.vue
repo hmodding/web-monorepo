@@ -42,8 +42,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { useApiQuerying } from '../compositions/useApiQuerying';
 
-import useApiQuerying from '../compositions/useApiQuerying';
 import Icon from './Icon.vue';
 
 export default defineComponent({

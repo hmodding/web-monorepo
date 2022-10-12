@@ -1,4 +1,3 @@
-export { default as useApiQuerying } from './useApiQuerying';
 export { default as useEditRaftVersion } from './useEditRaftVersion';
 export * from './useGlobalBlank';
 export { useLikes } from './useLikes';

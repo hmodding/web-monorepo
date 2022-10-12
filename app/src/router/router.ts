@@ -7,19 +7,17 @@ import NotFound from '../pages/NotFound.vue';
 import { setBlankPage } from '../store/actions/blankPage.actions';
 import { isSessionExpired } from '../store/actions/session.actions';
 import { state } from '../store/store';
-import accountRoutes from './account.routes';
-import adminRoutes from './admin.routes';
-import legalRoutes from './legal.routes';
-import modRoutes from './mods.routes';
-import redirectsRoutes from './redirects.routes';
-import {
-  handleAdminOnly,
-  handleExistingSession,
-  handleMissingSession,
-  handleUnfinishedUser,
-} from './routerHandlers';
+import { adminOnlyHandler } from './handlers/adminOnlyHandler';
+import { existingSessionHandler } from './handlers/existingSessionHandler';
+import { missingSessionHandler } from './handlers/missingSessionHandler';
+import { unfinishedUserHandler } from './handlers/unfinishedUserHandler';
+import { accountRoutes } from './routes/account.routes';
+import { adminRoutes } from './routes/admin.routes';
+import { legalRoutes } from './routes/legal.routes';
+import { modRoutes } from './routes/mods.routes';
+import { redirectRoutes } from './routes/redirect.routes';
 
-const router = createRouter({
+export const router = createRouter({
   history: createWebHistory(),
   routes: [
     { path: '/', name: 'home', component: Home },
@@ -42,12 +40,10 @@ const router = createRouter({
     ...accountRoutes,
     ...legalRoutes,
     ...adminRoutes,
-    ...redirectsRoutes,
+    ...redirectRoutes,
     { path: '/:pathMatch(.*)*', name: 'notFound', component: NotFound },
   ],
 });
-
-export default router;
 
 router.beforeEach((to, from, next) => {
   setBlankPage(false);
@@ -55,15 +51,15 @@ router.beforeEach((to, from, next) => {
 
   if (isSessionExpired()) {
     if (to.meta.sessionRequired) {
-      return handleMissingSession(to, from, next);
+      return missingSessionHandler(to, from, next);
     }
   } else {
     if (to.meta.prohibitSession) {
-      return handleExistingSession(to, from, next);
+      return existingSessionHandler(to, from, next);
     } else if (to.meta.adminOnly) {
-      return handleAdminOnly(to, from, next);
+      return adminOnlyHandler(to, from, next);
     } else if (state.session?.user?.role === 'UNFINISHED') {
-      return handleUnfinishedUser(to, from, next);
+      return unfinishedUserHandler(to, from, next);
     }
   }
 

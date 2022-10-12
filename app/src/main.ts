@@ -11,7 +11,7 @@ import {
 } from 'vue-meta';
 import MarkdownIt from 'vue3-markdown-it';
 
-import router from './router';
+import { router } from './router/router';
 
 import App from './App.vue';
 import { initSession } from './store/actions/session.actions';

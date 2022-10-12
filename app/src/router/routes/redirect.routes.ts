@@ -1,8 +1,10 @@
-import { setBlankPage } from '../store/actions/blankPage.actions';
+import { RouteRecordRaw } from 'vue-router';
+import { setBlankPage } from '../../store/actions/blankPage.actions';
 
-export default [
+export const redirectRoutes: RouteRecordRaw[] = [
   {
     path: '/discord',
+    redirect: '/',
     beforeEnter() {
       setBlankPage(true);
       location.replace(import.meta.env.VITE_DISCORD_INVITE_LINK as string);
@@ -10,6 +12,7 @@ export default [
   },
   {
     path: '/docs',
+    redirect: '/',
     beforeEnter() {
       setBlankPage(true);
       return location.replace(import.meta.env.VITE_API_DOCS_URL as string);
@@ -17,6 +20,7 @@ export default [
   },
   {
     path: '/docs/multiple-files',
+    redirect: '/',
     beforeEnter() {
       setBlankPage(true);
       location.replace(
@@ -26,6 +30,7 @@ export default [
   },
   {
     path: '/docs/slugs',
+    redirect: '/',
     beforeEnter() {
       setBlankPage(true);
       location.replace(import.meta.env.VITE_API_DOCS_SLUGS_URL as string);

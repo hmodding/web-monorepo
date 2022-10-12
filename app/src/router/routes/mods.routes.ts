@@ -1,12 +1,13 @@
-import AddMod from '../pages/AddMod.vue';
-import AddModVersion from '../pages/AddModVersion.vue';
-import EditMod from '../pages/EditMod.vue';
-import EditModVersion from '../pages/EditModVersion.vue';
-import Mod from '../pages/Mod.vue';
-import Mods from '../pages/Mods.vue';
-import ModVersions from '../pages/ModVersions.vue';
+import { RouteRecordRaw } from 'vue-router';
+import AddMod from '../../pages/AddMod.vue';
+import AddModVersion from '../../pages/AddModVersion.vue';
+import EditMod from '../../pages/EditMod.vue';
+import EditModVersion from '../../pages/EditModVersion.vue';
+import Mod from '../../pages/Mod.vue';
+import Mods from '../../pages/Mods.vue';
+import ModVersions from '../../pages/ModVersions.vue';
 
-export default [
+export const modRoutes: RouteRecordRaw[] = [
   {
     path: '/mods',
     name: 'mods',

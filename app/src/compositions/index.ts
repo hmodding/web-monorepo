@@ -1,4 +1,3 @@
-export { default as useLoading } from './useLoading';
 export { default as useMod } from './useMod';
 export { default as useModalAnswer } from './useModalAnswer';
 export { default as useModEditing } from './useModEditing';

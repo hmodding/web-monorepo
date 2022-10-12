@@ -3,7 +3,7 @@ import { useActiveMeta } from 'vue-meta';
 import { useRoute } from 'vue-router';
 import { ModVersionDto } from '../../../shared/dto/ModVersionDto';
 import { api } from '../modules/api';
-import useLoading from './useLoading';
+import { useLoading } from './useLoading';
 import useRouteLeaveConfirm from './useRouteLeaveConfirm';
 
 export const useAddModVersion = () => {

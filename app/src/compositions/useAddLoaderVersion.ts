@@ -2,7 +2,7 @@ import { JsonFormsChangeEvent } from '@jsonforms/vue';
 import { ref, SetupContext } from 'vue';
 import { LoaderVersion } from '../types';
 import { useForm } from './useForm';
-import useLoading from './useLoading';
+import { useLoading } from './useLoading';
 import useRouteLeaveConfirm from './useRouteLeaveConfirm';
 
 export const useAddLoaderVersion = (ctx: SetupContext) => {

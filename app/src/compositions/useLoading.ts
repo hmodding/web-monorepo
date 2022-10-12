@@ -1,9 +1,9 @@
-import { Ref, ref } from 'vue';
+import { ref } from 'vue';
 
-export default function () {
-  const loading: Ref<boolean> = ref(false);
+export const useLoading = () => {
+  const loading = ref(false);
 
   return {
     loading,
   };
-}
+};

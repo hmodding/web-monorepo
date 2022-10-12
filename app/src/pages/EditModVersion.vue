@@ -85,12 +85,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { ready } from 'jquery';
+import { defineComponent, version } from 'vue';
 import ApiProvidedForm from '../components/ApiProvidedForm.vue';
 import Icon from '../components/Icon.vue';
 import ConfirmModal from '../components/modals/ConfirmModal.vue';
 import ModVersionDetails from '../components/ModVersionDetails.vue';
-import { useAddModVersion } from '../compositions';
+import { useAddModVersion } from '../compositions/useAddModVersion';
 import { api } from '../modules/api';
 import { toaster } from '../modules/toaster';
 

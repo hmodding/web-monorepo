@@ -83,17 +83,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, version } from 'vue';
 
-import { useAddModVersion } from '../compositions';
 import { api } from '../modules/api';
 import { toaster } from '../modules/toaster';
 
+import { ready } from 'jquery';
 import { useActiveMeta } from 'vue-meta';
 import ApiProvidedForm from '../components/ApiProvidedForm.vue';
 import Icon from '../components/Icon.vue';
 import ConfirmModal from '../components/modals/ConfirmModal.vue';
 import ModVersionDetails from '../components/ModVersionDetails.vue';
+import { useAddModVersion } from '../compositions/useAddModVersion';
 
 export default defineComponent({
   name: 'AddModVersionPage',

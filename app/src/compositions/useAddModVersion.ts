@@ -1,24 +1,22 @@
-import { Ref, ref } from 'vue';
+import { ref } from 'vue';
 import { useActiveMeta } from 'vue-meta';
 import { useRoute } from 'vue-router';
 import { ModVersionDto } from '../../../shared/dto/ModVersionDto';
 import { api } from '../modules/api';
+import useLoading from './useLoading';
 import useRouteLeaveConfirm from './useRouteLeaveConfirm';
 
-export default function () {
+export const useAddModVersion = () => {
   const meta = useActiveMeta();
   const routeLeaveConfirm = useRouteLeaveConfirm();
   const route = useRoute();
-  const ready: Ref<boolean> = ref(false);
-  const loading: Ref<boolean> = ref(false);
-  const showErrors: Ref<boolean> = ref(false);
-  const modVersion: Ref<ModVersionDto | undefined> = ref();
+  const ready = ref(false);
+  const showErrors = ref(false);
+  const modVersion = ref<ModVersionDto>();
 
   meta.title = 'Add mod Version';
 
   (async () => {
-    const { version } = route.params;
-
     modVersion.value = await api.getModVersion(Number(route.params.id));
 
     const raftVersions = await api.getRaftVersions();
@@ -47,10 +45,10 @@ export default function () {
 
   return {
     ...routeLeaveConfirm,
-    loading,
+    ...useLoading(),
     ready,
     showErrors,
-    version: (modVersion as unknown) as ModVersionDto,
+    version: modVersion,
     onChange,
   };
-}
+};

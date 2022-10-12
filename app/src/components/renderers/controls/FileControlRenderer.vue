@@ -57,7 +57,7 @@ const controlRenderer = defineComponent({
     ...rendererProps<ControlElement>(),
   },
   setup(props) {
-    const filename = ref(null);
+    const filename = ref<string>();
     return {
       ...useVanillaControl(useJsonFormsControl(props), (target) => ({
         name: target._$name,
@@ -68,7 +68,7 @@ const controlRenderer = defineComponent({
   },
   methods: {
     async onFileChange(event: Event) {
-      let file: File;
+      let file: File | null = null;
       let value: any;
       const { files } = event.target as HTMLInputElement;
 
@@ -79,7 +79,7 @@ const controlRenderer = defineComponent({
         console.log(value);
       }
       return this.onChange({
-        target: { _$base64: value, _$name: file.name || null, value },
+        target: { _$base64: value, _$name: file?.name || null, value },
       } as any);
     },
   },

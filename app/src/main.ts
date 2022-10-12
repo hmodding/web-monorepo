@@ -11,10 +11,10 @@ import {
 } from 'vue-meta';
 import MarkdownIt from 'vue3-markdown-it';
 
-import { initSession } from './store/stateManager';
 import router from './router';
 
 import App from './App.vue';
+import { initSession } from './store/actions/session.actions';
 
 (async () => {
   const metaManager = createMetaManager(false, {

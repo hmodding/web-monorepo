@@ -3,7 +3,7 @@ import { useActiveMeta } from 'vue-meta';
 import { useRoute } from 'vue-router';
 import { ModCreateDto } from '../../../shared/dto/ModDto';
 import { api } from '../modules/api';
-import { state } from '../store/stateManager';
+import { state } from '../store/store';
 import { Mod } from '../types';
 import { nullToUndefined, slugify } from '../utils';
 import { useRouteLeaveConfirm } from './useRouteLeaveConfirm';

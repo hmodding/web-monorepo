@@ -4,6 +4,7 @@ import {
   getFirstPrimitiveProp,
   Resolve,
 } from '@jsonforms/core';
+import { JsonFormsChangeEvent } from '@jsonforms/vue';
 import cloneDeep from 'lodash/cloneDeep';
 import merge from 'lodash/merge';
 import {
@@ -15,6 +16,10 @@ import {
   watch,
 } from 'vue';
 import { useStyles } from '../styles';
+
+export interface CustomChangeEvent extends JsonFormsChangeEvent {
+  target: { value?: any };
+}
 
 /**
  * Adds styles, isFocused, appliedOptions and onChange
@@ -35,7 +40,7 @@ export const useVanillaControl = <
 
   const isFocused = ref(false);
 
-  const onChange = (event: CustomEvent) => {
+  const onChange = (event: CustomChangeEvent) => {
     function prepareValue(value: any) {
       const type = input.control?.value?.schema?.type;
 

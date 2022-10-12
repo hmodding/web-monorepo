@@ -14,16 +14,16 @@
 
 <script lang="ts">
 import {
-  and,
-  ControlElement,
-  isStringControl,
-  JsonFormsRendererRegistryEntry,
-  optionIs,
-  rankWith,
+and,
+ControlElement,
+isStringControl,
+JsonFormsRendererRegistryEntry,
+optionIs,
+rankWith
 } from '@jsonforms/core';
 import { rendererProps, useJsonFormsControl } from '@jsonforms/vue';
 import { defineComponent } from 'vue';
-import { state } from '../../../store/stateManager';
+import { state } from '../../../store/store';
 import ReCaptcha from '../../ReCaptcha.vue';
 import { useVanillaControl } from '../util';
 import { default as ControlWrapper } from './ControlWrapper.vue';

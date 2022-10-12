@@ -1,4 +1,4 @@
-import { setBlankPage } from '../store/stateManager';
+import { setBlankPage } from '../store/actions/blankPage.actions';
 
 export default [
   {

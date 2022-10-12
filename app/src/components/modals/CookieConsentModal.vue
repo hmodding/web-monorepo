@@ -40,14 +40,14 @@
 
 <script lang="ts">
 import { defineComponent, ref, Ref } from 'vue';
-import { LOCAL_STORAGE_COOKIE_CONSENT } from '../../const/localStorage.const';
+import { getPersistedCookieConsent, persistCookieConsent } from '../../store/persistence.store';
 
 
 export default defineComponent({
   name: 'CookieConsentModal',
   setup() {
     const show: Ref<boolean> = ref(true);
-    const cookieConsent = localStorage.getItem(LOCAL_STORAGE_COOKIE_CONSENT);
+    const cookieConsent = getPersistedCookieConsent();
 
     if (cookieConsent && cookieConsent === 'accepted') {
       show.value = false;
@@ -59,7 +59,7 @@ export default defineComponent({
   },
   methods: {
     acceptCookieConsent(): void {
-      localStorage.setItem(LOCAL_STORAGE_COOKIE_CONSENT, 'accepted');
+      persistCookieConsent('accepted');
       this.show = false;
     },
   },

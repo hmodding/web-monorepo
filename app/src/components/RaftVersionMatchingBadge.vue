@@ -16,7 +16,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { state } from '../store/stateManager';
+import { state } from '../store/store';
 
 export default defineComponent({
   name: 'RaftVersionMatchingBadge',
@@ -29,7 +29,7 @@ export default defineComponent({
       return this.to ? 'router-link' : 'span';
     },
     isUpToDate(): boolean {
-      return this.modVersion?.maxRaftVersionId === state.latestRaftVersion.id;
+      return this.modVersion?.maxRaftVersionId === state.latestRaftVersion!.id;
     },
     isUntested(): boolean {
       return !this.isUpToDate && !this.modVersion?.definiteMaxRaftVersion;

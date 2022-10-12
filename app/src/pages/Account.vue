@@ -87,7 +87,7 @@ import { defineComponent } from 'vue';
 import { Session, User } from '../types';
 
 import { useActiveMeta } from 'vue-meta';
-import { state } from '../store/stateManager';
+import { state } from '../store/store';
 import { $tooltip } from '../_legacy/tooltip';
 
 export default defineComponent({
@@ -99,7 +99,7 @@ export default defineComponent({
   },
   computed: {
     session(): Session {
-      return state.session;
+      return state.session!;
     },
     user(): User {
       return state.session?.user || ({} as User);

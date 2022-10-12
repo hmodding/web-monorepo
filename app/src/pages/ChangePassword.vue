@@ -37,19 +37,19 @@ import ApiProvidedForm from '../components/ApiProvidedForm.vue';
 import Icon from '../components/Icon.vue';
 import { useForm } from '../compositions/useForm';
 import { api } from '../modules/api';
-import { killSession } from '../store/stateManager';
 import { toaster } from '../modules/toaster';
+import { killSession } from '../store/actions/session.actions';
 import { $passwordValidator } from '../_legacy/passwordValidator';
 
 export default defineComponent({
   name: 'ChangePasswordPage',
   components: { ApiProvidedForm, Icon },
-  setup(props, { emit }) {
+  setup(_props, ctx) {
     const meta = useActiveMeta();
 
     meta.title = 'Change your password';
 
-    return useForm(emit);
+    return useForm(ctx);
   },
   mounted() {
     $passwordValidator();

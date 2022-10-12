@@ -5,17 +5,19 @@ import { LoaderVersionDto } from '../../../shared/dto/LoaderVersionDto';
 import { ModDto } from '../../../shared/dto/ModDto';
 import { ModVersionDto } from '../../../shared/dto/ModVersionDto';
 import { QueryParams } from '../../../shared/types/QueryParams';
-import { LOCAL_STORAGE_SESSION } from '../const/localStorage.const';
+import { setSession } from '../store/actions/session.actions';
+import { unPersistSession } from '../store/persistence.store';
+import { state } from '../store/store';
 import {
   FormResponse,
   LauncherVersion,
   LoaderVersion,
   Mod,
   ModVersion,
-  RaftVersion, Session
+  RaftVersion,
+  Session,
 } from '../types';
 import { ModLike } from '../types/ModLike';
-import { setSession, state } from '../store/stateManager';
 import { toaster } from './toaster';
 
 class Api {
@@ -271,7 +273,7 @@ class Api {
       toaster
         .error('Could not load session. Please login again')
         .on(NotyfEvent.Dismiss, () => {
-          localStorage.removeItem(LOCAL_STORAGE_SESSION);
+          unPersistSession();
           state.session = null;
         });
     }

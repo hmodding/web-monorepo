@@ -232,8 +232,9 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { isSessionExpired, killSession, state } from '../store/stateManager';
 import { toaster } from '../modules/toaster';
+import { isSessionExpired, killSession } from '../store/actions/session.actions';
+import { state } from '../store/store';
 import { Session, User } from '../types';
 import Icon from './Icon.vue';
 import TheDonationModal from './modals/TheDonationModal.vue';
@@ -243,7 +244,7 @@ export default defineComponent({
   components: { Icon, TheDonationModal },
   computed: {
     session(): Session {
-      return state.session;
+      return state.session!;
     },
     user(): User {
       return (state.session?.user || {}) as User;

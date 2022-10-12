@@ -1,7 +1,7 @@
 import { computed, Ref, ref, watch } from 'vue';
 import { useActiveMeta } from 'vue-meta';
 import { useRoute } from 'vue-router';
-import api from '../modules/api';
+import { api } from '../modules/api';
 import { state } from '../modules/stateManager';
 import { Mod } from '../types';
 import { nullToUndefined, slugify } from '../utils';

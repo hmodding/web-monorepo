@@ -20,11 +20,11 @@
 import { defineComponent } from 'vue';
 import { useForm } from '../compositions';
 import {
-  TOAST_FORM_INVALID,
-  TOAST_PASSWORD_RESET_SET_FAILED,
-  TOAST_PASSWORD_RESET_SET_SUCCESS,
+TOAST_FORM_INVALID,
+TOAST_PASSWORD_RESET_SET_FAILED,
+TOAST_PASSWORD_RESET_SET_SUCCESS
 } from '../const';
-import api from '../modules/api';
+import { api } from '../modules/api';
 import toaster from '../modules/toaster';
 import ApiProvidedForm from './ApiProvidedForm.vue';
 

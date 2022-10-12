@@ -1,12 +1,12 @@
 import dayjs from 'dayjs';
 import { reactive } from 'vue';
-import { Session, State, Theme } from '../types';
 import {
   LOCAL_STORAGE_SESSION,
   LOCAL_STORAGE_THEME,
   ROLE_UNFINISHED,
 } from '../const';
-import api from './api';
+import { Session, State, Theme } from '../types';
+import { api } from './api';
 
 export const state: State = reactive({
   session: null,

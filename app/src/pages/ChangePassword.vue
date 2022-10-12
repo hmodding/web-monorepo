@@ -35,7 +35,7 @@ import { useActiveMeta } from 'vue-meta';
 import ApiProvidedForm from '../components/ApiProvidedForm.vue';
 import Icon from '../components/Icon.vue';
 import { useForm } from '../compositions';
-import api from '../modules/api';
+import { api } from '../modules/api';
 import { killSession } from '../modules/stateManager';
 import toaster from '../modules/toaster';
 import { passwordValidator } from '../_legacy';

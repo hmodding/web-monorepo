@@ -29,7 +29,7 @@ import ModHeader from '../components/ModHeader.vue';
 import ModRightTable from '../components/ModRightTable.vue';
 import ModVersionDetails from '../components/ModVersionDetails.vue';
 import { useLikes } from '../compositions';
-import api from '../modules/api';
+import { api } from '../modules/api';
 
 export default defineComponent({
   name: 'ModVersionsPage',

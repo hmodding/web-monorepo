@@ -1,8 +1,8 @@
 import { ref, Ref } from 'vue';
 
-import { Mod } from '../types';
-import api from '../modules/api';
 import { MIN_LOADING_DURATION } from '../const';
+import { api } from '../modules/api';
+import { Mod } from '../types';
 
 function useMods(defaultQuery = null) {
   const loading: Ref<boolean> = ref(false);

@@ -89,7 +89,7 @@ import ConfirmModal from '../components/modals/ConfirmModal.vue';
 import ModDetails from '../components/ModDetails.vue';
 import { useModEditing } from '../compositions';
 import { TOAST_FORM_INVALID } from '../const';
-import api from '../modules/api';
+import { api } from '../modules/api';
 import toaster from '../modules/toaster';
 
 export default defineComponent({

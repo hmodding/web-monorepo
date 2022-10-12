@@ -260,13 +260,12 @@
 <script lang="ts">
 import { defineComponent, ref, Ref } from 'vue';
 
+import { api } from '../modules/api';
 import { LauncherVersion, LoaderVersion } from '../types';
 import { toDateStr } from '../utils';
-import api from '../modules/api';
 
-import Icon from '../components/Icon.vue';
-import { RouteLocation } from 'vue-router';
 import { useActiveMeta } from 'vue-meta';
+import Icon from '../components/Icon.vue';
 
 export default defineComponent({
   name: 'DownloadPage',

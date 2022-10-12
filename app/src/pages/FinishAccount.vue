@@ -36,11 +36,11 @@ import ApiProvidedForm from '../components/ApiProvidedForm.vue';
 import Icon from '../components/Icon.vue';
 import { useForm } from '../compositions';
 import {
-  ROLE_UNFINISHED,
-  TOAST_ACCOUNT_FINISHED,
-  TOAST_GENERIC_SERVER_ERROR,
+ROLE_UNFINISHED,
+TOAST_ACCOUNT_FINISHED,
+TOAST_GENERIC_SERVER_ERROR
 } from '../const';
-import api from '../modules/api';
+import { api } from '../modules/api';
 import { isSessionExpired, state } from '../modules/stateManager';
 import toaster from '../modules/toaster';
 

@@ -59,7 +59,7 @@ import Icon from '../components/Icon.vue';
 import ConfirmModal from '../components/modals/ConfirmModal.vue';
 import { useEditRaftVersion } from '../compositions';
 import { DATE_FORMAT, TOAST_FORM_INVALID } from '../const';
-import api from '../modules/api';
+import { api } from '../modules/api';
 import toaster from '../modules/toaster';
 
 export default defineComponent({

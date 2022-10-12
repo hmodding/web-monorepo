@@ -11,7 +11,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { ModDto } from '../../../shared/dto/ModDto';
 import ModDetails from '../components/ModDetails.vue';
 import { useLikes } from '../compositions';
-import api from '../modules/api';
+import { api } from '../modules/api';
 import toaster from '../modules/toaster';
 
 //@ts-ignore

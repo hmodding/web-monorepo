@@ -86,14 +86,14 @@
 import { defineComponent } from 'vue';
 
 import { useAddModVersion } from '../compositions';
-import api from '../modules/api';
+import { api } from '../modules/api';
 import toaster from '../modules/toaster';
 
-import Icon from '../components/Icon.vue';
+import { useActiveMeta } from 'vue-meta';
 import ApiProvidedForm from '../components/ApiProvidedForm.vue';
+import Icon from '../components/Icon.vue';
 import ConfirmModal from '../components/modals/ConfirmModal.vue';
 import ModVersionDetails from '../components/ModVersionDetails.vue';
-import { useActiveMeta } from 'vue-meta';
 
 export default defineComponent({
   name: 'AddModVersionPage',

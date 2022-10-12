@@ -28,7 +28,7 @@ import ModDetails from '../components/ModDetails.vue';
 import ModHeader from '../components/ModHeader.vue';
 import ModRightTable from '../components/ModRightTable.vue';
 import ModVersionDetails from '../components/ModVersionDetails.vue';
-import { useLikes } from '../compositions';
+import { useLikes } from '../compositions/useLikes';
 import { api } from '../modules/api';
 
 export default defineComponent({
@@ -41,7 +41,7 @@ export default defineComponent({
   },
   setup() {
     const meta = useActiveMeta();
-    const mod: Ref<ModDto | null> = ref(null);
+    const mod = ref<ModDto>();
 
     (async () => {
       const route = useRoute();
@@ -51,7 +51,7 @@ export default defineComponent({
 
     return {
       mod,
-      ...useLikes(mod)
+      ...useLikes(mod as Ref<ModDto>)
     };
   },
 });

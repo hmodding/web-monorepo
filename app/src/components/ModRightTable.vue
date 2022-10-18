@@ -158,7 +158,9 @@ export default defineComponent({
     AdminUsageInfo,
   },
   props: {
-    mod: Object,
+    mod: {
+      type: Object
+    },
     preview: {
       type: Boolean,
       default: false,

@@ -1,4 +1,4 @@
-import { FindOptionsWhere } from 'typeorm';
+import { FindOptionsWhere, ILike } from 'typeorm';
 import { ModCreateDto, ModDto } from '../../../shared/dto/ModDto';
 import { modCategories } from '../../../shared/modCategories';
 import { getSchema } from '../../resources/schemas/mod/addModSchema';
@@ -12,7 +12,12 @@ import { ModVersionService } from './ModVersionService';
 
 export class ModService extends AbstractService {
   static async getAll(where?: FindOptionsWhere<Mod>, sort?: string) {
-    return await Mod.find({
+    console.log({
+      order: this.parseSort(sort),
+      where,
+    });
+    console.log(await Mod.find({ where: { id: ILike('google') } }));
+    return Mod.find({
       order: this.parseSort(sort),
       where,
     });

@@ -23,7 +23,7 @@ export const saveExampleDbData = async () => {
     role: 'admin',
   };
   if (!(await UserPrivilege.findOneBy({ username: userPrivilege1.username }))) {
-    await User.save(User.create(userPrivilege1 as any));
+    await UserPrivilege.save(User.create(userPrivilege1 as any));
   }
 
   const raftVersion1: DeepPartial<RaftVersion> = {

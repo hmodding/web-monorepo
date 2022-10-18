@@ -10,6 +10,7 @@ import {
   Route,
   Security,
 } from 'tsoa';
+import { ILike } from 'typeorm';
 import { ModCreateDto, ModUpdateDto } from '../../../shared/dto/ModDto';
 import { ApiError } from '../errors/ApiError';
 import { ModService } from '../services/ModService';
@@ -20,8 +21,15 @@ import { HttpStatusCode } from '../types/HttpStatusCode';
 export class ModController extends Controller {
   @Get()
   @Security('everyone')
-  public async list(@Query() author?: string, @Query() sort?: string) {
-    return await ModService.getAll({ author }, sort);
+  public async list(
+    @Query() author?: string,
+    @Query() sort?: string,
+    @Query() q?: string,
+  ) {
+    return await ModService.getAll(
+      { author, id: q ? ILike(q) : undefined },
+      sort,
+    );
   }
 
   /**

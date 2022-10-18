@@ -53,14 +53,15 @@
 
 <script lang="ts">
 import dayjs from 'dayjs';
+import { data, ready } from 'jquery';
 import { defineComponent } from 'vue';
 import ApiProvidedForm from '../components/ApiProvidedForm.vue';
 import Icon from '../components/Icon.vue';
 import ConfirmModal from '../components/modals/ConfirmModal.vue';
-import { useEditRaftVersion } from '../compositions';
-import { DATE_FORMAT, TOAST_FORM_INVALID } from '../const';
-import api from '../modules/api';
-import toaster from '../modules/toaster';
+import { useEditRaftVersion } from '../compositions/useEditRaftVersion';
+import { TOAST_FORM_INVALID } from '../const/toasts.const';
+import { api } from '../modules/api';
+import { toaster } from '../modules/toaster';
 
 export default defineComponent({
   name: 'EditRaftVersionPage',
@@ -69,14 +70,14 @@ export default defineComponent({
     Icon,
     ConfirmModal,
   },
-  setup(props, { emit }) {
+  setup(props, ctx) {
     return {
-      ...useEditRaftVersion(emit),
+      ...useEditRaftVersion(ctx),
     };
   },
   methods: {
     async onSubmit(): Promise<void> {
-      if (!this.loadig) {
+      if (!this.loading) {
         this.showErrors = true;
 
         if (this.errorCount > 0) {

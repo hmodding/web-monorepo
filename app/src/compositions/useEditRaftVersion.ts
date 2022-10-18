@@ -1,26 +1,26 @@
+import { JsonFormsChangeEvent } from '@jsonforms/vue';
 import dayjs from 'dayjs';
-import { __metadata } from 'tslib';
-import { Ref, ref, watch } from 'vue';
+import { ref, SetupContext, watch } from 'vue';
 import { useActiveMeta } from 'vue-meta';
 import { useRoute } from 'vue-router';
+import { DATE_FORMAT } from '../const/formats.const';
+import { api } from '../modules/api';
 import { Mod, RaftVersion } from '../types';
-import { DATE_FORMAT } from '../const';
-import api from '../modules/api';
-import useForm from './useForm';
-import useRouteLeaveConfirm from './useRouteLeaveConfirm';
+import { useForm } from './useForm';
+import { useRouteLeaveConfirm } from './useRouteLeaveConfirm';
 
 export interface ExtendedMod extends Mod {
   minRaftVersionId: number;
   maxRaftVersionId: number;
 }
 
-export default function (emit) {
+export const useEditRaftVersion = (ctx: SetupContext) => {
   const meta = useActiveMeta();
-  const form = useForm(emit);
+  const form = useForm(ctx);
   const routeLeaveConfirm = useRouteLeaveConfirm();
   const route = useRoute();
-  const ready: Ref<boolean> = ref(false);
-  const loading: Ref<boolean> = ref(false);
+  const ready = ref(false);
+  const loading = ref(false);
 
   (async () => {
     const { id } = route.params;
@@ -36,7 +36,7 @@ export default function (emit) {
     ready.value = true;
   })();
 
-  function onChange(event: { data: object; errors: any[] }) {
+  function onChange(event: JsonFormsChangeEvent) {
     if (JSON.stringify(event.data) !== JSON.stringify(form.data.value)) {
       routeLeaveConfirm.hasUnsavedChanges.value = true;
     }
@@ -58,4 +58,4 @@ export default function (emit) {
     ready,
     onChange,
   };
-}
+};

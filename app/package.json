@@ -13,6 +13,7 @@
     "@fortawesome/fontawesome-free": "^5.15.3",
     "@jsonforms/core": "^3.0.0-alpha.1",
     "@jsonforms/vue": "^3.0.0-alpha.1",
+    "@types/lodash": "^4.14.186",
     "@types/multer": "^1.4.5",
     "ajv-errors": "^1.0.1",
     "animate.css": "^4.1.1",

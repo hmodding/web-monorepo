@@ -1,5 +1,4 @@
 {
-  /* SERVER */
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "outDir": "dist",
@@ -13,6 +12,7 @@
     }
   },
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "main.ts", "resources/schemas/commons.schema.ts", "resources/schemas/addLauncherVersionSchema.ts", "resources/schemas/addLoaderVersionSchema.ts", "resources/schemas/mod/addModSchema.ts", "src/schemas", "resources/schemas/modVersion/addModVersionSchema.ts", "resources/schemas/raftVersion/addRaftVersionSchema.ts", "resources/schemas/changePasswordSchema.ts", "resources/schemas/mod/editModSchema.ts", "resources/schemas/modVersion/editModVersionSchema.ts", "resources/schemas/raftVersion/editRaftVersionSchema.ts", "resources/schemas/finishAccountSchema.ts", "resources/schemas/index.ts", "resources/schemas/loginSchema.ts", "resources/schemas/resetPasswordSchema.ts", "resources/schemas/updatePasswordSchema.ts", "resources/schemas/signUpSchema.ts",
   ]
 }

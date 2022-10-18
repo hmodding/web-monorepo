@@ -47,19 +47,19 @@ import { defineComponent } from 'vue';
 import { useActiveMeta } from 'vue-meta';
 import ApiProvidedForm from '../components/ApiProvidedForm.vue';
 import Icon from '../components/Icon.vue';
-import { useForm } from '../compositions';
-import api from '../modules/api';
+import { useForm } from '../compositions/useForm';
+import { api } from '../modules/api';
 
 export default defineComponent({
   name: 'SignInPage',
   components: { ApiProvidedForm, Icon },
-  setup(_props, { emit }) {
+  setup(_props, ctx) {
     const meta = useActiveMeta();
 
     meta.title = `Sign in`;
 
     return {
-      ...useForm(emit),
+      ...useForm(ctx),
       discord: {
         //@ts-ignore
         clientId: import.meta.env.VITE_DISCORD_CLIENT_ID,

@@ -1,7 +1,7 @@
 // noinspection ES6ConvertVarToLetConst
 import $ from 'jquery';
 
-export default function () {
+export const $passwordValidator = () => {
   $('#password').on('input', function (e) {
     var password = $(e.target).val();
     var result;
@@ -21,7 +21,7 @@ export default function () {
       $('#password-feedback').text(result);
     } else {
       $('#password').removeClass('is-invalid');
-      $('#password-feedback').text(result);
+      $('#password-feedback').text(String(result));
     }
   });
-}
+};

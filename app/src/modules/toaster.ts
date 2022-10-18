@@ -1,5 +1,5 @@
-import { INotyfOptions } from 'notyf/notyf.options';
 import { Notyf, NotyfNotification } from 'notyf';
+import { INotyfOptions } from 'notyf/notyf.options';
 
 const defaultConfig: Partial<INotyfOptions> = {
   position: { x: 'right', y: 'bottom' },
@@ -37,6 +37,4 @@ export class Toaster extends Notyf {
   }
 }
 
-const toaster = new Toaster();
-
-export default toaster;
+export const toaster = new Toaster();

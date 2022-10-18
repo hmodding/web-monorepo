@@ -20,24 +20,21 @@
 </template>
 
 <script lang="ts">
+import { data } from 'jquery';
 import { defineComponent } from 'vue';
 
-import { useForm } from '../compositions';
-import {
-  TOAST_FORM_INVALID,
-  TOAST_PASSWORD_RESET_ALREADY_EXISTS,
-  TOAST_PASSWORD_RESET_SENT,
-} from '../const';
-import api from '../modules/api';
-import toaster from '../modules/toaster';
+import { useForm } from '../compositions/useForm';
+import { TOAST_FORM_INVALID, TOAST_PASSWORD_RESET_ALREADY_EXISTS, TOAST_PASSWORD_RESET_SENT } from '../const/toasts.const';
+import { api } from '../modules/api';
+import { toaster } from '../modules/toaster';
 import ApiProvidedForm from './ApiProvidedForm.vue';
 
 export default defineComponent({
   components: { ApiProvidedForm },
   name: 'RequestPasswordReset',
-  setup(props: any, { emit }) {
+  setup(_props, ctx) {
     return {
-      ...useForm(emit),
+      ...useForm(ctx),
     };
   },
   methods: {

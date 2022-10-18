@@ -12,7 +12,7 @@ import { defineComponent, ref } from 'vue';
 import { useActiveMeta } from 'vue-meta';
 import { useRoute } from 'vue-router';
 import ModsCardDeck from '../components/ModsCardDeck.vue';
-import { useMods } from '../compositions';
+import { useMods } from '../compositions/useMods';
 
 export default defineComponent({
   name: 'UserPage',

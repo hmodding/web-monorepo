@@ -1,20 +1,20 @@
-import './assets/styles/global.scss';
 import 'notyf/notyf.min.css';
+import './assets/styles/global.scss';
 
+import { Modal, Tooltip } from 'bootstrap';
+import $ from 'jquery'; //TODO: get rid of it!
 import { createApp } from 'vue';
-import MarkdownIt from 'vue3-markdown-it';
 import {
   createMetaManager,
-  plugin as metaPlugin,
   defaultConfig,
+  plugin as metaPlugin,
 } from 'vue-meta';
-import $ from 'jquery'; //TODO: get rid of it!
-import { Modal, Tooltip } from 'bootstrap';
+import MarkdownIt from 'vue3-markdown-it';
 
-import router from './router';
-import { initSession } from './modules/stateManager';
+import { router } from './router/router';
 
 import App from './App.vue';
+import { initSession } from './store/actions/session.actions';
 
 (async () => {
   const metaManager = createMetaManager(false, {

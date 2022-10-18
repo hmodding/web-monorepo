@@ -1,13 +1,13 @@
-import { computed, reactive, ref, Ref } from 'vue';
-
+import { computed, reactive, ref } from 'vue';
+import { QueryParams } from '../../../shared/types/QueryParams';
 import { emptyToNull } from '../utils';
 
-function useApiQuerying() {
-  const sort: Ref<string> = ref(null);
-  const search: Ref<string> = ref(null);
-  const filter: any = reactive({});
+export const useApiQuerying = () => {
+  const sort = ref<string>();
+  const search = ref<string>();
+  const filter = reactive<Record<string, any>>({});
 
-  const query = computed({
+  const query = computed<QueryParams>({
     get() {
       return {
         sort: sort.value,
@@ -15,7 +15,7 @@ function useApiQuerying() {
         ...emptyToNull(filter.value),
       };
     },
-    set(query: any) {
+    set(query: QueryParams) {
       sort.value = query.sort;
       delete query.sort;
       search.value = query.search;
@@ -30,6 +30,4 @@ function useApiQuerying() {
     filter,
     query,
   };
-}
-
-export default useApiQuerying;
+};

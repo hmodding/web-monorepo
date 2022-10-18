@@ -5,9 +5,9 @@
         <hr />
         <div class="row my-3">
           <div class="col-9 col-sm-7 text-left">
-            © 2021 | Made by
+            © {{fullYear || '2021'}} | Made by
             <a href="https://trax.am" target="_blank">traxam</a>,
-            <a href="https://www.felix-puetz.com" target="_blank">zer0</a> and
+            <a href="https://github.com/Felix-Staud" target="_blank">zer0</a> and
             <a href="https://www.hytekgames.net" target="_blank">TeKGameR</a>
             Not affiliated with Raft, Redbeet Interactive or Axolot Games.
           </div>

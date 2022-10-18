@@ -1,6 +1,6 @@
-import { Styles } from './styles';
 import cloneDeep from 'lodash/cloneDeep';
 import mergeWith from 'lodash/mergeWith';
+import { Styles } from './styles';
 
 export const classes = (strings: TemplateStringsArray, ...variables: any[]) => {
   return strings
@@ -23,20 +23,29 @@ export const mergeStyles = (
   stylesB: Partial<Styles>,
 ): Partial<Styles> => {
   const styles = cloneDeep(stylesA);
-  mergeWith(styles, stylesB, (aValue, bValue) => {
-    if (typeof aValue === 'string' && typeof bValue === 'string') {
-      return `${aValue} ${bValue}`;
-    }
-    return undefined;
-  });
+  mergeWith(
+    styles,
+    stylesB,
+    (aValue: Partial<Styles>, bValue: Partial<Styles>) => {
+      if (typeof aValue === 'string' && typeof bValue === 'string') {
+        return `${aValue} ${bValue}`;
+      }
+      return undefined;
+    },
+  );
   return styles;
 };
 
-export function toBase64(file) {
+export function toBase64(file: File) {
+  const prefix = 'data:application/octet-stream;base64,';
+  const reader = new FileReader();
+
   return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsBinaryString(file);
-    reader.onload = () => resolve(btoa(reader.result as string));
+    reader.onload = () => {
+      const base64 = reader.result as string;
+      return resolve(base64.replace(prefix, ''));
+    };
     reader.onerror = (error) => reject(error);
+    reader.readAsDataURL(file);
   });
 }

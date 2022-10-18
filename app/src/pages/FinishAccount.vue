@@ -30,35 +30,33 @@
 </template>
 
 <script lang="ts">
+import { data } from 'jquery';
 import { defineComponent, ref } from 'vue';
 import { useActiveMeta } from 'vue-meta';
 import ApiProvidedForm from '../components/ApiProvidedForm.vue';
 import Icon from '../components/Icon.vue';
-import { useForm } from '../compositions';
-import {
-  ROLE_UNFINISHED,
-  TOAST_ACCOUNT_FINISHED,
-  TOAST_GENERIC_SERVER_ERROR,
-} from '../const';
-import api from '../modules/api';
-import { isSessionExpired, state } from '../modules/stateManager';
-import toaster from '../modules/toaster';
+import { useForm } from '../compositions/useForm';
+import { TOAST_ACCOUNT_FINISHED, TOAST_GENERIC_SERVER_ERROR } from '../const/toasts.const';
+import { api } from '../modules/api';
+import { toaster } from '../modules/toaster';
+import { isSessionExpired } from '../store/actions/session.actions';
+import { state } from '../store/store';
 
 export default defineComponent({
   name: 'FinishAccountPage',
   components: { ApiProvidedForm, Icon },
-  setup(props, { emit }) {
+  setup(_props, ctx) {
     const meta = useActiveMeta();
 
     meta.title = 'Finish account setup';
 
     return {
-      ...useForm(emit),
+      ...useForm(ctx),
       animation: ref('animate__zoomInDown'),
     };
   },
   async beforeRouteEnter(to, from, next) {
-    if (!isSessionExpired() && state.session.user.role !== ROLE_UNFINISHED) {
+    if (!isSessionExpired() && state.session?.user?.role !== 'UNFINISHED') {
       await next({ name: 'home' });
       toaster.success('Your account is already complete');
     }

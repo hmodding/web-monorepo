@@ -32,11 +32,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, Ref, ref } from 'vue';
-import { useMod } from '../compositions';
-import api from '../modules/api';
-import { isSessionExpired, state } from '../modules/stateManager';
-import toaster from '../modules/toaster';
+import { head } from 'lodash';
+import { defineComponent, PropType, Ref, ref } from 'vue';
+import { ModDto } from '../../../shared/dto/ModDto';
+import { useMod } from '../compositions/useMod';
+import { api } from '../modules/api';
+import { toaster } from '../modules/toaster';
+import { isSessionExpired } from '../store/actions/session.actions';
+import { state } from '../store/store';
 import Icon from './Icon.vue';
 
 export default defineComponent({
@@ -45,7 +48,10 @@ export default defineComponent({
     Icon,
   },
   props: {
-    mod: Object,
+    mod: {
+      type: Object as PropType<ModDto>,
+      required: true,
+    },
     preview: Boolean,
   },
   emits: ['like'],
@@ -56,6 +62,7 @@ export default defineComponent({
     return {
       ...props,
       ...useMod(props),
+      timer,
       disabled,
     };
   },
@@ -74,11 +81,11 @@ export default defineComponent({
       }
 
       if (isSessionExpired()) {
-        toaster.error(`You have to login to like a mod! `);
+        toaster.error(`You have to login to like a mod `);
         this.$router.push({
           name: 'signIn',
           query: {
-            redirect: this.$route.name,
+            redirect: String(this.$route.name),
             paramsStr: JSON.stringify(this.$route.params),
           },
         });

@@ -1,6 +1,7 @@
-import { FindOptionsWhere, ILike } from 'typeorm';
+import { ILike } from 'typeorm';
 import { ModCreateDto, ModDto } from '../../../shared/dto/ModDto';
 import { modCategories } from '../../../shared/modCategories';
+import { ModQueryParams } from '../../../shared/types/QueryParams';
 import { getSchema } from '../../resources/schemas/mod/addModSchema';
 import { Mod } from '../entities/Mod';
 import { User } from '../entities/User';
@@ -11,15 +12,13 @@ import { AbstractService } from './AbstractService';
 import { ModVersionService } from './ModVersionService';
 
 export class ModService extends AbstractService {
-  static async getAll(where?: FindOptionsWhere<Mod>, sort?: string) {
-    console.log({
-      order: this.parseSort(sort),
-      where,
-    });
-    console.log(await Mod.find({ where: { id: ILike('google') } }));
-    return Mod.find({
-      order: this.parseSort(sort),
-      where,
+  static async getAll({ sort, author, q }: ModQueryParams) {
+    return Mod.find<Mod>({
+      order: sort ? this.parseSort(sort) : undefined,
+      where: {
+        author,
+        title: q ? ILike('%' + q + '%') : undefined,
+      },
     });
   }
 

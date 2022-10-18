@@ -53,13 +53,13 @@ import { api } from '../modules/api';
 export default defineComponent({
   name: 'SignInPage',
   components: { ApiProvidedForm, Icon },
-  setup(_props, { emit }) {
+  setup(_props, ctx) {
     const meta = useActiveMeta();
 
     meta.title = `Sign in`;
 
     return {
-      ...useForm(emit),
+      ...useForm(ctx),
       discord: {
         //@ts-ignore
         clientId: import.meta.env.VITE_DISCORD_CLIENT_ID,

@@ -10,7 +10,6 @@ import {
   Route,
   Security,
 } from 'tsoa';
-import { ILike } from 'typeorm';
 import { ModCreateDto, ModUpdateDto } from '../../../shared/dto/ModDto';
 import { ApiError } from '../errors/ApiError';
 import { ModService } from '../services/ModService';
@@ -26,10 +25,11 @@ export class ModController extends Controller {
     @Query() sort?: string,
     @Query() q?: string,
   ) {
-    return await ModService.getAll(
-      { author, id: q ? ILike(q) : undefined },
+    return await ModService.getAll({
+      q,
       sort,
-    );
+      author,
+    });
   }
 
   /**

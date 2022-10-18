@@ -1,0 +1,21 @@
+{
+  /* APP */
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "module": "ES2022",
+    "isolatedModules": true,
+    "useDefineForClassFields": true,
+    "jsx": "preserve",
+    "outDir": "dist",
+    "baseUrl": ".",
+    "paths": {
+      "*": [
+        "node_modules/*",
+        "src/types/*"
+      ]
+    }
+  },
+  "include": [
+    "src/**/*"
+  ]
+}

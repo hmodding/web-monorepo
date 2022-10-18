@@ -4,8 +4,8 @@ import axios from 'axios';
  * Format for [Discord Embed](https://discord.com/developers/docs/resources/channel#embed-object-embed-structure) objects.
  */
 export interface Embed {
-  title?: string;
-  description?: string;
+  title?: string; //256 characters
+  description?: string; //4096 characters
   url?: string;
   /**
    * ISO8601 timestamp
@@ -18,7 +18,7 @@ export interface Embed {
   video?: EmbedVideo;
   provider?: EmbedProvider;
   author?: EmbedAuthor;
-  fields?: EmbedField[];
+  fields?: EmbedField[]; //	Up to 25 field objects
 }
 
 /**
@@ -72,8 +72,8 @@ export interface EmbedFooter {
  * Format for [Discord Embed Field](https://discord.com/developers/docs/resources/channel#embed-object-embed-field-structure) objects.
  */
 export interface EmbedField {
-  name: string;
-  value: string;
+  name: string; // 256 characters
+  value: string; //	1024 characters
   inline?: boolean;
 }
 

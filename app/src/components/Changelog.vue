@@ -1,3 +1,33 @@
+<script setup lang="ts">import dayjs from 'dayjs';
+import { version } from 'os';
+import { computed, onMounted } from 'vue';
+import { DATETIME_FORMAT, DATE_FORMAT } from '../const/formats.const';
+import { $changelog } from '../_legacy/changelog';
+
+interface ChangelogProps {
+  version: string;
+  readme: string;
+  releaseDate: Date | string;
+  softwareName: string;
+  downloadUrl: string;
+  lastUpdate: Date | string;
+  preview: boolean;
+};
+
+const props = defineProps<ChangelogProps>();
+
+const vReleaseDate = computed<Date|string>(() => props.preview? new Date() : String(props.releaseDate));
+const vLastUpdate = computed<Date|string>(() => props.preview? new Date() : String(props.lastUpdate));
+const fullReleaseDateStr = computed<string>(() => dayjs(vReleaseDate.value).format(DATETIME_FORMAT));
+const releaseDateStr = computed<string>(() => dayjs(vReleaseDate.value).format(DATE_FORMAT));
+const fullLastUpdateDateStr = computed<string>(() => dayjs(vLastUpdate.value).format(DATETIME_FORMAT));
+const lastUpdateDateStr = computed<string>(() => dayjs(vLastUpdate.value).format(DATE_FORMAT));
+
+onMounted(() => {
+  $changelog();
+})
+</script>
+
 <template>
   <div class="container">
     <section class="my-3">
@@ -76,53 +106,3 @@
     <the-support-label-modal />
   </div>
 </template>
-
-<script lang="ts">
-import dayjs from 'dayjs';
-import { defineComponent, version } from 'vue';
-
-// noinspection TypeScriptCheckImport
-import VueMarkdownIt from 'vue3-markdown-it';
-import { DATETIME_FORMAT, DATE_FORMAT } from '../const/formats.const';
-
-import { $changelog } from '../_legacy/changelog';
-import Icon from './Icon.vue';
-import TheSupportLabelModal from './modals/TheSupportLabelModal.vue';
-
-export default defineComponent({
-  name: 'Changelog',
-  components: { TheSupportLabelModal, VueMarkdownIt, Icon },
-  props: {
-    version: String,
-    readme: String,
-    releaseDate: [Date, String],
-    softwareName: String,
-    downloadUrl: String,
-    lastUpdate: [Date, String],
-    preview: Boolean,
-  },
-  computed: {
-    vReleaseDate(): Date | string {
-      return this.preview ? new Date() : String(this.releaseDate);
-    },
-    vLastUpdate(): Date | string {
-      return this.preview ? new Date() : String(this.lastUpdate);
-    },
-    fullReleaseDateStr(): string {
-      return dayjs(this.vReleaseDate).format(DATETIME_FORMAT);
-    },
-    releaseDateStr(): string {
-      return dayjs(this.vReleaseDate).format(DATE_FORMAT);
-    },
-    fullLastUpdateDateStr(): string {
-      return dayjs(this.vLastUpdate).format(DATETIME_FORMAT);
-    },
-    lastUpdateDateStr(): string {
-      return dayjs(this.vLastUpdate).format(DATE_FORMAT);
-    },
-  },
-  mounted() {
-    $changelog();
-  },
-});
-</script>

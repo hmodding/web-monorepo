@@ -1,3 +1,35 @@
+<script setup lang="ts">
+import { computed } from 'vue';
+import { useRouter } from 'vue-router';
+import { useToaster } from '../compositions/useToaster';
+import { isSessionExpired as isSessionExpiredAction, killSession } from '../store/actions/session.actions';
+import { state, Theme } from '../store/store';
+import { Session, User } from '../types';
+import Icon from './Icon.vue';
+
+const router = useRouter();
+const toaster = useToaster();
+
+const session = computed<Session>(() => state.session!);
+const user = computed<User>(() => state.session?.user || {} as User);
+const isAdmin = computed<boolean>(() => user.value.role === 'admin');
+const theme = computed<Theme>(() => state.theme);
+const isSessionExpired= computed<boolean>(() => isSessionExpiredAction());
+const vUsername = computed<string>(() => {
+  if (user.value.username.length <= 10) {
+    return user.value.username;
+  } else {
+    return `${user.value.username.substring(0, 10)}...`;
+  }
+});
+
+const logout = async () => {
+  await killSession();
+  await router.push({name: 'signIn'});
+  await toaster.success('Logout successful');
+}
+</script>
+
 <template>
   <nav class="navbar navbar-expand-lg navbar-dark bg-blue sticky-top">
     <div class="container">
@@ -26,7 +58,7 @@
             }"
           >
             <router-link :to="{ name: 'download' }" class="nav-link">
-              <i class="fas fa-bolt mx-1"></i> Mod loader
+              <Icon name="bolt" class="mx-1"/> Mod loader
             </router-link>
           </li>
           <li
@@ -34,7 +66,7 @@
             :class="{ active: $route.path.startsWith('/mods') }"
           >
             <router-link :to="{ name: 'mods' }" class="nav-link">
-              <i class="fas fa-plug mx-1"></i> Mods
+              <Icon name="plug" class="mx-1"/> Mods
             </router-link>
           </li>
         </ul>
@@ -48,7 +80,7 @@
               target="_blank"
               data-original-title="Discord server"
             >
-              <i class="fab fa-discord mx-2"></i>
+              <Icon type="b" name="discord" class="mx-2"/>
               <span class="d-inline d-lg-none">Discord server</span>
             </a>
           </li>
@@ -61,8 +93,8 @@
               title=""
               data-original-title="Documentation"
             >
-              <i class="fas fa-book mx-2"></i
-              ><span class="d-inline d-lg-none">Documentation</span>
+              <Icon name="book" class="mx-2"/>
+              <span class="d-inline d-lg-none">Documentation</span>
             </a>
           </li>
           <li class="mx-1 nav-item">
@@ -73,8 +105,8 @@
               title=""
               data-original-title="Donate"
             >
-              <i class="fas fa-donate mx-2"></i
-              ><span class="d-inline d-lg-none">Support us</span>
+              <Icon name="donate" class="mx-2" />
+              <span class="d-inline d-lg-none">Support us</span>
             </a>
           </li>
           <li v-if="isSessionExpired" class="nav-item">
@@ -83,7 +115,7 @@
               class="nav-link"
               :class="{ active: $route.path.startsWith('/signin') }"
             >
-              <icon name="sign-in-alt" /> Login
+              <Icon name="sign-in-alt" /> Login
             </router-link>
           </li>
           <template v-else>
@@ -98,7 +130,7 @@
                 id="navbarDropdownMenuLink"
                 :title="user.username"
               >
-                <i class="fas fa-user mx-2"></i>
+                <Icon name="user" class="mx-2"/>
                 {{ vUsername }}
                 <icon name="caret-down" class="float-right ml-md-1" />
               </a>
@@ -229,52 +261,6 @@
   </nav>
   <the-donation-modal />
 </template>
-
-<script lang="ts">
-import { defineComponent } from 'vue';
-import { toaster } from '../modules/toaster';
-import { isSessionExpired, killSession } from '../store/actions/session.actions';
-import { state } from '../store/store';
-import { Session, User } from '../types';
-import Icon from './Icon.vue';
-import TheDonationModal from './modals/TheDonationModal.vue';
-
-export default defineComponent({
-  name: 'TheMainNav',
-  components: { Icon, TheDonationModal },
-  computed: {
-    session(): Session {
-      return state.session!;
-    },
-    user(): User {
-      return (state.session?.user || {}) as User;
-    },
-    isAdmin(): boolean {
-      return this.user?.role === 'admin';
-    },
-    theme(): string {
-      return state.theme;
-    },
-    isSessionExpired(): boolean {
-      return isSessionExpired();
-    },
-    vUsername(): string {
-      if (this.user.username.length <= 10) {
-        return this.user.username;
-      } else {
-        return `${this.user.username?.substr(0, 10)}…`;
-      }
-    },
-  },
-  methods: {
-    async logout(): Promise<void> {
-      await killSession();
-      await this.$router.push({ name: 'signIn' });
-      toaster.success('Logout successful');
-    },
-  },
-});
-</script>
 
 <style scoped lang="scss">
 @import '../assets/styles/variables';

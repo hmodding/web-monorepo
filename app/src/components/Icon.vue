@@ -1,19 +1,5 @@
-<template>
-  <i
-    class="icon mx-1"
-    :class="[`fa${type}`, `fa-${name}`, size ? `fa-${size}` : null]"
-    :title="title"
-  ></i>
-</template>
-
-<script lang="ts">
-import { size } from 'lodash';
-import { type } from 'os';
-import { title } from 'process';
-import { defineComponent, PropType } from 'vue';
-
-type IconType = 's' | 'r' | 'b';
-
+<script setup lang="ts">
+type IconType = 's' | 'r' | 'b'; //solid, regular, brand
 type IconSize = 'xs'
     | 'sm'
     | 'lg'
@@ -26,34 +12,20 @@ type IconSize = 'xs'
     | '8x'
     | '9x'
     | '10x';
+interface IconProps {
+  name: string,
+  type?: IconType,
+  size?: IconSize,
+  title?: string
+}
 
-export type IconOptions = {
-  name: string;
-  type?: IconType
-  size?: IconSize
-};
-
-export default defineComponent({
-  name: 'Icon',
-  props: {
-    name: {
-      type: String,
-      required: true,
-    },
-    type: {
-      type: String as PropType<IconType>,
-      default: 's',
-      validator(type: string): boolean {
-        return ['s', 'r', 'b'].includes(type);
-      },
-    },
-    size: {
-      type: String as PropType<IconSize>,
-      validator(size: string): boolean {
-        return ['xs', 'sm', 'lg', '2x', '3x', '4x', '5x', '6x', '7x', '8x', '9x', '10x'].includes(size);
-      }
-    },
-    title: String,
-  },
-});
+withDefaults(defineProps<IconProps>(), {type: 's'});
 </script>
+
+<template>
+  <i
+    class="icon mx-1"
+    :class="[`fa${type}`, `fa-${name}`, size ? `fa-${size}` : null]"
+    :title="title"
+  ></i>
+</template>

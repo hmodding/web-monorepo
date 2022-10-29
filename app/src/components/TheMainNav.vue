@@ -5,6 +5,7 @@ import { useToaster } from '../compositions/useToaster';
 import { isSessionExpired as isSessionExpiredAction, killSession } from '../store/actions/session.actions';
 import { state, Theme } from '../store/store';
 import { Session, User } from '../types';
+import Icon from './Icon.vue';
 
 const router = useRouter();
 const toaster = useToaster();
@@ -57,7 +58,7 @@ const logout = async () => {
             }"
           >
             <router-link :to="{ name: 'download' }" class="nav-link">
-              <i class="fas fa-bolt mx-1"></i> Mod loader
+              <Icon name="bolt" class="mx-1"/> Mod loader
             </router-link>
           </li>
           <li
@@ -65,7 +66,7 @@ const logout = async () => {
             :class="{ active: $route.path.startsWith('/mods') }"
           >
             <router-link :to="{ name: 'mods' }" class="nav-link">
-              <i class="fas fa-plug mx-1"></i> Mods
+              <Icon name="plug" class="mx-1"/> Mods
             </router-link>
           </li>
         </ul>
@@ -79,7 +80,7 @@ const logout = async () => {
               target="_blank"
               data-original-title="Discord server"
             >
-              <i class="fab fa-discord mx-2"></i>
+              <Icon type="b" name="discord" class="mx-2"/>
               <span class="d-inline d-lg-none">Discord server</span>
             </a>
           </li>
@@ -92,8 +93,8 @@ const logout = async () => {
               title=""
               data-original-title="Documentation"
             >
-              <i class="fas fa-book mx-2"></i
-              ><span class="d-inline d-lg-none">Documentation</span>
+              <Icon name="book" class="mx-2"/>
+              <span class="d-inline d-lg-none">Documentation</span>
             </a>
           </li>
           <li class="mx-1 nav-item">
@@ -104,8 +105,8 @@ const logout = async () => {
               title=""
               data-original-title="Donate"
             >
-              <i class="fas fa-donate mx-2"></i
-              ><span class="d-inline d-lg-none">Support us</span>
+              <Icon name="donate" class="mx-2" />
+              <span class="d-inline d-lg-none">Support us</span>
             </a>
           </li>
           <li v-if="isSessionExpired" class="nav-item">
@@ -114,7 +115,7 @@ const logout = async () => {
               class="nav-link"
               :class="{ active: $route.path.startsWith('/signin') }"
             >
-              <icon name="sign-in-alt" /> Login
+              <Icon name="sign-in-alt" /> Login
             </router-link>
           </li>
           <template v-else>
@@ -129,7 +130,7 @@ const logout = async () => {
                 id="navbarDropdownMenuLink"
                 :title="user.username"
               >
-                <i class="fas fa-user mx-2"></i>
+                <Icon name="user" class="mx-2"/>
                 {{ vUsername }}
                 <icon name="caret-down" class="float-right ml-md-1" />
               </a>

@@ -1,3 +1,34 @@
+<script setup lang="ts">
+import { computed } from 'vue';
+import { useRouter } from 'vue-router';
+import { useToaster } from '../compositions/useToaster';
+import { isSessionExpired as isSessionExpiredAction, killSession } from '../store/actions/session.actions';
+import { state, Theme } from '../store/store';
+import { Session, User } from '../types';
+
+const router = useRouter();
+const toaster = useToaster();
+
+const session = computed<Session>(() => state.session!);
+const user = computed<User>(() => state.session?.user || {} as User);
+const isAdmin = computed<boolean>(() => user.value.role === 'admin');
+const theme = computed<Theme>(() => state.theme);
+const isSessionExpired= computed<boolean>(() => isSessionExpiredAction());
+const vUsername = computed<string>(() => {
+  if (user.value.username.length <= 10) {
+    return user.value.username;
+  } else {
+    return `${user.value.username.substring(0, 10)}...`;
+  }
+});
+
+const logout = async () => {
+  await killSession();
+  await router.push({name: 'signIn'});
+  await toaster.success('Logout successful');
+}
+</script>
+
 <template>
   <nav class="navbar navbar-expand-lg navbar-dark bg-blue sticky-top">
     <div class="container">
@@ -229,52 +260,6 @@
   </nav>
   <the-donation-modal />
 </template>
-
-<script lang="ts">
-import { defineComponent } from 'vue';
-import { toaster } from '../modules/toaster';
-import { isSessionExpired, killSession } from '../store/actions/session.actions';
-import { state } from '../store/store';
-import { Session, User } from '../types';
-import Icon from './Icon.vue';
-import TheDonationModal from './modals/TheDonationModal.vue';
-
-export default defineComponent({
-  name: 'TheMainNav',
-  components: { Icon, TheDonationModal },
-  computed: {
-    session(): Session {
-      return state.session!;
-    },
-    user(): User {
-      return (state.session?.user || {}) as User;
-    },
-    isAdmin(): boolean {
-      return this.user?.role === 'admin';
-    },
-    theme(): string {
-      return state.theme;
-    },
-    isSessionExpired(): boolean {
-      return isSessionExpired();
-    },
-    vUsername(): string {
-      if (this.user.username.length <= 10) {
-        return this.user.username;
-      } else {
-        return `${this.user.username?.substr(0, 10)}…`;
-      }
-    },
-  },
-  methods: {
-    async logout(): Promise<void> {
-      await killSession();
-      await this.$router.push({ name: 'signIn' });
-      toaster.success('Logout successful');
-    },
-  },
-});
-</script>
 
 <style scoped lang="scss">
 @import '../assets/styles/variables';

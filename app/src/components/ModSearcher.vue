@@ -1,3 +1,42 @@
+<script setup lang="ts">
+import { watch } from 'vue';
+import { QueryParams } from '../../../shared/types/QueryParams';
+import { useApiQuerying } from '../compositions/useApiQuerying';
+import Icon from './Icon.vue';
+
+interface ModSearcherProps {
+  defaultQuery: QueryParams;
+}
+
+interface ModSearcherEmits {
+  (e: 'search', query: QueryParams): void;
+}
+
+const props = defineProps<ModSearcherProps>();
+const emit = defineEmits<ModSearcherEmits>();
+
+const { filter, search, sort, query } = useApiQuerying();
+
+query.value = props.defaultQuery;
+
+watch(search, (search) => {
+  if (!search) {
+    emit('search', query.value);
+  }
+});
+
+const onSubmit = () => {
+  emit('search', query.value);
+};
+
+defineExpose({
+  filter,
+  search,
+  sort,
+  query,
+});
+</script>
+
 <template>
   <form class="form" @submit.prevent="onSubmit">
     <div class="row">
@@ -25,7 +64,7 @@
                 <icon name="filter" />
               </button -->
               <button class="btn btn-primary" type="submit">
-                <icon name="search" />
+                <Icon name="search" />
               </button>
             </div>
           </div>
@@ -39,43 +78,3 @@
     </div -->
   </form>
 </template>
-
-<script lang="ts">
-import { defineComponent } from 'vue';
-import { useApiQuerying } from '../compositions/useApiQuerying';
-
-import Icon from './Icon.vue';
-
-export default defineComponent({
-  name: 'ModSearcher',
-  components: { Icon },
-  props: {
-    defaultQuery: Object,
-  },
-  emits: ['search'],
-  setup(props: any) {
-    const { filter, search, sort, query } = useApiQuerying();
-
-    query.value = props.defaultQuery;
-
-    return {
-      sort,
-      search,
-      filter,
-      query,
-    };
-  },
-  watch: {
-    search(search) {
-      if (!search) {
-        this.$emit('search', this.query);
-      }
-    },
-  },
-  methods: {
-    onSubmit() {
-      this.$emit('search', this.query);
-    },
-  },
-});
-</script>

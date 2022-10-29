@@ -1,3 +1,10 @@
+<script setup lang="ts">
+import { computed } from 'vue';
+import ThemeSwitch from './ThemeSwitch.vue';
+
+const fullYear = computed(() => new Date().getFullYear())
+</script>
+
 <template>
   <footer class="mt-5">
     <div class="container">
@@ -42,18 +49,3 @@
     </div>
   </footer>
 </template>
-
-<script lang="ts">
-import { defineComponent } from 'vue';
-import ThemeSwitch from './ThemeSwitch.vue';
-
-export default defineComponent({
-  name: 'TheMainFooter',
-  components: { ThemeSwitch },
-  computed: {
-    fullYear() {
-      return new Date().getFullYear();
-    },
-  },
-});
-</script>

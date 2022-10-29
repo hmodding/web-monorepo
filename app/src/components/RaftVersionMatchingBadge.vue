@@ -1,3 +1,39 @@
+<script setup lang="ts">
+import { computed } from 'vue';
+import { RouteLocationRaw } from 'vue-router';
+import { state } from '../store/store';
+import { ModVersion } from '../types';
+
+interface RaftVersionMatchingBadgeProps {
+  modVersion?: ModVersion;
+  to?: RouteLocationRaw;
+}
+
+const props = defineProps<RaftVersionMatchingBadgeProps>();
+
+const component = computed<string>(() => props.to? 'router-link' : 'span');
+const isUpToDate = computed<boolean>(() => props.modVersion?.maxRaftVersionId === state.latestRaftVersion!.id);
+const isUntested = computed<boolean>(() => !isUpToDate.value && !props.modVersion?.definiteMaxRaftVersion);
+const vLabel = computed<string>(() => {
+  if (isUpToDate.value) {
+    return 'Up to Date';
+  } else if (isUntested.value) {
+    return 'Untested';
+  } else {
+    return 'Outdated';
+  }
+});
+const vTitle = computed<string>(() => {
+  if (isUpToDate.value) {
+    return 'The current version is up to date';
+  } else if (isUntested.value) {
+    return 'The current version is untested';
+  } else {
+    return 'The current version is outdated!';
+  }
+})
+</script>
+
 <template>
   <component
     :is="component"
@@ -13,45 +49,3 @@
     {{ vLabel }}
   </component>
 </template>
-
-<script lang="ts">
-import { defineComponent } from 'vue';
-import { state } from '../store/store';
-
-export default defineComponent({
-  name: 'RaftVersionMatchingBadge',
-  props: {
-    modVersion: Object,
-    to: [Object, String],
-  },
-  computed: {
-    component(): string {
-      return this.to ? 'router-link' : 'span';
-    },
-    isUpToDate(): boolean {
-      return this.modVersion?.maxRaftVersionId === state.latestRaftVersion!.id;
-    },
-    isUntested(): boolean {
-      return !this.isUpToDate && !this.modVersion?.definiteMaxRaftVersion;
-    },
-    vLabel(): string {
-      if (this.isUpToDate) {
-        return 'Up to Date';
-      } else if (this.isUntested) {
-        return 'Untested';
-      } else {
-        return 'Outdated';
-      }
-    },
-    vTitle(): string {
-      if (this.isUpToDate) {
-        return 'The current version is up to date';
-      } else if (this.isUntested) {
-        return 'The current version is untested';
-      } else {
-        return 'The current version is outdated!';
-      }
-    },
-  },
-});
-</script>

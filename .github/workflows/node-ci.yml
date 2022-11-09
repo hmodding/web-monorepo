@@ -28,7 +28,6 @@ jobs:
           REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: ${{ secrets.REMOTE_TARGET }}/server
-          EXCLUDE: "/dist/, /node_modules/"
     - name: Deploy app to production
       uses: easingthemes/ssh-deploy@main
       env:
@@ -39,5 +38,4 @@ jobs:
           REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: ${{ secrets.REMOTE_TARGET }}/app
-          EXCLUDE: "/dist/, /node_modules/"
       

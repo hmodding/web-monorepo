@@ -1,5 +1,4 @@
 <script setup lang="ts">import dayjs from 'dayjs';
-import { version } from 'os';
 import { computed, onMounted } from 'vue';
 import { DATETIME_FORMAT, DATE_FORMAT } from '../const/formats.const';
 import { $changelog } from '../_legacy/changelog';

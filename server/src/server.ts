@@ -1,6 +1,8 @@
 import { json, OptionsJson, OptionsUrlencoded, urlencoded } from 'body-parser';
+import history from 'connect-history-api-fallback';
 import cors from 'cors';
 import express, { RequestHandler } from 'express';
+import path from 'path';
 import { generateRoutes, generateSpec } from 'tsoa';
 import { cfg } from './cfg';
 import { badRequestHandler } from './handlers/badRequestHandler';
@@ -17,6 +19,9 @@ export const startServer = async () => {
   const port = process.env.PORT || 3000;
   const jsonOptions: OptionsJson = { limit: cfg.requestSizeLimit };
   const urlencodedOptions: OptionsUrlencoded = { extended: false };
+  const staticAppFilesMiddleware = express.static(
+    path.join(__dirname, '..', '..', 'app/dist'),
+  );
 
   server.use(cors());
   console.log('    ✔️ bound CORS');
@@ -24,6 +29,11 @@ export const startServer = async () => {
   console.log(`    ✔️ bound json body-parser: `, jsonOptions);
   server.use(urlencoded(urlencodedOptions) as RequestHandler);
   console.log(`    ✔️ bound url-encoded: `, urlencodedOptions);
+
+  //serve app
+  server.use(staticAppFilesMiddleware);
+  server.use(history({ index: '/index.html' }));
+  server.use(staticAppFilesMiddleware);
 
   await generateSpec(tsoaSpecOptions); // generates {@link: router/routes.ts}
   console.log('    ✔️ generated specs');

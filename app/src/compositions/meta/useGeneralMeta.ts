@@ -1,5 +1,5 @@
-import { computed } from 'vue';
-import { useMeta } from 'vue-meta';
+import {computed} from 'vue';
+import {useMeta} from 'vue-meta';
 import logoPng from '../../assets/images/logo.png';
 
 const {
@@ -18,7 +18,7 @@ export const useGeneralMeta = () => {
       href: baseUrl,
     },
     title: String(VITE_TITLE_DEFAULT),
-    titleTemplate(chunk: string = '') {
+    titleTemplate(chunk = '') {
       if (chunk !== VITE_TITLE_DEFAULT) {
         return `${chunk}${VITE_TITLE_APPEND}`;
       }
@@ -26,17 +26,17 @@ export const useGeneralMeta = () => {
     },
     description,
     meta: [
-      { name: 'author', content: authors },
-      { name: 'publisher', content: authors },
-      { name: 'category', content: tags },
-      { name: 'keywords', content: tags },
-      { name: 'distribution', content: 'global' },
-      { name: 'identifier-url', content: baseUrl },
-      { 'http-equiv': 'content-language', content: 'en' },
-      { name: 'revisit-after', content: '1 days' },
-      { name: 'language', content: 'English' },
-      { name: 'copyright', content: 'RaftModding' },
-      { name: 'reply-to', content: 'contact@raftmodding.com' },
+      {name: 'author', content: authors},
+      {name: 'publisher', content: authors},
+      {name: 'category', content: tags},
+      {name: 'keywords', content: tags},
+      {name: 'distribution', content: 'global'},
+      {name: 'identifier-url', content: baseUrl},
+      {'http-equiv': 'content-language', content: 'en'},
+      {name: 'revisit-after', content: '1 days'},
+      {name: 'language', content: 'English'},
+      {name: 'copyright', content: 'RaftModding'},
+      {name: 'reply-to', content: 'contact@raftmodding.com'},
     ],
     og: {
       url: window.location.href,

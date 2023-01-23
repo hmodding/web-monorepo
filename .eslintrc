@@ -10,6 +10,5 @@
     "plugin:@typescript-eslint/recommended"
   ],
   "rules": {
-    "import/no-default-export": "error"
   }
 }

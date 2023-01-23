@@ -6,6 +6,7 @@ import { isSessionExpired as isSessionExpiredAction, killSession } from '../stor
 import { state, Theme } from '../store/store';
 import { Session, User } from '../types';
 import Icon from './Icon.vue';
+import raftmoddingPng from '../assets/images/raftmodding.png'
 
 const router = useRouter();
 const toaster = useToaster();
@@ -34,7 +35,7 @@ const logout = async () => {
   <nav class="navbar navbar-expand-lg navbar-dark bg-blue sticky-top">
     <div class="container">
       <router-link :to="{ name: 'home' }" class="navbar-brand mr-2 logo">
-        <img src="../assets/images/raftmodding.png" alt="logo" />
+        <img :src="raftmoddingPng" alt="logo" />
       </router-link>
       <button
         class="navbar-toggler"

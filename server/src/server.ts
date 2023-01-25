@@ -1,15 +1,17 @@
-import { json, OptionsJson, OptionsUrlencoded, urlencoded } from 'body-parser';
+import {json, OptionsJson, OptionsUrlencoded, urlencoded} from 'body-parser';
 import history from 'connect-history-api-fallback';
 import cors from 'cors';
-import express, { RequestHandler } from 'express';
+import express, {RequestHandler} from 'express';
 import path from 'path';
-import { generateRoutes, generateSpec } from 'tsoa';
-import { cfg } from './cfg';
-import { badRequestHandler } from './handlers/badRequestHandler';
-import { internalServerErrorHandler } from './handlers/internalServerErrorHandler';
-import { notFoundHandler } from './handlers/notFoundHandler';
-import { unauthorizedHandler } from './handlers/unauthorizedHandler';
-import { tsoaRouteOptions, tsoaSpecOptions } from './tsoaConfig';
+import {generateRoutes, generateSpec} from 'tsoa';
+import {cfg} from './cfg';
+import {badRequestHandler} from './handlers/badRequestHandler';
+import {internalServerErrorHandler} from './handlers/internalServerErrorHandler';
+import {notFoundHandler} from './handlers/notFoundHandler';
+import {unauthorizedHandler} from './handlers/unauthorizedHandler';
+import {tsoaRouteOptions, tsoaSpecOptions} from './tsoaConfig';
+import swaggerUi from 'swagger-ui-express';
+import swaggerDocument from '../public/swagger.json';
 
 export const server = express();
 
@@ -17,8 +19,8 @@ export const startServer = async () => {
   console.log('⏳ starting server...');
   const host = 'localhost';
   const port = process.env.PORT || 3000;
-  const jsonOptions: OptionsJson = { limit: cfg.requestSizeLimit };
-  const urlencodedOptions: OptionsUrlencoded = { extended: false };
+  const jsonOptions: OptionsJson = {limit: cfg.requestSizeLimit};
+  const urlencodedOptions: OptionsUrlencoded = {extended: false};
   const staticAppFilesMiddleware = express.static(
     path.join(__dirname, '..', '..', 'app/dist'),
   );
@@ -32,13 +34,15 @@ export const startServer = async () => {
 
   //serve app
   server.use(staticAppFilesMiddleware);
-  server.use(history({ index: '/index.html' }));
+  server.use(history({index: '/index.html'}));
   server.use(staticAppFilesMiddleware);
 
-  await generateSpec(tsoaSpecOptions); // generates {@link: router/routes.ts}
-  console.log('    ✔️ generated specs');
-  await generateRoutes(tsoaRouteOptions); //generates {@link: ../public/swagger.json}
-  console.log('    ✔️ generated routes');
+  if (process.env.NODE_ENV === 'development') {
+    await generateSpec(tsoaSpecOptions); // generates {@link: router/routes.ts}
+    console.log('    ✔️ generated specs');
+    await generateRoutes(tsoaRouteOptions); //generates {@link: ../public/swagger.json}
+    console.log('    ✔️ generated routes');
+  }
   require('./router/routes').RegisterRoutes(server); //lazy-load because its a generated file otherwise an compilation error would be thrown
   console.log('    ✔️ registered routes');
 
@@ -51,6 +55,13 @@ export const startServer = async () => {
   console.log('    ✔️ bound bad-request-handler');
   server.use(unauthorizedHandler);
   console.log('    ✔️ bound unauthorized-handler');
+
+  try {
+    server.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
+    console.log('    ✔️ bound /swagger');
+  } catch (err) {
+    console.log('    ❗ Could not find swagger.json');
+  }
 
   server.listen(port, () => {
     console.log(`    📡 listening at http://${host}:${port}`);

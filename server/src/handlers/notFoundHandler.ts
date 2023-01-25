@@ -6,7 +6,7 @@ export const notFoundHandler = (req: Request, res: Response) => {
   console.warn(
     `❗ ${status} NOT FOUND:`,
     '\n  url:',
-    req.url,
+    req.originalUrl,
     '\n  body:',
     req.body,
   );

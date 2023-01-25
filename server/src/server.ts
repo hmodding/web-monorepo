@@ -10,8 +10,6 @@ import {internalServerErrorHandler} from './handlers/internalServerErrorHandler'
 import {notFoundHandler} from './handlers/notFoundHandler';
 import {unauthorizedHandler} from './handlers/unauthorizedHandler';
 import {tsoaRouteOptions, tsoaSpecOptions} from './tsoaConfig';
-import swaggerUi from 'swagger-ui-express';
-import swaggerDocument from '../public/swagger.json';
 
 export const server = express();
 
@@ -55,13 +53,6 @@ export const startServer = async () => {
   console.log('    ✔️ bound bad-request-handler');
   server.use(unauthorizedHandler);
   console.log('    ✔️ bound unauthorized-handler');
-
-  try {
-    server.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
-    console.log('    ✔️ bound /swagger');
-  } catch (err) {
-    console.log('    ❗ Could not find swagger.json');
-  }
 
   server.listen(port, () => {
     console.log(`    📡 listening at http://${host}:${port}`);

@@ -27,7 +27,7 @@ import { generateToken } from '../utils';
 @Route('/users')
 export class UserController extends Controller {
   @Put()
-  @Security('user')
+  @Security('api_key', ['user'])
   public async update(
     @Header() authtoken: string,
     @Body() data: ChangePasswordDto,

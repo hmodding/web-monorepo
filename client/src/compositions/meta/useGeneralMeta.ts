@@ -1,6 +1,5 @@
 import {computed} from 'vue';
 import {useMeta} from 'vue-meta';
-import logoPng from '../../assets/images/logo.png';
 
 const {
   VITE_TITLE_DEFAULT,
@@ -43,7 +42,7 @@ export const useGeneralMeta = () => {
       type: 'website',
       tags,
       keywords: tags,
-      image: baseUrl + logoPng,
+      image: baseUrl + "/logo.png",
     },
   }));
 

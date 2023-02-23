@@ -1,5 +1,6 @@
 //@ts-ignore
 interface ImportMetaEnv extends Readonly<Record<string, string>> {
+  readonly VITE_PORT: number;
   readonly VITE_DISCORD_CLIENT_ID: string;
   readonly VITE_API_BASE_URL: string;
   readonly VITE_TITLE_DEFAULT: string;

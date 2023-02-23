@@ -10,7 +10,7 @@ import { HttpStatusCode } from '../types/HttpStatusCode';
 @Route('/scheduledModDeletions')
 export class ScheduledModDeletionController extends Controller {
   @Post()
-  @Security('admin')
+  @Security('api_key', ['admin'])
   public async create(
     @Header() authtoken: string,
     @Body() body: ScheduledModDeletionDto,

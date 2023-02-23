@@ -1,11 +1,7 @@
 {
+  "exec": "ts-node main.ts",
   "watch": [
-    "src",
-    "../../.env"
+    "src"
   ],
-  "ext": "ts,json,js,env",
-  "ignore": [
-    "src/**/*.spec.ts",
-    "src/router/routes.ts"
-  ]
+  "ext": "ts"
 }

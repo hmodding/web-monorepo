@@ -1,5 +1,5 @@
 {
-  "name": "@raftmodding/app",
+  "name": "@raftmodding/client",
   "version": "0.0.0",
   "author": "raftmodding.com",
   "scripts": {

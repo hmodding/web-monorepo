@@ -1,0 +1,24 @@
+{
+  "entryFile": "main.ts",
+  "noImplicitAdditionalProperties": "silently-remove-extras",
+  "controllerPathGlobs": [
+    "src/controllers/**/*Controller.ts"
+  ],
+  "spec": {
+    "outputDirectory": "dist/server",
+    "specVersion": 3,
+    "basePath": "/api",
+    "securityDefinitions": {
+      "api_key": {
+        "type": "apiKey",
+        "name": "authtoken",
+        "in": "header"
+      }
+    }
+  },
+  "routes": {
+    "routesDir": "dist/server",
+    "basePath": "/api",
+    "authenticationModule": "src/authenticators/expressAuthenticator.ts"
+  }
+}

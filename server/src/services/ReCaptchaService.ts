@@ -52,6 +52,6 @@ export class ReCaptchaService {
 }
 
 /**
- * ReCaptcha client with credentials from the app config.
+ * ReCaptcha client with credentials from the client config.
  */
 export const reCaptchaService = new ReCaptchaService(cfg.reCaptcha.secretKey);

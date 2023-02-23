@@ -2,7 +2,7 @@
   <div v-if="mod" class="card mod-card">
     <img
       class="card-img-top"
-      :src="mod.bannerImageUrl || defaultBanner"
+      :src="mod.bannerImageUrl || '/default-banner.png'"
       :alt="`${mod.title} banner`"
     />
     <div class="card-body">
@@ -42,7 +42,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { ModVersion } from '../types';
-import defaultBanner from '../assets/images/banner-default.jpg';
 import RaftVersionMatchingBadge from './RaftVersionMatchingBadge.vue';
 
 export default defineComponent({
@@ -53,7 +52,6 @@ export default defineComponent({
   },
   setup() {
     return {
-      defaultBanner,
     };
   },
   computed: {

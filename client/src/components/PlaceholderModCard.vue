@@ -10,7 +10,7 @@
     <template v-if="!transparent">
       <img
         class="card-img-top"
-        src="../assets/images/banner-default.jpg"
+        src="/banner-default.jpg"
         alt="default banner image"
       />
       <div class="card-body">

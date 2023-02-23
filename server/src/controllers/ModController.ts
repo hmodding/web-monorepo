@@ -78,7 +78,7 @@ export class ModController extends Controller {
   }
 
   @Post()
-  @Security('user')
+  @Security('api_key', ['user'])
   public async create(
     @Body()
     data: ModCreateDto,
@@ -100,7 +100,7 @@ export class ModController extends Controller {
   }
 
   @Put('/{id}')
-  @Security('user')
+  @Security('api_key', ['user'])
   public async update(
     @Header() authtoken: string,
     @Path() id: string,

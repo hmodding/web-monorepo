@@ -1,15 +1,16 @@
 version: '1.0'
+name: raftmodding
 services:
   db:
     image: postgres
     restart: always
-    build: 
+    build:
       dockerfile: ./DockerFile
     environment:
-      POSTGRES_USER: 'postgres'
-      POSTGRES_PASSWORD: 'postgres'
-      POSTGRES_DB: 'raftmodding'
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: raftmodding
     ports:
-      - '5432:5432'
+      - 5432:5432
     expose:
-      - '5432'
+      - 5432

@@ -12,7 +12,7 @@
           <div
             class="mod-banner"
             :style="{
-              backgroundImage: `url('${mod.bannerImageUrl || defaultBanner}')`,
+              backgroundImage: `url('${mod.bannerImageUrl || '/default-banner.png'}')`,
             }"
           />
           <div class="card-body">
@@ -43,7 +43,6 @@ import { defineComponent, PropType } from 'vue';
 // noinspection TypeScriptCheckImport
 import VueMarkdownIt from 'vue3-markdown-it';
 import { ModDto } from '../../../shared/dto/ModDto';
-import defaultBanner from '../assets/images/banner-default.jpg';
 import { useMod } from '../compositions/useMod';
 import { $modDetails } from '../_legacy/modDetails';
 import FileHashes from './FileHashes.vue';
@@ -71,7 +70,6 @@ export default defineComponent({
   setup(props) {
     return {
       ...useMod(props),
-      defaultBanner,
     };
   },
   async mounted() {

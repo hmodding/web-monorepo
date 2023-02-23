@@ -10,7 +10,7 @@ import { generateToken, validateData } from '../utils';
 @Route('/account')
 export class AccountController extends Controller {
   @Post('/finish')
-  @Security('user')
+  @Security('api_key', ['user'])
   public async create(
     @Header() authtoken: string,
     @Body() body: AccountCreationDto, //TODO: correct type?

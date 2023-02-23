@@ -1,29 +1,28 @@
-import { Request } from 'express';
-import { reCaptchaService } from '../services/ReCaptchaService';
-import { SessionService } from '../services/SessionService';
+// noinspection JSUnusedGlobalSymbols
+
+import {Request as ExpressRequest} from 'express';
+import {reCaptchaService} from '../services/ReCaptchaService';
+import {SessionService} from '../services/SessionService';
 
 /**
  *
- * @param req `Express.Request`
+ * @param req
  * @param securityName custom name of security method
- * @param _scopes unused (e.g. OAUTH2 needs this )
+ * @param scopes for api_key can be "user" or "admin"
  * {@link https://tsoa-community.github.io/docs/authentication.html}
  */
 export const expressAuthentication = async (
-  req: Request,
+  req: ExpressRequest,
   securityName: string,
-  _scopes?: string[],
+  scopes?: string[],
 ) => {
   try {
     switch (securityName) {
       case 'captcha':
         await validateCaptcha(req);
         break;
-      case 'user':
-        await validateAuthToken(req);
-        break;
-      case 'admin':
-        await validateAdminPrivileges(req);
+      case 'api_key':
+        await validateApiKey(req, scopes)
         break;
       case 'everyone':
       default:
@@ -31,7 +30,7 @@ export const expressAuthentication = async (
         break;
     }
     console.log('    🔑 authentication successful!');
-    return Promise.resolve({ success: true });
+    return Promise.resolve({success: true});
   } catch (err) {
     console.error('    🔒 authentication failed:', err);
     return Promise.reject(err);
@@ -40,10 +39,10 @@ export const expressAuthentication = async (
 
 /**
  * validation for captcha (e.g. password reset & account creation)
- * @param req `Express.Request`
+ * @param req
  */
-const validateCaptcha = async (req: Request) => {
-  const { recaptcha } = req.body;
+const validateCaptcha = async (req: ExpressRequest) => {
+  const {recaptcha} = req.body;
   const isValidRecaptcha = await reCaptchaService.verifyResponseToken(
     recaptcha,
   );
@@ -53,12 +52,20 @@ const validateCaptcha = async (req: Request) => {
   }
 };
 
+const validateApiKey = async (req: ExpressRequest, scopes: string[] = []) => {
+  if (scopes.includes('admin')) {
+    await validateAdminPrivileges(req);
+  } else if (scopes.includes('user')) {
+    await validateAuthToken(req);
+  }
+}
+
 /**
- * validation for the basic logged in users who provide an authtoken header
- * @param req `Express.Request`
+ * validation for the basic logged-in users who provide an authtoken header
+ * @param req
  */
-const validateAuthToken = async (req: Request) => {
-  const { authtoken } = req.headers;
+const validateAuthToken = async (req: ExpressRequest) => {
+  const {authtoken} = req.headers;
 
   try {
     const session = await SessionService.getByToken(authtoken as string);
@@ -77,9 +84,9 @@ const validateAuthToken = async (req: Request) => {
 
 /**
  * validation for admin by checking their session role based on the provided authtoken header
- * @param req `Express.Request`
+ * @param req
  */
-const validateAdminPrivileges = async (req: Request) => {
+const validateAdminPrivileges = async (req: ExpressRequest) => {
   const session = await validateAuthToken(req);
 
   if (!session || !session.user || !session.user.isAdmin) {

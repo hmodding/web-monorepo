@@ -27,7 +27,7 @@ export class LauncherVersionController extends Controller {
   }
 
   @Post()
-  @Security('admin')
+  @Security('api_key', ['admin'])
   public async create(@Body() body: LauncherVersionDto) {
     const newLauncherVersion = await LauncherVersionService.releaseNew(body);
 

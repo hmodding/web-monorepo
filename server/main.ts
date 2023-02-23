@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import { saveExampleDbData } from './resources/example/dbData.example';
 import { cfg } from './src/cfg';
 import { AppDataSource } from './src/db/dataSource';
-import { startServer } from './src/server';
+import { startServer } from './src/app';
 import { DownloadCounterService } from './src/services/DownloadCounterService';
 
 (async () => {
@@ -16,7 +16,7 @@ import { DownloadCounterService } from './src/services/DownloadCounterService';
   await AppDataSource.initialize(); //new
   console.log('    ✔️ AppDataSource initialized!');
 
-  if (process.env.NODE_ENV === 'develop') {
+  if (process.env.NODE_ENV === 'development') {
     await saveExampleDbData();
     console.log('    ✔️ Example data saved!');
   }

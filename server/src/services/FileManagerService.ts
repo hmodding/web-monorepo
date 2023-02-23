@@ -30,7 +30,7 @@ export class FileManagerService {
 
   /**
    * Instantiates the file manager.
-   * @param cfg the app config.
+   * @param cfg the client config.
    */
   public constructor(cfg: Cfg) {
     this.cfg = cfg;

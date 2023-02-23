@@ -31,7 +31,7 @@ export class RaftVersionController extends Controller {
   }
 
   @Post()
-  @Security('admin')
+  @Security('api_key', ['user'])
   public async create(@Body() body: RaftVersionDto) {
     const isValidCreateData = await RaftVersionService.isValidCreateData(body);
 
@@ -45,7 +45,7 @@ export class RaftVersionController extends Controller {
   }
 
   @Put('/{id}')
-  @Security('admin')
+  @Security('api_key', ['admin'])
   public async update(@Path() id: number, @Body() body: RaftVersionDto) {
     const isValidUpdateData = RaftVersionService.isValidUpdateData(body);
 

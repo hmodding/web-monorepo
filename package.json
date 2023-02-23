@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "scripts": {
     "build": "npm run build --workspaces",
-    "start": "concurrently --kill-others \"npm run start --workspace=@raftmodding/app\" \"npm run start --workspace=@raftmodding/server\"",
-    "dev": "concurrently --kill-others \"npm run dev --workspace=@raftmodding/app\" \"npm run dev --workspace=@raftmodding/server\"",
+    "start": "concurrently --kill-others \"npm run start --workspace=@raftmodding/client\" \"npm run start --workspace=@raftmodding/server\"",
+    "dev": "concurrently --kill-others \"npm run dev --workspace=@raftmodding/client\" \"npm run dev --workspace=@raftmodding/server\"",
     "prettier": "npx prettier --write .",
     "clean": "rimraf \"**/build\" \"**/dist\" \"**/*.tsbuildinfo\"",
     "lint": "",
@@ -17,7 +17,7 @@
   },
   "workspaces": [
     "server",
-    "app"
+    "client"
   ],
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.7.0",

@@ -28,7 +28,7 @@ export class LoaderVersionController extends Controller {
   }
 
   @Post()
-  @Security('admin')
+  @Security('api_key', ['admin'])
   public async create(@Body() body: LoaderVersionDto) {
     try {
       const newLoaderVersion = await LoaderVersionService.releaseNew(body);

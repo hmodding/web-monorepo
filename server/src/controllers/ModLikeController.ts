@@ -17,7 +17,7 @@ import { HttpStatusCode } from '../types/HttpStatusCode';
 @Route('/modLikes')
 export class ModLikeController extends Controller {
   @Get()
-  @Security('user')
+  @Security('api_key', ['user'])
   public async list(@Header() authtoken: string) {
     const session = await SessionService.getByToken(authtoken);
 
@@ -30,7 +30,7 @@ export class ModLikeController extends Controller {
   }
 
   @Post()
-  @Security('user')
+  @Security('api_key', ['user'])
   public async create(
     @Header() authtoken: string,
     @Body() { modId }: ModLikeDto,
@@ -43,7 +43,7 @@ export class ModLikeController extends Controller {
   }
 
   @Delete('/{modId}')
-  @Security('user')
+  @Security('api_key', ['user'])
   public async delete(
     @Header('authtoken') authToken: string,
     @Path() modId: string,

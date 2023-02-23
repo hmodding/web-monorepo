@@ -60,7 +60,7 @@ import { HttpStatusCode } from '../types/HttpStatusCode';
 @Route('/forms')
 export class FormController extends Controller {
   @Get('/addLauncherVersion')
-  @Security('admin')
+  @Security('api_key', ['admin'])
   public async addLauncherVersion() {
     this.setStatus(HttpStatusCode.Ok);
     return {
@@ -70,7 +70,7 @@ export class FormController extends Controller {
   }
 
   @Get('/addLoaderVersion')
-  @Security('admin')
+  @Security('api_key', ['admin'])
   public async addLoaderVersion() {
     this.setStatus(HttpStatusCode.Ok);
     return {
@@ -100,7 +100,7 @@ export class FormController extends Controller {
   }
 
   @Get('/addRaftVersion')
-  @Security('admin')
+  @Security('api_key', ['admin'])
   public async addRaftVersion() {
     this.setStatus(HttpStatusCode.Ok);
     return {

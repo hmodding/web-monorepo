@@ -27,7 +27,7 @@ export class ModVersionController extends Controller {
   }
 
   @Post()
-  @Security('user')
+  @Security('api_key', ['user'])
   public async create(
     @Header() authtoken: string,
     @Body() data: ModVersionCreateDto,
@@ -50,7 +50,7 @@ export class ModVersionController extends Controller {
   }
 
   @Put('/{id}')
-  @Security('user')
+  @Security('api_key', ['user'])
   public async update(
     @Header() authtoken: string,
     @Path() id: number,

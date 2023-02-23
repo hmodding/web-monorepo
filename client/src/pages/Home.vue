@@ -15,7 +15,7 @@
         <div class="row my-5">
           <div class="col-sm-3 text-center">
             <img
-              src="../assets/images/mod-loader.png"
+              src="/mod-loader.png"
               alt="mod-loader"
               class="w-100 d-none d-lg-block"
               draggable="false"

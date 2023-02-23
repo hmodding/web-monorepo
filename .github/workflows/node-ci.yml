@@ -18,7 +18,7 @@ jobs:
         run: npm install
       - name: npm run build
         run: npm run build --if-present
-      - name: Copy repository server content via scp
+      - name: Copy dist content via scp
         uses: appleboy/scp-action@master
         env:
           HOST: ${{ secrets.REMOTE_HOST }}
@@ -26,15 +26,5 @@ jobs:
           PORT: ${{ secrets.REMOTE_PORT }}
           KEY: ${{ secrets.SSH_PRIVATE_KEY_VPS_NEW }}
         with:
-          source: ./server/dist
-          target: ${{ secrets.REMOTE_TARGET }}/server
-      - name: Copy repository client content via scp
-        uses: appleboy/scp-action@master
-        env:
-          HOST: ${{ secrets.REMOTE_HOST }}
-          USERNAME: ${{ secrets.REMOTE_USER }}
-          PORT: ${{ secrets.REMOTE_PORT }}
-          KEY: ${{ secrets.SSH_PRIVATE_KEY_VPS_NEW }}
-        with:
-          source: ./client/dist
-          target: ${{ secrets.REMOTE_TARGET }}/client
+          source: ./server/dist, ./client/dist
+          target: ${{ secrets.REMOTE_TARGET }}

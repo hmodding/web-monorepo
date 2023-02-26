@@ -26,5 +26,5 @@ jobs:
           PORT: ${{ secrets.REMOTE_PORT }}
           KEY: ${{ secrets.SSH_PRIVATE_KEY_VPS_NEW }}
         with:
-          source: ./server/dist, ./client/dist
+          source: ./server/dist, ./server/node_modules. ./client/dist, ./client/node_modules
           target: ${{ secrets.REMOTE_TARGET }}

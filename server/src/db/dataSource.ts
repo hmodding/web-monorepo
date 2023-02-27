@@ -29,7 +29,7 @@ export const AppDataSource = new DataSource({
   type: 'postgres',
   url: `postgresql://${user}:${password}@${host}:${port}/${name}`,
   extra: {
-    host,
+
   },
   // host,
   // port: Number(port),

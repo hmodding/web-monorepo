@@ -1,11 +1,11 @@
-import { createHash } from 'crypto';
-import { EventEmitter } from 'events';
-import { Client } from 'minio';
-import { MoreThan } from 'typeorm';
-import { Cfg } from '../cfg';
-import { DownloadTracker } from '../entities/DownloadTracker';
-import { LauncherVersion } from '../entities/LauncherVersion';
-import { ModVersion } from '../entities/ModVersion';
+import {createHash} from 'crypto';
+import {EventEmitter} from 'events';
+import {Client} from 'minio';
+import {MoreThan} from 'typeorm';
+import {Cfg} from '../cfg';
+import {DownloadTracker} from '../entities/DownloadTracker';
+import {LauncherVersion} from '../entities/LauncherVersion';
+import {ModVersion} from '../entities/ModVersion';
 
 /**
  * Type definition for MinIO `s3:ObjectAccessed:Get` notifications that contains
@@ -80,13 +80,13 @@ export class DownloadCounterService {
   public constructor(cfg: Cfg) {
     this.cfg = cfg;
 
-    const { accessKey, secretKey, endPoint } = cfg.storage;
+    const {storage} = cfg;
 
-    if (accessKey && secretKey && !endPoint) {
+    if (storage?.accessKey && storage?.secretKey && storage?.endPoint) {
       this.client = new Client({
-        accessKey: cfg.storage.accessKey,
-        secretKey: cfg.storage.secretKey,
-        endPoint: cfg.storage.endPoint,
+        accessKey: storage.accessKey,
+        secretKey: storage.secretKey,
+        endPoint: storage.endPoint,
       });
     } else {
       console.log(
@@ -107,7 +107,7 @@ export class DownloadCounterService {
     }
 
     this.modNotificationEmitter = this.client.listenBucketNotification(
-      this.cfg.storage.publicBucket,
+      this.cfg.storage?.publicBucket || '',
       '',
       '',
       downloadEventCodes,
@@ -140,12 +140,12 @@ export class DownloadCounterService {
     newExpiry.setTime(newExpiry.getTime() + TRACKING_DURATION);
 
     const tracker = await DownloadTracker.findOne({
-      where: { path, ipHash },
+      where: {path, ipHash},
     });
 
     if (tracker === null) {
       await DownloadTracker.save(
-        DownloadTracker.create({ ipHash, path, expiresAt: newExpiry }),
+        DownloadTracker.create({ipHash, path, expiresAt: newExpiry}),
       );
       await this.countDownload(notif);
     } else {
@@ -163,7 +163,7 @@ export class DownloadCounterService {
   private async removeExpiredTrackers(): Promise<void> {
     try {
       await DownloadTracker.find({
-        where: { expiresAt: MoreThan(new Date()) },
+        where: {expiresAt: MoreThan(new Date())},
       });
     } catch (err) {
       console.error('Error while removing expired download trackers.', err);
@@ -191,7 +191,7 @@ export class DownloadCounterService {
       } else {
         console.error(
           `File ${notif.s3.object.key} does not match any known ` +
-            'type of known upload!',
+          'type of known upload!',
         );
       }
     }

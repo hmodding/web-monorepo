@@ -43,7 +43,7 @@ export function generateToken(data: string | null = null, length = -1) {
  * @returns the URL.
  */
 export function getModUrl(mod: Mod): string {
-  return `${cfg.frontendBaseUrl}mods/${mod.id}`;
+  return `${cfg.viteBaseUrl}mods/${mod.id}`;
 }
 
 /**
@@ -52,7 +52,7 @@ export function getModUrl(mod: Mod): string {
  * @returns the URL.
  */
 export function getLoaderVersionUrl(version: LoaderVersion): string {
-  return `${cfg.frontendBaseUrl}loader/${version.rmlVersion}`;
+  return `${cfg.viteBaseUrl}loader/${version.rmlVersion}`;
 }
 
 /**
@@ -61,7 +61,7 @@ export function getLoaderVersionUrl(version: LoaderVersion): string {
  * @returns the URL.
  */
 export function getLauncherVersionUrl(version: LauncherVersion): string {
-  return `${cfg.frontendBaseUrl}launcher/${version.version}`;
+  return `${cfg.viteBaseUrl}launcher/${version.version}`;
 }
 
 /**
@@ -70,18 +70,18 @@ export function getLauncherVersionUrl(version: LauncherVersion): string {
  * @returns the URL.
  */
 export function getUserUrlForUsername(username: string): string {
-  return `${cfg.frontendBaseUrl}user/${encodeURIComponent(username)}`;
+  return `${cfg.viteBaseUrl}user/${encodeURIComponent(username)}`;
 }
 
 /**
  * Publicly accessible WWW URL for the mod loader download page.
  */
-export const softwareDownloadUrl = `${cfg.frontendBaseUrl}download`;
+export const softwareDownloadUrl = `${cfg.viteBaseUrl}download`;
 
 /**
  * Publicly accessible WWW URL of a mod loader logo image.
  */
-export const logoUrl = `${cfg.frontendBaseUrl}logo.png`;
+export const logoUrl = `${cfg.viteBaseUrl}logo.png`;
 
 /**
  * validates data to a json-schema

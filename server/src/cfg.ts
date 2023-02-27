@@ -1,4 +1,45 @@
-import { config } from 'dotenv-flow';
+// noinspection ES6PreferShortImport,ExceptionCaughtLocallyJS
+
+import {config} from 'dotenv-flow';
+import {NodeEnv} from "./types/NodeEnv";
+
+export interface DatabaseCfg {
+  user: string;
+  password: string
+  name: string
+  host: string
+  port: string;
+  logging: boolean;
+  ssl: boolean;
+}
+
+export interface ServerCfg {
+  port: number;
+}
+
+export interface MailCfg {
+  sender?: string;
+  port?: number;
+  host?: string;
+  auth: {
+    user?: string;
+    pass?: string;
+  };
+  secure?: boolean;
+}
+
+export interface DiscordCfg {
+  clientId: string;
+  clientSecret: string;
+}
+
+export interface StorageCfg {
+  accessKey: string;
+  secretKey: string;
+  endPoint: string;
+  publicBucket: string;
+  privateBucket: string;
+}
 
 /**
  * Configuration data for loader, launcher and mod release notifications to
@@ -35,46 +76,26 @@ export interface DiscordNotificationsCfg {
   modRoleId: string;
 }
 
+export interface ReCaptchaCfg {
+  siteKey: string;
+  secretKey: string;
+}
+
 export interface Cfg {
-  apiBase: string;
-  database: {
-    uri: string;
-    logging: boolean;
-    ssl: boolean;
+  node: {
+    env: NodeEnv
   };
-  server: {
-    port: number;
-  };
-  storage: {
-    accessKey: string;
-    secretKey: string;
-    endPoint: string;
-    publicBucket: string;
-    privateBucket: string;
-  };
+  database: DatabaseCfg;
+  server: ServerCfg;
+  storage?: StorageCfg;
   validMimeTypes: string[];
   fileUploadAccept: string[];
   requestSizeLimit: string;
   scheduledDeletionTime: string; // https://day.js.org/docs/en/manipulate/add
-  mailConfig: {
-    sender?: string;
-    port?: number;
-    host?: string;
-    auth: {
-      user?: string;
-      pass?: string;
-    };
-    secure?: boolean;
-  };
-  frontendBaseUrl: string;
-  reCaptcha: {
-    siteKey: string;
-    secretKey: string;
-  };
-  discord: {
-    clientId?: string;
-    clientSecret?: string;
-  };
+  mailConfig?: MailCfg;
+  viteBaseUrl: string;
+  reCaptcha?: ReCaptchaCfg;
+  discord?: DiscordCfg;
   /**
    * Configuration data for loader, launcher and mod release notifications to
    * Discord webhooks.
@@ -83,169 +104,228 @@ export interface Cfg {
 }
 
 //load env from ../.env.* -> https://www.npmjs.com/package/dotenv-flow
-config({ path: '../' });
+config({path: '../'});
 
-const apiBase = process.env.API_BASE;
-if (!apiBase) {
-  console.warn(`API_BASE is not configured! Using default "/api"`);
+const nodeEnv = process.env.NODE_ENV as NodeEnv | undefined;
+const nodeEnvDefault: NodeEnv = 'development'
+if (!nodeEnv) {
+  console.warn(`NODE_ENV is not configured! Using default '${nodeEnvDefault}'`);
 }
 
-const dbUri = process.env.DATABASE_URL;
-if (dbUri === undefined) {
-  throw new Error(`DATABASE_URL is not configured!`);
+const dbUser = process.env.DB_USER;
+if (dbUser === undefined) {
+  throw new Error(`DB_USER is not configured!`);
+}
+
+const dbPassword = process.env.DB_PASSWORD;
+if (dbPassword === undefined) {
+  throw new Error(`DB_PASSWORD is not configured!`);
+}
+
+const dbName = process.env.DB_NAME;
+if (dbName === undefined) {
+  throw new Error(`DB_NAME is not configured!`);
+}
+
+const dbHost = process.env.DB_HOST;
+const dbHostDefault = 'localhost';
+if (dbHost === undefined) {
+  console.warn(
+    `DB_HOST is not configured! Using default '${dbHostDefault}'.`,
+  );
+}
+
+const dbPort = process.env.DB_PORT;
+const dbPortDefault = '5432';
+if (dbPort === undefined) {
+  console.warn(
+    `DB_PORT is not configured! Using default '${dbPortDefault}'.`,
+  );
 }
 
 const dbLoggingString = process.env.DB_LOGGING;
+const dbLoggingStringDefault = 'false';
 if (dbLoggingString === undefined) {
-  throw new Error(`DB_LOGGING is not configured!`);
+  console.warn(
+    `DB_LOGGING is not configured! Using default '${dbLoggingStringDefault}'.`,
+  );
 }
-let dbLogging: boolean;
+let dbLogging: boolean = false;
 if (dbLoggingString === `true`) {
   dbLogging = true;
 } else if (dbLoggingString === `false`) {
   dbLogging = false;
 } else {
-  throw new Error(`DB_LOGGING must be either "true" or "false"!`);
+  console.warn(
+    `DB_LOGGING value '${dbLoggingString}' is invalid! Using default '${dbLoggingStringDefault}'.`,
+  );
 }
 
 const dbSslString = process.env.DB_SSL;
+const dbSslDefault = 'false';
 if (dbSslString === undefined) {
-  throw new Error(`DB_SSL is not configured!`);
+  console.warn(
+    `DB_SSL is not configured! Using default '${dbSslDefault}'.`,
+  );
 }
-let dbSsl: boolean;
+let dbSsl: boolean = false;
 if (dbSslString === `true`) {
   dbSsl = true;
 } else if (dbSslString === `false`) {
   dbSsl = false;
 } else {
-  throw new Error(`DB_SSL must be either "true" or "false"!`);
+  console.warn(
+    `DB_SSL value '${dbSslString}' is invalid! Using default '${dbSslDefault}'.`,
+  );
 }
 
-const srvPortString = process.env.PORT;
+const srvPortString = process.env.SERVER_PORT;
 if (srvPortString === undefined) {
-  throw new Error(`PORT is not configured!`);
+  throw new Error(`SERVER_PORT is not configured!`);
 }
 const port = parseInt(srvPortString, 10);
 
-const storageAccessKey = process.env.STORAGE_ACCESS;
-if (storageAccessKey === undefined) {
-  throw new Error(`STORAGE_ACCESS is not configured!`);
+const readStorageConfig = (): StorageCfg | undefined => {
+  try {
+    const storageAccessKey = process.env.STORAGE_ACCESS;
+    if (storageAccessKey === undefined) {
+      throw new Error(`STORAGE_ACCESS`);
+    }
+
+    const storageSecretKey = process.env.STORAGE_SECRET;
+    if (storageSecretKey === undefined) {
+      throw new Error(`STORAGE_SECRET`);
+    }
+
+    const storageEndPoint = process.env.STORAGE_ENDPOINT;
+    if (storageEndPoint === undefined) {
+      throw new Error(`STORAGE_ENDPOINT`);
+    }
+
+    const storagePublicBucket = process.env.STORAGE_PUBLIC_BUCKET;
+    if (storagePublicBucket === undefined) {
+      throw new Error(`STORAGE_PUBLIC_BUCKET`);
+    }
+
+    const storagePrivateBucket = process.env.STORAGE_PRIVATE_BUCKET;
+    if (storagePrivateBucket === undefined) {
+      throw new Error(`STORAGE_PRIVATE_BUCKET`);
+    }
+
+    return {
+      accessKey: storageAccessKey,
+      secretKey: storageSecretKey,
+      endPoint: storageEndPoint,
+      publicBucket: storagePublicBucket,
+      privateBucket: storagePrivateBucket
+    }
+  } catch (e: unknown) {
+    const err = e as Error;
+    console.warn(`❗ Missing/Invalid storage env-variables (${err.message}). File upload/download feature will not work!`)
+  }
 }
 
-const storageSecretKey = process.env.STORAGE_SECRET;
-if (storageSecretKey === undefined) {
-  throw new Error(`STORAGE_SECRET is not configured!`);
+const readMailConfig = (): MailCfg | undefined => {
+  try {
+    const mailSender = process.env.MAIL_SENDER;
+    if (!mailSender) {
+      throw new Error(`MAIL_SENDER`);
+    }
+
+    const mailHost = process.env.MAIL_HOST;
+    if (!mailHost) {
+      throw new Error(`MAIL_HOST`);
+    }
+
+    const mailAuthUser = process.env.MAIL_AUTH_USER;
+    if (!mailAuthUser) {
+      throw new Error(`MAIL_AUTH_USER`);
+    }
+
+    const mailAuthPass = process.env.MAIL_AUTH_PASS;
+    if (!mailAuthPass) {
+      throw new Error(`MAIL_AUTH_PASS`);
+    }
+
+    const maiLPort = process.env.MAIL_PORT;
+    const mailPortDefault = 465;
+    if (!maiLPort) {
+      console.warn(`MAIL_PORT is not configured! Using default '${mailPortDefault}'!`);
+    }
+
+    const mailSecure = process.env.MAIL_SECURE;
+    if (!mailSecure) {
+      console.warn(`MAIL_SECURE is not configured! Using default "true"!`);
+    }
+
+    return {
+      host: mailHost,
+      port: Number(maiLPort) || mailPortDefault,
+      secure: mailSecure === 'true',
+      sender: mailSender,
+      auth: {
+        user: mailAuthUser,
+        pass: mailAuthPass,
+      }
+    }
+  } catch (e: unknown) {
+    const err = e as Error;
+    console.warn(`❗ Missing/Invalid mailing env-variables (${err.message}). Mailing feature will not work!`)
+  }
 }
 
-const storageEndPoint = process.env.STORAGE_ENDPOINT;
-if (storageEndPoint === undefined) {
-  throw new Error(`STORAGE_ENDPOINT is not configured!`);
-}
-
-const storagePublicBucket = process.env.STORAGE_PUBLIC_BUCKET;
-if (storagePublicBucket === undefined) {
-  throw new Error(`STORAGE_PUBLIC_BUCKET is not configured!`);
-}
-
-const storagePrivateBucket = process.env.STORAGE_PRIVATE_BUCKET;
-if (storagePrivateBucket === undefined) {
-  throw new Error(`STORAGE_PRIVATE_BUCKET is not configured!`);
-}
-
-const validateMimeTypesString = process.env.VALID_MIME_TYPES;
-if (!validateMimeTypesString) {
-  throw new Error(`VALID_MIME_TYPES is not configured!`);
-}
-
-const fileUploadAcceptString = process.env.FILE_UPLOAD_ACCEPT;
-if (!fileUploadAcceptString) {
-  throw new Error(`FILE_UPLOAD_ACCEPT is not configured!`);
-}
-
-const requestSizeLimit = process.env.REQUEST_SIZE_LIMIT;
-if (!requestSizeLimit) {
-  throw new Error(`REQUEST_SIZE_LIMIT is not configured!`);
-}
-
-const scheduledDeletionTime = process.env.SCHEDULED_DELETION_TIME;
-if (!scheduledDeletionTime) {
+const viteBaseUrl = process.env.VITE_BASE_URL;
+const viteBaseUrlDefault = 'http://localhost:3000'
+if (!viteBaseUrl) {
   console.warn(
-    `SCHEDULED_DELETION_TIME is not configured! Using default "10d"!`,
+    `VITE_BASE_URL is not configured! Using default '${viteBaseUrlDefault}'`,
   );
 }
 
-const mailSender = process.env.MAIL_SENDER;
-if (!mailSender) {
-  console.warn(
-    `MAIL_SENDER is not configured! Mailing feature will not work !!`,
-  );
+const readReCaptchaConfig = (): ReCaptchaCfg | undefined => {
+  try {
+    let reCaptchaSiteKey = process.env.RECAPTCHA_SITE_KEY;
+    if (!reCaptchaSiteKey) {
+      throw new Error(`RECAPTCHA_SITE_KEY`);
+    }
+    let reCaptchaSecretKey = process.env.RECAPTCHA_SECRET_KEY;
+    if (!reCaptchaSecretKey) {
+      throw new Error(`RECAPTCHA_SECRET_KEY`);
+    }
+
+    return {
+      siteKey: reCaptchaSiteKey,
+      secretKey: reCaptchaSecretKey,
+    }
+  } catch (e) {
+    const err = e as Error;
+    console.warn(`❗ Missing/Invalid recaptcha env-variables (${err.message}). ReCAPTCHA will not work!`)
+  }
 }
 
-const maiLPort = process.env.MAIL_PORT;
-if (!maiLPort) {
-  console.warn(`MAIL_PORT is not configured! Using default "465"!`);
+
+const readDiscordConfig = (): DiscordCfg | undefined => {
+  try {
+    let discordClientId = process.env.VITE_DISCORD_CLIENT_ID;
+    if (!discordClientId) {
+      throw new Error(`VITE_DISCORD_CLIENT_ID`);
+    }
+    let discordClientSecret = process.env.DISCORD_CLIENT_SECRET;
+    if (!discordClientSecret) {
+      throw new Error(`DISCORD_CLIENT_SECRET`);
+    }
+
+    return {
+      clientId: discordClientId,
+      clientSecret: discordClientSecret,
+    }
+  } catch (e: unknown) {
+    const err = e as Error;
+    console.warn(`❗ Missing/Invalid discord env-variables (${err.message}). Discord authentication disabled!!`)
+  }
 }
 
-const mailSecure = process.env.MAIL_SECURE;
-if (!mailSecure) {
-  console.warn(`MAIL_SECURE is not configured! Using default "true"!`);
-}
-
-const mailHost = process.env.MAIL_HOST;
-if (!mailHost) {
-  console.warn(`MAIL_HOST is not configured! Mailing feature will not work !!`);
-}
-
-const mailAuthUser = process.env.MAIL_AUTH_USER;
-if (!mailAuthUser) {
-  console.warn(
-    `MAIL_AUTH_USER is not configured! Mailing feature will not work !!`,
-  );
-}
-
-const mailAuthPass = process.env.MAIL_AUTH_PASS;
-if (!mailAuthPass) {
-  console.warn(
-    `MAIL_AUTH_PASS is not configured! Mailing feature will not work !!`,
-  );
-}
-
-const frontendBaseUrl = process.env.FRONTEND_BASE_URL;
-if (!frontendBaseUrl) {
-  console.warn(
-    `FRONTEND_BASE_URL is not configured! Using default "http://localhost:3000"`,
-  );
-}
-
-let reCaptchaSiteKey = process.env.RECAPTCHA_SITE_KEY;
-if (!reCaptchaSiteKey) {
-  reCaptchaSiteKey = '';
-  console.warn(
-    `RECAPTCHA_SITE_KEY is not configured! ReCAPTCHA will not work!`,
-  );
-}
-let reCaptchaSecretKey = process.env.RECAPTCHA_SECRET_KEY;
-if (!reCaptchaSecretKey) {
-  reCaptchaSecretKey = '';
-  console.warn(
-    `RECAPTCHA_SECRET_KEY is not configured! ReCAPTCHA will not work!`,
-  );
-}
-
-let discordClientId = process.env.VITE_DISCORD_CLIENT_ID;
-if (!discordClientId) {
-  console.warn(
-    `VITE_DISCORD_CLIENT_ID is not configured! Discord authentication disabled!!`,
-  );
-}
-let discordClientSecret = process.env.DISCORD_CLIENT_SECRET;
-if (!discordClientSecret) {
-  console.warn(
-    `DISCORD_CLIENT_SECRET is not configured! Discord authentication disabled!!`,
-  );
-}
-
-function readDiscordNotificationCfg(): DiscordNotificationsCfg {
+const readDiscordNotificationCfg = (): DiscordNotificationsCfg => {
   const dnCooldownString = process.env.DN_COOLDOWN;
   let dnCooldown;
   if (!dnCooldownString) {
@@ -311,44 +391,29 @@ function readDiscordNotificationCfg(): DiscordNotificationsCfg {
 }
 
 export const cfg: Cfg = {
-  apiBase: apiBase || '/api',
+  node: {
+    env: nodeEnv || nodeEnvDefault,
+  },
   database: {
-    uri: dbUri,
+    user: dbUser,
+    password: dbPassword,
+    host: dbHost || dbHostDefault,
+    port: dbPort || dbPortDefault,
+    name: dbName,
     logging: dbLogging,
     ssl: dbSsl,
   },
   server: {
     port,
   },
-  storage: {
-    accessKey: storageAccessKey,
-    secretKey: storageSecretKey,
-    endPoint: storageEndPoint,
-    publicBucket: storagePublicBucket,
-    privateBucket: storagePrivateBucket,
-  },
-  validMimeTypes: validateMimeTypesString.split(`,`).map((s) => s.trim()),
-  fileUploadAccept: fileUploadAcceptString.split(`,`).map((s) => s.trim()),
-  requestSizeLimit,
-  scheduledDeletionTime: scheduledDeletionTime || `10d`,
-  mailConfig: {
-    sender: mailSender,
-    port: Number(maiLPort) || 465,
-    host: mailHost,
-    auth: {
-      user: mailAuthUser,
-      pass: mailAuthPass,
-    },
-    secure: mailSecure !== 'false',
-  },
-  frontendBaseUrl: frontendBaseUrl || 'http://localhost:3000',
-  reCaptcha: {
-    siteKey: reCaptchaSiteKey,
-    secretKey: reCaptchaSecretKey,
-  },
-  discord: {
-    clientId: discordClientId,
-    clientSecret: discordClientSecret,
-  },
+  storage: readStorageConfig(),
+  validMimeTypes: ['application/zip'],
+  fileUploadAccept: ['.rmod'],
+  requestSizeLimit: '20mb',
+  scheduledDeletionTime: '10d',
+  mailConfig: readMailConfig(),
+  viteBaseUrl: viteBaseUrl || 'http://localhost:3000',
+  reCaptcha: readReCaptchaConfig(),
+  discord: readDiscordConfig(),
   discordNotifications: readDiscordNotificationCfg(),
 };

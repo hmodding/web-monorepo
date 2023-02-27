@@ -23,15 +23,17 @@ import {Session} from '../entities/Session';
 import {User} from '../entities/User';
 import {UserPrivilege} from '../entities/UserPrivilege';
 
-const {uri, ssl} = cfg.database;
+const {host, port, user, password, name, ssl, logging} = cfg.database;
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
-  host: 'localhost',
-  port: 5432,
-  url: uri,
+  host,
+  port: Number(port),
+  username: user,
+  password,
+  database: name,
   ssl,
-  logging: cfg.database.logging || true,
+  logging,
   synchronize: process.env.NODE_ENV === 'development',
   entities: [
     AccountCreation,

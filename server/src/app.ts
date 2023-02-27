@@ -17,8 +17,8 @@ import {notFoundHandler} from "./handlers/notFoundHandler";
 export const app = express();
 
 export const startServer = async () => {
-  console.log(`⏳ starting server (mode: ${process.env.NODE_ENV})...`);
-  const port = process.env.PORT || 3000;
+  console.log(`⏳ starting server...`);
+  const port = cfg.server.port;
   const jsonOptions: OptionsJson = {limit: cfg.requestSizeLimit};
   const urlencodedOptions: OptionsUrlencoded = {extended: false};
   const swaggerUiHandler = async (_req: ExRequest, res: ExResponse) => {

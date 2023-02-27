@@ -13,6 +13,13 @@
 
 ## Get started
 
+### Define Environment Variables
+
+You can either create an `.env` file in your local git clone.
+You can use [`example.env`](example.env) as a template!
+
+Or You define all the env-variables mentioned in [`example.env`](example.env) as actual env-variables.
+
 ### build
 
 ```
@@ -32,4 +39,5 @@ npm run dev
 ```
 
 ## Disclaimer
+
 This monorepo might not be structured properly and might be in an unstable state.

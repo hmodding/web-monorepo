@@ -88,7 +88,7 @@ export const recaptcha = {
   uischema: {
     options: {
       recaptcha: true,
-      siteKey: cfg.reCaptcha.siteKey,
+      siteKey: cfg.reCaptcha?.siteKey || '',
     },
   },
 };

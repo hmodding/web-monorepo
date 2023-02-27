@@ -138,7 +138,7 @@ export class DiscordAuthenticator {
 }
 
 export const discordAuthenticator = new DiscordAuthenticator({
-  clientId: cfg.discord.clientId || '',
-  clientSecret: cfg.discord.clientSecret || '',
-  redirectUri: `${cfg.frontendBaseUrl}auth/discord`,
+  clientId: cfg.discord?.clientId || '',
+  clientSecret: cfg.discord?.clientSecret || '',
+  redirectUri: `${cfg.viteBaseUrl}auth/discord`,
 });

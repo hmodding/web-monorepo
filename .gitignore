@@ -24,7 +24,8 @@ dist-ssr
 # OSX
 .DS_Store
 
-# misc
+# env
+.env*
 *.local
 
 # unused????

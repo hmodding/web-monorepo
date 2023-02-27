@@ -35,13 +35,13 @@ export class FileManagerService {
   public constructor(cfg: Cfg) {
     this.cfg = cfg;
 
-    const { accessKey, secretKey, endPoint } = cfg.storage;
+    const { storage } = cfg;
 
-    if (accessKey && secretKey && !endPoint) {
+    if (storage?.accessKey && storage?.secretKey && storage?.endPoint) {
       this.client = new Client({
-        accessKey: cfg.storage.accessKey,
-        secretKey: cfg.storage.secretKey,
-        endPoint: cfg.storage.endPoint,
+        accessKey: storage?.accessKey || '',
+        secretKey: storage?.secretKey || '',
+        endPoint: storage?.endPoint || '',
       });
     } else {
       console.warn(
@@ -101,7 +101,7 @@ export class FileManagerService {
     filePath: string,
     fileContents: Buffer,
   ): Promise<ObjectMeta> {
-    const bucket = this.cfg.storage.publicBucket;
+    const bucket = this.cfg.storage?.publicBucket || '';
     const sha256 = this.hashSha256(fileContents);
     let md5 = this.hashMd5(fileContents);
 
@@ -114,7 +114,7 @@ export class FileManagerService {
     }
 
     return {
-      url: `https://${this.cfg.storage.endPoint}/${bucket}/${filePath}`,
+      url: `https://${this.cfg.storage?.endPoint}/${bucket}/${filePath}`,
       md5,
       sha256,
     };
@@ -149,8 +149,8 @@ export class FileManagerService {
   public async hideModFiles(modSlug: string): Promise<void> {
     const modDir = `mods/${modSlug}/`;
     await this.moveDir(
-      this.cfg.storage.publicBucket,
-      this.cfg.storage.privateBucket,
+      this.cfg.storage?.publicBucket || '',
+      this.cfg.storage?.privateBucket || '',
       modDir,
     );
   }
@@ -163,8 +163,8 @@ export class FileManagerService {
   public async showModFiles(modSlug: string): Promise<void> {
     const modDir = `mods/${modSlug}/`;
     await this.moveDir(
-      this.cfg.storage.privateBucket,
-      this.cfg.storage.publicBucket,
+      this.cfg.storage?.privateBucket || '',
+      this.cfg.storage?.publicBucket || '',
       modDir,
     );
   }
@@ -178,8 +178,8 @@ export class FileManagerService {
   public async hideLauncherVersionFiles(versionSlug: string): Promise<void> {
     const launcherVersionDir = `launcher/${versionSlug}`;
     await this.moveDir(
-      this.cfg.storage.publicBucket,
-      this.cfg.storage.privateBucket,
+      this.cfg.storage?.publicBucket || '',
+      this.cfg.storage?.privateBucket || '',
       launcherVersionDir,
     );
   }
@@ -222,11 +222,11 @@ export class FileManagerService {
       );
     }
     const objects = await this.listObjectsRecursively(
-      this.cfg.storage.publicBucket,
+      this.cfg.storage?.publicBucket || '',
       prefix,
     );
 
-    await this.client.removeObjects(this.cfg.storage.publicBucket, objects);
+    await this.client.removeObjects(this.cfg.storage?.publicBucket || '', objects);
   }
 
   /**

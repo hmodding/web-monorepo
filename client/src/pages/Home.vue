@@ -76,9 +76,6 @@ interface ModCollection {
   mostLiked: Mod[];
 }
 
-//@ts-ignore
-const { VITE_TITLE_DEFAULT } = import.meta.env;
-
 export default defineComponent({
   name: 'HomePage',
   components: { ModsCardDeck },

@@ -1,11 +1,8 @@
 import {computed} from 'vue';
 import {useMeta} from 'vue-meta';
+import {META_DEFAULT_TITLE, META_TITLE_APPEND} from "../../const/meta.const";
 
-const {
-  VITE_TITLE_DEFAULT,
-  VITE_TITLE_APPEND,
-  VITE_META_BASE_URL,
-} = import.meta.env;
+const {VITE_BASE_URL} = import.meta.env;
 
 export const useGeneralMeta = () => {
   const generalMeta = computed(() => ({
@@ -16,10 +13,10 @@ export const useGeneralMeta = () => {
     base: {
       href: baseUrl,
     },
-    title: String(VITE_TITLE_DEFAULT),
+    title: String(META_DEFAULT_TITLE),
     titleTemplate(chunk = '') {
-      if (chunk !== VITE_TITLE_DEFAULT) {
-        return `${chunk}${VITE_TITLE_APPEND}`;
+      if (chunk !== META_DEFAULT_TITLE) {
+        return `${chunk}${META_TITLE_APPEND}`;
       }
       return chunk;
     },
@@ -49,7 +46,7 @@ export const useGeneralMeta = () => {
   useMeta(generalMeta);
 };
 
-const baseUrl = VITE_META_BASE_URL;
+const baseUrl = VITE_BASE_URL;
 
 const description = `Welcome to RaftModding! The largest community for mods, scripts and utilities for Raft!
 

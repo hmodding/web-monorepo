@@ -10,14 +10,14 @@ import {DownloadCounterService} from './src/services/DownloadCounterService';
 ##################################
 ##                              ##
 ##       STARTING SERVER        ##
-##   (profile: ${process.env.NODE_ENV})     ##
+##   (profile: ${cfg.node.env})     ##
 ##                              ##
 ##################################`);
   console.log('    ⏳ Connection AppDataSource...');
   await AppDataSource.initialize(); //new
   console.log('    ✔️ AppDataSource initialized!');
 
-  if (process.env.NODE_ENV === 'development') {
+  if (cfg.node.env) {
     await saveExampleDbData();
     console.log('    ✔️ Example data saved!');
   }

@@ -7,7 +7,7 @@ export default defineConfig(({mode}) => {
   //load env vars from ../.env.* -> https://www.npmjs.com/package/dotenv-flow
   const env = loadEnv(mode, '../');
 
-  const port = Number(env.VITE_PORT || 3001);
+  const port = Number(env.VITE_PORT || 5000);
 
   return {
     plugins: [vue()],

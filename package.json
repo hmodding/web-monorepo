@@ -5,6 +5,7 @@
   "scripts": {
     "build": "npm run build --workspaces",
     "start": "concurrently --kill-others \"npm run start --workspace=@raftmodding/client\" \"npm run start --workspace=@raftmodding/server\"",
+    "server:start": "cd ./server && npm run start",
     "dev": "concurrently --kill-others \"npm run dev --workspace=@raftmodding/client\" \"npm run dev --workspace=@raftmodding/server\"",
     "prettier": "npx prettier --write .",
     "clean": "rimraf \"**/build\" \"**/dist\" \"**/*.tsbuildinfo\"",

@@ -27,11 +27,15 @@ const {host, port, user, password, name, ssl, logging} = cfg.database;
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
-  host,
-  port: Number(port),
-  username: user,
-  password,
-  database: name,
+  url: `postgresql://${user}:${password}@${host}:${port}/${name}`,
+  extra: {
+
+  },
+  // host,
+  // port: Number(port),
+  // username: user,
+  // password,
+  // database: name,
   ssl,
   logging,
   synchronize: process.env.NODE_ENV === 'development',

@@ -67,6 +67,7 @@ export class ModController extends Controller {
   @Get('/{id}')
   @Security('everyone')
   public async read(@Path() id: string) {
+    console.log('read mod with id:', id);
     const mod = await ModService.getById(id);
 
     if (!mod) {

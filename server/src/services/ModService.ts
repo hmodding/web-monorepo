@@ -37,7 +37,8 @@ export class ModService extends AbstractService {
       .orderBy('versions.createdAt', 'DESC')
       .getOne();
     const modDto = (mod as unknown) as ModDto;
-    modDto.likeCount = mod?.likes?.length || 0;
+    //modDto.likeCount = mod?.likes?.length || 0;
+    console.log(modDto);
 
     return modDto;
   }

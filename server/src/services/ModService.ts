@@ -1,18 +1,18 @@
-import { ILike } from 'typeorm';
-import { ModCreateDto, ModDto } from '../../../shared/dto/ModDto';
-import { modCategories } from '../../../shared/modCategories';
-import { ModQueryParams } from '../../../shared/types/QueryParams';
-import { getSchema } from '../../resources/schemas/mod/addModSchema';
-import { Mod } from '../entities/Mod';
-import { User } from '../entities/User';
-import { ApiError } from '../errors/ApiError';
-import { HttpStatusCode } from '../types/HttpStatusCode';
-import { validateData } from '../utils';
-import { AbstractService } from './AbstractService';
-import { ModVersionService } from './ModVersionService';
+import {ILike} from 'typeorm';
+import {ModCreateDto, ModDto} from '../../../shared/dto/ModDto';
+import {modCategories} from '../../../shared/modCategories';
+import {ModQueryParams} from '../../../shared/types/QueryParams';
+import {getSchema} from '../../resources/schemas/mod/addModSchema';
+import {Mod} from '../entities/Mod';
+import {User} from '../entities/User';
+import {ApiError} from '../errors/ApiError';
+import {HttpStatusCode} from '../types/HttpStatusCode';
+import {validateData} from '../utils';
+import {AbstractService} from './AbstractService';
+import {ModVersionService} from './ModVersionService';
 
 export class ModService extends AbstractService {
-  static async getAll({ sort, author, q }: ModQueryParams) {
+  static async getAll({sort, author, q}: ModQueryParams) {
     return Mod.find<Mod>({
       order: sort ? this.parseSort(sort) : undefined,
       where: {
@@ -24,8 +24,8 @@ export class ModService extends AbstractService {
 
   static async getById(id: string, sort?: string) {
     const mod = await Mod.createQueryBuilder('mod')
-      .where('mod.id = :id', { id })
-      .innerJoinAndSelect(
+      .where('mod.id = :id', {id})
+      .leftJoinAndSelect(
         'mod.versions',
         'versions',
         'versions.modId = :modId',
@@ -33,12 +33,10 @@ export class ModService extends AbstractService {
           modId: id,
         },
       )
-      .leftJoin('mod.likes', 'likes')
       .orderBy('versions.createdAt', 'DESC')
       .getOne();
     const modDto = (mod as unknown) as ModDto;
-    //modDto.likeCount = mod?.likes?.length || 0;
-    console.log(modDto);
+    modDto.likeCount = mod?.likes?.length || 0;
 
     return modDto;
   }
@@ -66,7 +64,7 @@ export class ModService extends AbstractService {
   }
 
   static async ownsMod(modId: string, username: string) {
-    const mod = await Mod.findOneBy({ id: modId });
+    const mod = await Mod.findOneBy({id: modId});
 
     return mod?.author === username;
   }
@@ -85,7 +83,7 @@ export class ModService extends AbstractService {
         file: data.file,
       });
       const dbMod = Mod.findOne({
-        where: { id: mod.id },
+        where: {id: mod.id},
         relations: ['versions'],
       });
 
@@ -113,32 +111,27 @@ export class ModService extends AbstractService {
 }
 
 const MOST_LIKED_MODS_QUERY = `
-  SELECT 
-    *, 
-    (SELECT COUNT(*) FROM "ModLikes" WHERE "ModLikes"."modId" = "mods"."id")::int AS likes
-  FROM "mods"
-  ORDER BY likes DESC, "mods".title DESC
-  LIMIT $1`;
+    SELECT *,
+           (SELECT COUNT(*) FROM "modLikes" WHERE "modLikes"."modId" = "mods"."id") ::int AS likes
+    FROM "mods"
+    ORDER BY likes DESC, "mods".title DESC
+        LIMIT $1`;
 
 const MOST_DOWNLOADED_MODS_QUERY = `
     SELECT *,
-    (
-        CASE
-            WHEN (
-                SELECT SUM("downloadCount")
-                from "mod-versions"
-                WHERE "mod-versions"."modId" = "mods"."id"
-                    AND "mod-versions"."downloadCount" IS NOT NULL
-            ) IS NOT NULL THEN (
-                SELECT SUM("downloadCount")
-                from "mod-versions"
-                WHERE "mod-versions"."modId" = "mods"."id"
-                    AND "mod-versions"."downloadCount" IS NOT NULL
-            )
-            ELSE 0
-        END
-    ) AS "totalDownloads"
-  FROM "mods"
-  GROUP BY id
-  ORDER BY "totalDownloads" DESC
-  LIMIT $1`;
+           (
+               CASE
+                   WHEN (SELECT SUM("downloadCount")
+                         from "mod-versions"
+                         WHERE "mod-versions"."modId" = "mods"."id"
+                           AND "mod-versions"."downloadCount" IS NOT NULL) IS NOT NULL THEN (SELECT SUM("downloadCount")
+                                                                                             from "mod-versions"
+                                                                                             WHERE "mod-versions"."modId" = "mods"."id"
+                                                                                               AND "mod-versions"."downloadCount" IS NOT NULL)
+                   ELSE 0
+                   END
+               ) AS "totalDownloads"
+    FROM "mods"
+    GROUP BY id
+    ORDER BY "totalDownloads" DESC
+        LIMIT $1`;

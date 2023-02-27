@@ -50,7 +50,7 @@ export class Mod extends AbstractEntityWithCreatedAndUpdated {
 
   @ManyToMany(() => User, (user) => user.likedMods)
   @JoinTable({
-    name: 'ModLikes',
+    name: 'modlikes',
     joinColumn: {
       name: 'modId',
       referencedColumnName: 'id',

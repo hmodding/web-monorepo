@@ -70,6 +70,7 @@ import { Mod } from '../types';
 
 import { useActiveMeta } from 'vue-meta';
 import ModsCardDeck from '../components/ModsCardDeck.vue';
+import {META_DEFAULT_TITLE} from "../const/meta.const";
 
 interface ModCollection {
   mostDownloaded: Mod[];
@@ -86,7 +87,7 @@ export default defineComponent({
       mostLiked: [],
     });
 
-    meta.title = VITE_TITLE_DEFAULT;
+    meta.title = META_DEFAULT_TITLE;
 
     (async () => {
       mods.mostDownloaded = await api.getMostDownloadedMods();

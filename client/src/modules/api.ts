@@ -1,13 +1,13 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { NotyfEvent } from 'notyf';
-import { ErrorDto } from '../../../shared/dto/ErrorDto';
-import { LoaderVersionDto } from '../../../shared/dto/LoaderVersionDto';
-import { ModDto } from '../../../shared/dto/ModDto';
-import { ModVersionDto } from '../../../shared/dto/ModVersionDto';
-import { QueryParams } from '../../../shared/types/QueryParams';
-import { setSession } from '../store/actions/session.actions';
-import { unPersistSession } from '../store/persistence.store';
-import { state } from '../store/store';
+import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse} from 'axios';
+import {NotyfEvent} from 'notyf';
+import {ErrorDto} from '../../../shared/dto/ErrorDto';
+import {LoaderVersionDto} from '../../../shared/dto/LoaderVersionDto';
+import {ModDto} from '../../../shared/dto/ModDto';
+import {ModVersionDto} from '../../../shared/dto/ModVersionDto';
+import {QueryParams} from '../../../shared/types/QueryParams';
+import {setSession} from '../store/actions/session.actions';
+import {unPersistSession} from '../store/persistence.store';
+import {state} from '../store/store';
 import {
   FormResponse,
   LauncherVersion,
@@ -17,8 +17,8 @@ import {
   RaftVersion,
   Session,
 } from '../types';
-import { ModLike } from '../types/ModLike';
-import { toaster } from './toaster';
+import {ModLike} from '../types/ModLike';
+import {toaster} from './toaster';
 
 class Api {
   private axios: AxiosInstance;
@@ -49,9 +49,9 @@ class Api {
         recaptcha,
       });
       return true;
-    } catch ({ response }) {
+    } catch ({response}) {
       const {
-        data: { error },
+        data: {error},
       } = response as AxiosResponse<ErrorDto>;
       if (error) {
         toaster.error(error);
@@ -62,7 +62,7 @@ class Api {
 
   async login(username: string, password: string): Promise<boolean> {
     try {
-      const { data: session }: AxiosResponse = await this.axios.post(
+      const {data: session}: AxiosResponse = await this.axios.post(
         '/users/login',
         {
           username,
@@ -78,9 +78,9 @@ class Api {
       await setSession(session);
       toaster.success('Login successful');
       return true;
-    } catch ({ response }) {
+    } catch ({response}) {
       const {
-        data: { error },
+        data: {error},
       } = response as AxiosResponse<ErrorDto>;
       toaster.error(error);
     }
@@ -89,7 +89,7 @@ class Api {
 
   async discordAuth(code: string): Promise<boolean> {
     try {
-      const { data: session }: AxiosResponse = await this.axios.post(
+      const {data: session}: AxiosResponse = await this.axios.post(
         `/auth/discord`,
         {
           code,
@@ -107,7 +107,7 @@ class Api {
     email: string,
   ): Promise<boolean | string> {
     try {
-      const { data: session }: AxiosResponse = await this.axios.post(
+      const {data: session}: AxiosResponse = await this.axios.post(
         `/account/finish`,
         {
           username,
@@ -116,8 +116,8 @@ class Api {
       );
       setSession(session);
       return true;
-    } catch ({ response }) {
-      const { data } = response as AxiosResponse<ErrorDto>;
+    } catch ({response}) {
+      const {data} = response as AxiosResponse<ErrorDto>;
       return data?.error ? data.error : false;
     }
   }
@@ -134,13 +134,13 @@ class Api {
         passwordConfirm,
       });
       return true;
-    } catch ({ response }) {
+    } catch ({response}) {
       const {
-        data: { error },
+        data: {error},
       } = response as AxiosResponse<ErrorDto>;
       toaster.error(
         error ||
-          `Your current password is incorrect or the new one doesn't match the criteria!`,
+        `Your current password is incorrect or the new one doesn't match the criteria!`,
       );
     }
     return false;
@@ -148,7 +148,7 @@ class Api {
 
   async getMostDownloadedMods(): Promise<Mod[]> {
     try {
-      const { data }: AxiosResponse = await this.axios.get(
+      const {data}: AxiosResponse = await this.axios.get(
         '/mods/mostDownloaded',
       );
       return data;
@@ -160,7 +160,7 @@ class Api {
 
   async getMostLikedMods() {
     try {
-      const { data }: AxiosResponse = await this.axios.get('/mods/mostLiked');
+      const {data}: AxiosResponse = await this.axios.get('/mods/mostLiked');
       return data;
     } catch (e) {
       toaster.error(`Failed to get "Most Liked Mods"`);
@@ -168,9 +168,9 @@ class Api {
     return [];
   }
 
-  async getLauncherVersions(params: QueryParams = { sort: '-createdAt' }) {
+  async getLauncherVersions(params: QueryParams = {sort: '-createdAt'}) {
     try {
-      const { data }: AxiosResponse = await this.axios.get(
+      const {data}: AxiosResponse = await this.axios.get(
         '/launcherVersions',
         {
           params,
@@ -185,7 +185,7 @@ class Api {
 
   async getLauncherVersion(version: string): Promise<LauncherVersion> {
     try {
-      const { data }: AxiosResponse = await this.axios.get(
+      const {data}: AxiosResponse = await this.axios.get(
         `/launcherVersions/${version}`,
       );
       return data;
@@ -197,15 +197,15 @@ class Api {
 
   async addLauncherVersion(launcherVersion: LauncherVersion) {
     try {
-      const { data }: AxiosResponse = await this.axios.post(
+      const {data}: AxiosResponse = await this.axios.post(
         `/launcherVersions`,
         launcherVersion,
       );
 
       return data;
-    } catch ({ response }) {
+    } catch ({response}) {
       const {
-        data: { error },
+        data: {error},
       } = response as AxiosResponse<ErrorDto>;
 
       if (error) {
@@ -217,10 +217,10 @@ class Api {
   }
 
   async getLoaderVersions(
-    params = { sort: '-createdAt' },
+    params = {sort: '-createdAt'},
   ): Promise<LoaderVersion[] | LoaderVersionDto[]> {
     try {
-      const { data }: AxiosResponse = await this.axios.get('/loaderVersions', {
+      const {data}: AxiosResponse = await this.axios.get('/loaderVersions', {
         params,
       });
       return data;
@@ -232,7 +232,7 @@ class Api {
 
   async getLoaderVersion(version: string): Promise<LoaderVersion> {
     try {
-      const { data }: AxiosResponse = await this.axios.get(
+      const {data}: AxiosResponse = await this.axios.get(
         `/loaderVersions/${version}`,
       );
       return data;
@@ -244,15 +244,15 @@ class Api {
 
   async addLoaderVersion(loaderVersion: LoaderVersion) {
     try {
-      const { data }: AxiosResponse = await this.axios.post(
+      const {data}: AxiosResponse = await this.axios.post(
         `/loaderVersions`,
         loaderVersion,
       );
 
       return data;
-    } catch ({ response }) {
+    } catch ({response}) {
       const {
-        data: { error },
+        data: {error},
       } = response as AxiosResponse<ErrorDto>;
 
       if (error) {
@@ -265,7 +265,7 @@ class Api {
 
   async getSession(token: string): Promise<Session> {
     try {
-      const { data }: AxiosResponse = await this.axios.get(
+      const {data}: AxiosResponse = await this.axios.get(
         `/sessions/${token}`,
       );
       return data;
@@ -293,7 +293,7 @@ class Api {
 
   async getModCategories(): Promise<string[]> {
     try {
-      const { data }: AxiosResponse = await this.axios.get(`/mods/categories`);
+      const {data}: AxiosResponse = await this.axios.get(`/mods/categories`);
       return data;
     } catch (e) {
       toaster.error('Failed to get mod categories');
@@ -303,7 +303,7 @@ class Api {
 
   async getMods(params?: QueryParams): Promise<ModDto[]> {
     try {
-      const { data }: AxiosResponse = await this.axios.get(`/mods`, {
+      const {data}: AxiosResponse = await this.axios.get(`/mods`, {
         params,
       });
       return data;
@@ -315,13 +315,13 @@ class Api {
 
   async getMod(id: string) {
     try {
-      const { data }: AxiosResponse = await this.axios.get<ModDto>(
+      const {data}: AxiosResponse = await this.axios.get<ModDto>(
         `/mods/${id}`,
       );
       return data;
-    } catch ({ response }) {
+    } catch ({response}) {
       const {
-        data: { error },
+        data: {error},
       } = response as AxiosResponse<ErrorDto>;
 
       if (error) {
@@ -334,11 +334,11 @@ class Api {
 
   async addMod(mod: ModDto) {
     try {
-      const { data } = await this.axios.post<ModDto>('/mods', mod);
+      const {data} = await this.axios.post<ModDto>('/mods', mod);
       return data;
-    } catch ({ response }) {
+    } catch ({response}) {
       const {
-        data: { error },
+        data: {error},
       } = response as AxiosResponse<ErrorDto>;
       toaster.error(
         error || '<b>Form invalid!</b><br/> Please check your inputs',
@@ -349,11 +349,11 @@ class Api {
 
   async updateMod(mod: ModDto) {
     try {
-      const { data } = await this.axios.put(`/mods/${mod.id}`, mod);
+      const {data} = await this.axios.put(`/mods/${mod.id}`, mod);
       return data;
-    } catch ({ response }) {
+    } catch ({response}) {
       const {
-        data: { error },
+        data: {error},
       } = response as AxiosResponse<ErrorDto>;
       toaster.error(
         error || '<b>Form invalid!</b><br/> Please check your inputs',
@@ -364,13 +364,13 @@ class Api {
 
   async getModVersion(id: number) {
     try {
-      const { data } = await this.axios.get<ModVersionDto>(
+      const {data} = await this.axios.get<ModVersionDto>(
         `/modVersions/${id}`,
       );
       return data;
-    } catch ({ response }) {
+    } catch ({response}) {
       const {
-        data: { error },
+        data: {error},
       } = response as AxiosResponse<ErrorDto>;
       toaster.error(
         error || '<b>Form invalid!</b><br/> Please check your inputs',
@@ -380,14 +380,14 @@ class Api {
 
   async addModVersion(modId: number, version: ModVersion) {
     try {
-      const { data } = await this.axios.post(`/modVersions`, {
+      const {data} = await this.axios.post(`/modVersions`, {
         ...version,
         modId,
       });
       return data;
-    } catch ({ response }) {
+    } catch ({response}) {
       const {
-        data: { error },
+        data: {error},
       } = response as AxiosResponse<ErrorDto>;
       toaster.error(
         error || '<b>Form invalid!</b><br/> Please check your inputs',
@@ -398,16 +398,16 @@ class Api {
 
   async updateModVersion(id: number, version: ModVersionDto) {
     try {
-      const body: ModVersionDto = { ...version };
+      const body: ModVersionDto = {...version};
       delete body.mod;
-      const { data } = await this.axios.put<ModVersionDto>(
+      const {data} = await this.axios.put<ModVersionDto>(
         `/modVersions/${id}`,
         body,
       );
       return data;
-    } catch ({ response }) {
+    } catch ({response}) {
       const {
-        data: { error },
+        data: {error},
       } = response as AxiosResponse<ErrorDto>;
       toaster.error(
         error || '<b>Form invalid!</b><br/> Please check your inputs',
@@ -417,10 +417,10 @@ class Api {
   }
 
   async getRaftVersions(
-    params: any = { sort: '-releasedAt' },
+    params: any = {sort: '-releasedAt'},
   ): Promise<RaftVersion[]> {
     try {
-      const { data }: AxiosResponse = await this.axios.get(`/raftVersions`, {
+      const {data}: AxiosResponse = await this.axios.get(`/raftVersions`, {
         params,
       });
       return data;
@@ -432,7 +432,7 @@ class Api {
 
   async getRaftVersion(id: number) {
     try {
-      const { data } = await this.axios.get(`/raftVersions/${id}`);
+      const {data} = await this.axios.get(`/raftVersions/${id}`);
 
       return data;
     } catch (e) {
@@ -444,15 +444,15 @@ class Api {
 
   async addRaftVersion(raftVersion: RaftVersion) {
     try {
-      const { data }: AxiosResponse = await this.axios.post(
+      const {data}: AxiosResponse = await this.axios.post(
         `/raftVersions`,
         raftVersion,
       );
 
       return data;
-    } catch ({ response }) {
+    } catch ({response}) {
       const {
-        data: { error },
+        data: {error},
       } = response as AxiosResponse<ErrorDto>;
 
       if (error) {
@@ -465,15 +465,15 @@ class Api {
 
   async updateRaftVersion(raftVersion: RaftVersion) {
     try {
-      const { data }: AxiosResponse = await this.axios.put(
+      const {data}: AxiosResponse = await this.axios.put(
         `/raftVersions/${raftVersion.id}`,
         raftVersion,
       );
 
       return data;
-    } catch ({ response }) {
+    } catch ({response}) {
       const {
-        data: { error },
+        data: {error},
       } = response as AxiosResponse<ErrorDto>;
 
       if (error) {
@@ -486,7 +486,7 @@ class Api {
 
   async getForm(name: string) {
     try {
-      const { data }: AxiosResponse = await this.axios.get(`/forms/${name}`);
+      const {data}: AxiosResponse = await this.axios.get(`/forms/${name}`);
       return data;
     } catch (e) {
       toaster.error(`Could not load form`);
@@ -494,15 +494,15 @@ class Api {
     return {} as FormResponse;
   }
 
-  async addScheduledModDeletion(modId: number){
+  async addScheduledModDeletion(modId: number) {
     try {
-      const { data } = await this.axios.post(`/scheduledModDeletions`, {
+      const {data} = await this.axios.post(`/scheduledModDeletions`, {
         modId,
       });
       return data;
-    } catch ({ response }) {
+    } catch ({response}) {
       const {
-        data: { error },
+        data: {error},
       } = response as AxiosResponse<ErrorDto>;
       if (error) {
         toaster.error(error);
@@ -513,11 +513,11 @@ class Api {
 
   async addResetPassword(email: string, recaptcha: string) {
     try {
-      await this.axios.post(`/passwordResets`, { email, recaptcha });
+      await this.axios.post(`/passwordResets`, {email, recaptcha});
       return true;
-    } catch ({ response }) {
+    } catch ({response}) {
       const {
-        data: { error },
+        data: {error},
       } = response as AxiosResponse<ErrorDto>;
       if (error) {
         toaster.error(error);
@@ -528,12 +528,12 @@ class Api {
 
   async getPasswordReset(token: string) {
     try {
-      const { data } = await this.axios.get(`/passwordResets/${token}`);
+      const {data} = await this.axios.get(`/passwordResets/${token}`);
 
       return data;
-    } catch ({ response }) {
+    } catch ({response}) {
       const {
-        data: { error },
+        data: {error},
       } = response as AxiosResponse<ErrorDto>;
 
       if (error) {
@@ -558,9 +558,9 @@ class Api {
       });
 
       return true;
-    } catch ({ response }) {
+    } catch ({response}) {
       const {
-        data: { error },
+        data: {error},
       } = response as AxiosResponse<ErrorDto>;
 
       if (error) {
@@ -575,9 +575,9 @@ class Api {
     try {
       await this.axios.delete(`/accountCreations/${token}`);
       return true;
-    } catch ({ response }) {
+    } catch ({response}) {
       const {
-        data: { error },
+        data: {error},
       } = response as AxiosResponse<ErrorDto>;
 
       if (error) {
@@ -590,11 +590,11 @@ class Api {
 
   async getModLikes(): Promise<ModLike[]> {
     try {
-      const { data }: AxiosResponse = await this.axios.get(`/modLikes`);
+      const {data}: AxiosResponse = await this.axios.get(`/modLikes`);
       return data;
-    } catch ({ response }) {
+    } catch ({response}) {
       const {
-        data: { error },
+        data: {error},
       } = response as AxiosResponse<ErrorDto>;
 
       if (error) {
@@ -607,15 +607,15 @@ class Api {
 
   async likeMod(modId: string) {
     try {
-      const { data }: AxiosResponse = await this.axios.post(`/modLikes`, {
+      const {data}: AxiosResponse = await this.axios.post(`/modLikes`, {
         modId,
       });
       state.likes.push(data.modId);
 
       return data;
-    } catch ({ response }) {
+    } catch ({response}) {
       const {
-        data: { error },
+        data: {error},
       } = response as AxiosResponse<ErrorDto>;
 
       if (error) {
@@ -628,15 +628,15 @@ class Api {
 
   async unlikeMod(modId: string) {
     try {
-      const { data }: AxiosResponse = await this.axios.delete(
+      const {data}: AxiosResponse = await this.axios.delete(
         `/modLikes/${modId}`,
       );
       state.likes.splice(state.likes.indexOf(modId), 1);
 
       return data;
-    } catch ({ response }) {
+    } catch ({response}) {
       const {
-        data: { error },
+        data: {error},
       } = response as AxiosResponse<ErrorDto>;
 
       if (error) {
@@ -648,8 +648,9 @@ class Api {
   }
 }
 
-const baseURL: string =
-  String(import.meta.env.VITE_API_BASE_URL) || 'http://localhost:3001';
+const VITE_BASE_URL = String(import.meta.env.VITE_BASE_URL);
+
+const baseURL: string = `${VITE_BASE_URL}/api`;
 
 export const api = new Api({
   baseURL,

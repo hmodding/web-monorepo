@@ -1,25 +1,26 @@
-import { hashSync } from 'bcryptjs';
-import { BeforeUpdate, Column, Entity, ManyToMany, OneToMany } from 'typeorm';
-import { UserRole } from '../../../shared/types/UserRole';
-import { AbstractEntityWithGeneratedId } from './AbstractEntityWithGeneratedId';
-import { Mod } from './Mod';
-import { ModBundle } from './ModBundle';
-import { Plugin } from './Plugin';
-import { UserPrivilege } from './UserPrivilege';
+import {hashSync} from 'bcryptjs';
+import {BeforeUpdate, Column, Entity, ManyToMany, OneToMany} from 'typeorm';
+import {AbstractEntityWithGeneratedId} from './AbstractEntityWithGeneratedId';
+import {Mod} from './Mod';
+import {ModBundle} from './ModBundle';
+import {Plugin} from './Plugin';
+import {UserPrivilege} from './UserPrivilege';
 
-@Entity({ name: 'users' })
+@Entity({name: 'users'})
 export class User extends AbstractEntityWithGeneratedId {
-  @Column({ unique: true })
+  @Column({unique: true})
   username!: string;
 
-  @Column({ unique: true })
+  @Column({unique: true})
   email!: string;
 
-  @Column({ select: false })
+  @Column({select: false})
   password!: string;
 
+  /* future feature
   @Column()
   role!: UserRole;
+   */
 
   @OneToMany(() => UserPrivilege, (privileges) => privileges.username)
   privileges!: UserPrivilege[];
@@ -43,10 +44,16 @@ export class User extends AbstractEntityWithGeneratedId {
   //helpers
 
   get isAdmin(): boolean {
+    return false;
+  }
+
+  /* future feature
+  get isAdmin(): boolean {
     return this.role === 'admin'; //TODO: check privileges too
   }
 
   get isUnfinished(): boolean {
     return this.role === 'UNFINISHED'; //TODO: check privileges too
   }
+   */
 }

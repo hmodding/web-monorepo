@@ -1,16 +1,16 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, {AxiosResponse} from 'axios';
 import {
   DiscordAuthenticationConfig,
   DiscordAuthenticationData,
   DiscordAuthenticationScope,
   DiscordUserData,
 } from '../../../shared/types/Discord';
-import { cfg } from '../cfg';
-import { DiscordSignOn } from '../entities/DiscordSignOn';
-import { Session } from '../entities/Session';
-import { User } from '../entities/User';
-import { SessionService } from '../services/SessionService';
-import { generateToken } from '../utils';
+import {cfg} from '../cfg';
+import {DiscordSignOn} from '../entities/DiscordSignOn';
+import {User} from '../entities/User';
+import {generateToken} from '../utils';
+import {SessionService} from "../services/SessionService";
+import {Session} from "../entities/session/Session";
 
 export class DiscordAuthenticator {
   private readonly clientId: string;
@@ -20,7 +20,7 @@ export class DiscordAuthenticator {
   private readonly scope: DiscordAuthenticationScope;
 
   constructor(config: DiscordAuthenticationConfig) {
-    const { clientId, clientSecret, grantType, redirectUri, scope } = config;
+    const {clientId, clientSecret, grantType, redirectUri, scope} = config;
     this.clientId = clientId;
     this.clientSecret = clientSecret;
     this.redirectUri = redirectUri;
@@ -29,38 +29,38 @@ export class DiscordAuthenticator {
   }
 
   async getAuthenticationData(
-    code: string,
+      code: string,
   ): Promise<DiscordAuthenticationData> {
-    const { clientId, clientSecret, grantType, redirectUri, scope } = this;
-    const { data }: AxiosResponse = await axios.post(
-      'https://discord.com/api/oauth2/token',
-      new URLSearchParams({
-        client_id: clientId,
-        client_secret: clientSecret,
-        code,
-        grant_type: grantType,
-        redirect_uri: redirectUri,
-        scope,
-      } as any),
-      {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
+    const {clientId, clientSecret, grantType, redirectUri, scope} = this;
+    const {data}: AxiosResponse = await axios.post(
+        'https://discord.com/api/oauth2/token',
+        new URLSearchParams({
+          client_id: clientId,
+          client_secret: clientSecret,
+          code,
+          grant_type: grantType,
+          redirect_uri: redirectUri,
+          scope,
+        } as any),
+        {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
         },
-      },
     );
 
     return data as DiscordAuthenticationData;
   }
 
   async getUserData(
-    tokenType: string,
-    accessToken: string,
+      tokenType: string,
+      accessToken: string,
   ): Promise<DiscordUserData> {
-    const { data }: AxiosResponse = await axios.get(
-      'https://discord.com/api/users/@me',
-      {
-        headers: { authorization: `${tokenType} ${accessToken}` },
-      },
+    const {data}: AxiosResponse = await axios.get(
+        'https://discord.com/api/users/@me',
+        {
+          headers: {authorization: `${tokenType} ${accessToken}`},
+        },
     );
 
     return data as DiscordUserData;
@@ -68,10 +68,10 @@ export class DiscordAuthenticator {
 
   async matchesExistingUser(userData: DiscordUserData): Promise<boolean> {
     try {
-      const { id: discordUserId } = userData;
+      const {id: discordUserId} = userData;
 
       const discordLogin = await DiscordSignOn.count({
-        where: { discordUserId },
+        where: {discordUserId},
       });
 
       return discordLogin > 0;
@@ -81,17 +81,17 @@ export class DiscordAuthenticator {
   }
 
   async register(
-    userData: DiscordUserData,
-    authData: DiscordAuthenticationData,
+      userData: DiscordUserData,
+      authData: DiscordAuthenticationData,
   ): Promise<Session> {
-    const { id: discordUserId } = userData;
-    const { access_token: accessToken, refresh_token: refreshToken } = authData;
+    const {id: discordUserId} = userData;
+    const {access_token: accessToken, refresh_token: refreshToken} = authData;
 
     const user = User.create({
       username: `discord-user-${discordUserId}`,
       email: generateToken(discordUserId, 255),
       password: generateToken(null, 255),
-      role: 'UNFINISHED',
+      //role: 'UNFINISHED', - @next
     });
     await User.save(user);
 
@@ -104,34 +104,34 @@ export class DiscordAuthenticator {
     await DiscordSignOn.save(discordLogin);
 
     const session = Session.create({
-      token: '[will-be-auto-generated]',
-      user: user,
+      sid: '[will-be-auto-generated]',
+      data: JSON.stringify({user}),
       expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
     });
     await Session.save(session);
     await session.reload(); //TODO: does this work properly?
 
-    const { token } = session;
-    const dbSession = await SessionService.getByToken(token);
+    const {sid} = session;
+    const dbSession = await SessionService.getBySid(sid);
 
     return dbSession!;
   }
 
   async login(userData: DiscordUserData): Promise<Session> {
-    const { id: discordUserId } = userData;
-    const discordLogin = await DiscordSignOn.findOneBy({ discordUserId });
-    const user = await User.findOneBy({ id: discordLogin!.userId });
+    const {id: discordUserId} = userData;
+    const discordLogin = await DiscordSignOn.findOneBy({discordUserId});
+    const user = await User.findOneBy({id: discordLogin!.userId});
 
     const session = Session.create({
-      token: '[will-be-auto-generated]',
+      sid: '[will-be-auto-generated]',
+      data: JSON.stringify({user}),
       expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-      user: user!,
     });
     await Session.save(session);
     await session.reload(); //TODO: does this work properly?
 
-    const { token } = session;
-    const dbSession = await SessionService.getByToken(token);
+    const {sid} = session;
+    const dbSession = await SessionService.getBySid(sid);
 
     return dbSession!;
   }

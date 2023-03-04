@@ -1,17 +1,17 @@
-import { Column, Entity } from 'typeorm';
-import { AbstractEntityWithGeneratedId } from './AbstractEntityWithGeneratedId';
+import {Column, Entity} from 'typeorm';
+import {AbstractEntityWithGeneratedId} from './AbstractEntityWithGeneratedId';
 
-@Entity({ name: 'raft-versions' })
+@Entity({name: 'raft-versions'})
 export class RaftVersion extends AbstractEntityWithGeneratedId {
-  @Column({ unique: true })
+  @Column({unique: true})
   version!: string;
 
   @Column()
   buildId!: number;
 
-  @Column({ nullable: true })
+  @Column({nullable: true})
   title?: string;
 
-  @Column()
+  @Column({type: 'timestamp with time zone'})
   releasedAt!: Date;
 }

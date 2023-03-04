@@ -4,8 +4,8 @@ import { ScheduledModDeletionDto } from '../../../shared/dto/ScheduledModDeletio
 import { cfg } from '../cfg';
 import { ScheduledModDeletion } from '../entities/ScheduledModDeletion';
 import { ModService } from '../services/ModService';
-import { SessionService } from '../services/SessionService';
 import { HttpStatusCode } from '../types/HttpStatusCode';
+import {SessionService} from "../services/SessionService";
 
 @Route('/scheduledModDeletions')
 export class ScheduledModDeletionController extends Controller {
@@ -15,7 +15,7 @@ export class ScheduledModDeletionController extends Controller {
     @Header() authtoken: string,
     @Body() body: ScheduledModDeletionDto,
   ) {
-    const session = await SessionService.getByToken(authtoken);
+    const session = await SessionService.getBySid(authtoken);
     const isDeleteAllowed = await ModService.isDeleteAllowed(
       body.modId!,
       session!.user!,

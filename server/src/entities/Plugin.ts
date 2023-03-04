@@ -1,12 +1,12 @@
-import { Column, Entity, JoinColumn, OneToMany, OneToOne } from 'typeorm';
-import { AbstractEntityWithGeneratedId } from './AbstractEntityWithGeneratedId';
-import { PluginVersion } from './PluginVersion';
-import { ScheduledPluginDeletion } from './ScheduledPluginDeletion';
-import { User } from './User';
+import {Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne} from 'typeorm';
+import {AbstractEntityWithGeneratedId} from './AbstractEntityWithGeneratedId';
+import {PluginVersion} from './PluginVersion';
+import {ScheduledPluginDeletion} from './ScheduledPluginDeletion';
+import {User} from './User';
 
-@Entity({ name: 'plugins' })
+@Entity({name: 'plugins'})
 export class Plugin extends AbstractEntityWithGeneratedId {
-  @Column({ unique: true, length: 64 })
+  @Column({unique: true, length: 64})
   slug!: string;
 
   @Column()
@@ -15,25 +15,26 @@ export class Plugin extends AbstractEntityWithGeneratedId {
   @Column()
   description!: string;
 
-  @Column({ type: 'text' })
+  @Column({type: 'text'})
   readme!: string;
 
   @Column()
   maintainerId!: number;
 
-  @Column({ type: 'text' })
+  @Column({type: 'text'})
   bannerImageUrl!: string;
 
-  @Column({ type: 'text', nullable: true })
+  @Column({type: 'text', nullable: true})
   repositoryUrl?: string;
 
-  @OneToOne(() => User)
+
+  @ManyToOne(() => User, user => user.plugins)
   @JoinColumn()
   maintainer?: User;
 
-  @OneToOne(() => ScheduledPluginDeletion)
+  @OneToOne(() => ScheduledPluginDeletion, scheduledDeletion => scheduledDeletion.plugin)
   @JoinColumn()
-  deletion?: ScheduledPluginDeletion;
+  scheduledDeletion?: ScheduledPluginDeletion;
 
   @OneToMany(() => PluginVersion, (version) => version.plugin)
   versions?: PluginVersion[];

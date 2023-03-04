@@ -19,10 +19,10 @@ import { ResetPasswordDto } from '../../../shared/dto/ResetPasswordDto';
 import { User } from '../entities/User';
 import { ApiError } from '../errors/ApiError';
 import { mailer } from '../services/MailerService';
-import { SessionService } from '../services/SessionService';
 import { UserService } from '../services/UserService';
 import { HttpStatusCode } from '../types/HttpStatusCode';
 import { generateToken } from '../utils';
+import {SessionService} from "../services/SessionService";
 
 @Route('/users')
 export class UserController extends Controller {
@@ -32,7 +32,7 @@ export class UserController extends Controller {
     @Header() authtoken: string,
     @Body() data: ChangePasswordDto,
   ) {
-    const session = await SessionService.getByToken(authtoken);
+    const session = await SessionService.getBySid(authtoken);
 
     if (!session || !session.user) {
       this.setStatus(403);
@@ -80,7 +80,7 @@ export class UserController extends Controller {
   public async createPasswordResetToken(@Body() body: ResetPasswordDto) {
     const user = await UserService.getByEmail(body.email);
 
-    if (!user || user.isAdmin) {
+    if (!user /*|| user.isAdmin - @next*/) {
       // do nothing! we don't want people to find existing email with this form! (dont just trust captcha)
       this.setStatus(200);
       return {};

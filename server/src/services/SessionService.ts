@@ -1,20 +1,22 @@
-import { DeepPartial } from 'typeorm';
-import { Session } from '../entities/Session';
-import { AbstractService } from './AbstractService';
+import {DeepPartial} from 'typeorm';
+import {AbstractService} from './AbstractService';
+import {Session} from "../entities/session/Session";
 
 export class SessionService extends AbstractService {
-  static getByToken(token: string) {
-    return Session.findOne({
-      where: { token },
+  static async getBySid(sid: string) {
+    const session = await Session.findOne({
+      where: {sid},
       relations: ['user'],
     });
+
+    return JSON.parse(session?.data || '{}');
   }
 
   static create(params: DeepPartial<Session>) {
     return Session.create(params);
   }
 
-  static async deleteByToken(token: string) {
-    await Session.delete({ token });
+  static async deleteBySid(sid: string) {
+    await Session.delete({sid});
   }
 }

@@ -13,8 +13,8 @@ import {
 import { ModCreateDto, ModUpdateDto } from '../../../shared/dto/ModDto';
 import { ApiError } from '../errors/ApiError';
 import { ModService } from '../services/ModService';
-import { SessionService } from '../services/SessionService';
 import { HttpStatusCode } from '../types/HttpStatusCode';
+import {SessionService} from "../services/SessionService";
 
 @Route('/mods')
 export class ModController extends Controller {
@@ -107,7 +107,7 @@ export class ModController extends Controller {
     @Path() id: string,
     @Body() data: ModUpdateDto,
   ) {
-    const session = (await SessionService.getByToken(authtoken))!;
+    const session = (await SessionService.getBySid(authtoken))!;
 
     if (!(await ModService.isUpdateAllowed(id, session.user!))) {
       this.setStatus(403);

@@ -112,7 +112,7 @@ export class ModService extends AbstractService {
 
 const MOST_LIKED_MODS_QUERY = `
     SELECT *,
-           (SELECT COUNT(*) FROM "modLikes" WHERE "modLikes"."modId" = "mods"."id") ::int AS likes
+           (SELECT COUNT(*) FROM "ModLikes" WHERE "ModLikes"."modId" = "mods"."id") ::int AS likes
     FROM "mods"
     ORDER BY likes DESC, "mods".title DESC
         LIMIT $1`;

@@ -1,12 +1,12 @@
-import { Column, Entity } from 'typeorm';
+import {Column, Entity} from 'typeorm';
 
-import { AbstractEntityWithGeneratedId } from './AbstractEntityWithGeneratedId';
+import {AbstractEntityWithGeneratedId} from './AbstractEntityWithGeneratedId';
 
-@Entity({ name: 'user-privileges' })
+@Entity({name: 'user-privileges'})
 export class UserPrivilege extends AbstractEntityWithGeneratedId {
-  @Column({ unique: true })
+  @Column({unique: true})
   username!: string;
 
-  @Column({ unique: false })
+  @Column({unique: false, nullable: false})
   role!: string;
 }

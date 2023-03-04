@@ -1,3 +1,7 @@
+/**
+ * @deprecated ModLike is only a many-to-many reference table!
+ */
+/*
 import {
   Body,
   Controller,
@@ -55,3 +59,4 @@ export class ModLikeController extends Controller {
     return { success: true };
   }
 }
+*/

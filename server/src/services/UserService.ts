@@ -1,13 +1,13 @@
-import { compareSync } from 'bcryptjs';
-import { DeepPartial } from 'typeorm';
-import { schema as resetPasswordSchema } from '../../resources/schemas/resetPasswordSchema';
-import { PasswordReset } from '../entities/PasswordReset';
-import { Session } from '../entities/Session';
-import { User } from '../entities/User';
-import { ApiError } from '../errors/ApiError';
-import { HttpStatusCode } from '../types/HttpStatusCode';
-import { validateData } from '../utils';
-import { AbstractService } from './AbstractService';
+import {compareSync} from 'bcryptjs';
+import {DeepPartial} from 'typeorm';
+import {schema as resetPasswordSchema} from '../../resources/schemas/resetPasswordSchema';
+import {PasswordReset} from '../entities/PasswordReset';
+import {User} from '../entities/User';
+import {ApiError} from '../errors/ApiError';
+import {HttpStatusCode} from '../types/HttpStatusCode';
+import {validateData} from '../utils';
+import {AbstractService} from './AbstractService';
+import {Session} from "../entities/session/Session";
 
 export class UserService extends AbstractService {
   static create(params: DeepPartial<User>) {
@@ -15,16 +15,16 @@ export class UserService extends AbstractService {
   }
 
   static getByEmail(email: string) {
-    return User.findOneBy({ email });
+    return User.findOneBy({email});
   }
 
   static getByUsernameOrEmail(username: string, email: string) {
-    return User.findOneBy({ username, email });
+    return User.findOneBy({username, email});
   }
 
   static async getPasswordById(id: number) {
     const user = await User.findOne({
-      where: { id },
+      where: {id},
       select: ['password'],
     });
 
@@ -32,7 +32,7 @@ export class UserService extends AbstractService {
   }
 
   static async getPasswordResetByToken(token: string) {
-    return PasswordReset.findOneBy({ token });
+    return PasswordReset.findOneBy({token});
   }
 
   static async isValidResetPasswordCreateData(data: any) {
@@ -59,39 +59,39 @@ export class UserService extends AbstractService {
   }
 
   static async updatePassword(password: string) {
-    const user = await User.save({ password });
+    const user = await User.save({password});
 
     return user;
   }
 
   static async login(
-    username: string,
-    password: string,
-    deviceInfo: Record<string, string> | undefined,
+      username: string,
+      password: string,
+      deviceInfo: Record<string, string> | undefined,
   ) {
     const internalFoundUser = await User.findOne({
-      where: { username },
+      where: {username},
       select: ['id', 'password', 'username', 'email'],
     });
 
     if (
-      !internalFoundUser ||
-      !compareSync(password, internalFoundUser.password)
+        !internalFoundUser ||
+        !compareSync(password, internalFoundUser.password)
     ) {
       throw new ApiError(
-        HttpStatusCode.Unauthorized,
-        'Invalid username or password',
+          HttpStatusCode.Unauthorized,
+          'Invalid username or password',
       );
     }
 
     const session = Session.create({
-      userId: internalFoundUser.id,
       expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), //1 Month
-      deviceInfo,
+      data: JSON.stringify({user: internalFoundUser.id}),
+      //deviceInfo,
     });
     const savedSession = await Session.save(session);
     const dbSession = await Session.findOne({
-      where: { id: savedSession.id },
+      where: {sid: savedSession.sid},
       relations: ['user'],
     });
 

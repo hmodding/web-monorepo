@@ -64,7 +64,7 @@ export class ModVersionService extends AbstractService {
     newModVersion.maxRaftVersion = maxRaftVersion!;
     newModVersion.definiteMaxRaftVersion = !!data.definiteMaxRaftVersion;
     newModVersion.downloadUrl = url;
-    newModVersion.fileHashes = { md5, sha256 };
+    //newModVersion.fileHashes = { md5, sha256 };
 
     const createdModVersion = await ModVersion.save(newModVersion);
     const dbModVersion = await ModVersion.findOne({

@@ -3,6 +3,9 @@ import { AbstractEntityWithCreatedAndUpdated } from './AbstractEntity';
 import { Mod } from './Mod';
 import { User } from './User';
 
+/**
+ * @deprecated this is only a many-to-many reference table
+ */
 @Entity({ name: 'modlikes' }) //No uppercase! https://github.com/typeorm/typeorm/issues/4420
 export class ModLike extends AbstractEntityWithCreatedAndUpdated {
   @PrimaryColumn({ unique: true })

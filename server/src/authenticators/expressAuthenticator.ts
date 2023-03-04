@@ -2,7 +2,7 @@
 
 import {Request as ExpressRequest} from 'express';
 import {reCaptchaService} from '../services/ReCaptchaService';
-import {SessionService} from '../services/SessionService';
+import {SessionService} from "../services/SessionService";
 
 /**
  *
@@ -68,7 +68,7 @@ const validateAuthToken = async (req: ExpressRequest) => {
   const {authtoken} = req.headers;
 
   try {
-    const session = await SessionService.getByToken(authtoken as string);
+    const session = await SessionService.getBySid(authtoken as string);
 
     if (session && session.token === authtoken && session.user) {
       if (session.user.role !== 'UNFINISHED') {

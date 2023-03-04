@@ -7,10 +7,10 @@ import {
 } from 'typeorm';
 
 export abstract class AbstractEntityWithCreatedAndUpdated extends BaseEntity {
-  @CreateDateColumn({ nullable: false })
+  @CreateDateColumn({ nullable: false, type: 'timestamp with time zone' })
   createdAt?: Date;
 
-  @UpdateDateColumn({ nullable: false })
+  @UpdateDateColumn({ nullable: false, type: 'timestamp with time zone' })
   updatedAt?: Date;
 
   //hooks

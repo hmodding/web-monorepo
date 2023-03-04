@@ -3,7 +3,7 @@ import { BeforeInsert, Column, Entity } from 'typeorm';
 import { generateToken } from '../utils';
 import { AbstractEntityWithGeneratedId } from './AbstractEntityWithGeneratedId';
 
-@Entity({ name: 'account-creation' })
+@Entity({ name: 'account-creations' })
 export class AccountCreation extends AbstractEntityWithGeneratedId {
   @Column({ unique: true })
   username!: string;

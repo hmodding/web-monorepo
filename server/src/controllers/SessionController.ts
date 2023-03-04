@@ -1,17 +1,17 @@
-import { Controller, Delete, Get, Path, Route, Security } from 'tsoa';
-import { SessionService } from '../services/SessionService';
-import { HttpStatusCode } from '../types/HttpStatusCode';
+import {Controller, Delete, Get, Path, Route, Security} from 'tsoa';
+import {HttpStatusCode} from '../types/HttpStatusCode';
+import {SessionService} from "../services/SessionService";
 
 @Route('/sessions')
 export class SessionController extends Controller {
   @Get('/{token}')
   @Security('everyone')
   public async read(@Path() token: string) {
-    const session = await SessionService.getByToken(token);
+    const session = await SessionService.getBySid(token);
 
     if (!session) {
       this.setStatus(HttpStatusCode.BadRequest);
-      return { error: 'Session not found' };
+      return {error: 'Session not found'};
     }
 
     this.setStatus(HttpStatusCode.Ok);
@@ -21,9 +21,9 @@ export class SessionController extends Controller {
   @Delete('/{token}')
   @Security('everyone')
   public async delete(@Path() token: string) {
-    await SessionService.deleteByToken(token);
+    await SessionService.deleteBySid(token);
 
     this.setStatus(HttpStatusCode.Ok);
-    return { success: true };
+    return {success: true};
   }
 }

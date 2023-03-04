@@ -10,6 +10,6 @@ export class DownloadTracker extends AbstractEntityWithGeneratedId {
   @Column({ type: 'text' })
   path!: string;
 
-  @Column()
+  @Column({type: 'timestamp with time zone'})
   expiresAt!: Date;
 }

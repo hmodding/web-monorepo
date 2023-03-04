@@ -1,20 +1,20 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
-import { AbstractEntityWithCreatedAndUpdated } from './AbstractEntity';
+import {Column, Entity, PrimaryColumn} from 'typeorm';
+import {AbstractEntityWithCreatedAndUpdated} from './AbstractEntity';
 
-@Entity({ name: 'server-versions' })
+@Entity({name: 'server-versions'})
 export class ServerVersion extends AbstractEntityWithCreatedAndUpdated {
-  @PrimaryColumn({ unique: true })
+  @PrimaryColumn({unique: true})
   version!: string;
 
   @Column()
   raftVersion!: string;
 
-  @Column()
+  @Column({type: 'timestamp with time zone'})
   timestamp!: Date;
 
-  @Column({ type: 'text' })
+  @Column({type: 'text'})
   downloadUrl!: string;
 
-  @Column({ type: 'text', nullable: true })
+  @Column({type: 'text', nullable: true})
   changelog?: string;
 }

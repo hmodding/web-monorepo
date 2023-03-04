@@ -10,7 +10,7 @@ import {LauncherVersion} from '../entities/LauncherVersion';
 import {LoaderVersion} from '../entities/LoaderVersion';
 import {Mod} from '../entities/Mod';
 import {ModBundle} from '../entities/ModBundle';
-import {ModLike} from '../entities/ModLike';
+// import {ModLike} from '../entities/ModLike';
 import {ModVersion} from '../entities/ModVersion';
 import {PasswordReset} from '../entities/PasswordReset';
 import {Plugin} from '../entities/Plugin';
@@ -19,9 +19,9 @@ import {RaftVersion} from '../entities/RaftVersion';
 import {ScheduledModDeletion} from '../entities/ScheduledModDeletion';
 import {ScheduledPluginDeletion} from '../entities/ScheduledPluginDeletion';
 import {ServerVersion} from '../entities/ServerVersion';
-import {Session} from '../entities/Session';
 import {User} from '../entities/User';
 import {UserPrivilege} from '../entities/UserPrivilege';
+import {Session} from "../entities/session/Session";
 
 const {host, port, user, password, name, ssl, logging} = cfg.database;
 
@@ -45,7 +45,7 @@ export const AppDataSource = new DataSource({
     LoaderVersion,
     Mod,
     ModBundle,
-    ModLike,
+    // ModLike, - @deprecated
     ModVersion,
     PasswordReset,
     Plugin,

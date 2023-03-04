@@ -15,8 +15,8 @@ import {
 } from '../../../shared/dto/ModVersionDto';
 import { ModVersion } from '../entities/ModVersion';
 import { ModVersionService } from '../services/ModVersionService';
-import { SessionService } from '../services/SessionService';
 import { HttpStatusCode } from '../types/HttpStatusCode';
+import {SessionService} from "../services/SessionService";
 
 @Route('/modVersions')
 export class ModVersionController extends Controller {
@@ -32,7 +32,7 @@ export class ModVersionController extends Controller {
     @Header() authtoken: string,
     @Body() data: ModVersionCreateDto,
   ) {
-    const session = await SessionService.getByToken(authtoken);
+    const session = await SessionService.getBySid(authtoken);
     const isCreateAllowed = await ModVersionService.isCreateAllowed(
       data.modId!,
       session!.user!,
@@ -56,7 +56,7 @@ export class ModVersionController extends Controller {
     @Path() id: number,
     @Body() data: ModVersionDto,
   ) {
-    const session = await SessionService.getByToken(authtoken);
+    const session = await SessionService.getBySid(authtoken);
     session!.user!.id = id;
     const isUpdateAllowed = await ModVersionService.isUpdateAllowed(
       session!.user!,

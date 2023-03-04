@@ -1,20 +1,20 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
-import { AbstractEntityWithCreatedAndUpdated } from './AbstractEntity';
+import {Column, Entity, PrimaryColumn} from 'typeorm';
+import {AbstractEntityWithCreatedAndUpdated} from './AbstractEntity';
 
-@Entity({ name: 'launcher-versions' })
+@Entity({name: 'launcher-versions'})
 export class LauncherVersion extends AbstractEntityWithCreatedAndUpdated {
-  @PrimaryColumn({ unique: true })
+  @PrimaryColumn({unique: true})
   version!: string;
 
-  @Column()
+  @Column({type: 'timestamp with time zone'})
   timestamp!: Date;
 
-  @Column({ type: 'text' })
+  @Column({type: 'text'})
   downloadUrl!: string;
 
-  @Column({ default: 0 })
+  @Column({default: 0})
   downloadCount!: number;
 
-  @Column({ type: 'text' })
+  @Column({type: 'text'})
   changelog!: string;
 }

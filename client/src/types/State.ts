@@ -1,4 +1,4 @@
 import RaftVersion from './RaftVersion';
-import Session from './Session';
+import SessionState from './SessionState';
 
 

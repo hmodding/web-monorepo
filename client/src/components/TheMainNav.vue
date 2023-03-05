@@ -1,25 +1,26 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-import { useRouter } from 'vue-router';
-import { useToaster } from '../compositions/useToaster';
-import { isSessionExpired as isSessionExpiredAction, killSession } from '../store/actions/session.actions';
-import { state, Theme } from '../store/store';
-import { Session, User } from '../types';
+import {computed} from 'vue';
+import {useRouter} from 'vue-router';
+import {useToaster} from '../compositions/useToaster';
+import {isSessionExpired as isSessionExpiredAction, killSession} from '../store/actions/session.actions';
+import {state, Theme} from '../store/store';
+import {Session, User} from '../types';
 import Icon from './Icon.vue';
+import SessionState from "SessionState";
 
 const router = useRouter();
 const toaster = useToaster();
 
-const session = computed<Session>(() => state.session!);
-const user = computed<User>(() => state.session?.user || {} as User);
-const isAdmin = computed<boolean>(() => user.value.role === 'admin');
+const session = computed<SessionState | null>(() => state.session);
+const username = computed<string>(() => session.value?.username || '');
+const isAdmin = computed<boolean>(() => session.value?.role === 'admin' || false);
 const theme = computed<Theme>(() => state.theme);
-const isSessionExpired= computed<boolean>(() => isSessionExpiredAction());
+const isSessionExpired = computed<boolean>(() => isSessionExpiredAction());
 const vUsername = computed<string>(() => {
-  if (user.value.username.length <= 10) {
-    return user.value.username;
+  if (username.value.length <= 10) {
+    return username.value
   } else {
-    return `${user.value.username.substring(0, 10)}...`;
+    return `${username.value.substring(0, 7)}...`;
   }
 });
 
@@ -34,51 +35,53 @@ const logout = async () => {
   <nav class="navbar navbar-expand-lg navbar-dark bg-blue sticky-top">
     <div class="container">
       <router-link :to="{ name: 'home' }" class="navbar-brand mr-2 logo">
-        <img src="/logo.png" alt="logo" />
+        <img src="/logo.png" alt="logo"/>
       </router-link>
       <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
       >
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li
-            class="mx-2 nav-item"
-            :class="{
+              class="mx-2 nav-item"
+              :class="{
               active:
                 $route.path.startsWith('/download') ||
                 $route.path.startsWith('/loader'),
             }"
           >
             <router-link :to="{ name: 'download' }" class="nav-link">
-              <Icon name="bolt" class="mx-1"/> Mod loader
+              <Icon name="bolt" class="mx-1"/>
+              Mod loader
             </router-link>
           </li>
           <li
-            class="mx-2 nav-item"
-            :class="{ active: $route.path.startsWith('/mods') }"
+              class="mx-2 nav-item"
+              :class="{ active: $route.path.startsWith('/mods') }"
           >
             <router-link :to="{ name: 'mods' }" class="nav-link">
-              <Icon name="plug" class="mx-1"/> Mods
+              <Icon name="plug" class="mx-1"/>
+              Mods
             </router-link>
           </li>
         </ul>
         <ul class="navbar-nav">
           <li class="mx-1 nav-item">
             <a
-              class="nav-link"
-              href="/discord"
-              data-toggle="tooltip"
-              title=""
-              target="_blank"
-              data-original-title="Discord server"
+                class="nav-link"
+                href="/discord"
+                data-toggle="tooltip"
+                title=""
+                target="_blank"
+                data-original-title="Discord server"
             >
               <Icon type="b" name="discord" class="mx-2"/>
               <span class="d-inline d-lg-none">Discord server</span>
@@ -86,12 +89,12 @@ const logout = async () => {
           </li>
           <li class="mx-1 nav-item">
             <a
-              class="nav-link"
-              href="/docs"
-              target="_blank"
-              data-toggle="tooltip"
-              title=""
-              data-original-title="Documentation"
+                class="nav-link"
+                href="/docs"
+                target="_blank"
+                data-toggle="tooltip"
+                title=""
+                data-original-title="Documentation"
             >
               <Icon name="book" class="mx-2"/>
               <span class="d-inline d-lg-none">Documentation</span>
@@ -99,51 +102,52 @@ const logout = async () => {
           </li>
           <li class="mx-1 nav-item">
             <a
-              class="nav-link donate-button"
-              href="#"
-              data-toggle="tooltip"
-              title=""
-              data-original-title="Donate"
+                class="nav-link donate-button"
+                href="#"
+                data-toggle="tooltip"
+                title=""
+                data-original-title="Donate"
             >
-              <Icon name="donate" class="mx-2" />
+              <Icon name="donate" class="mx-2"/>
               <span class="d-inline d-lg-none">Support us</span>
             </a>
           </li>
           <li v-if="isSessionExpired" class="nav-item">
             <router-link
-              :to="{ name: 'signIn', query: { redirect: $route.name } }"
-              class="nav-link"
-              :class="{ active: $route.path.startsWith('/signin') }"
+                :to="{ name: 'signIn', query: { redirect: $route.name } }"
+                class="nav-link"
+                :class="{ active: $route.path.startsWith('/signin') }"
             >
-              <Icon name="sign-in-alt" /> Login
+              <Icon name="sign-in-alt"/>
+              Login
             </router-link>
           </li>
           <template v-else>
             <li class="nav-item dropdown mx-1">
               <a
-                class="nav-link d-lg-flex justify-content-between align-items-center"
-                href="#"
-                role="button"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-                id="navbarDropdownMenuLink"
-                :title="user.username"
+                  class="nav-link d-lg-flex justify-content-between align-items-center"
+                  href="#"
+                  role="button"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                  id="navbarDropdownMenuLink"
+                  :title="username"
               >
                 <Icon name="user" class="mx-2"/>
                 {{ vUsername }}
-                <icon name="caret-down" class="float-right ml-md-1" />
+                <icon name="caret-down" class="float-right ml-md-1"/>
               </a>
               <div
-                class="dropdown-menu mb-2"
-                aria-labelledby="navbarDropdownMenuLink"
+                  class="dropdown-menu mb-2"
+                  aria-labelledby="navbarDropdownMenuLink"
               >
                 <router-link
-                  :to="{ name: 'user', params: { username: user.username } }"
-                  class="dropdown-item"
+                    :to="{ name: 'user', params: { username } }"
+                    class="dropdown-item"
                 >
                   <i class="fas fa-user-circle mr-1"></i>
-                  {{ user.username }} profile
+                  {{ username }} profile
                 </router-link>
                 <router-link :to="{ name: 'account' }" class="dropdown-item">
                   <i class="fas fa-cog mr-1"></i> Account settings
@@ -155,54 +159,54 @@ const logout = async () => {
             </li>
             <li class="mx-1 nav-item dropdown active">
               <a
-                class="nav-link"
-                href="#"
-                role="button"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="true"
-                id="navbarAddDropdown"
+                  class="nav-link"
+                  href="#"
+                  role="button"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="true"
+                  id="navbarAddDropdown"
               >
                 <span class="d-none d-lg-inline">
                   <i
-                    class="fas fa-plus-circle ml-3"
-                    style="transform: scale(2)"
+                      class="fas fa-plus-circle ml-3"
+                      style="transform: scale(2)"
                   ></i>
                 </span>
                 <span class="d-inline d-lg-none">
                   <i class="fas fa-plus mx-2"></i>
                   Add
-                  <icon name="caret-down" class="float-right" />
+                  <icon name="caret-down" class="float-right"/>
                 </span>
               </a>
               <div
-                class="dropdown-menu dropdown-menu-right mb-2"
-                aria-labelledby="navbarAddDropdown"
+                  class="dropdown-menu dropdown-menu-right mb-2"
+                  aria-labelledby="navbarAddDropdown"
               >
                 <router-link :to="{ name: 'addMod' }" class="dropdown-item">
                   <i class="fas fa-plug mr-1" style="width: 20px"></i>
                   Add a mod
                 </router-link>
                 <template v-if="isAdmin">
-                  <hr class="mt-2 mb-1" />
+                  <hr class="mt-2 mb-1"/>
                   <small class="text-muted ml-4">ADMIN TOOLS</small>
                   <router-link
-                    :to="{ name: 'addLoaderVersion' }"
-                    class="dropdown-item"
+                      :to="{ name: 'addLoaderVersion' }"
+                      class="dropdown-item"
                   >
                     <i class="fas fa-bolt mr-1" style="width: 20px"></i>
                     Add a loader version
                   </router-link>
                   <router-link
-                    :to="{ name: 'addLauncherVersion' }"
-                    class="dropdown-item"
+                      :to="{ name: 'addLauncherVersion' }"
+                      class="dropdown-item"
                   >
                     <i class="fas fa-desktop mr-1" style="width: 20px"></i>
                     Add a launcher version
                   </router-link>
                   <router-link
-                    :to="{ name: 'addRaftVersion' }"
-                    class="dropdown-item"
+                      :to="{ name: 'addRaftVersion' }"
+                      class="dropdown-item"
                   >
                     <i class="fas fa-anchor mr-1" style="width: 20px"></i>
                     Add a Raft version
@@ -212,13 +216,13 @@ const logout = async () => {
             </li>
             <li v-if="isAdmin" class="mx-1 nav-item dropdown">
               <a
-                class="nav-link"
-                href="#"
-                role="button"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-                id="navbarAdminDropdown"
+                  class="nav-link"
+                  href="#"
+                  role="button"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                  id="navbarAdminDropdown"
               >
                 <span class="d-none d-lg-inline">
                   <i class="fas fa-cogs ml-3"></i>
@@ -228,28 +232,28 @@ const logout = async () => {
                 </span>
               </a>
               <div
-                class="dropdown-menu dropdown-menu-right mb-2"
-                aria-labelledby="navbarAdminDropdown"
+                  class="dropdown-menu dropdown-menu-right mb-2"
+                  aria-labelledby="navbarAdminDropdown"
               >
-              <router-link
-                  :to="{ name: 'launcherVersionManagement' }"
-                  class="dropdown-item"
+                <router-link
+                    :to="{ name: 'launcherVersionManagement' }"
+                    class="dropdown-item"
                 >
-                  <i class="fas fa-desktop mr-1" style="width: 20px"></i> 
+                  <i class="fas fa-desktop mr-1" style="width: 20px"></i>
                   Launcher version management
                 </router-link>
                 <router-link
-                  :to="{ name: 'loaderVersionManagement' }"
-                  class="dropdown-item"
+                    :to="{ name: 'loaderVersionManagement' }"
+                    class="dropdown-item"
                 >
-                  <i class="fas fa-bolt mr-1" style="width: 20px"></i> 
+                  <i class="fas fa-bolt mr-1" style="width: 20px"></i>
                   Loader version management
                 </router-link>
                 <router-link
-                  :to="{ name: 'raftVersionManagement' }"
-                  class="dropdown-item"
+                    :to="{ name: 'raftVersionManagement' }"
+                    class="dropdown-item"
                 >
-                  <i class="fas fa-anchor mr-1" style="width: 20px"></i> 
+                  <i class="fas fa-anchor mr-1" style="width: 20px"></i>
                   Raft version management
                 </router-link>
               </div>
@@ -259,15 +263,14 @@ const logout = async () => {
       </div>
     </div>
   </nav>
-  <the-donation-modal />
+  <the-donation-modal/>
 </template>
 
 <style scoped lang="scss">
 @import '../assets/styles/variables';
 
 .navbar {
-  transition: background-color $dark-mode-transition-duration
-    $dark-mode-transition-type;
+  transition: background-color $dark-mode-transition-duration $dark-mode-transition-type;
 
   .nav-link {
     transition: color 0.25s ease-in-out;

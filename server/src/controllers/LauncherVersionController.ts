@@ -1,3 +1,5 @@
+// noinspection ES6PreferShortImport
+
 import {
   Body,
   Controller,
@@ -27,7 +29,7 @@ export class LauncherVersionController extends Controller {
   }
 
   @Post()
-  @Security('api_key', ['admin'])
+  @Security('auth_token', ['admin'])
   public async create(@Body() body: LauncherVersionDto) {
     const newLauncherVersion = await LauncherVersionService.releaseNew(body);
 

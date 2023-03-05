@@ -1,12 +1,13 @@
-import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse} from 'axios';
-import {NotyfEvent} from 'notyf';
+// noinspection ES6PreferShortImport
+
+import axios, {AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse} from 'axios';
 import {ErrorDto} from '../../../shared/dto/ErrorDto';
 import {LoaderVersionDto} from '../../../shared/dto/LoaderVersionDto';
 import {ModDto} from '../../../shared/dto/ModDto';
 import {ModVersionDto} from '../../../shared/dto/ModVersionDto';
 import {QueryParams} from '../../../shared/types/QueryParams';
 import {setSession} from '../store/actions/session.actions';
-import {unPersistSession} from '../store/persistence.store';
+import {deletePersistedAuthtoken, getPersistedAuthtoken} from '../store/persistence.store';
 import {state} from '../store/store';
 import {
   FormResponse,
@@ -25,10 +26,23 @@ class Api {
 
   constructor(config: AxiosRequestConfig) {
     this.axios = axios.create(config);
+    this.initInterceptors();
   }
 
-  setAuthToken(token: string) {
-    this.axios.defaults.headers.authtoken = `${token}`;
+  private initInterceptors() {
+    this.axios.interceptors.request.use((req) => {
+      const sessionToken = getPersistedAuthtoken();
+      if (sessionToken) {
+        req.headers.authtoken = 'Bearer: ' + sessionToken;
+      }
+      return req;
+    });
+    this.axios.interceptors.response.use(res => res, (err: AxiosError<{ isTokenExpired?: boolean }>) => {
+      if (err.response?.data.isTokenExpired) {
+        toaster.error("Session expired! Please login again");
+        deletePersistedAuthtoken();
+      }
+    });
   }
 
   getBaseUrl() {
@@ -61,28 +75,27 @@ class Api {
   }
 
   async login(username: string, password: string): Promise<boolean> {
+    const path = '/users/login';
     try {
-      const {data: session}: AxiosResponse = await this.axios.post(
-        '/users/login',
-        {
-          username,
-          password,
-          deviceInfo: {
-            platform: navigator.platform,
-            userAgent: navigator.userAgent,
-            appVersion: navigator.appVersion,
-            vendor: navigator.vendor,
-          },
+      const {data} = await this.axios.post<{ token: string }>(path, {
+        username,
+        password,
+        deviceInfo: {
+          platform: navigator.platform,
+          userAgent: navigator.userAgent,
+          appVersion: navigator.appVersion,
+          vendor: navigator.vendor,
         },
-      );
-      await setSession(session);
+      });
+      await setSession(data.token);
       toaster.success('Login successful');
       return true;
-    } catch ({response}) {
-      const {
+    } catch (err: unknown) {
+      console.log('login err:', err);
+      /*const {
         data: {error},
       } = response as AxiosResponse<ErrorDto>;
-      toaster.error(error);
+      toaster.error(error);*/
     }
     return false;
   }
@@ -261,34 +274,6 @@ class Api {
     }
 
     return null;
-  }
-
-  async getSession(token: string): Promise<Session> {
-    try {
-      const {data}: AxiosResponse = await this.axios.get(
-        `/sessions/${token}`,
-      );
-      return data;
-    } catch (e) {
-      toaster
-        .error('Could not load session. Please login again')
-        .on(NotyfEvent.Dismiss, () => {
-          unPersistSession();
-          state.session = null;
-        });
-    }
-    return {} as Session;
-  }
-
-  async deleteSession(token: string): Promise<boolean> {
-    try {
-      await this.axios.delete(`/sessions/${token}`);
-      this.setAuthToken('');
-      return true;
-    } catch (e) {
-      toaster.error('Failed to delete session');
-    }
-    return false;
   }
 
   async getModCategories(): Promise<string[]> {
@@ -588,29 +573,10 @@ class Api {
     return false;
   }
 
-  async getModLikes(): Promise<ModLike[]> {
-    try {
-      const {data}: AxiosResponse = await this.axios.get(`/modLikes`);
-      return data;
-    } catch ({response}) {
-      const {
-        data: {error},
-      } = response as AxiosResponse<ErrorDto>;
-
-      if (error) {
-        toaster.error(error);
-      }
-    }
-
-    return [];
-  }
-
   async likeMod(modId: string) {
     try {
-      const {data}: AxiosResponse = await this.axios.post(`/modLikes`, {
-        modId,
-      });
-      state.likes.push(data.modId);
+      const {data}: AxiosResponse = await this.axios.post(`/mods/${modId}/like`);
+      //state.likes.push(data.modId);
 
       return data;
     } catch ({response}) {
@@ -648,9 +614,8 @@ class Api {
   }
 }
 
-const VITE_BASE_URL = String(import.meta.env.VITE_BASE_URL);
-
-const baseURL: string = `${VITE_BASE_URL}/api`;
+const {VITE_BASE_URL, VITE_PORT} = import.meta.env;
+const baseURL: string = `${VITE_BASE_URL + (VITE_PORT ? `:${VITE_PORT}` : '')}/api`;
 
 export const api = new Api({
   baseURL,

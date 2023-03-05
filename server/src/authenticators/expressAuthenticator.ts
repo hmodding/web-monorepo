@@ -2,38 +2,40 @@
 
 import {Request as ExpressRequest} from 'express';
 import {reCaptchaService} from '../services/ReCaptchaService';
-import {SessionService} from "../services/SessionService";
+import jwt, {JwtPayload, TokenExpiredError} from "jsonwebtoken";
+import {cfg} from "../cfg";
+import {AuthenticationError} from "../errors/AuthenticationError";
 
 /**
  *
  * @param req
  * @param securityName custom name of security method
- * @param scopes for api_key can be "user" or "admin"
+ * @param scopes for auth_token can have the scope "user" or "admin" (for now)
  * {@link https://tsoa-community.github.io/docs/authentication.html}
  */
 export const expressAuthentication = async (
-  req: ExpressRequest,
+  req: any,
   securityName: string,
   scopes?: string[],
 ) => {
   try {
+    const authtoken = req.headers.authtoken as string;
     switch (securityName) {
       case 'captcha':
         await validateCaptcha(req);
         break;
-      case 'api_key':
-        await validateApiKey(req, scopes)
+      case 'auth_token':
+        req.jwt = await verifyAuthtoken(authtoken);
         break;
-      case 'everyone':
-      default:
-        // OPEN THE GATES
+      default: // OPEN THE GATES
         break;
     }
     console.log('    🔑 authentication successful!');
     return Promise.resolve({success: true});
-  } catch (err) {
-    console.error('    🔒 authentication failed:', err);
-    return Promise.reject(err);
+  } catch (err: unknown) {
+    const authErr = err as AuthenticationError;
+    console.error('    🔒 authentication failed:', authErr.details);
+    return Promise.reject(authErr);
   }
 };
 
@@ -48,48 +50,33 @@ const validateCaptcha = async (req: ExpressRequest) => {
   );
 
   if (!isValidRecaptcha) {
-    throw new Error('Invalid CAPTCHA!');
+    throw new AuthenticationError('Invalid CAPTCHA!');
   }
 };
 
-const validateApiKey = async (req: ExpressRequest, scopes: string[] = []) => {
-  if (scopes.includes('admin')) {
-    await validateAdminPrivileges(req);
-  } else if (scopes.includes('user')) {
-    await validateAuthToken(req);
+const verifyAuthtoken = async (authtoken: string): Promise<JwtPayload | string> => {
+  const token = authtoken.substring(8); //remove starting 'Bearer: '
+  try {
+    return jwt.verify(token, cfg.server.jwtSecret);
+  } catch (err: unknown) {
+    throw new AuthenticationError('Token expired!', err instanceof TokenExpiredError);
   }
 }
 
 /**
  * validation for the basic logged-in users who provide an authtoken header
- * @param req
+ * @param jwtPayload JwtPayload | string
  */
-const validateAuthToken = async (req: ExpressRequest) => {
-  const {authtoken} = req.headers;
-
-  try {
-    const session = await SessionService.getBySid(authtoken as string);
-
-    if (session && session.token === authtoken && session.user) {
-      if (session.user.role !== 'UNFINISHED') {
-        return session;
-      }
-    }
-  } catch (e) {
-    console.warn('❗ could not validate auth token', req);
-  }
-
-  throw Error('You are missing authorization!');
+const validateUserPrivileges = async (jwtPayload: JwtPayload | string) => {
+  console.log('validate user privileges: ', jwtPayload);
+  throw new AuthenticationError('User privileges check not implemented yet!');
 };
 
 /**
  * validation for admin by checking their session role based on the provided authtoken header
- * @param req
+ * @param jwtPayload JwtPayload | string
  */
-const validateAdminPrivileges = async (req: ExpressRequest) => {
-  const session = await validateAuthToken(req);
-
-  if (!session || !session.user || !session.user.isAdmin) {
-    throw Error('Not enough privileges!');
-  }
+const validateAdminPrivileges = async (jwtPayload: JwtPayload | string) => {
+  console.log('validate admin privileges: ', jwtPayload);
+  throw new AuthenticationError('Admin privileges check not implemented yet!');
 };

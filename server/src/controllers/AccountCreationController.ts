@@ -1,6 +1,9 @@
+// noinspection ES6PreferShortImport
+
 import { Body, Controller, Delete, Path, Post, Route, Security } from 'tsoa';
 import { AccountCreationDto } from '../../../shared/dto/AccountCreationDto';
 import { AccountCreationService } from '../services/AccountCreationService';
+import {HttpStatusCode} from "../types/HttpStatusCode";
 
 @Route('/accountCreations')
 export class AccountCreationController extends Controller {
@@ -10,14 +13,14 @@ export class AccountCreationController extends Controller {
     const { username, email } = data;
 
     if (await AccountCreationService.alreadyExists(username!, email!)) {
-      this.setStatus(400);
+      this.setStatus(HttpStatusCode.BadRequest);
       return { error: 'Username or E-Mail is already taken!' };
     }
 
     //TODO: validate body - lol
 
     AccountCreationService.create(data);
-    this.setStatus(204);
+    this.setStatus(HttpStatusCode.NoContent);
   }
 
   @Delete('/{token}')
@@ -25,7 +28,7 @@ export class AccountCreationController extends Controller {
     const accountCreation = await AccountCreationService.getByToken(token);
 
     if (!accountCreation) {
-      this.setStatus(403);
+      this.setStatus(HttpStatusCode.Forbidden);
       return { error: 'Invalid token!' };
     }
 
@@ -34,7 +37,7 @@ export class AccountCreationController extends Controller {
       token,
     );
 
-    this.setStatus(204);
+    this.setStatus(HttpStatusCode.NoContent);
     return user;
   }
 }

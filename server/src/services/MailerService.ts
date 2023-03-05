@@ -24,7 +24,7 @@ export class MailerService {
    */
   async sendPasswordResetMail(user: User, token: string): Promise<void> {
     const { email, username } = user;
-    const baseUrl = cfg.viteBaseUrl;
+    const baseUrl = cfg.vite.baseUrl;
     const url = `${baseUrl}forgotpassword?token=${token}`;
 
     const mailData = {
@@ -45,7 +45,7 @@ export class MailerService {
     accountCreation: AccountCreation,
   ): Promise<void> {
     const { token, username, email } = accountCreation;
-    const baseUrl = cfg.viteBaseUrl;
+    const baseUrl = cfg.vite.baseUrl;
     const url = `${baseUrl}signup?token=${token}`;
 
     const mailData = {

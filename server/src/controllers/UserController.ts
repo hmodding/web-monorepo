@@ -1,4 +1,6 @@
-import { compareSync } from 'bcryptjs';
+// noinspection ES6PreferShortImport
+
+import {compareSync} from 'bcryptjs';
 import {
   Body,
   Controller,
@@ -13,45 +15,44 @@ import {
   Route,
   Security,
 } from 'tsoa';
-import { ChangePasswordDto } from '../../../shared/dto/ChangePasswordDto';
-import { LoginDto } from '../../../shared/dto/LoginDto';
-import { ResetPasswordDto } from '../../../shared/dto/ResetPasswordDto';
-import { User } from '../entities/User';
-import { ApiError } from '../errors/ApiError';
-import { mailer } from '../services/MailerService';
-import { UserService } from '../services/UserService';
-import { HttpStatusCode } from '../types/HttpStatusCode';
-import { generateToken } from '../utils';
-import {SessionService} from "../services/SessionService";
+import {ChangePasswordDto} from '../../../shared/dto/ChangePasswordDto';
+import {LoginDto} from '../../../shared/dto/LoginDto';
+import {ResetPasswordDto} from '../../../shared/dto/ResetPasswordDto';
+import {User} from '../entities/User';
+import {mailer} from '../services/MailerService';
+import {UserService} from '../services/UserService';
+import {HttpStatusCode} from '../types/HttpStatusCode';
+import jwt, {SignOptions} from 'jsonwebtoken';
+import {cfg} from "../cfg";
 
 @Route('/users')
 export class UserController extends Controller {
   @Put()
-  @Security('api_key', ['user'])
+  @Security('auth_token', ['user'])
   public async update(
     @Header() authtoken: string,
     @Body() data: ChangePasswordDto,
   ) {
-    const session = await SessionService.getBySid(authtoken);
+    const session = {user: {} as User}
 
     if (!session || !session.user) {
       this.setStatus(403);
-      return { error: 'no user found' };
+      return {error: 'no user found'};
     }
 
-    const { currentPassword, password, passwordConfirm } = data;
+    const {currentPassword, password, passwordConfirm} = data;
     const currentDbPassword = await UserService.getPasswordById(
       session.user.id,
     );
 
     if (currentDbPassword && !compareSync(currentPassword, currentDbPassword)) {
       this.setStatus(403);
-      return { error: 'Your current password was incorrect!' };
+      return {error: 'Your current password was incorrect!'};
     }
 
     if (password !== passwordConfirm) {
       this.setStatus(400);
-      return { error: 'New passwords do not match!' };
+      return {error: 'New passwords do not match!'};
     }
 
     const userToUpdate = User.create({
@@ -68,7 +69,7 @@ export class UserController extends Controller {
 
     if (!passwordReset) {
       this.setStatus(HttpStatusCode.NotFound);
-      return { error: 'Invalid token!' };
+      return {error: 'Invalid token!'};
     }
 
     this.setStatus(HttpStatusCode.Ok);
@@ -92,7 +93,7 @@ export class UserController extends Controller {
 
     if (!isValidResetPasswordCreateData) {
       this.setStatus(HttpStatusCode.BadRequest);
-      return { error: 'Invalid form' };
+      return {error: 'Invalid form'};
     }
 
     const createdPasswordReset = await UserService.createPasswordReset(
@@ -114,48 +115,42 @@ export class UserController extends Controller {
   ) {
     if (!password || !passwordConfirm || password !== passwordConfirm) {
       this.setStatus(HttpStatusCode.BadRequest);
-      return { error: 'Passwords did not match' };
+      return {error: 'Passwords did not match'};
     }
 
     const passwordReset = await UserService.getPasswordResetByToken(token);
 
     if (!passwordReset) {
       this.setStatus(HttpStatusCode.BadRequest);
-      return { error: 'Invalid token!' };
+      return {error: 'Invalid token!'};
     }
 
     const user = await UserService.updatePassword(password);
 
     if (!user) {
       this.setStatus(HttpStatusCode.InternalServerError);
-      return { error: 'password reset failed!' };
+      return {error: 'password reset failed!'};
     }
 
-    passwordReset.remove();
+    await passwordReset.remove();
 
     this.setStatus(HttpStatusCode.Ok);
-    return { successful: true };
+    return {successful: true};
   }
 
   @Post('/login')
   @Security('everyone')
   public async login(
-    @Request() request: any, // express is not exposing the type :(
-    @Body() { username, password, deviceInfo = {} }: LoginDto,
+    @Request() request: Express.Request,
+    @Body() {username, password}: LoginDto,
   ) {
-    try {
-      const session = await UserService.login(username, password, {
-        ...deviceInfo,
-        ipHash: generateToken(request.socket.remoteAddress),
-      });
+    const {user, privilege} = await UserService.login(username, password);
+    this.setStatus(HttpStatusCode.Ok);
+    const secret = cfg.server.jwtSecret;
+    const options: SignOptions = {expiresIn: '1h'};
+    const payload = {username: user?.username, role: privilege?.role};
+    const token = jwt.sign(payload, secret, options);
 
-      this.setStatus(HttpStatusCode.Ok);
-      return session;
-    } catch (err) {
-      const apiErr = err as ApiError;
-
-      this.setStatus(apiErr.status);
-      return { error: apiErr.message };
-    }
+    return {token};
   }
 }

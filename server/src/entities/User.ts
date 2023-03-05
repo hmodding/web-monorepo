@@ -1,5 +1,5 @@
 import {hashSync} from 'bcryptjs';
-import {BeforeUpdate, Column, Entity, ManyToMany, OneToMany} from 'typeorm';
+import {BeforeUpdate, Column, Entity, JoinColumn, ManyToMany, OneToMany, OneToOne} from 'typeorm';
 import {AbstractEntityWithGeneratedId} from './AbstractEntityWithGeneratedId';
 import {Mod} from './Mod';
 import {ModBundle} from './ModBundle';
@@ -22,16 +22,20 @@ export class User extends AbstractEntityWithGeneratedId {
   role!: UserRole;
    */
 
-  @OneToMany(() => UserPrivilege, (privileges) => privileges.username)
-  privileges!: UserPrivilege[];
+  @OneToOne(() => UserPrivilege, userPrivilege => userPrivilege.user)
+  @JoinColumn({name: 'username', referencedColumnName: 'username'})
+  privilege!: UserPrivilege;
 
   @OneToMany(() => Plugin, (plugin) => plugin.maintainerId)
+  @JoinColumn()
   plugins?: Plugin[];
 
   @OneToMany(() => ModBundle, (bundle) => bundle.maintainerId)
+  @JoinColumn()
   modBundles?: ModBundle[];
 
   @ManyToMany(() => Mod, (mod) => mod.author)
+  @JoinColumn()
   likedMods?: Mod[];
 
   //hooks

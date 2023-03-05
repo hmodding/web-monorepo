@@ -21,7 +21,6 @@ import {ScheduledPluginDeletion} from '../entities/ScheduledPluginDeletion';
 import {ServerVersion} from '../entities/ServerVersion';
 import {User} from '../entities/User';
 import {UserPrivilege} from '../entities/UserPrivilege';
-import {Session} from "../entities/session/Session";
 
 const {host, port, user, password, name, ssl, logging} = cfg.database;
 
@@ -34,7 +33,7 @@ export const AppDataSource = new DataSource({
   database: name,
   ssl,
   logging,
-  synchronize: process.env.NODE_ENV === 'development',
+  synchronize: false, //todo: this ain't working so good right now. You need a db-schema dump :P
   entities: [
     AccountCreation,
     DiscordAccountCreation,
@@ -54,7 +53,6 @@ export const AppDataSource = new DataSource({
     ScheduledModDeletion,
     ScheduledPluginDeletion,
     ServerVersion,
-    Session,
     User,
     UserPrivilege,
   ],

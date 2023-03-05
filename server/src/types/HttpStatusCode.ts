@@ -1,3 +1,5 @@
+// noinspection JSUnusedGlobalSymbols
+
 /**
  * Hypertext Transfer Protocol (HTTP) response status codes.
  *

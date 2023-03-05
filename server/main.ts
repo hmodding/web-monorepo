@@ -18,6 +18,7 @@ import {DownloadCounterService} from './src/services/DownloadCounterService';
   console.log('    ✔️ AppDataSource initialized!');
 
   if (cfg.node.env) {
+    console.log('    ⏳ saving example data...');
     await saveExampleDbData();
     console.log('    ✔️ Example data saved!');
   }

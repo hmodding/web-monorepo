@@ -1,3 +1,5 @@
+// noinspection ES6PreferShortImport
+
 import { Body, Controller, Post, Route, Security } from 'tsoa';
 import { DiscordAuthenticationDto } from '../../../shared/dto/DiscordAuthenticationDto';
 import { discordAuthenticator } from '../authenticators/DiscordAuthenticator';

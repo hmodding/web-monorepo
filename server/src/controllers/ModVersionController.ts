@@ -1,3 +1,5 @@
+// noinspection ES6PreferShortImport
+
 import {
   Body,
   Controller,
@@ -16,7 +18,7 @@ import {
 import { ModVersion } from '../entities/ModVersion';
 import { ModVersionService } from '../services/ModVersionService';
 import { HttpStatusCode } from '../types/HttpStatusCode';
-import {SessionService} from "../services/SessionService";
+import {User} from "../entities/User";
 
 @Route('/modVersions')
 export class ModVersionController extends Controller {
@@ -27,12 +29,12 @@ export class ModVersionController extends Controller {
   }
 
   @Post()
-  @Security('api_key', ['user'])
+  @Security('auth_token', ['user'])
   public async create(
     @Header() authtoken: string,
     @Body() data: ModVersionCreateDto,
   ) {
-    const session = await SessionService.getBySid(authtoken);
+    const session = {user: {} as User};
     const isCreateAllowed = await ModVersionService.isCreateAllowed(
       data.modId!,
       session!.user!,
@@ -50,13 +52,13 @@ export class ModVersionController extends Controller {
   }
 
   @Put('/{id}')
-  @Security('api_key', ['user'])
+  @Security('auth_token', ['user'])
   public async update(
     @Header() authtoken: string,
     @Path() id: number,
     @Body() data: ModVersionDto,
   ) {
-    const session = await SessionService.getBySid(authtoken);
+    const session = {user: {} as User}
     session!.user!.id = id;
     const isUpdateAllowed = await ModVersionService.isUpdateAllowed(
       session!.user!,

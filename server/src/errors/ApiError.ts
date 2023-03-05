@@ -1,3 +1,5 @@
+// noinspection ES6PreferShortImport
+
 import { HttpStatusCode } from '../types/HttpStatusCode';
 
 export class ApiError extends Error {

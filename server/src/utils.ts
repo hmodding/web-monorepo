@@ -1,13 +1,13 @@
-import { compareSync } from 'bcryptjs';
+import {compareSync} from 'bcryptjs';
 import crypto from 'crypto';
-import { BaseEntity } from 'typeorm';
-import { v1 } from 'uuid';
+import {BaseEntity} from 'typeorm';
+import {v1} from 'uuid';
 
-import { ajv } from './ajv';
-import { cfg } from './cfg';
-import { LauncherVersion } from './entities/LauncherVersion';
-import { LoaderVersion } from './entities/LoaderVersion';
-import { Mod } from './entities/Mod';
+import {ajv} from './ajv';
+import {cfg} from './cfg';
+import {LauncherVersion} from './entities/LauncherVersion';
+import {LoaderVersion} from './entities/LoaderVersion';
+import {Mod} from './entities/Mod';
 
 export function validatePassword(given: string, expected: string): boolean {
   return compareSync(given, expected);
@@ -37,13 +37,19 @@ export function generateToken(data: string | null = null, length = -1) {
   return length > 0 ? token.substring(0, length) : token;
 }
 
+function getBaseUrl(): string {
+  const {baseUrl, port} = cfg.vite;
+  const portStr = port ? `:${port}` : '';
+  return baseUrl + portStr + '/';
+}
+
 /**
  * Builds the publicly accessible WWW URL for a mod page.
  * @param mod a mod instance to build a URL for.
  * @returns the URL.
  */
 export function getModUrl(mod: Mod): string {
-  return `${cfg.viteBaseUrl}mods/${mod.id}`;
+  return `${getBaseUrl()}mods/${mod.id}`;
 }
 
 /**
@@ -52,7 +58,7 @@ export function getModUrl(mod: Mod): string {
  * @returns the URL.
  */
 export function getLoaderVersionUrl(version: LoaderVersion): string {
-  return `${cfg.viteBaseUrl}loader/${version.rmlVersion}`;
+  return `${getBaseUrl()}loader/${version.rmlVersion}`;
 }
 
 /**
@@ -61,7 +67,7 @@ export function getLoaderVersionUrl(version: LoaderVersion): string {
  * @returns the URL.
  */
 export function getLauncherVersionUrl(version: LauncherVersion): string {
-  return `${cfg.viteBaseUrl}launcher/${version.version}`;
+  return `${getBaseUrl()}launcher/${version.version}`;
 }
 
 /**
@@ -70,18 +76,18 @@ export function getLauncherVersionUrl(version: LauncherVersion): string {
  * @returns the URL.
  */
 export function getUserUrlForUsername(username: string): string {
-  return `${cfg.viteBaseUrl}user/${encodeURIComponent(username)}`;
+  return `${getBaseUrl()}user/${encodeURIComponent(username)}`;
 }
 
 /**
  * Publicly accessible WWW URL for the mod loader download page.
  */
-export const softwareDownloadUrl = `${cfg.viteBaseUrl}download`;
+export const softwareDownloadUrl = `${getBaseUrl()}download`;
 
 /**
  * Publicly accessible WWW URL of a mod loader logo image.
  */
-export const logoUrl = `${cfg.viteBaseUrl}logo.png`;
+export const logoUrl = `${getBaseUrl()}logo.png`;
 
 /**
  * validates data to a json-schema

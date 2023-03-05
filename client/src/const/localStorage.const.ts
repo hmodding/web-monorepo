@@ -1,5 +1,5 @@
-export const LOCAL_STORAGE_SESSION = `sessionToken`;
+export const STORAGE_AUTHTOKEN = `authtoken`;
 
-export const LOCAL_STORAGE_THEME = `theme`;
+export const STORAGE_THEME = `theme`;
 
-export const LOCAL_STORAGE_COOKIE_CONSENT = `cookieConsent`;
+export const STORAGE_COOKIE_CONSENT = `cookieConsent`;

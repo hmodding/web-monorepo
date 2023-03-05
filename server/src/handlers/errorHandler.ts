@@ -3,29 +3,23 @@
 import {NextFunction, Request as ExRequest, Response as ExResponse} from "express";
 import {ValidateError} from "tsoa";
 import {HttpStatusCode} from "../types/HttpStatusCode";
+import {AuthenticationError} from "../errors/AuthenticationError";
+import {JsonWebTokenError} from "jsonwebtoken";
 
 export const errorHandler = (err: unknown, req: ExRequest, res: ExResponse, next: NextFunction) => {
   if (err instanceof ValidateError) {
-    console.warn(`Caught Validation Error for ${req.path}:`, err.fields);
-    return res.status(422).json({
-      message: "Validation Failed",
-      details: err?.fields,
-    });
-  }
-  if (err instanceof Error) {
+    const status = HttpStatusCode.BadRequest;
+    //const json = {error: {message: 'Validation failed!', details: err?.fields}};
+    console.warn(`Caught validation error for ${req.path}:`, err.fields);
+    return res.status(status).json(err);
+  } else if (err instanceof AuthenticationError) {
+    const status = err.status;
+    console.warn(`Caught authentication error for ${req.path}`);
+    return res.status(status).json(err);
+  } else if (err instanceof Error) {
     const status = HttpStatusCode.InternalServerError;
-    console.warn(
-      `❗${status} ERROR:`,
-      '\n  url:',
-      req.url,
-      '\n  body:',
-      req.body,
-      '\n  error:',
-      err,
-    );
-    return res.status(500).json({
-      message: "Internal Server Error",
-    });
+    console.warn(`Caught error for ${req.path}:`, req.body);
+    return res.status(status).json(err);
   }
 
   next();

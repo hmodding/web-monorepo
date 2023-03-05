@@ -2,7 +2,7 @@ import {computed} from 'vue';
 import {useMeta} from 'vue-meta';
 import {META_DEFAULT_TITLE, META_TITLE_APPEND} from "../../const/meta.const";
 
-const {VITE_BASE_URL} = import.meta.env;
+const {VITE_BASE_URL, VITE_PORT} = import.meta.env;
 
 export const useGeneralMeta = () => {
   const generalMeta = computed(() => ({
@@ -46,7 +46,7 @@ export const useGeneralMeta = () => {
   useMeta(generalMeta);
 };
 
-const baseUrl = VITE_BASE_URL;
+const baseUrl = VITE_BASE_URL + VITE_PORT ? `:${VITE_PORT}` : '';
 
 const description = `Welcome to RaftModding! The largest community for mods, scripts and utilities for Raft!
 

@@ -1,3 +1,5 @@
+// noinspection ES6PreferShortImport
+
 import {
   Body,
   Controller,
@@ -31,7 +33,7 @@ export class RaftVersionController extends Controller {
   }
 
   @Post()
-  @Security('api_key', ['user'])
+  @Security('auth_token', ['user'])
   public async create(@Body() body: RaftVersionDto) {
     const isValidCreateData = await RaftVersionService.isValidCreateData(body);
 
@@ -45,7 +47,7 @@ export class RaftVersionController extends Controller {
   }
 
   @Put('/{id}')
-  @Security('api_key', ['admin'])
+  @Security('auth_token', ['admin'])
   public async update(@Path() id: number, @Body() body: RaftVersionDto) {
     const isValidUpdateData = RaftVersionService.isValidUpdateData(body);
 

@@ -1,21 +1,23 @@
-import dayjs, { UnitTypeShort } from 'dayjs';
-import { Body, Controller, Header, Post, Route, Security } from 'tsoa';
-import { ScheduledModDeletionDto } from '../../../shared/dto/ScheduledModDeletionDto';
-import { cfg } from '../cfg';
-import { ScheduledModDeletion } from '../entities/ScheduledModDeletion';
-import { ModService } from '../services/ModService';
-import { HttpStatusCode } from '../types/HttpStatusCode';
-import {SessionService} from "../services/SessionService";
+// noinspection ES6PreferShortImport
+
+import dayjs, {UnitTypeShort} from 'dayjs';
+import {Body, Controller, Header, Post, Route, Security} from 'tsoa';
+import {ScheduledModDeletionDto} from '../../../shared/dto/ScheduledModDeletionDto';
+import {cfg} from '../cfg';
+import {ScheduledModDeletion} from '../entities/ScheduledModDeletion';
+import {ModService} from '../services/ModService';
+import {HttpStatusCode} from '../types/HttpStatusCode';
+import {User} from "../entities/User";
 
 @Route('/scheduledModDeletions')
 export class ScheduledModDeletionController extends Controller {
   @Post()
-  @Security('api_key', ['admin'])
+  @Security('auth_token', ['admin'])
   public async create(
     @Header() authtoken: string,
     @Body() body: ScheduledModDeletionDto,
   ) {
-    const session = await SessionService.getBySid(authtoken);
+    const session = {user: {} as User}
     const isDeleteAllowed = await ModService.isDeleteAllowed(
       body.modId!,
       session!.user!,
@@ -23,7 +25,7 @@ export class ScheduledModDeletionController extends Controller {
 
     if (!isDeleteAllowed) {
       this.setStatus(HttpStatusCode.Unauthorized);
-      return { error: 'You are not the owner of the mod!' };
+      return {error: 'You are not the owner of the mod!'};
     }
 
     const add = cfg.scheduledDeletionTime;

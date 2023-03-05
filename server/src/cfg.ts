@@ -2,6 +2,7 @@
 
 import {config} from 'dotenv-flow';
 import {NodeEnv} from "./types/NodeEnv";
+import crypto from "crypto";
 
 export interface DatabaseCfg {
   user: string;
@@ -15,6 +16,7 @@ export interface DatabaseCfg {
 
 export interface ServerCfg {
   port: number;
+  jwtSecret: string;
 }
 
 export interface MailCfg {
@@ -81,6 +83,11 @@ export interface ReCaptchaCfg {
   secretKey: string;
 }
 
+export interface ViteCfg {
+  baseUrl: string;
+  port: string | number;
+}
+
 export interface Cfg {
   node: {
     env: NodeEnv
@@ -93,7 +100,6 @@ export interface Cfg {
   requestSizeLimit: string;
   scheduledDeletionTime: string; // https://day.js.org/docs/en/manipulate/add
   mailConfig?: MailCfg;
-  viteBaseUrl: string;
   reCaptcha?: ReCaptchaCfg;
   discord?: DiscordCfg;
   /**
@@ -101,6 +107,7 @@ export interface Cfg {
    * Discord webhooks.
    */
   discordNotifications: DiscordNotificationsCfg;
+  vite: ViteCfg;
 }
 
 //load env from ../.env.* -> https://www.npmjs.com/package/dotenv-flow
@@ -184,6 +191,14 @@ if (srvPortString === undefined) {
   throw new Error(`SERVER_PORT is not configured!`);
 }
 const port = parseInt(srvPortString, 10);
+
+const srvJwtSecret = process.env.SERVER_JWT_SECRET;
+const srvJwtSecretDefault = crypto.randomBytes(64).toString('hex');
+if (srvJwtSecret === undefined) {
+  console.warn(
+    `SERVER_JWT_SECRET not set! Using a random string.`,
+  );
+}
 
 const readStorageConfig = (): StorageCfg | undefined => {
   try {
@@ -275,10 +290,18 @@ const readMailConfig = (): MailCfg | undefined => {
 }
 
 const viteBaseUrl = process.env.VITE_BASE_URL;
-const viteBaseUrlDefault = 'http://localhost:3000'
+const viteBaseUrlDefault = 'http://localhost'
 if (!viteBaseUrl) {
   console.warn(
     `VITE_BASE_URL is not configured! Using default '${viteBaseUrlDefault}'`,
+  );
+}
+
+const vitePort = process.env.VITE_PORT;
+const vitePortDefault = 3001;
+if (!vitePort) {
+  console.warn(
+    `VITE_PORT is not configured! Using default '${vitePortDefault}'`,
   );
 }
 
@@ -405,6 +428,7 @@ export const cfg: Cfg = {
   },
   server: {
     port,
+    jwtSecret: srvJwtSecret || srvJwtSecretDefault,
   },
   storage: readStorageConfig(),
   validMimeTypes: ['application/zip'],
@@ -412,7 +436,10 @@ export const cfg: Cfg = {
   requestSizeLimit: '20mb',
   scheduledDeletionTime: '10d',
   mailConfig: readMailConfig(),
-  viteBaseUrl: viteBaseUrl || 'http://localhost:3000',
+  vite: {
+    baseUrl: viteBaseUrl || viteBaseUrlDefault,
+    port: vitePort || vitePortDefault,
+  },
   reCaptcha: readReCaptchaConfig(),
   discord: readDiscordConfig(),
   discordNotifications: readDiscordNotificationCfg(),

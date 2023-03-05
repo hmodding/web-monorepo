@@ -1,3 +1,5 @@
+// noinspection ES6PreferShortImport
+
 import {
   Body,
   Controller,
@@ -28,7 +30,7 @@ export class LoaderVersionController extends Controller {
   }
 
   @Post()
-  @Security('api_key', ['admin'])
+  @Security('auth_token', ['admin'])
   public async create(@Body() body: LoaderVersionDto) {
     try {
       const newLoaderVersion = await LoaderVersionService.releaseNew(body);

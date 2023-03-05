@@ -1,3 +1,5 @@
+// noinspection ES6PreferShortImport
+
 import {compareSync} from 'bcryptjs';
 import {DeepPartial} from 'typeorm';
 import {schema as resetPasswordSchema} from '../../resources/schemas/resetPasswordSchema';
@@ -7,7 +9,8 @@ import {ApiError} from '../errors/ApiError';
 import {HttpStatusCode} from '../types/HttpStatusCode';
 import {validateData} from '../utils';
 import {AbstractService} from './AbstractService';
-import {Session} from "../entities/session/Session";
+import {AuthenticationError} from "../errors/AuthenticationError";
+import {UserPrivilege} from "../entities/UserPrivilege";
 
 export class UserService extends AbstractService {
   static create(params: DeepPartial<User>) {
@@ -65,37 +68,28 @@ export class UserService extends AbstractService {
   }
 
   static async login(
-      username: string,
-      password: string,
-      deviceInfo: Record<string, string> | undefined,
-  ) {
-    const internalFoundUser = await User.findOne({
+    username: string,
+    password: string,
+  ): Promise<{ user: User | null, privilege: UserPrivilege | null }> {
+    const dbUser = await User.findOne({
+      select: ['password'],
       where: {username},
-      select: ['id', 'password', 'username', 'email'],
     });
 
-    if (
-        !internalFoundUser ||
-        !compareSync(password, internalFoundUser.password)
-    ) {
-      throw new ApiError(
-          HttpStatusCode.Unauthorized,
-          'Invalid username or password',
-      );
+    if (!dbUser || !compareSync(password, dbUser.password)) {
+      throw new AuthenticationError('Invalid username or password');
     }
 
-    const session = Session.create({
-      expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), //1 Month
-      data: JSON.stringify({user: internalFoundUser.id}),
-      //deviceInfo,
+    const user = await User.findOne({
+      select: ['username'],
+      where: {username},
     });
-    const savedSession = await Session.save(session);
-    const dbSession = await Session.findOne({
-      where: {sid: savedSession.sid},
-      relations: ['user'],
+    const privilege = await UserPrivilege.findOne({
+      select: ['role'],
+      where: {username},
     });
 
-    return dbSession;
+    return {user, privilege}
   }
 }
 

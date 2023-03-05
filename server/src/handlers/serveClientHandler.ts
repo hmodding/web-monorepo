@@ -2,6 +2,7 @@ import path from "path";
 import fs from "fs";
 import express, {Request as ExpressRequest, Response as ExpressResponse, NextFunction} from "express";
 import {createProxyMiddleware} from "http-proxy-middleware";
+import {cfg} from "../cfg";
 
 let clientDistDir = path.join(__dirname, '../../../client/dist');
 
@@ -23,9 +24,9 @@ export const serveClientHandler = (req: ExpressRequest, res: ExpressResponse, ne
  * currently broken...
  */
 export const serveDevClientHandler = createProxyMiddleware({
-  target: 'http://localhost:3001',
+  target: `${cfg.vite.baseUrl}:${cfg.vite.port}`,
   changeOrigin: true,
   router: {
-    '/api/': 'http://localhost:3000'
+    '/api/': `http://localhost:${cfg.server.port}`
   }
 })

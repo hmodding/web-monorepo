@@ -9,10 +9,14 @@
     "specVersion": 3,
     "basePath": "/api",
     "securityDefinitions": {
-      "api_key": {
+      "auth_token": {
         "type": "apiKey",
         "name": "authtoken",
-        "in": "header"
+        "in": "header",
+        "scopes": {
+          "user": "generic user",
+          "admin": "administrative user"
+        }
       }
     }
   },

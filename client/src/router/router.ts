@@ -5,7 +5,6 @@ import LauncherChangelog from '../pages/LauncherChangelog.vue';
 import LoaderChangelog from '../pages/LoaderChangelog.vue';
 import NotFound from '../pages/NotFound.vue';
 import { setBlankPage } from '../store/actions/blankPage.actions';
-import { isSessionExpired } from '../store/actions/session.actions';
 import { state } from '../store/store';
 import { adminOnlyHandler } from './handlers/adminOnlyHandler';
 import { existingSessionHandler } from './handlers/existingSessionHandler';
@@ -16,6 +15,7 @@ import { adminRoutes } from './routes/admin.routes';
 import { legalRoutes } from './routes/legal.routes';
 import { modRoutes } from './routes/mods.routes';
 import { redirectRoutes } from './routes/redirect.routes';
+import {isSessionExpired} from "../store/actions/session.actions";
 
 export const router = createRouter({
   history: createWebHistory(),

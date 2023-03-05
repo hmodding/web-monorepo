@@ -7,6 +7,6 @@ export { default as ModBundle } from './ModBundle';
 export { default as ModVersion } from './ModVersion';
 export { default as RaftVersion } from './RaftVersion';
 export { default as ScheduledModDeletion } from './ScheduledModDeletion';
-export { default as Session } from './Session';
+export { default as Session } from './SessionState';
 export { default as State, Theme } from './State';
 export { default as User } from './User';

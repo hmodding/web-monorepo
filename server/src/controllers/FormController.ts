@@ -1,3 +1,5 @@
+// noinspection ES6PreferShortImport
+
 import { Controller, Get, Route, Security } from 'tsoa';
 import {
   schema as addLauncherSchema,
@@ -60,7 +62,7 @@ import { HttpStatusCode } from '../types/HttpStatusCode';
 @Route('/forms')
 export class FormController extends Controller {
   @Get('/addLauncherVersion')
-  @Security('api_key', ['admin'])
+  @Security('auth_token', ['admin'])
   public async addLauncherVersion() {
     this.setStatus(HttpStatusCode.Ok);
     return {
@@ -70,7 +72,7 @@ export class FormController extends Controller {
   }
 
   @Get('/addLoaderVersion')
-  @Security('api_key', ['admin'])
+  @Security('auth_token', ['admin'])
   public async addLoaderVersion() {
     this.setStatus(HttpStatusCode.Ok);
     return {
@@ -100,7 +102,7 @@ export class FormController extends Controller {
   }
 
   @Get('/addRaftVersion')
-  @Security('api_key', ['admin'])
+  @Security('auth_token', ['admin'])
   public async addRaftVersion() {
     this.setStatus(HttpStatusCode.Ok);
     return {

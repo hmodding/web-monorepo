@@ -57,7 +57,7 @@ export class Mod extends AbstractEntityWithCreatedAndUpdated {
       referencedColumnName: 'id',
     },
     inverseJoinColumn: {
-      name: 'userId',
+      name: 'auth_token',
       referencedColumnName: 'id',
     },
   })

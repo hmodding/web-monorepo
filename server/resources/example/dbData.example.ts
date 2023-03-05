@@ -21,6 +21,8 @@ export const saveExampleDbData = async () => {
   const userPrivilege1: DeepPartial<UserPrivilege> = {
     username: 'admin',
     role: 'admin',
+    createdAt: new Date(),
+    updatedAt: new Date(),
   };
   if (!(await UserPrivilege.findOneBy({username: userPrivilege1.username}))) {
     await UserPrivilege.save(userPrivilege1);
@@ -91,8 +93,8 @@ export const saveExampleDbData = async () => {
           Suspendisse rutrum elit vitae aliquam iaculis. ',
     category: 'Fun',
     author: 'admin',
-    bannerImageUrl: 'http://localhost:3000/src/assets/images/raftmodding.png',
-    iconImageUrl: 'http://localhost:3000/src/assets/images/raftmodding.png',
+    bannerImageUrl: '/raftmodding.png',
+    iconImageUrl: '/raftmodding.png',
   };
   if (!(await Mod.findOneBy({id: mod1.id}))) {
     await Mod.save(Mod.create(mod1));
@@ -112,8 +114,8 @@ export const saveExampleDbData = async () => {
           Suspendisse rutrum elit vitae aliquam iaculis. ',
     category: 'Fun',
     author: 'admin',
-    bannerImageUrl: 'http://localhost:3000/src/assets/images/raftmodding.png',
-    iconImageUrl: 'http://localhost:3000/src/assets/images/raftmodding.png',
+    bannerImageUrl: '/raftmodding.png',
+    iconImageUrl: '/raftmodding.png',
   };
   if (!(await Mod.findOneBy({id: mod2.id}))) {
     await Mod.save(Mod.create(mod2));
@@ -133,8 +135,8 @@ export const saveExampleDbData = async () => {
           Suspendisse rutrum elit vitae aliquam iaculis. ',
     category: 'Fun',
     author: 'admin',
-    bannerImageUrl: 'http://localhost:3000/src/assets/images/raftmodding.png',
-    iconImageUrl: 'http://localhost:3000/src/assets/images/raftmodding.png',
+    bannerImageUrl: '/raftmodding.png',
+    iconImageUrl: '/raftmodding.png',
   };
   if (!(await Mod.findOneBy({id: mod3.id}))) {
     await Mod.save(Mod.create(mod3));
@@ -154,8 +156,8 @@ export const saveExampleDbData = async () => {
           Suspendisse rutrum elit vitae aliquam iaculis. ',
     category: 'Fun',
     author: 'admin',
-    bannerImageUrl: 'http://localhost:3000/src/assets/images/raftmodding.png',
-    iconImageUrl: 'http://localhost:3000/src/assets/images/raftmodding.png',
+    bannerImageUrl: '/raftmodding.png',
+    iconImageUrl: '/raftmodding.png',
   };
   if (!(await Mod.findOneBy({id: mod4.id}))) {
     await Mod.save(Mod.create(mod4));
@@ -175,8 +177,8 @@ export const saveExampleDbData = async () => {
           Suspendisse rutrum elit vitae aliquam iaculis. ',
     category: 'Fun',
     author: 'admin',
-    bannerImageUrl: 'http://localhost:3000/src/assets/images/raftmodding.png',
-    iconImageUrl: 'http://localhost:3000/src/assets/images/raftmodding.png',
+    bannerImageUrl: '/raftmodding.png',
+    iconImageUrl: '/raftmodding.png',
   };
   if (!(await Mod.findOneBy({id: mod5.id}))) {
     await Mod.save(Mod.create(mod5));
@@ -196,8 +198,8 @@ export const saveExampleDbData = async () => {
           Suspendisse rutrum elit vitae aliquam iaculis. ',
     category: 'Fun',
     author: 'admin',
-    bannerImageUrl: 'http://localhost:3000/src/assets/images/raftmodding.png',
-    iconImageUrl: 'http://localhost:3000/src/assets/images/raftmodding.png',
+    bannerImageUrl: '/raftmodding.png',
+    iconImageUrl: '/raftmodding.png',
   };
   if (!(await Mod.findOneBy({id: mod6.id}))) {
     await Mod.save(Mod.create(mod6));
@@ -217,8 +219,8 @@ export const saveExampleDbData = async () => {
           Suspendisse rutrum elit vitae aliquam iaculis. ',
     category: 'Fun',
     author: 'admin',
-    bannerImageUrl: 'http://localhost:3000/src/assets/images/raftmodding.png',
-    iconImageUrl: 'http://localhost:3000/src/assets/images/raftmodding.png',
+    bannerImageUrl: '/raftmodding.png',
+    iconImageUrl: '/raftmodding.png',
   };
   if (!(await Mod.findOneBy({id: mod7.id}))) {
     await Mod.save(Mod.create(mod7));

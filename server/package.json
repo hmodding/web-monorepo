@@ -1,5 +1,5 @@
 {
-  "name": "@raftmodding/server",
+  "name": "@hmodding/server",
   "version": "0.0.0",
   "description": "raftmodding database rest api",
   "scripts": {

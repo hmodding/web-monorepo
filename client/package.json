@@ -1,7 +1,7 @@
 {
-  "name": "@raftmodding/client",
+  "name": "@hmodding/client",
   "version": "0.0.0",
-  "author": "raftmodding.com",
+  "author": "hmodding team",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

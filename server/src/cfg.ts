@@ -17,6 +17,7 @@ export interface DatabaseCfg {
 export interface ServerCfg {
   port: number;
   jwtSecret: string;
+  jwtTtl: string;
 }
 
 export interface MailCfg {
@@ -197,6 +198,14 @@ const srvJwtSecretDefault = crypto.randomBytes(64).toString('hex');
 if (srvJwtSecret === undefined) {
   console.warn(
     `SERVER_JWT_SECRET not set! Using a random string.`,
+  );
+}
+
+const srvJwtTtl = process.env.SERVER_JWT_TTL;
+const srvJwtTtlDefault = '12h';
+if (srvJwtSecret === undefined) {
+  console.warn(
+    `SERVER_JWT_TTL not set! Using a default value '${srvJwtSecretDefault}'.`,
   );
 }
 
@@ -429,6 +438,7 @@ export const cfg: Cfg = {
   server: {
     port,
     jwtSecret: srvJwtSecret || srvJwtSecretDefault,
+    jwtTtl: srvJwtTtl || srvJwtTtlDefault,
   },
   storage: readStorageConfig(),
   validMimeTypes: ['application/zip'],

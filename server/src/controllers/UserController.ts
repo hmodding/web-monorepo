@@ -149,7 +149,7 @@ export class UserController extends Controller {
   ) {
     const dbUsername = await UserService.login(username, password);
     const secret = cfg.server.jwtSecret;
-    const options: SignOptions = {expiresIn: '1h'};
+    const options: SignOptions = {expiresIn: cfg.server.jwtTtl};
     const payload = {username: dbUsername};
     const token = jwt.sign(payload, secret, options);
     const decodedToken = jwt.decode(token) as JwtPayload;

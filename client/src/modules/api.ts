@@ -576,8 +576,6 @@ class Api {
   async likeMod(modId: string) {
     try {
       const {data}: AxiosResponse = await this.axios.post(`/mods/${modId}/like`);
-      //state.likes.push(data.modId);
-
       return data;
     } catch ({response}) {
       const {
@@ -594,11 +592,8 @@ class Api {
 
   async unlikeMod(modId: string) {
     try {
-      const {data}: AxiosResponse = await this.axios.delete(
-        `/modLikes/${modId}`,
-      );
-      state.likes.splice(state.likes.indexOf(modId), 1);
-
+      const path = `/mods/${modId}/unlike`;
+      const {data}: AxiosResponse = await this.axios.delete(path);
       return data;
     } catch ({response}) {
       const {
@@ -611,6 +606,22 @@ class Api {
     }
 
     return null;
+  }
+
+  async getLikedMods(): Promise<string[] | undefined> {
+    try {
+      const path = `/users/modLikes`;
+      const {data}: AxiosResponse = await this.axios.get(path);
+      return data;
+    } catch ({response}) {
+      const {
+        data: {error},
+      } = response as AxiosResponse<ErrorDto>;
+
+      if (error) {
+        toaster.error(error);
+      }
+    }
   }
 }
 

@@ -5,6 +5,8 @@ import {reCaptchaService} from '../services/ReCaptchaService';
 import jwt, {JwtPayload, TokenExpiredError} from "jsonwebtoken";
 import {cfg} from "../cfg";
 import {AuthenticationError} from "../errors/AuthenticationError";
+import {ApiRequest} from "ApiRequest";
+import {AuthtokenPayload} from "AuthtokenPayload";
 
 /**
  *
@@ -14,7 +16,7 @@ import {AuthenticationError} from "../errors/AuthenticationError";
  * {@link https://tsoa-community.github.io/docs/authentication.html}
  */
 export const expressAuthentication = async (
-  req: any,
+  req: ApiRequest,
   securityName: string,
   scopes?: string[],
 ) => {
@@ -54,12 +56,18 @@ const validateCaptcha = async (req: ExpressRequest) => {
   }
 };
 
-const verifyAuthtoken = async (authtoken: string): Promise<JwtPayload | string> => {
+const verifyAuthtoken = async (authtoken: string): Promise<AuthtokenPayload> => {
   const token = authtoken.substring(8); //remove starting 'Bearer: '
   try {
-    return jwt.verify(token, cfg.server.jwtSecret);
+    const payload = jwt.verify(token, cfg.server.jwtSecret);
+    if (!payload) {
+      // noinspection ExceptionCaughtLocallyJS
+      throw new Error("Invalid token!");
+    }
+    return payload as AuthtokenPayload;
   } catch (err: unknown) {
-    throw new AuthenticationError('Token expired!', err instanceof TokenExpiredError);
+    const error = err as Error;
+    throw new AuthenticationError(error.message, err instanceof TokenExpiredError);
   }
 }
 

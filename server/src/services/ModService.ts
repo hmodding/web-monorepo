@@ -22,23 +22,16 @@ export class ModService extends AbstractService {
     });
   }
 
-  static async getById(id: string, sort?: string) {
-    const mod = await Mod.createQueryBuilder('mod')
-      .where('mod.id = :id', {id})
-      .leftJoinAndSelect(
-        'mod.versions',
-        'versions',
-        'versions.modId = :modId',
-        {
-          modId: id,
-        },
-      )
-      .orderBy('versions.createdAt', 'DESC')
-      .getOne();
-    const modDto = (mod as unknown) as ModDto;
-    modDto.likeCount = mod?.likes?.length || 0;
+  static async getById(id: string) {
+    const mod = await Mod.findOne({
+      where: {id},
+      relations: ['versions', 'modLikes'],
+      order: {versions: {createdAt: 'DESC'}}
+    });
+    const dto: any = {...mod};
+    delete dto.modLikes;
 
-    return modDto;
+    return dto;
   }
 
   static async getMostLiked(limit: number = 3) {

@@ -23,6 +23,7 @@ export const initSession = async (): Promise<void> => {
   if (token) {
     //TODO: refresh and/or recheck token?
     await setSession(token);
+    state.likes = (await api.getLikedMods())!;
   }
   state.latestRaftVersion = (
     await api.getRaftVersions({sort: '-releasedAt', count: 1})

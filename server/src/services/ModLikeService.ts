@@ -1,8 +1,3 @@
-/**
- * @deprecated ModLike is only a many-to-many table!
- */
-
-/*
 import { ModLike } from '../entities/ModLike';
 import { AbstractService } from './AbstractService';
 
@@ -26,4 +21,3 @@ export class ModLikeService extends AbstractService {
     await ModLike.delete({ modId, userId });
   }
 }
-*/

@@ -1,24 +1,14 @@
 // noinspection ES6PreferShortImport
 
-import {
-  Body,
-  Controller, Delete,
-  Get,
-  Header,
-  Path,
-  Post,
-  Put,
-  Query,
-  Route,
-  Security,
-  Request,
-} from 'tsoa';
+import {Body, Controller, Delete, Get, Header, Path, Post, Put, Query, Request, Route, Security,} from 'tsoa';
 import {ModCreateDto, ModUpdateDto} from '../../../shared/dto/ModDto';
 import {ApiError} from '../errors/ApiError';
 import {ModService} from '../services/ModService';
 import {HttpStatusCode} from '../types/HttpStatusCode';
 import {User} from "../entities/User";
-import {Request as ExRequest} from 'express';
+import {ModLikeService} from "../services/ModLikeService";
+import {UserService} from "../services/UserService";
+import {ApiRequest} from "ApiRequest";
 
 @Route('/mods')
 export class ModController extends Controller {
@@ -58,6 +48,17 @@ export class ModController extends Controller {
     return await ModService.getMostDownloaded();
   }
 
+  @Post('/{id}/like')
+  @Security('auth_token', ['user'])
+  public async like(
+    @Path() id: string,
+    @Request() request: ApiRequest,
+  ): Promise<any> {
+    const username = request.jwt.username;
+    const user = await UserService.getByUsername(username);
+    return await ModLikeService.create(id, user!.id);
+  }
+
   /**
    * MUST be defined before /{id} otherwise it won't work
    * @returns mod-categories
@@ -68,21 +69,11 @@ export class ModController extends Controller {
     return ModService.getCategories();
   }
 
-  @Post('/{id}/like')
-  @Security('auth_token', ['user'])
-  public async like(
-    @Request() request: any,
-    @Path() id: string
-  ) {
-    console.log('JOJOJOJOJOOo')
-    return {...request.jwt}
-  }
-
   @Get('/{id}')
   @Security('everyone')
   public async read(@Path() id: string) {
     console.log('read mod with id:', id);
-    const mod = await ModService.getById(id);
+    const mod = await ModService.getById(id,);
 
     if (!mod) {
       this.setStatus(HttpStatusCode.NotFound);
@@ -133,9 +124,17 @@ export class ModController extends Controller {
     return await ModService.update(data);
   }
 
-  @Delete("/{id}/like")
+  @Delete("/{id}/unlike")
   @Security('auth_token', ['user'])
-  public async unlike() {
+  public async unlike(
+    @Path() id: string,
+    @Request() req: ApiRequest,
+  ): Promise<any> {
+    const username = req.jwt.username;
+    const user = await UserService.getByUsername(username);
+    await ModLikeService.delete(id, user!.id);
+    this.setStatus(HttpStatusCode.Ok);
 
+    return {success: true}
   }
 }

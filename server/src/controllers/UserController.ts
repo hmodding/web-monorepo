@@ -22,8 +22,11 @@ import {User} from '../entities/User';
 import {mailer} from '../services/MailerService';
 import {UserService} from '../services/UserService';
 import {HttpStatusCode} from '../types/HttpStatusCode';
-import jwt, {SignOptions} from 'jsonwebtoken';
+import jwt, {JwtPayload, SignOptions} from 'jsonwebtoken';
 import {cfg} from "../cfg";
+import {ApiRequest} from "ApiRequest";
+import {ModLike} from "../entities/ModLike";
+import {ModLikeService} from "../services/ModLikeService";
 
 @Route('/users')
 export class UserController extends Controller {
@@ -144,13 +147,26 @@ export class UserController extends Controller {
     @Request() request: Express.Request,
     @Body() {username, password}: LoginDto,
   ) {
-    const {user, privilege} = await UserService.login(username, password);
-    this.setStatus(HttpStatusCode.Ok);
+    const dbUsername = await UserService.login(username, password);
     const secret = cfg.server.jwtSecret;
     const options: SignOptions = {expiresIn: '1h'};
-    const payload = {username: user?.username, role: privilege?.role};
+    const payload = {username: dbUsername};
     const token = jwt.sign(payload, secret, options);
+    const decodedToken = jwt.decode(token) as JwtPayload;
+    this.setStatus(HttpStatusCode.Ok);
 
-    return {token};
+    return {token, tokenPayload: {...decodedToken}};
+  }
+
+  @Get('/modLikes')
+  @Security('auth_token', ['user'])
+  public async getModLikes(
+    @Request() request: ApiRequest
+  ) {
+    const username = request.jwt.username;
+    const user = await UserService.getByUsername(username);
+    const modLikes = await ModLikeService.getAllByUserId(user!.id);
+
+    return modLikes.map(modLike => modLike.modId);
   }
 }

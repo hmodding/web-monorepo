@@ -12,6 +12,6 @@ export default interface Mod {
   iconImageUrl?: string;
   repositoryUrl?: string;
   versions?: ModVersion[];
-  likeCount: number;
+  likes: number;
   deletion?: ScheduledModDeletion;
 }

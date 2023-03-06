@@ -21,6 +21,7 @@ import {ScheduledPluginDeletion} from '../entities/ScheduledPluginDeletion';
 import {ServerVersion} from '../entities/ServerVersion';
 import {User} from '../entities/User';
 import {UserPrivilege} from '../entities/UserPrivilege';
+import {ModLike} from "../entities/ModLike";
 
 const {host, port, user, password, name, ssl, logging} = cfg.database;
 
@@ -42,9 +43,9 @@ export const AppDataSource = new DataSource({
     FileScan,
     LauncherVersion,
     LoaderVersion,
+    ModLike,
     Mod,
     ModBundle,
-    // ModLike, - @deprecated
     ModVersion,
     PasswordReset,
     Plugin,

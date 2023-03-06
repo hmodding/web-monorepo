@@ -5,6 +5,7 @@ import {Mod} from './Mod';
 import {ModBundle} from './ModBundle';
 import {Plugin} from './Plugin';
 import {UserPrivilege} from './UserPrivilege';
+import {ModLike} from "./ModLike";
 
 @Entity({name: 'users'})
 export class User extends AbstractEntityWithGeneratedId {
@@ -27,16 +28,20 @@ export class User extends AbstractEntityWithGeneratedId {
   privilege!: UserPrivilege;
 
   @OneToMany(() => Plugin, (plugin) => plugin.maintainerId)
-  @JoinColumn()
   plugins?: Plugin[];
 
   @OneToMany(() => ModBundle, (bundle) => bundle.maintainerId)
-  @JoinColumn()
   modBundles?: ModBundle[];
 
+  @OneToMany(() => ModLike, modLike => modLike.user)
+  @JoinColumn({name: 'id', referencedColumnName: 'userId'})
+  modLikes?: ModLike[];
+
+  /*
   @ManyToMany(() => Mod, (mod) => mod.author)
   @JoinColumn()
   likedMods?: Mod[];
+   */
 
   //hooks
 

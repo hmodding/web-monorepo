@@ -21,6 +21,10 @@ export class UserService extends AbstractService {
     return User.findOneBy({email});
   }
 
+  static getByUsername(username: string) {
+    return User.findOneBy({username});
+  }
+
   static getByUsernameOrEmail(username: string, email: string) {
     return User.findOneBy({username, email});
   }
@@ -70,9 +74,9 @@ export class UserService extends AbstractService {
   static async login(
     username: string,
     password: string,
-  ): Promise<{ user: User | null, privilege: UserPrivilege | null }> {
+  ): Promise<string> {
     const dbUser = await User.findOne({
-      select: ['password'],
+      select: ['password', 'username'],
       where: {username},
     });
 
@@ -80,16 +84,7 @@ export class UserService extends AbstractService {
       throw new AuthenticationError('Invalid username or password');
     }
 
-    const user = await User.findOne({
-      select: ['username'],
-      where: {username},
-    });
-    const privilege = await UserPrivilege.findOne({
-      select: ['role'],
-      where: {username},
-    });
-
-    return {user, privilege}
+    return username;
   }
 }
 

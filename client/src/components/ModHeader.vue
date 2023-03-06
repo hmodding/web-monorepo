@@ -18,7 +18,7 @@
             />
             <br />
             <small class="d-inline-block">
-              <span id="likes-counter">{{ mod.likeCount || 0 }}</span> Likes
+              <span id="likes-counter">{{ mod.likes || 0 }}</span> Likes
             </small>
           </div>
           <div class="col-6 text-center px-1">
@@ -101,11 +101,13 @@ export default defineComponent({
 
       if (!this.isLiked) {
         if (await api.likeMod(this.mod.id)) {
+          state.likes.push(this.mod.id);
           this.$emit('like', true);
           toaster.success(`You liked <b>${this.mod.title}</b>`);
         }
       } else {
         if (await api.unlikeMod(this.mod.id)) {
+          state.likes.splice(state.likes.indexOf(this.mod.id), 1);
           this.$emit('like', false);
           toaster.success(`You <u>no longer</u> like <b>${this.mod.title}</b>`);
         }

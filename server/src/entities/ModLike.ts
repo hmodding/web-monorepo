@@ -1,12 +1,12 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
+import {Column, Entity, JoinColumn, ManyToOne, PrimaryColumn} from 'typeorm';
 import { AbstractEntityWithCreatedAndUpdated } from './AbstractEntity';
 import { Mod } from './Mod';
 import { User } from './User';
 
 /**
- * @deprecated this is only a many-to-many reference table
+ * We have to define our many-to-many tables as we have additional columns in there
  */
-@Entity({ name: 'modlikes' }) //No uppercase! https://github.com/typeorm/typeorm/issues/4420
+@Entity({ name: 'ModLikes' }) //No uppercase! https://github.com/typeorm/typeorm/issues/4420
 export class ModLike extends AbstractEntityWithCreatedAndUpdated {
   @PrimaryColumn({ unique: true })
   userId!: number;
@@ -14,11 +14,10 @@ export class ModLike extends AbstractEntityWithCreatedAndUpdated {
   @Column({ length: 64 })
   modId!: string;
 
-  @OneToOne(() => User)
-  @JoinColumn()
+  @ManyToOne(() => User, user => user.modLikes)
   user?: User;
 
-  @OneToOne(() => Mod)
-  @JoinColumn()
+  @ManyToOne(() => Mod)
+  @JoinColumn({name: 'modId', referencedColumnName: 'id'})
   mod?: Mod;
 }

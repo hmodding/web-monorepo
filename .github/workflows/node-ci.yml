@@ -27,4 +27,4 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY_VPS_NEW }}
           port: ${{ secrets.REMOTE_PORT }}
-          script: cd ${{ secrets.REMOTE_DEPLOY_PATH }} && git stash push --include-untracked && git stash drop && git pull && npm ci && npm run build && cd ${{ secrets.REMOTE_WORK_DIR }} && pm2 stop ${{ secrets.REMOTE_APP_NAME }} && pm2 start
+          script: echo ${{ secrets.REMOTE_USER_PASSWORD }} &&  && cd ${{ secrets.REMOTE_DEPLOY_PATH }} && git stash push --include-untracked && git stash drop && sudo -S -u ${{ secrets.REMOTE_DEPLOY_USER }} git pull && npm ci && npm run build && cd ${{ secrets.REMOTE_WORK_DIR }} && pm2 stop ${{ secrets.REMOTE_APP_NAME }} && pm2 start

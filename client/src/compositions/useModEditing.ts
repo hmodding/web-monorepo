@@ -48,7 +48,7 @@ export const useModEditing = (create: boolean = false) => {
       }
 
       if (!author) {
-        mod.value.author = state.session!.user!.username;
+        mod.value.author = state.jwt!.username;
       }
     }
 

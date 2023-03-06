@@ -2,9 +2,8 @@ import User from './User';
 import {JwtPayload} from "jwt-decode";
 import {UserRole} from "../../../shared/types/UserRole";
 
-export default interface SessionState extends JwtPayload {
+export default interface JwtState extends JwtPayload {
   username?: string;
-  role?: UserRole;
 }
 
 export interface SessionDeviceInfo {

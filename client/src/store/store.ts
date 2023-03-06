@@ -2,10 +2,10 @@ import { reactive } from 'vue';
 import { RaftVersion, Session } from '../types';
 import { getPersistedTheme } from './persistence.store';
 import {JwtDecodeOptions, JwtPayload} from "jwt-decode";
-import SessionState from "SessionState";
+import JwtState from "JwtState";
 
 export default interface RootState {
-  session: SessionState | null;
+  jwt: JwtState | null;
   theme: Theme;
   likes: string[];
   latestRaftVersion: RaftVersion | null;
@@ -15,7 +15,7 @@ export default interface RootState {
 export type Theme = 'light' | 'dark';
 
 export const state: RootState = reactive({
-  session: null,
+  jwt: null,
   theme: getPersistedTheme(),
   likes: [],
   latestRaftVersion: null,

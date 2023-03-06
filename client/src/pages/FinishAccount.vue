@@ -56,7 +56,7 @@ export default defineComponent({
     };
   },
   async beforeRouteEnter(to, from, next) {
-    if (!isSessionExpired() && state.session?.user?.role !== 'UNFINISHED') {
+    if (!isSessionExpired() && state.jwt?.user?.role !== 'UNFINISHED') {
       await next({ name: 'home' });
       toaster.success('Your account is already complete');
     }

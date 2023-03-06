@@ -8,7 +8,7 @@ export const adminOnlyHandler = (
   from: RouteLocation,
   next: NavigationGuardNext,
 ): void => {
-  if (isSessionExpired() || state.session?.user?.role !== 'admin') {
+  if (isSessionExpired() || state.jwt?.user?.role !== 'admin') {
     toaster.error(`You are missing privileges to view this page!`);
     return next(from);
   } else {

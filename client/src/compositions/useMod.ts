@@ -7,11 +7,11 @@ export const useMod = (props: any) => {
   const { randomNumber } = useRandom();
 
   const isAuthor = computed<boolean>(() => {
-    return state?.session?.user?.username === props.mod?.author;
+    return state?.jwt?.user?.username === props.mod?.author;
   });
 
   const isAdmin = computed(() => {
-    return state?.session?.user?.role === 'admin';
+    return state?.jwt?.user?.role === 'admin';
   });
 
   const versions = computed<ModVersion[]>(() => {

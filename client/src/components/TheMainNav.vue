@@ -6,12 +6,12 @@ import {isSessionExpired as isSessionExpiredAction, killSession} from '../store/
 import {state, Theme} from '../store/store';
 import {Session, User} from '../types';
 import Icon from './Icon.vue';
-import SessionState from "SessionState";
+import JwtState from "JwtState";
 
 const router = useRouter();
 const toaster = useToaster();
 
-const session = computed<SessionState | null>(() => state.session);
+const session = computed<JwtState | null>(() => state.jwt);
 const username = computed<string>(() => session.value?.username || '');
 const isAdmin = computed<boolean>(() => session.value?.role === 'admin' || false);
 const theme = computed<Theme>(() => state.theme);

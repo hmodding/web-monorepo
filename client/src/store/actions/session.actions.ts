@@ -8,7 +8,7 @@ import {state} from '../store';
 import jwtDecode from "jwt-decode";
 
 export const isSessionExpired = (): boolean => {
-  const session = state.session;
+  const session = state.jwt;
   const expiration = dayjs.unix(session?.exp || 0);
   const now = dayjs();
 
@@ -31,14 +31,14 @@ export const initSession = async (): Promise<void> => {
 };
 
 export const setSession = async (token: string): Promise<void> => {
-  state.session = jwtDecode(token);
+  state.jwt = jwtDecode(token);
   persistAuthtoken(token);
 };
 
 export const killSession = async (): Promise<void> => {
-  const {session} = state;
+  const {jwt} = state;
   //await api.deleteSession(session!.token);
-  state.session = null;
+  state.jwt = null;
   state.likes = [];
   deletePersistedAuthtoken();
 };

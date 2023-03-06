@@ -99,10 +99,10 @@ export default defineComponent({
   },
   computed: {
     session(): Session {
-      return state.session!;
+      return state.jwt!;
     },
     user(): User {
-      return state.session?.user || ({} as User);
+      return state.jwt?.user || ({} as User);
     },
   },
   mounted() {

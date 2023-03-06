@@ -87,6 +87,7 @@ export interface ReCaptchaCfg {
 export interface ViteCfg {
   baseUrl: string;
   port: string | number;
+  brand: string;
 }
 
 export interface Cfg {
@@ -314,6 +315,14 @@ if (!vitePort) {
   );
 }
 
+const viteBrand = process.env.VITE_BRAND;
+const viteBrandDefault = 'brandname';
+if (!viteBrand) {
+  console.warn(
+    `VITE_BRAND is not configured! Using default '${viteBrandDefault}'`,
+  );
+}
+
 const readReCaptchaConfig = (): ReCaptchaCfg | undefined => {
   try {
     let reCaptchaSiteKey = process.env.RECAPTCHA_SITE_KEY;
@@ -449,6 +458,7 @@ export const cfg: Cfg = {
   vite: {
     baseUrl: viteBaseUrl || viteBaseUrlDefault,
     port: vitePort || vitePortDefault,
+    brand: viteBrand || viteBrandDefault
   },
   reCaptcha: readReCaptchaConfig(),
   discord: readDiscordConfig(),

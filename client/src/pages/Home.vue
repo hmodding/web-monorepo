@@ -4,7 +4,7 @@
       <section class="my-5">
         <div class="jumbotron my-5 mx-1 bg-transparent">
           <div>
-            <h1 class="display-4">Welcome to RaftModding!</h1>
+            <h1 class="display-4">Welcome to {{ brand }}!</h1>
             <p class="lead">
               The largest community for mods, scripts and utilities for Raft!
             </p>
@@ -82,6 +82,7 @@ export default defineComponent({
   components: { ModsCardDeck },
   setup() {
     const meta = useActiveMeta();
+    const brand = import.meta.env.VITE_BRAND;
     const mods: ModCollection = reactive({
       mostDownloaded: [],
       mostLiked: [],
@@ -96,6 +97,7 @@ export default defineComponent({
 
     return {
       mods,
+      brand,
     };
   },
 });

@@ -2,7 +2,7 @@ import {computed} from 'vue';
 import {useMeta} from 'vue-meta';
 import {META_DEFAULT_TITLE, META_TITLE_APPEND} from "../../const/meta.const";
 
-const {VITE_BASE_URL, VITE_PORT} = import.meta.env;
+const {VITE_BASE_URL, VITE_PORT, VITE_BRAND} = import.meta.env;
 
 export const useGeneralMeta = () => {
   const generalMeta = computed(() => ({
@@ -31,8 +31,8 @@ export const useGeneralMeta = () => {
       {'http-equiv': 'content-language', content: 'en'},
       {name: 'revisit-after', content: '1 days'},
       {name: 'language', content: 'English'},
-      {name: 'copyright', content: 'RaftModding'},
-      {name: 'reply-to', content: 'contact@raftmodding.com'},
+      {name: 'copyright', content: VITE_BRAND},
+      {name: 'reply-to', content: `contact@${VITE_BRAND}.com`},
     ],
     og: {
       url: window.location.href,
@@ -48,7 +48,7 @@ export const useGeneralMeta = () => {
 
 const baseUrl = VITE_BASE_URL + VITE_PORT ? `:${VITE_PORT}` : '';
 
-const description = `Welcome to RaftModding! The largest community for mods, scripts and utilities for Raft!
+const description = `Welcome to ${VITE_BRAND}! The largest community for mods, scripts and utilities for Raft!
 
 We are a modding community that has created a Modloader to make gameplay more exciting, so if you want to play with some mods or create your own then visit our website!
 
@@ -57,6 +57,9 @@ Raft Modding groups all the mods, bugfixes, utilities and scripts to download to
 (*) Mods allow you to modify your Raft by adding new and varied features, more or less crazy.`;
 
 const tags = [
+  VITE_BRAND,
+  'H-Modding',
+  'H Modding',
   'RaftModding',
   'Raft-Modding',
   'Raft Modding',

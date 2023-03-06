@@ -1,7 +1,6 @@
 # web-monorepo
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![CI/CD status](https://github.com/raftmodding/web-monorepo/actions/workflows/node.js.yml/badge.svg)](https://github.com/raftmodding/web-monorepo/actions)
 
 - [web-frontend](web-frontend/README.md)
 - [web-backend](web-backend/README.md)

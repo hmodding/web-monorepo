@@ -5,7 +5,6 @@
 - [nodejs & npm](https://nodejs.org/en/)
 - [vite](https://github.com/vitejs/vite)
 - [typescript](https://www.typescriptlang.org/)
-- [raftmodding web-backend](https://github.com/raftmodding/web-backend)
 
 ## Get started
 

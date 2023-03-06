@@ -25,13 +25,14 @@ export class MailerService {
   async sendPasswordResetMail(user: User, token: string): Promise<void> {
     const { email, username } = user;
     const baseUrl = cfg.vite.baseUrl;
+    const brand = cfg.vite.brand;
     const url = `${baseUrl}forgotpassword?token=${token}`;
 
     const mailData = {
       from: this.opts.from,
       to: email,
-      subject: 'Password rest for raftmodding.com',
-      text: this.loadTemplate('resetPassword.txt', { username, baseUrl, url }),
+      subject: `Password reset for ${brand}.com`,
+      text: this.loadTemplate('resetPassword.txt', { username, baseUrl, url, brand }),
     };
 
     try {
@@ -46,17 +47,19 @@ export class MailerService {
   ): Promise<void> {
     const { token, username, email } = accountCreation;
     const baseUrl = cfg.vite.baseUrl;
+    const brand = cfg.vite.brand;
     const url = `${baseUrl}signup?token=${token}`;
 
     const mailData = {
       from: this.opts.from,
       to: email,
-      subject: `Account confirmation for user ${username} on the RaftModding site`,
+      subject: `Account confirmation for user ${username} on the ${brand} site`,
       text: this.loadTemplate('accountCreation.txt', {
         username,
         baseUrl,
         email,
         url,
+        brand,
       }),
     };
 

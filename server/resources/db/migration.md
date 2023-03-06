@@ -1,7 +1,7 @@
 # Migration
 
 This guide covers all required steps to migrate all data from the
-[old website](https://github.com/raftmodding/website) to the backend of this
+[old website](https://github.com/hmodding/website) to the backend of this
 one.
 
 In the following, these placeholders shall be replaced:

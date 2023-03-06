@@ -20,7 +20,7 @@ export const useMods = (defaultQuery: QueryParams = {}) => {
 
     setTimeout(() => {
       loading.value = false;
-    }, 1000); //min download time
+    }, 300); //min download time
   }
 
   onSearch(defaultQuery);

@@ -10,4 +10,4 @@ If you have not requested an account on our site, you can safely ignore and dele
 Sorry for the inconvenience!
 
 
-Yours, the RaftModding team.
+Yours, the {{ brand }} team.

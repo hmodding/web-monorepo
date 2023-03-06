@@ -6,12 +6,14 @@ import {Mod} from '../../src/entities/Mod';
 import {RaftVersion} from '../../src/entities/RaftVersion';
 import {User} from '../../src/entities/User';
 import {UserPrivilege} from '../../src/entities/UserPrivilege';
+import {cfg} from "../../src/cfg";
 
 export const saveExampleDbData = async () => {
+  const brand = cfg.vite.brand;
   const user1: DeepPartial<User> = {
     username: 'admin',
     password: hashSync('admin'),
-    email: 'admin@raftmodding.com',
+    email: `admin@${brand}.com`,
     //role: 'admin',
   };
   if (!(await User.findOneBy({username: user1.username}))) {
@@ -93,8 +95,8 @@ export const saveExampleDbData = async () => {
           Suspendisse rutrum elit vitae aliquam iaculis. ',
     category: 'Fun',
     author: 'admin',
-    bannerImageUrl: '/raftmodding.png',
-    iconImageUrl: '/raftmodding.png',
+    bannerImageUrl: '/logo.png',
+    iconImageUrl: '/logo.png',
   };
   if (!(await Mod.findOneBy({id: mod1.id}))) {
     await Mod.save(Mod.create(mod1));
@@ -114,8 +116,8 @@ export const saveExampleDbData = async () => {
           Suspendisse rutrum elit vitae aliquam iaculis. ',
     category: 'Fun',
     author: 'admin',
-    bannerImageUrl: '/raftmodding.png',
-    iconImageUrl: '/raftmodding.png',
+    bannerImageUrl: '/logo.png',
+    iconImageUrl: '/logo.png',
   };
   if (!(await Mod.findOneBy({id: mod2.id}))) {
     await Mod.save(Mod.create(mod2));
@@ -135,8 +137,8 @@ export const saveExampleDbData = async () => {
           Suspendisse rutrum elit vitae aliquam iaculis. ',
     category: 'Fun',
     author: 'admin',
-    bannerImageUrl: '/raftmodding.png',
-    iconImageUrl: '/raftmodding.png',
+    bannerImageUrl: '/logo.png',
+    iconImageUrl: '/logo.png',
   };
   if (!(await Mod.findOneBy({id: mod3.id}))) {
     await Mod.save(Mod.create(mod3));
@@ -156,8 +158,8 @@ export const saveExampleDbData = async () => {
           Suspendisse rutrum elit vitae aliquam iaculis. ',
     category: 'Fun',
     author: 'admin',
-    bannerImageUrl: '/raftmodding.png',
-    iconImageUrl: '/raftmodding.png',
+    bannerImageUrl: '/logo.png',
+    iconImageUrl: '/logo.png',
   };
   if (!(await Mod.findOneBy({id: mod4.id}))) {
     await Mod.save(Mod.create(mod4));
@@ -177,8 +179,8 @@ export const saveExampleDbData = async () => {
           Suspendisse rutrum elit vitae aliquam iaculis. ',
     category: 'Fun',
     author: 'admin',
-    bannerImageUrl: '/raftmodding.png',
-    iconImageUrl: '/raftmodding.png',
+    bannerImageUrl: '/logo.png',
+    iconImageUrl: '/logo.png',
   };
   if (!(await Mod.findOneBy({id: mod5.id}))) {
     await Mod.save(Mod.create(mod5));
@@ -198,8 +200,8 @@ export const saveExampleDbData = async () => {
           Suspendisse rutrum elit vitae aliquam iaculis. ',
     category: 'Fun',
     author: 'admin',
-    bannerImageUrl: '/raftmodding.png',
-    iconImageUrl: '/raftmodding.png',
+    bannerImageUrl: '/logo.png',
+    iconImageUrl: '/logo.png',
   };
   if (!(await Mod.findOneBy({id: mod6.id}))) {
     await Mod.save(Mod.create(mod6));
@@ -219,8 +221,8 @@ export const saveExampleDbData = async () => {
           Suspendisse rutrum elit vitae aliquam iaculis. ',
     category: 'Fun',
     author: 'admin',
-    bannerImageUrl: '/raftmodding.png',
-    iconImageUrl: '/raftmodding.png',
+    bannerImageUrl: '/logo.png',
+    iconImageUrl: '/logo.png',
   };
   if (!(await Mod.findOneBy({id: mod7.id}))) {
     await Mod.save(Mod.create(mod7));

@@ -8,18 +8,18 @@
             <p>
               If you require any more information or have any questions about
               our site's disclaimer, please feel free to contact us by email at
-              <a href="mailto:contact@raftmodding.com" target="_blank"
-                >contact@raftmodding.com</a
+              <a :href="`mailto:contact@${brand}.com`" target="_blank"
+                >contact@{{ brand }}.com</a
               >.
             </p>
-            <h2>Disclaimers for raftmodding</h2>
+            <h2>Disclaimers for {{ brand }}</h2>
             <p>
-              All the information on this website - www.raftmodding.com - is
+              All the information on this website - www.{{ brand }}.com - is
               published in good faith and for general information purpose only.
-              raftmodding does not make any warranties about the completeness,
+              {{ brand }} does not make any warranties about the completeness,
               reliability and accuracy of this information. Any action you take
-              upon the information you find on this website (raftmodding), is
-              strictly at your own risk. raftmodding will not be liable for any
+              upon the information you find on this website ({{ brand }}), is
+              strictly at your own risk. {{ brand }} will not be liable for any
               losses and/or damages in connection with the use of our website.
               Our Disclaimer was generated with the help of the
               <a href="https://www.disclaimergenerator.net/" target="_blank"
@@ -74,8 +74,13 @@ export default defineComponent({
   name: 'ContactPage',
   setup() {
     const meta = useActiveMeta();
+    const brand = import.meta.env.VITE_BRAND;
 
     meta.title = 'Contact';
+
+    return {
+      brand,
+    }
   },
 });
 </script>

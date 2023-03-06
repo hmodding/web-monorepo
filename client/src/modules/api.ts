@@ -31,9 +31,9 @@ class Api {
 
   private initInterceptors() {
     this.axios.interceptors.request.use((req) => {
-      const sessionToken = getPersistedAuthtoken();
-      if (sessionToken) {
-        req.headers.authtoken = 'Bearer: ' + sessionToken;
+      const authtoken = getPersistedAuthtoken();
+      if (authtoken) {
+        req.headers.authtoken = 'Bearer: ' + authtoken;
       }
       return req;
     });

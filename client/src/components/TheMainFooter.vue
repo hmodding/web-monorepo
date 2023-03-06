@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import ThemeSwitch from './ThemeSwitch.vue';
+import {SUBMIT_AN_ISSUE_LINK} from "../const/links.const";
 
-const fullYear = computed(() => new Date().getFullYear())
+const fullYear = computed(() => new Date().getFullYear());
+
+const submitAnIssueLink = SUBMIT_AN_ISSUE_LINK;
 </script>
 
 <template>
@@ -13,7 +16,7 @@ const fullYear = computed(() => new Date().getFullYear())
         <div class="row my-3">
           <div class="col-9 col-sm-7 text-left">
             © {{fullYear || '2021'}} | Made by
-            <a href="https://trax.am" target="_blank">traxam</a>,
+            <a href="https://github.com/made-by-traxam" target="_blank">traxam</a>,
             <a href="https://github.com/Felix-Staud" target="_blank">zer0</a> and
             <a href="https://www.hytekgames.net" target="_blank">TeKGameR</a>
             Not affiliated with Raft, Redbeet Interactive or Axolot Games.
@@ -23,7 +26,7 @@ const fullYear = computed(() => new Date().getFullYear())
           </div>
           <div class="col-12 col-sm-4 text-md-right">
             <a
-              href="https://github.com/raftmodding/web-monorepo/issues"
+              :href="submitAnIssueLink"
               target="_blank"
               class="whitespace-nowrap"
               >Submit an issue</a

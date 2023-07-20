@@ -1,10 +1,14 @@
 import { hashSync } from 'bcryptjs';
-import { BeforeInsert, Column, Entity } from 'typeorm';
+import {BeforeInsert, Column, Entity, PrimaryGeneratedColumn} from 'typeorm';
 import { generateToken } from '../utils';
 import { AbstractEntityWithGeneratedId } from './AbstractEntityWithGeneratedId';
+import {AbstractEntity} from "./AbstractEntity";
 
-@Entity({ name: 'account-creations' })
-export class AccountCreation extends AbstractEntityWithGeneratedId {
+@Entity(/*{ name: 'account-creations' }*/)
+export class AccountCreation extends AbstractEntity {
+  @PrimaryGeneratedColumn()
+  id!: number;
+
   @Column({ unique: true })
   username!: string;
 

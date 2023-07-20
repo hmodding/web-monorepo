@@ -7,7 +7,7 @@ import {
 } from '../../../shared/dto/ModVersionDto';
 import { cfg } from '../cfg';
 import { ModVersion } from '../entities/ModVersion';
-import { RaftVersion } from '../entities/RaftVersion';
+import { GameVersion } from '../entities/GameVersion';
 import { User } from '../entities/User';
 import { ApiError } from '../errors/ApiError';
 import { HttpStatusCode } from '../types/HttpStatusCode';
@@ -50,19 +50,19 @@ export class ModVersionService extends AbstractService {
       filename,
       buffer,
     );
-    const minRaftVersion = await RaftVersion.findOneBy({
+    const minRaftVersion = await GameVersion.findOneBy({
       id: data.minRaftVersionId,
     });
-    const maxRaftVersion = await RaftVersion.findOneBy({
+    const maxRaftVersion = await GameVersion.findOneBy({
       id: data.maxRaftVersionId,
     });
     delete data.minRaftVersionId;
     delete data.maxRaftVersionId;
     const newModVersion = ModVersion.create(data);
     newModVersion.downloadCount = 0;
-    newModVersion.minRaftVersion = minRaftVersion!;
-    newModVersion.maxRaftVersion = maxRaftVersion!;
-    newModVersion.definiteMaxRaftVersion = !!data.definiteMaxRaftVersion;
+    newModVersion.minGameVersion = minRaftVersion!;
+    newModVersion.maxGameVersion = maxRaftVersion!;
+    newModVersion.definiteMaxGameVersion = !!data.definiteMaxRaftVersion;
     newModVersion.downloadUrl = url;
     //newModVersion.fileHashes = { md5, sha256 };
 

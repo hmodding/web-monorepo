@@ -1,8 +1,13 @@
-import { Column, Entity } from 'typeorm';
+/*
+import {Column, Entity, PrimaryGeneratedColumn} from 'typeorm';
 import { AbstractEntityWithGeneratedId } from './AbstractEntityWithGeneratedId';
+import {AbstractEntity} from "./AbstractEntity";
 
 @Entity({ name: 'discord-account-creations' })
-export class DiscordAccountCreation extends AbstractEntityWithGeneratedId {
+export class DiscordAccountCreation extends AbstractEntity {
+  @PrimaryGeneratedColumn()
+  id!: number;
+
   @Column({ unique: true })
   discordUserId!: string;
 
@@ -18,3 +23,4 @@ export class DiscordAccountCreation extends AbstractEntityWithGeneratedId {
   @Column({ type: 'json' })
   discordUserObject!: Record<string, any>;
 }
+*/

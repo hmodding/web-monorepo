@@ -1,8 +1,12 @@
-import {Column, Entity} from 'typeorm';
+import {Column, Entity, PrimaryGeneratedColumn} from 'typeorm';
 import {AbstractEntityWithGeneratedId} from './AbstractEntityWithGeneratedId';
+import {AbstractEntity} from "./AbstractEntity";
 
-@Entity({name: 'raft-versions'})
-export class RaftVersion extends AbstractEntityWithGeneratedId {
+@Entity(/*{name: 'game_versions'}*/)
+export class GameVersion extends AbstractEntity {
+  @PrimaryGeneratedColumn()
+  id!: number;
+
   @Column({unique: true})
   version!: string;
 

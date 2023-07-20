@@ -1,8 +1,9 @@
+/*
 import { Column, Entity, PrimaryColumn } from 'typeorm';
-import { AbstractEntityWithCreatedAndUpdated } from './AbstractEntity';
+import { AbstractEntity } from './AbstractEntity';
 
 @Entity({ name: 'file-scans' })
-export class FileScan extends AbstractEntityWithCreatedAndUpdated {
+export class FileScan extends AbstractEntity {
   @PrimaryColumn({ type: 'text', unique: true })
   fileUrl!: string;
 
@@ -12,3 +13,4 @@ export class FileScan extends AbstractEntityWithCreatedAndUpdated {
   @Column({ nullable: true, type: 'json' })
   scanResult?: Record<string, any>;
 }
+*/

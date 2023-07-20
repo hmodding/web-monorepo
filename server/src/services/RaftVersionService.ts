@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { RaftVersionDto } from '../../../shared/dto/RaftVersionDto';
-import { RaftVersion } from '../entities/RaftVersion';
+import { GameVersion } from '../entities/GameVersion';
 import { ApiError } from '../errors/ApiError';
 import { schema as addRaftVersionSchema } from '../../resources/schemas/raftVersion/addRaftVersionSchema';
 import { schema as editRaftVersionSchema } from '../../resources/schemas/raftVersion/editRaftVersionSchema';
@@ -11,23 +11,23 @@ import { AbstractService } from './AbstractService';
 type RaftVersionCreateKeys = 'version' | 'buildId' | 'title' | 'releasedAt';
 
 interface RaftVersionCreateData
-  extends Pick<RaftVersion, RaftVersionCreateKeys> {}
+  extends Pick<GameVersion, RaftVersionCreateKeys> {}
 
 interface RaftVersionUpdateData extends RaftVersionCreateData {}
 
 export class RaftVersionService extends AbstractService {
   static async getAll(sort?: string) {
-    return RaftVersion.find({
+    return GameVersion.find({
       order: this.parseSort(sort),
     });
   }
 
   static async getById(id: number) {
-    return RaftVersion.findOneBy({ id });
+    return GameVersion.findOneBy({ id });
   }
 
   static async create(data: RaftVersionDto) {
-    const raftVersionToCreate = new RaftVersion();
+    const raftVersionToCreate = new GameVersion();
     raftVersionToCreate.version = data.version;
     raftVersionToCreate.buildId = data.buildId;
     raftVersionToCreate.title = data.title;
@@ -39,7 +39,7 @@ export class RaftVersionService extends AbstractService {
   }
 
   static async update(data: RaftVersionDto) {
-    const raftVersionToUpdate = await RaftVersion.findOneBy({ id: data.id });
+    const raftVersionToUpdate = await GameVersion.findOneBy({ id: data.id });
 
     if (!raftVersionToUpdate) {
       throw new ApiError(

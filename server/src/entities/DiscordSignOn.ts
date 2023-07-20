@@ -1,8 +1,13 @@
+/*
 import { Column, Entity } from 'typeorm';
-import { AbstractEntityWithGeneratedId } from './AbstractEntityWithGeneratedId';
+import { AbstractEntity } from './AbstractEntity';
+
 
 @Entity({ name: 'discord-sign-ons' })
-export class DiscordSignOn extends AbstractEntityWithGeneratedId {
+export class DiscordSignOn extends AbstractEntity {
+  @PrimaryGeneratedColumn()
+  id!: number;
+
   @Column({ unique: true })
   userId!: number;
 
@@ -15,3 +20,4 @@ export class DiscordSignOn extends AbstractEntityWithGeneratedId {
   @Column()
   refreshToken!: string;
 }
+*/

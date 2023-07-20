@@ -1,8 +1,8 @@
 import {Column, Entity, PrimaryColumn} from 'typeorm';
-import {AbstractEntityWithCreatedAndUpdated} from './AbstractEntity';
+import {AbstractEntity} from './AbstractEntity';
 
 @Entity({name: 'launcher-versions'})
-export class LauncherVersion extends AbstractEntityWithCreatedAndUpdated {
+export class LauncherVersion extends AbstractEntity {
   @PrimaryColumn({unique: true})
   version!: string;
 

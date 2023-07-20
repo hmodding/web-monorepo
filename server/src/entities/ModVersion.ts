@@ -2,7 +2,7 @@ import {Column, Entity, Index, JoinColumn, ManyToMany, ManyToOne,} from 'typeorm
 import {AbstractEntityWithGeneratedId} from './AbstractEntityWithGeneratedId';
 import {Mod} from './Mod';
 import {ModBundle} from './ModBundle';
-import {RaftVersion} from './RaftVersion';
+import {GameVersion} from './GameVersion';
 
 @Entity({name: 'mod-versions'})
 @Index(['modId', 'version'], {unique: true})
@@ -23,13 +23,13 @@ export class ModVersion extends AbstractEntityWithGeneratedId {
   downloadCount!: number;
 
   @Column({nullable: true})
-  minRaftVersionId?: number;
+  minGameVersionId?: number;
 
   @Column({nullable: true})
-  maxRaftVersionId?: number;
+  maxGameVersionId?: number;
 
   @Column()
-  definiteMaxRaftVersion!: boolean;
+  definiteMaxGameVersion!: boolean;
 
   /* new feature
   @Column({ type: 'json' })
@@ -39,12 +39,12 @@ export class ModVersion extends AbstractEntityWithGeneratedId {
   @ManyToOne(() => Mod, (mod) => mod.versions)
   mod?: Mod;
 
-  @ManyToOne(() => RaftVersion, raftVersion => raftVersion.id)
-  minRaftVersion?: RaftVersion;
+  @ManyToOne(() => GameVersion, raftVersion => raftVersion.id)
+  minGameVersion?: GameVersion;
 
-  @ManyToOne(() => RaftVersion, raftVersion => raftVersion.id)
-  maxRaftVersion?: RaftVersion;
+  @ManyToOne(() => GameVersion, raftVersion => raftVersion.id)
+  maxGameVersion?: GameVersion;
 
   @ManyToMany(() => ModBundle, (bundle) => bundle.modContents)
-  bundles?: ModBundle[];
+  modBundles?: ModBundle[];
 }

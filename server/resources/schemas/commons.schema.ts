@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { modCategories } from '../../../shared/modCategories';
 import { cfg } from '../../src/cfg';
-import { RaftVersion } from '../../src/entities/RaftVersion';
+import { GameVersion } from '../../src/entities/GameVersion';
 import { capitalize } from '../../src/utils';
 
 export const slug = {
@@ -94,7 +94,7 @@ export const recaptcha = {
 };
 
 export const getRaftVersionsSchema = async (extendedTitle: boolean = false) => {
-  const raftVersions = await RaftVersion.find({
+  const raftVersions = await GameVersion.find({
     select: ['id', 'title', 'releasedAt'],
     order: { releasedAt: 'desc' },
   });

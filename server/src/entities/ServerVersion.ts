@@ -1,13 +1,13 @@
 import {Column, Entity, PrimaryColumn} from 'typeorm';
-import {AbstractEntityWithCreatedAndUpdated} from './AbstractEntity';
+import {AbstractEntity} from './AbstractEntity';
 
 @Entity({name: 'server-versions'})
-export class ServerVersion extends AbstractEntityWithCreatedAndUpdated {
+export class ServerVersion extends AbstractEntity {
   @PrimaryColumn({unique: true})
   version!: string;
 
   @Column()
-  raftVersion!: string;
+  gameVersion!: string;
 
   @Column({type: 'timestamp with time zone'})
   timestamp!: Date;

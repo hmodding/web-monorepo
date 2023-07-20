@@ -15,7 +15,7 @@ import {ModVersion} from '../entities/ModVersion';
 import {PasswordReset} from '../entities/PasswordReset';
 import {Plugin} from '../entities/Plugin';
 import {PluginVersion} from '../entities/PluginVersion';
-import {RaftVersion} from '../entities/RaftVersion';
+import {GameVersion} from '../entities/GameVersion';
 import {ScheduledModDeletion} from '../entities/ScheduledModDeletion';
 import {ScheduledPluginDeletion} from '../entities/ScheduledPluginDeletion';
 import {ServerVersion} from '../entities/ServerVersion';
@@ -50,7 +50,7 @@ export const AppDataSource = new DataSource({
     PasswordReset,
     Plugin,
     PluginVersion,
-    RaftVersion,
+    GameVersion,
     ScheduledModDeletion,
     ScheduledPluginDeletion,
     ServerVersion,

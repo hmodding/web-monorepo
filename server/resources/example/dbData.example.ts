@@ -3,7 +3,7 @@ import {DeepPartial} from 'typeorm';
 import {LauncherVersion} from '../../src/entities/LauncherVersion';
 import {LoaderVersion} from '../../src/entities/LoaderVersion';
 import {Mod} from '../../src/entities/Mod';
-import {RaftVersion} from '../../src/entities/RaftVersion';
+import {GameVersion} from '../../src/entities/GameVersion';
 import {User} from '../../src/entities/User';
 import {UserPrivilege} from '../../src/entities/UserPrivilege';
 
@@ -28,24 +28,24 @@ export const saveExampleDbData = async () => {
     await UserPrivilege.save(userPrivilege1);
   }
 
-  const raftVersion1: DeepPartial<RaftVersion> = {
+  const raftVersion1: DeepPartial<GameVersion> = {
     version: '1.0',
     title: 'The Final Chapter',
     buildId: 8972572,
     releasedAt: new Date('2022-06-20'),
   };
-  if (!(await RaftVersion.findOneBy({version: raftVersion1.version}))) {
-    await RaftVersion.save(RaftVersion.create(raftVersion1 as any));
+  if (!(await GameVersion.findOneBy({version: raftVersion1.version}))) {
+    await GameVersion.save(GameVersion.create(raftVersion1 as any));
   }
 
-  const raftVersion2: DeepPartial<RaftVersion> = {
+  const raftVersion2: DeepPartial<GameVersion> = {
     version: '1.0-hotfix-1',
     title: 'The Final Chapter Hotfix #1',
     buildId: 8973125,
     releasedAt: new Date('2022-06-21'),
   };
-  if (!(await RaftVersion.findOneBy({version: raftVersion2.version}))) {
-    await RaftVersion.save(RaftVersion.create(raftVersion2 as any));
+  if (!(await GameVersion.findOneBy({version: raftVersion2.version}))) {
+    await GameVersion.save(GameVersion.create(raftVersion2 as any));
   }
 
   const loaderVersion1: DeepPartial<LoaderVersion> = {

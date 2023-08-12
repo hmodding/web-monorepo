@@ -6,17 +6,35 @@ on:
       - main
 
 jobs:
-  build-and-deploy:
+#  build:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v1
+#      - name: Install Node.js
+#        uses: actions/setup-node@v1
+#        with:
+#          node-version: '16.x'
+#      - name: npm install
+#        run: npm install
+#      - name: npm run build
+#        run: npm run build --if-present
+#      - name: npm run test
+#        run: npm run test --if-present
+
+  deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - name: Install Node.js
-        uses: actions/setup-node@v1
+      - name: Deploy to VPS
+        uses: appleboy/ssh-action@master
         with:
-          node-version: '16.x'
-      - name: npm install
-        run: npm install
-      - name: npm run build
-        run: npm run build --if-present
-      - name: npm run test
-        run: npm run test --if-present
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          key: ${{ secrets.VPS_SSH_PRIVATE_KEY }}
+          port: ${{ secrets.VPS_PORT }}
+          script: |
+            cd /srv/hmodding.com/app
+            git pull origin main
+            npm install
+            npm run build
+        # Additional commands for your specific setup
+        # TODO: launch app

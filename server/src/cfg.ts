@@ -44,6 +44,10 @@ export interface StorageCfg {
   privateBucket: string;
 }
 
+export interface SimpleStorageCfg {
+  uploadPath: string;
+}
+
 /**
  * Configuration data for loader, launcher and mod release notifications to
  * Discord webhooks.
@@ -96,7 +100,7 @@ export interface Cfg {
   };
   database: DatabaseCfg;
   server: ServerCfg;
-  storage?: StorageCfg;
+  storage?: StorageCfg | SimpleStorageCfg;
   validMimeTypes: string[];
   fileUploadAccept: string[];
   requestSizeLimit: string;

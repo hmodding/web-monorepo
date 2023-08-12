@@ -2,7 +2,7 @@ import {createHash} from 'crypto';
 import {EventEmitter} from 'events';
 import {Client} from 'minio';
 import {MoreThan} from 'typeorm';
-import {Cfg} from '../cfg';
+import { Cfg, StorageCfg } from "../cfg";
 import {DownloadTracker} from '../entities/DownloadTracker';
 import {LauncherVersion} from '../entities/LauncherVersion';
 import {ModVersion} from '../entities/ModVersion';
@@ -80,7 +80,7 @@ export class DownloadCounterService {
   public constructor(cfg: Cfg) {
     this.cfg = cfg;
 
-    const {storage} = cfg;
+    const storage = this.cfg.storage as StorageCfg | undefined;
 
     if (storage?.accessKey && storage?.secretKey && storage?.endPoint) {
       this.client = new Client({
@@ -90,7 +90,7 @@ export class DownloadCounterService {
       });
     } else {
       console.log(
-        '    ❗ MISSING STORAGE CLIENT CONFIG! Upload not supported!',
+        '    ❗ MISSING STORAGE CLIENT CONFIG! Download counter not supported!',
       );
       this.client = null;
     }
@@ -100,14 +100,16 @@ export class DownloadCounterService {
    * Starts to listen for download events.
    */
   public startListening(): void {
+    const storage = this.cfg.storage as StorageCfg | undefined;
+
     if (!this.client) {
       return console.log(
-        '    ❗ No storage client configured! Nothing was uploaded!',
+        '    ❗ No storage client configured! Can\'t listen to download events!',
       );
     }
 
     this.modNotificationEmitter = this.client.listenBucketNotification(
-      this.cfg.storage?.publicBucket || '',
+      storage?.publicBucket || '',
       '',
       '',
       downloadEventCodes,

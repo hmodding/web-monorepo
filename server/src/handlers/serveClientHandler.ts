@@ -5,6 +5,7 @@ import {createProxyMiddleware} from "http-proxy-middleware";
 import {cfg} from "../cfg";
 
 let clientDistDir = path.join(__dirname, '../../../client/dist');
+console.log("clientDistDir: ", clientDistDir)
 
 if (!fs.existsSync(clientDistDir)) {
   clientDistDir = path.join(__dirname, '../../../../../client/dist')

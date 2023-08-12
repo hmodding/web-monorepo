@@ -1,6 +1,6 @@
 import { createHash } from 'crypto';
 import { Client } from 'minio';
-import { cfg, Cfg } from '../cfg';
+import { cfg, Cfg, StorageCfg } from "../cfg";
 
 /**
  * Relevant metadata for an uploaded object (file).
@@ -35,7 +35,7 @@ export class FileManagerService {
   public constructor(cfg: Cfg) {
     this.cfg = cfg;
 
-    const { storage } = cfg;
+    const storage = this.cfg.storage as StorageCfg | undefined;
 
     if (storage?.accessKey && storage?.secretKey && storage?.endPoint) {
       this.client = new Client({
@@ -101,7 +101,8 @@ export class FileManagerService {
     filePath: string,
     fileContents: Buffer,
   ): Promise<ObjectMeta> {
-    const bucket = this.cfg.storage?.publicBucket || '';
+    const storage = this.cfg.storage as StorageCfg | undefined;
+    const bucket = storage?.publicBucket || '';
     const sha256 = this.hashSha256(fileContents);
     let md5 = this.hashMd5(fileContents);
 
@@ -114,7 +115,7 @@ export class FileManagerService {
     }
 
     return {
-      url: `https://${this.cfg.storage?.endPoint}/${bucket}/${filePath}`,
+      url: `https://${storage?.endPoint}/${bucket}/${filePath}`,
       md5,
       sha256,
     };
@@ -147,10 +148,11 @@ export class FileManagerService {
    * @param modSlug the slug of the mod whose files to hide.
    */
   public async hideModFiles(modSlug: string): Promise<void> {
+    const storage = this.cfg.storage as StorageCfg | undefined;
     const modDir = `mods/${modSlug}/`;
     await this.moveDir(
-      this.cfg.storage?.publicBucket || '',
-      this.cfg.storage?.privateBucket || '',
+      storage?.publicBucket || '',
+      storage?.privateBucket || '',
       modDir,
     );
   }
@@ -161,10 +163,11 @@ export class FileManagerService {
    * @param modSlug the slug of the mod whose files to hide.
    */
   public async showModFiles(modSlug: string): Promise<void> {
+    const storage = this.cfg.storage as StorageCfg | undefined;
     const modDir = `mods/${modSlug}/`;
     await this.moveDir(
-      this.cfg.storage?.privateBucket || '',
-      this.cfg.storage?.publicBucket || '',
+      storage?.privateBucket || '',
+      storage?.publicBucket || '',
       modDir,
     );
   }
@@ -176,10 +179,11 @@ export class FileManagerService {
    * @param versionSlug the slug of the launcher version whose files to hide.
    */
   public async hideLauncherVersionFiles(versionSlug: string): Promise<void> {
+    const storage = this.cfg.storage as StorageCfg | undefined;
     const launcherVersionDir = `launcher/${versionSlug}`;
     await this.moveDir(
-      this.cfg.storage?.publicBucket || '',
-      this.cfg.storage?.privateBucket || '',
+      storage?.publicBucket || '',
+      storage?.privateBucket || '',
       launcherVersionDir,
     );
   }
@@ -214,6 +218,7 @@ export class FileManagerService {
    * @param modSlug the slug of the mod whose file to delete.
    */
   public async deleteModFiles(modSlug: string): Promise<void> {
+    const storage = this.cfg.storage as StorageCfg | undefined;
     const prefix = `mods/${modSlug}/`;
 
     if (!this.client) {
@@ -222,11 +227,11 @@ export class FileManagerService {
       );
     }
     const objects = await this.listObjectsRecursively(
-      this.cfg.storage?.publicBucket || '',
+      storage?.publicBucket || '',
       prefix,
     );
 
-    await this.client.removeObjects(this.cfg.storage?.publicBucket || '', objects);
+    await this.client.removeObjects(storage?.publicBucket || '', objects);
   }
 
   /**

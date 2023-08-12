@@ -2,7 +2,7 @@ import { LauncherVersionDto } from '../../../shared/dto/LauncherVersionDto';
 import { notifier } from './discord/DiscordNotifierService';
 import { LauncherVersion } from '../entities/LauncherVersion';
 import { AbstractService } from './AbstractService';
-import { fileManager } from './FileManagerService';
+import { simpleFileManager } from "./SimpleFileManagerService";
 
 export interface UploadFile {
   base64: string;
@@ -26,7 +26,7 @@ export class LauncherVersionService extends AbstractService {
 
   static async releaseNew(dto: LauncherVersionDto) {
     const buffer = Buffer.from(dto.file!.base64, 'base64');
-    const upload = await fileManager.createLauncherVersionFile(
+    const upload = await simpleFileManager.createLauncherVersionFile(
       dto.version,
       dto.file!.name,
       buffer,

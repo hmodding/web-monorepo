@@ -32,7 +32,7 @@ jobs:
           key: ${{ secrets.VPS_SSH_PRIVATE_KEY }}
           port: ${{ secrets.VPS_PORT }}
           script: |
-            cd /srv/hmodding.com/app
+            cd /srv/hmodding.com/app/web-monorepo
             git pull origin main
             npm install
             npm run build

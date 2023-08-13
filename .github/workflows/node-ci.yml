@@ -35,7 +35,7 @@ jobs:
           # "-k" means to ignore cached credentials t~o force sudo to always ask. This is for consistent behavior.
           script: |
             export HISTIGNORE='*sudo -S*'
-            $ echo "${{ secrets.VPS_PASSWORD }}" | sudo -S -k su www-hmodding
+            echo "${{ secrets.VPS_PASSWORD }}" | sudo -S -k su www-hmodding
             cd /srv/hmodding.com/app/web-monorepo
             nvm use 16
             git pull origin main

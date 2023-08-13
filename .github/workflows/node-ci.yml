@@ -34,7 +34,9 @@ jobs:
           script: |
             cd /srv/hmodding.com/app/web-monorepo
             git pull origin main
-            npm install
+            npm ci
             npm run build
+            cd ../../..
+            pm2 start hmodding.com
         # Additional commands for your specific setup
         # TODO: launch app

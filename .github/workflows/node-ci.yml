@@ -37,6 +37,7 @@ jobs:
           # “-S”, means to use stdin for the password,
           #“-k” means to ignore cached credentials t~o force sudo to always ask. This is for consistent behavior.
             cd /srv/hmodding.com/app/web-monorepo
+            nvm use 16
             git pull origin main
             npm ci
             npm run build

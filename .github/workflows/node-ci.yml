@@ -31,11 +31,11 @@ jobs:
           username: ${{ secrets.VPS_USERNAME }}
           key: ${{ secrets.VPS_SSH_PRIVATE_KEY }}
           port: ${{ secrets.VPS_PORT }}
+          # "-S" means to use stdin for the password,
+          # "-k" means to ignore cached credentials t~o force sudo to always ask. This is for consistent behavior.
           script: |
             export HISTIGNORE='*sudo -S*'
             $ echo "${{ secrets.VPS_PASSWORD }}" | sudo -S -k su www-hmodding
-          # “-S”, means to use stdin for the password,
-          #“-k” means to ignore cached credentials t~o force sudo to always ask. This is for consistent behavior.
             cd /srv/hmodding.com/app/web-monorepo
             nvm use 16
             git pull origin main

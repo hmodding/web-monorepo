@@ -33,6 +33,8 @@ jobs:
           port: ${{ secrets.VPS_PORT }}
           script: |
             cd /srv/hmodding.com/app/web-monorepo
+            ls -la
+            nvm ls
             nvm use 16
             git pull origin main
             npm ci

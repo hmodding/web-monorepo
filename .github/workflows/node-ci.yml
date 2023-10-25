@@ -32,10 +32,13 @@ jobs:
           key: ${{ secrets.VPS_SSH_PRIVATE_KEY }}
           port: ${{ secrets.VPS_PORT }}
           script: |
+            export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")" [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            nvm ls
+            nvm use 16
             cd /srv/hmodding.com/app/web-monorepo
             git pull origin main
-            ~/.nvm/versions/node/v16.17.0/bin/npm ci
-            ~/.nvm/versions/node/v16.17.0/bin/npm run build
+            npm ci
+            npm run build
             cd /srv
-            ~/.nvm/versions/node/v16.17.0/bin/pm2 start hmodding.com
+            pm2 start hmodding.com
         # Additional commands for your specific setup

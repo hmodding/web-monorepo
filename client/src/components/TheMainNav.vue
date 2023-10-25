@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed} from 'vue';
+import {computed, watch} from 'vue';
 import {useRouter} from 'vue-router';
 import {useToaster} from '../compositions/useToaster';
 import {isSessionExpired as isSessionExpiredAction, killSession} from '../store/actions/session.actions';
@@ -23,6 +23,10 @@ const vUsername = computed<string>(() => {
     return `${username.value.substring(0, 7)}...`;
   }
 });
+
+watch(session, async () => {
+  console.log(session.value);
+}, { immediate: true })
 
 const logout = async () => {
   await killSession();

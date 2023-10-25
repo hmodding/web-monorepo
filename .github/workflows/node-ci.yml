@@ -25,12 +25,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Deploy to VPS
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USERNAME }}
           key: ${{ secrets.VPS_SSH_PRIVATE_KEY }}
           port: ${{ secrets.VPS_PORT }}
+          script_stop: true
           script: |
             # init nvm
             export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")" 
@@ -45,6 +46,6 @@ jobs:
             npm ci
             npm run build
             cd /srv
-            # start app daemon
-            pm2 start hmodding.com
+            # (re-)start app daemon
+            pm2 start --only hmodding
         # Additional commands for your specific setup

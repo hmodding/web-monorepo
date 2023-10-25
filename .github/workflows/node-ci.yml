@@ -39,6 +39,7 @@ jobs:
             nvm use 16
             # pull repo
             cd /srv/hmodding.com/app/web-monorepo
+            git config pull.rebase false
             git pull origin main
             # build app
             npm ci

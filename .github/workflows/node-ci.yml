@@ -35,8 +35,8 @@ jobs:
             source ~/.bashrc
             cd /srv/hmodding.com/app/web-monorepo
             ls -la
-            nvm ls
-            nvm use 16
+            ~/.nvm/nvm ls
+            ~/.nvm/nvm use 16
             git pull origin main
             npm ci
             npm run build

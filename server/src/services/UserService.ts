@@ -1,16 +1,16 @@
 // noinspection ES6PreferShortImport
 
-import {compareSync} from 'bcryptjs';
-import {DeepPartial} from 'typeorm';
-import {schema as resetPasswordSchema} from '../../resources/schemas/resetPasswordSchema';
-import {PasswordReset} from '../entities/PasswordReset';
-import {User} from '../entities/User';
-import {ApiError} from '../errors/ApiError';
-import {HttpStatusCode} from '../types/HttpStatusCode';
-import {validateData} from '../utils';
-import {AbstractService} from './AbstractService';
-import {AuthenticationError} from "../errors/AuthenticationError";
-import {UserPrivilege} from "../entities/UserPrivilege";
+import { compareSync } from "bcryptjs";
+import { DeepPartial } from "typeorm";
+import { schema as resetPasswordSchema } from "../../resources/schemas/resetPasswordSchema";
+import { PasswordReset } from "../entities/PasswordReset";
+import { User } from "../entities/User";
+import { ApiError } from "../errors/ApiError";
+import { HttpStatusCode } from "../types/HttpStatusCode";
+import { validateData } from "../utils";
+import { AbstractService } from "./AbstractService";
+import { AuthenticationError } from "../errors/AuthenticationError";
+import { UserPrivilege } from "../entities/UserPrivilege";
 
 export class UserService extends AbstractService {
   static create(params: DeepPartial<User>) {
@@ -85,6 +85,19 @@ export class UserService extends AbstractService {
     }
 
     return username;
+  }
+
+  static async getRoles(username: string): Promise<string[]> {
+    const dbPrivileges = await UserPrivilege.find({
+      select: ['role'],
+      where: { username }
+    });
+
+    if (!dbPrivileges || dbPrivileges.length <= 0) {
+      return []
+    } else {
+      return dbPrivileges.map(dbPrivilege => dbPrivilege.role);
+    }
   }
 }
 

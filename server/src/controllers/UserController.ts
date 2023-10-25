@@ -27,6 +27,7 @@ import {cfg} from "../cfg";
 import {ApiRequest} from "ApiRequest";
 import {ModLike} from "../entities/ModLike";
 import {ModLikeService} from "../services/ModLikeService";
+import { UserPrivilege } from "../entities/UserPrivilege";
 
 @Route('/users')
 export class UserController extends Controller {
@@ -148,9 +149,10 @@ export class UserController extends Controller {
     @Body() {username, password}: LoginDto,
   ) {
     const dbUsername = await UserService.login(username, password);
+    const dbRoles = await UserService.getRoles(dbUsername);
     const secret = cfg.server.jwtSecret;
     const options: SignOptions = {expiresIn: cfg.server.jwtTtl};
-    const payload = {username: dbUsername};
+    const payload = {username: dbUsername, roles: dbRoles};
     const token = jwt.sign(payload, secret, options);
     const decodedToken = jwt.decode(token) as JwtPayload;
     this.setStatus(HttpStatusCode.Ok);

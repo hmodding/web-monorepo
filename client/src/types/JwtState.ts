@@ -4,6 +4,7 @@ import {UserRole} from "../../../shared/types/UserRole";
 
 export default interface JwtState extends JwtPayload {
   username?: string;
+  roles: string[];
 }
 
 export interface SessionDeviceInfo {

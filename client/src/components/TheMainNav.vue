@@ -13,7 +13,7 @@ const toaster = useToaster();
 
 const session = computed<JwtState | null>(() => state.jwt);
 const username = computed<string>(() => session.value?.username || '');
-const isAdmin = computed<boolean>(() => session.value?.role === 'admin' || false);
+const isAdmin = computed<boolean>(() => session.value?.roles.includes('admin') || false);
 const theme = computed<Theme>(() => state.theme);
 const isSessionExpired = computed<boolean>(() => isSessionExpiredAction());
 const vUsername = computed<string>(() => {

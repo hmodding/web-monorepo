@@ -32,15 +32,10 @@ jobs:
           key: ${{ secrets.VPS_SSH_PRIVATE_KEY }}
           port: ${{ secrets.VPS_PORT }}
           script: |
-            cat ~/.bashrc
-            source ~/.bashrc
             cd /srv/hmodding.com/app/web-monorepo
-            ls -la
-            ~/.nvm/nvm ls
-            ~/.nvm/nvm use 16
             git pull origin main
-            npm ci
-            npm run build
+            ~/.nvm/versions/node/v16.17.0/bin/npm ci
+            ~/.nvm/versions/node/v16.17.0/bin/npm run build
             cd /srv
-            pm2 start hmodding.com
+            ~/.nvm/versions/node/v16.17.0/bin/pm2 start hmodding.com
         # Additional commands for your specific setup

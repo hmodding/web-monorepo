@@ -23,8 +23,7 @@ export class User extends AbstractEntityWithGeneratedId {
   role!: UserRole;
    */
 
-  @OneToOne(() => UserPrivilege, userPrivilege => userPrivilege.user)
-  @JoinColumn({name: 'username', referencedColumnName: 'username'})
+  @OneToOne(() => UserPrivilege, userPrivilege => userPrivilege.user, { nullable: true })
   privilege!: UserPrivilege;
 
   @OneToMany(() => Plugin, (plugin) => plugin.maintainerId)

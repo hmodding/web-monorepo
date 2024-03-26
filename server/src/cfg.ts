@@ -4,14 +4,25 @@ import {config} from 'dotenv-flow';
 import {NodeEnv} from "./types/NodeEnv";
 import crypto from "crypto";
 
-export interface DatabaseCfg {
+interface DatabasePropertiesCfg {
   user: string;
   password: string
   name: string
   host: string
   port: string;
-  logging: boolean;
   ssl: boolean;
+  logging: boolean;
+}
+
+interface DatabaseUrlCfg {
+  url: string;
+  logging: boolean;
+}
+
+export type DatabaseCfg = DatabasePropertiesCfg | DatabaseUrlCfg;
+
+export function isUrlCfg(databaseCfg: DatabaseCfg): databaseCfg is DatabaseUrlCfg {
+  return (databaseCfg as DatabaseUrlCfg).url !== undefined;
 }
 
 export interface ServerCfg {
@@ -125,78 +136,110 @@ if (!nodeEnv) {
   console.warn(`NODE_ENV is not configured! Using default '${nodeEnvDefault}'`);
 }
 
-const dbUser = process.env.DB_USER;
-if (dbUser === undefined) {
-  throw new Error(`DB_USER is not configured!`);
+function readDatabaseConfig(): DatabaseCfg {
+  const dbLoggingString = process.env.DB_LOGGING;
+  const dbLoggingStringDefault = 'false';
+  if (dbLoggingString === undefined) {
+    console.warn(
+      `DB_LOGGING is not configured! Using default '${dbLoggingStringDefault}'.`,
+    );
+  }
+  let dbLogging: boolean = false;
+  if (dbLoggingString === `true`) {
+    dbLogging = true;
+  } else if (dbLoggingString === `false`) {
+    dbLogging = false;
+  } else {
+    console.warn(
+      `DB_LOGGING value '${dbLoggingString}' is invalid! Using default '${dbLoggingStringDefault}'.`,
+    );
+  }
+
+  const url = process.env.DATABASE_URL;
+  if (url !== undefined) {
+    return {
+      url,
+      logging: dbLogging,
+    }
+  } else {
+    const dbUser = process.env.DB_USER;
+    if (dbUser === undefined) {
+      throw new Error(`DB_USER is not configured!`);
+    }
+
+    const dbPassword = process.env.DB_PASSWORD;
+    if (dbPassword === undefined) {
+      throw new Error(`DB_PASSWORD is not configured!`);
+    }
+
+    const dbName = process.env.DB_NAME;
+    if (dbName === undefined) {
+      throw new Error(`DB_NAME is not configured!`);
+    }
+
+    let dbHost = process.env.DB_HOST;
+    const dbHostDefault = 'localhost';
+    if (dbHost === undefined) {
+      console.warn(
+        `DB_HOST is not configured! Using default '${dbHostDefault}'.`,
+      );
+      dbHost = dbHostDefault;
+    }
+
+    let dbPort = process.env.DB_PORT;
+    const dbPortDefault = '5432';
+    if (dbPort === undefined) {
+      console.warn(
+        `DB_PORT is not configured! Using default '${dbPortDefault}'.`,
+      );
+      dbPort = dbPortDefault;
+    }
+
+    const dbSslString = process.env.DB_SSL;
+    const dbSslDefault = 'false';
+    if (dbSslString === undefined) {
+      console.warn(
+        `DB_SSL is not configured! Using default '${dbSslDefault}'.`,
+      );
+    }
+    let dbSsl: boolean = false;
+    if (dbSslString === `true`) {
+      dbSsl = true;
+    } else if (dbSslString === `false`) {
+      dbSsl = false;
+    } else {
+      console.warn(
+        `DB_SSL value '${dbSslString}' is invalid! Using default '${dbSslDefault}'.`,
+      );
+    }
+
+    return {
+      host: dbHost,
+      port: dbPort,
+      ssl: dbSsl,
+      user: dbUser,
+      password: dbPassword,
+      name: dbName,
+      logging: dbLogging,
+    }
+  }
 }
 
-const dbPassword = process.env.DB_PASSWORD;
-if (dbPassword === undefined) {
-  throw new Error(`DB_PASSWORD is not configured!`);
-}
 
-const dbName = process.env.DB_NAME;
-if (dbName === undefined) {
-  throw new Error(`DB_NAME is not configured!`);
-}
-
-const dbHost = process.env.DB_HOST;
-const dbHostDefault = 'localhost';
-if (dbHost === undefined) {
-  console.warn(
-    `DB_HOST is not configured! Using default '${dbHostDefault}'.`,
-  );
-}
-
-const dbPort = process.env.DB_PORT;
-const dbPortDefault = '5432';
-if (dbPort === undefined) {
-  console.warn(
-    `DB_PORT is not configured! Using default '${dbPortDefault}'.`,
-  );
-}
-
-const dbLoggingString = process.env.DB_LOGGING;
-const dbLoggingStringDefault = 'false';
-if (dbLoggingString === undefined) {
-  console.warn(
-    `DB_LOGGING is not configured! Using default '${dbLoggingStringDefault}'.`,
-  );
-}
-let dbLogging: boolean = false;
-if (dbLoggingString === `true`) {
-  dbLogging = true;
-} else if (dbLoggingString === `false`) {
-  dbLogging = false;
+let srvPortString;
+if (process.env.SERVER_PORT !== undefined) {
+  srvPortString = process.env.SERVER_PORT;
+} else if (process.env.PORT !== undefined) {
+  srvPortString = process.env.PORT;
+  console.warn('Using PORT instead of SERVER_PORT variable.')
 } else {
-  console.warn(
-    `DB_LOGGING value '${dbLoggingString}' is invalid! Using default '${dbLoggingStringDefault}'.`,
-  );
-}
-
-const dbSslString = process.env.DB_SSL;
-const dbSslDefault = 'false';
-if (dbSslString === undefined) {
-  console.warn(
-    `DB_SSL is not configured! Using default '${dbSslDefault}'.`,
-  );
-}
-let dbSsl: boolean = false;
-if (dbSslString === `true`) {
-  dbSsl = true;
-} else if (dbSslString === `false`) {
-  dbSsl = false;
-} else {
-  console.warn(
-    `DB_SSL value '${dbSslString}' is invalid! Using default '${dbSslDefault}'.`,
-  );
-}
-
-const srvPortString = process.env.SERVER_PORT;
-if (srvPortString === undefined) {
   throw new Error(`SERVER_PORT is not configured!`);
 }
+
 const port = parseInt(srvPortString, 10);
+if (Number.isNaN(port)) {
+  throw new Error('Server port is invalid!')
+}
 
 const srvJwtSecret = process.env.SERVER_JWT_SECRET;
 const srvJwtSecretDefault = crypto.randomBytes(64).toString('hex');
@@ -439,15 +482,7 @@ export const cfg: Cfg = {
   node: {
     env: nodeEnv || nodeEnvDefault,
   },
-  database: {
-    user: dbUser,
-    password: dbPassword,
-    host: dbHost || dbHostDefault,
-    port: dbPort || dbPortDefault,
-    name: dbName,
-    logging: dbLogging,
-    ssl: dbSsl,
-  },
+  database: readDatabaseConfig(),
   server: {
     port,
     jwtSecret: srvJwtSecret || srvJwtSecretDefault,

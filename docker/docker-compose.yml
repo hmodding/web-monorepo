@@ -1,16 +1,25 @@
-version: '1.0'
-name: raftmodding
+name: "raftmodding-web"
+
 services:
   db:
-    image: postgres
-    restart: always
-    build:
-      dockerfile: ./DockerFile
+    image: "postgres:16"
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: raftmodding
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DB: "raftmodding"
     ports:
-      - 5432:5432
-    expose:
-      - 5432
+      - "5432:5432"
+    volumes:
+      - "./postgres-data:/var/lib/postgresql/data"
+  
+  storage:
+    image: "quay.io/minio/minio"
+    command: "server /data --console-address :9001"
+    environment:
+      MINIO_ROOT_USER: "minio"
+      MINIO_ROOT_PASSWORD: "minio-password"
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - "./minio-data:/data"

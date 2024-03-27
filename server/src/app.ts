@@ -50,8 +50,8 @@ export const startServer = async () => {
   app.use(errorHandler);
   console.log('    ✔️ bound error-handler');
 
-  app.listen(port, 'localhost', () => {
-    console.log(`    📡 listening at http://localhost:${port}`);
+  app.listen(port, '0.0.0.0', () => {
+    console.log(`    📡 listening at http://0.0.0.0:${port}`);
     console.log('✅ server started!');
   });
 };

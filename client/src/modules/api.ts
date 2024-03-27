@@ -625,8 +625,8 @@ class Api {
   }
 }
 
-const {VITE_BASE_URL, VITE_PORT} = import.meta.env;
-const baseURL: string = `${VITE_BASE_URL + (VITE_PORT ? `:${VITE_PORT}` : '')}/api`;
+const {VITE_BASE_URL} = import.meta.env;
+const baseURL: string = `${VITE_BASE_URL}/api`;
 
 export const api = new Api({
   baseURL,

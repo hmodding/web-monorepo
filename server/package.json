@@ -7,7 +7,8 @@
     "build": "tsoa spec-and-routes && npx tsc --build",
     "clean": "npx tsc --clean",
     "start": "node ./dist/server/main.js",
-    "format": "npx prettier --write ."
+    "format": "npx prettier --write .",
+    "migrate": "typeorm migration:run --dataSource ./dist/server/src/db/dataSource.js"
   },
   "author": "raftmodding.com",
   "license": "MIT",

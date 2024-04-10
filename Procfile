@@ -1,1 +1,2 @@
-web: npm run start --workspace=@hmodding/server
+web: npm run start --workspace=server
+release: npm run migrate --workspace=server

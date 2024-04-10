@@ -42,6 +42,9 @@ export const AppDataSource = new DataSource({
   ),
   logging: dbCfg.logging,
   synchronize: false, //todo: this ain't working so good right now. You need a db-schema dump :P
+  migrations: [
+    'dist/server/src/db/migrations/*.js'
+  ],
   entities: [
     AccountCreation,
     DiscordAccountCreation,

@@ -233,7 +233,8 @@ if (process.env.SERVER_PORT !== undefined) {
   srvPortString = process.env.PORT;
   console.warn('Using PORT instead of SERVER_PORT variable.')
 } else {
-  throw new Error(`SERVER_PORT is not configured!`);
+  srvPortString = "3000"
+  console.warn(`SERVER_PORT is not configured, using default value ${srvPortString}!`);
 }
 
 const port = parseInt(srvPortString, 10);

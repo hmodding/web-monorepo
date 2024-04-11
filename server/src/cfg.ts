@@ -27,6 +27,12 @@ export function isUrlCfg(databaseCfg: DatabaseCfg): databaseCfg is DatabaseUrlCf
 
 export interface ServerCfg {
   port: number;
+  /**
+   * The API server listens to this address.
+   * Use 127.0.0.1 / localhost for local-only access and 0.0.0.0 to enable
+   * external access.
+   */
+  host: string;
   jwtSecret: string;
   jwtTtl: string;
 }
@@ -240,6 +246,11 @@ if (process.env.SERVER_PORT !== undefined) {
 const port = parseInt(srvPortString, 10);
 if (Number.isNaN(port)) {
   throw new Error('Server port is invalid!')
+}
+
+const host = process.env.SERVER_HOST ?? 'localhost';
+if (process.env.SERVER_HOST === undefined) {
+  console.warn(`SERVER_HOST is not configured, using default value ${host}!`)
 }
 
 const srvJwtSecret = process.env.SERVER_JWT_SECRET;
@@ -486,6 +497,7 @@ export const cfg: Cfg = {
   database: readDatabaseConfig(),
   server: {
     port,
+    host,
     jwtSecret: srvJwtSecret || srvJwtSecretDefault,
     jwtTtl: srvJwtTtl || srvJwtTtlDefault,
   },

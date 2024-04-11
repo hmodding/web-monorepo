@@ -46,7 +46,7 @@ export const useGeneralMeta = () => {
   useMeta(generalMeta);
 };
 
-const baseUrl = VITE_BASE_URL + VITE_PORT ? `:${VITE_PORT}` : '';
+const baseUrl = VITE_BASE_URL;
 
 const description = `Welcome to ${VITE_BRAND}! The largest community for mods, scripts and utilities for Raft!
 

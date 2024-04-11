@@ -18,7 +18,6 @@ export const app = express();
 
 export const startServer = async () => {
   console.log(`⏳ starting server...`);
-  const port = cfg.server.port;
   const jsonOptions: OptionsJson = {limit: cfg.requestSizeLimit};
   const urlencodedOptions: OptionsUrlencoded = {extended: false};
   const swaggerUiHandler = async (_req: ExRequest, res: ExResponse) => {
@@ -50,8 +49,8 @@ export const startServer = async () => {
   app.use(errorHandler);
   console.log('    ✔️ bound error-handler');
 
-  app.listen(port, 'localhost', () => {
-    console.log(`    📡 listening at http://localhost:${port}`);
+  app.listen(cfg.server.port, cfg.server.host, () => {
+    console.log(`    📡 listening at http://${cfg.server.host}:${cfg.server.port}`);
     console.log('✅ server started!');
   });
 };

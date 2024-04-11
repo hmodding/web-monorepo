@@ -8,7 +8,6 @@ import {ModVersionDto} from '../../../shared/dto/ModVersionDto';
 import {QueryParams} from '../../../shared/types/QueryParams';
 import {setSession} from '../store/actions/session.actions';
 import {deletePersistedAuthtoken, getPersistedAuthtoken} from '../store/persistence.store';
-import {state} from '../store/store';
 import {
   FormResponse,
   LauncherVersion,
@@ -16,9 +15,7 @@ import {
   Mod,
   ModVersion,
   RaftVersion,
-  Session,
 } from '../types';
-import {ModLike} from '../types/ModLike';
 import {toaster} from './toaster';
 
 class Api {
@@ -319,64 +316,42 @@ class Api {
 
   async addMod(mod: ModDto) {
     try {
-      const {data} = await this.axios.post<ModDto>('/mods', mod);
-      return data;
-    } catch ({response}) {
-      const {
-        data: {error},
-      } = response as AxiosResponse<ErrorDto>;
-      toaster.error(
-        error || '<b>Form invalid!</b><br/> Please check your inputs',
-      );
+      const response = await this.axios.post<ModDto>('/mods', mod);
+      return response.data;
+    } catch (error) {
+      handleAxiosError(error);
     }
     return null;
   }
 
   async updateMod(mod: ModDto) {
     try {
-      const {data} = await this.axios.put(`/mods/${mod.id}`, mod);
-      return data;
-    } catch ({response}) {
-      const {
-        data: {error},
-      } = response as AxiosResponse<ErrorDto>;
-      toaster.error(
-        error || '<b>Form invalid!</b><br/> Please check your inputs',
-      );
+      const response = await this.axios.put(`/mods/${mod.id}`, mod);
+      return response.data;
+    } catch (error) {
+      handleAxiosError(error);
     }
     return null;
   }
 
   async getModVersion(id: number) {
     try {
-      const {data} = await this.axios.get<ModVersionDto>(
-        `/modVersions/${id}`,
-      );
-      return data;
-    } catch ({response}) {
-      const {
-        data: {error},
-      } = response as AxiosResponse<ErrorDto>;
-      toaster.error(
-        error || '<b>Form invalid!</b><br/> Please check your inputs',
-      );
+      const response = await this.axios.get<ModVersionDto>(`/modVersions/${id}`);
+      return response.data;
+    } catch (error) {
+      handleAxiosError(error);
     }
   }
 
   async addModVersion(modId: number, version: ModVersion) {
     try {
-      const {data} = await this.axios.post(`/modVersions`, {
+      const response = await this.axios.post(`/modVersions`, {
         ...version,
         modId,
       });
-      return data;
-    } catch ({response}) {
-      const {
-        data: {error},
-      } = response as AxiosResponse<ErrorDto>;
-      toaster.error(
-        error || '<b>Form invalid!</b><br/> Please check your inputs',
-      );
+      return response.data;
+    } catch (error) {
+      handleAxiosError(error)
     }
     return null;
   }
@@ -385,18 +360,13 @@ class Api {
     try {
       const body: ModVersionDto = {...version};
       delete body.mod;
-      const {data} = await this.axios.put<ModVersionDto>(
+      const response = await this.axios.put<ModVersionDto>(
         `/modVersions/${id}`,
         body,
       );
-      return data;
-    } catch ({response}) {
-      const {
-        data: {error},
-      } = response as AxiosResponse<ErrorDto>;
-      toaster.error(
-        error || '<b>Form invalid!</b><br/> Please check your inputs',
-      );
+      return response.data;
+    } catch (error) {
+      handleAxiosError(error)
     }
     return null;
   }
@@ -625,8 +595,23 @@ class Api {
   }
 }
 
-const {VITE_BASE_URL, VITE_PORT} = import.meta.env;
-const baseURL: string = `${VITE_BASE_URL + (VITE_PORT ? `:${VITE_PORT}` : '')}/api`;
+/**
+ * To be used in try/catch statements around axios get/post/... calls.
+ * If `error` is a user-error, it is shown to the user.
+ */
+function handleAxiosError(error: any): void {
+  if (axios.isAxiosError(error)) {
+    const axiosError = error as AxiosError<ErrorDto>;
+    toaster.error(
+      axiosError.response?.data.error || '<b>Form invalid!</b><br/> Please check your inputs',
+    );
+  } else {
+    throw error;
+  }
+}
+
+const {VITE_BASE_URL} = import.meta.env;
+const baseURL: string = `${VITE_BASE_URL}/api`;
 
 export const api = new Api({
   baseURL,

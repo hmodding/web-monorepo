@@ -18,7 +18,7 @@ export const errorHandler = (err: unknown, req: ExRequest, res: ExResponse, next
     return res.status(status).json(err);
   } else if (err instanceof Error) {
     const status = HttpStatusCode.InternalServerError;
-    console.warn(`Caught error for ${req.path}:`, req.body);
+    console.warn(`Caught error for ${req.path}:`, req.body, err);
     return res.status(status).json(err);
   }
 

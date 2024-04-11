@@ -1,6 +1,6 @@
 // eslint-disable-next-line import/no-default-export
 import {DataSource} from 'typeorm';
-import {cfg} from '../cfg';
+import {cfg, isUrlCfg} from '../cfg';
 import {AccountCreation} from '../entities/AccountCreation';
 import {DiscordAccountCreation} from '../entities/DiscordAccountCreation';
 import {DiscordSignOn} from '../entities/DiscordSignOn';
@@ -23,18 +23,28 @@ import {User} from '../entities/User';
 import {UserPrivilege} from '../entities/UserPrivilege';
 import {ModLike} from "../entities/ModLike";
 
-const {host, port, user, password, name, ssl, logging} = cfg.database;
+const dbCfg = cfg.database;
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
-  host,
-  port: Number(port),
-  username: user,
-  password,
-  database: name,
-  ssl,
-  logging,
+  ...(isUrlCfg(dbCfg)
+    ? {
+      url: dbCfg.url,
+    }
+    : {
+      host: dbCfg.host,
+      port: Number(dbCfg.port),
+      username: dbCfg.user,
+      password: dbCfg.password,
+      database: dbCfg.name,
+      ssl: dbCfg.ssl,
+    }
+  ),
+  logging: dbCfg.logging,
   synchronize: false, //todo: this ain't working so good right now. You need a db-schema dump :P
+  migrations: [
+    'dist/server/src/db/migrations/*.js'
+  ],
   entities: [
     AccountCreation,
     DiscordAccountCreation,

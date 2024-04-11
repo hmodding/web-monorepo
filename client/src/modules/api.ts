@@ -316,7 +316,8 @@ class Api {
 
   async addMod(mod: ModDto) {
     try {
-      return (await this.axios.post<ModDto>('/mods', mod)).data;
+      const response = await this.axios.post<ModDto>('/mods', mod);
+      return response.data;
     } catch (error) {
       handleAxiosError(error);
     }
@@ -325,7 +326,8 @@ class Api {
 
   async updateMod(mod: ModDto) {
     try {
-      return (await this.axios.put(`/mods/${mod.id}`, mod)).data;
+      const response = await this.axios.put(`/mods/${mod.id}`, mod);
+      return response.data;
     } catch (error) {
       handleAxiosError(error);
     }
@@ -334,9 +336,8 @@ class Api {
 
   async getModVersion(id: number) {
     try {
-      return (await this.axios.get<ModVersionDto>(
-        `/modVersions/${id}`,
-      )).data;
+      const response = await this.axios.get<ModVersionDto>(`/modVersions/${id}`);
+      return response.data;
     } catch (error) {
       handleAxiosError(error);
     }
@@ -344,10 +345,11 @@ class Api {
 
   async addModVersion(modId: number, version: ModVersion) {
     try {
-      return (await this.axios.post(`/modVersions`, {
+      const response = await this.axios.post(`/modVersions`, {
         ...version,
         modId,
-      })).data;
+      });
+      return response.data;
     } catch (error) {
       handleAxiosError(error)
     }
@@ -358,10 +360,11 @@ class Api {
     try {
       const body: ModVersionDto = {...version};
       delete body.mod;
-      return (await this.axios.put<ModVersionDto>(
+      const response = await this.axios.put<ModVersionDto>(
         `/modVersions/${id}`,
         body,
-      )).data;
+      );
+      return response.data;
     } catch (error) {
       handleAxiosError(error)
     }

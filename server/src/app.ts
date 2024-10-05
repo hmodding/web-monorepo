@@ -1,32 +1,39 @@
 // noinspection HttpUrlsUsage
 
 //@ts-ignore
-import swaggerJson from '../dist/server/swagger.json'
+import swaggerJson from '../dist/server/swagger.json';
 //@ts-ignore
-import {RegisterRoutes} from '../dist/server/routes'
+import { RegisterRoutes } from '../dist/server/routes';
 // -------------------------------------
-import {json, OptionsJson, OptionsUrlencoded, urlencoded} from 'body-parser';
+import { json, OptionsJson, OptionsUrlencoded, urlencoded } from 'body-parser';
 import cors from 'cors';
-import express, {Request as ExRequest, RequestHandler, Response as ExResponse} from 'express';
-import {cfg} from './cfg';
-import swaggerUi from "swagger-ui-express";
-import {errorHandler} from "./handlers/errorHandler";
-import {serveClientHandler, staticClientFilesMiddleware} from "./handlers/serveClientHandler";
-import {notFoundHandler} from './handlers/notFoundHandler';
+import express, {
+  Request as ExRequest,
+  RequestHandler,
+  Response as ExResponse,
+} from 'express';
+import { cfg } from './cfg';
+import swaggerUi from 'swagger-ui-express';
+import { errorHandler } from './handlers/errorHandler';
+import {
+  serveClientHandler,
+  staticClientFilesMiddleware,
+} from './handlers/serveClientHandler';
+import { notFoundHandler } from './handlers/notFoundHandler';
+import morgan from 'morgan';
 
 export const app = express();
 
 export const startServer = async () => {
   console.log(`⏳ starting server...`);
-  const jsonOptions: OptionsJson = {limit: cfg.requestSizeLimit};
-  const urlencodedOptions: OptionsUrlencoded = {extended: false};
+  const jsonOptions: OptionsJson = { limit: cfg.requestSizeLimit };
+  const urlencodedOptions: OptionsUrlencoded = { extended: false };
   const swaggerUiHandler = async (_req: ExRequest, res: ExResponse) => {
-    return res.send(
-      swaggerUi.generateHTML(swaggerJson)
-    );
-  }
+    return res.send(swaggerUi.generateHTML(swaggerJson));
+  };
 
   app.use(cors());
+  app.use(morgan('dev'));
   console.log('    ✔️ bound CORS');
   app.use(json(jsonOptions) as RequestHandler);
   console.log(`    ✔️ bound json body-parser: `, jsonOptions);
@@ -41,7 +48,7 @@ export const startServer = async () => {
   RegisterRoutes(app);
   console.log('    ✔️ registered routes');
 
-  app.use("/api/swagger-ui", swaggerUi.serve, swaggerUiHandler);
+  app.use('/api/swagger-ui', swaggerUi.serve, swaggerUiHandler);
 
   // DO NOT use error handlers before registering routes!
   app.use(notFoundHandler);
@@ -50,7 +57,9 @@ export const startServer = async () => {
   console.log('    ✔️ bound error-handler');
 
   app.listen(cfg.server.port, cfg.server.host, () => {
-    console.log(`    📡 listening at http://${cfg.server.host}:${cfg.server.port}`);
+    console.log(
+      `    📡 listening at http://${cfg.server.host}:${cfg.server.port}`,
+    );
     console.log('✅ server started!');
   });
 };
